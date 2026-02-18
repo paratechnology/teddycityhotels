@@ -1,0 +1,109 @@
+// Uses variables.css
+
+/* --- PREMIUM HEADER --- */
+.premium-header {
+  --background: #ffffff;
+  --border-color: var(--ion-border-color);
+  ion-toolbar { --background: #ffffff; --border-style: none; }
+}
+
+.page-background { --background: var(--ion-background-color); }
+
+.page-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+.list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Tighter gap */
+  padding: 0 16px;
+}
+
+/* --- COMPACT TICKET --- */
+.compact-ticket {
+  background: #ffffff;
+  border: 1px solid var(--ion-border-color);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--ion-color-light-tint);
+    border-color: var(--ion-color-medium-tint);
+  }
+
+  /* 1. Date Box */
+  .date-box {
+    background: var(--ion-color-light);
+    border-radius: 8px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 16px;
+    flex-shrink: 0;
+
+    .month { font-size: 0.85rem; font-weight: 800; color: var(--ion-color-dark); line-height: 1; }
+    .year { font-size: 0.7rem; font-weight: 500; color: var(--ion-color-medium); line-height: 1; margin-top: 2px; }
+  }
+
+  /* 2. Body */
+  .ticket-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+
+    .top-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      
+      .period-text { font-size: 0.95rem; font-weight: 600; color: var(--ion-text-color); }
+      
+      /* Status Dot */
+      .status-dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        &.paid { background-color: var(--ion-color-success); }
+        &.pending { background-color: var(--ion-color-warning); }
+      }
+    }
+
+    .bottom-row {
+      .status-label { font-size: 0.75rem; color: var(--ion-color-medium); text-transform: uppercase; letter-spacing: 0.5px; }
+    }
+  }
+
+  /* 3. End (Amount) */
+  .ticket-end {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .amount { font-size: 1.1rem; font-weight: 700; color: var(--ion-color-dark); letter-spacing: -0.5px; }
+    ion-icon { font-size: 1.2rem; opacity: 0.5; }
+  }
+}
+
+/* STATES */
+.empty-state, .centered-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  text-align: center;
+  color: var(--ion-color-medium);
+
+  ion-icon { font-size: 3.5rem; margin-bottom: 12px; opacity: 0.4; }
+  h3 { font-weight: 600; margin: 0 0 4px 0; color: var(--ion-text-color); }
+}

@@ -1,0 +1,27 @@
+<mat-toolbar class="main-header mat-elevation-z4" [class.hidden]="isHeaderHidden">
+  <div class="header-content">
+    <div class="logo">
+      <a routerLink="/">QuickProLaw<span>.</span></a>
+    </div>
+    <nav class="desktop-nav">
+      <!-- 
+        UPDATED LOGIC:
+        - Use [routerLink] for internal navigation.
+        - Use [fragment] for homepage scrolling.
+        - Use [href] only as a fallback (or for external links, if any).
+      -->
+      <a mat-button *ngFor="let link of navLinks"
+         [routerLink]="link.href" 
+         [fragment]="link.fragment"
+         [href]="link.href + (link.fragment ? '#' + link.fragment : '')">
+        {{ link.label }}
+      </a>
+    </nav>
+    <div class="header-actions">
+      <a mat-raised-button color="accent" routerLink="/download">Download App</a>
+    </div>
+    <button mat-icon-button class="mobile-menu-button" (click)="toggleSidenav.emit()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>

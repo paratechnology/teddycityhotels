@@ -1,0 +1,178 @@
+/* Uses variables.css */
+
+.premium-header {
+  --background: #ffffff;
+  --border-color: var(--ion-border-color);
+  ion-toolbar { --background: #ffffff; --border-style: none; }
+  ion-title { font-weight: 600; font-size: 1rem; }
+}
+
+.form-content {
+  --background: var(--ion-background-color);
+}
+
+/* 1. HERO INPUT */
+.hero-section {
+  background: #ffffff;
+  padding: 24px 20px;
+  border-bottom: 1px solid var(--ion-border-color);
+
+  .hero-input {
+    --background: transparent;
+    --padding-start: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    --placeholder-color: var(--ion-color-medium-tint);
+    --placeholder-opacity: 1;
+    
+    &.ion-invalid.ion-touched {
+      --color: var(--ion-color-danger);
+    }
+  }
+}
+
+.form-grid {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+/* 2. META SECTION */
+.meta-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    &.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ion-color-medium);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0;
+    }
+
+    /* Standard Inputs & Selects */
+    ion-input, ion-select {
+      --background: #ffffff;
+      --padding-start: 12px;
+      --padding-end: 12px;
+      --border-radius: 8px;
+      border: 1px solid var(--ion-border-color);
+      border-radius: 8px;
+      min-height: 48px;
+      font-size: 0.95rem;
+    }
+
+    /* Date Inputs specifically */
+    .date-input {
+      display: block; /* Ensures they take full width in grid */
+    }
+
+    /* Fake Inputs (divs acting as triggers) */
+    .fake-input {
+      background: #ffffff;
+      border: 1px solid var(--ion-border-color);
+      border-radius: 8px;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 10px;
+      cursor: pointer;
+      color: var(--ion-text-color);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: border-color 0.2s;
+
+      &:hover {
+        border-color: var(--ion-color-primary);
+      }
+
+      ion-icon { font-size: 1.2rem; color: var(--ion-color-medium); }
+      span { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .chevron { margin-left: auto; font-size: 1rem; flex: 0 0 auto;}
+      &.placeholder { color: var(--ion-color-medium); font-weight: 400; }
+    }
+
+    .custom-textarea {
+      --background: #ffffff;
+      --border-radius: 8px;
+      --padding-start: 12px;
+      --padding-end: 12px;
+      border: 1px solid var(--ion-border-color);
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+  }
+}
+
+.toggle-item {
+  --background: transparent;
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  font-weight: 500;
+  color: var(--ion-color-dark);
+}
+
+/* 3. ATTENDEES */
+.header-row { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 4px;
+}
+
+.user-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 40px;
+}
+
+.empty-assignee {
+  color: var(--ion-color-medium);
+  font-size: 0.9rem;
+  font-style: italic;
+  padding: 6px 0;
+  cursor: pointer;
+  
+  &:hover { text-decoration: underline; }
+}
+
+/* 4. CONTEXTUAL HELP */
+.label-with-help {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  
+  .help-icon {
+    font-size: 16px;
+    color: var(--ion-color-medium);
+    cursor: pointer;
+    transition: color 0.2s;
+    
+    &:hover { color: var(--ion-color-primary); }
+  }
+}
+
+.help-content {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ion-color-dark);
+}

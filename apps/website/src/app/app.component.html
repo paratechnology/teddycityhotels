@@ -1,0 +1,22 @@
+<mat-sidenav-container class="app-sidenav-container">
+  
+  <mat-sidenav #sidenav mode="over" position="end" class="app-sidenav">
+    <mat-nav-list (click)="sidenav.close()">
+      <a mat-list-item *ngFor="let link of navLinks" 
+         [routerLink]="link.isExternal ? null : link.href"
+         [href]="link.isExternal ? link.href : null"
+         [target]="link.isExternal ? '_blank' : undefined ">
+        {{ link.label }}
+      </a>
+      <mat-divider></mat-divider>
+      <a mat-list-item routerLink="/download">Download App</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <app-header (toggleSidenav)="sidenav.toggle()" [navLinks]="navLinks"></app-header>
+    <router-outlet />
+    <app-footer></app-footer>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

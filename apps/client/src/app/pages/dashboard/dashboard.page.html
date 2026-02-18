@@ -1,0 +1,165 @@
+<ion-header class="premium-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="navigationService.toggleSidebar()" id="dashboard-menu-btn">
+        <ion-icon name="menu-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    
+    <ion-title>
+      <div class="header-title-stack">
+        <span>Dashboard</span>
+        <span>Overview</span>
+      </div>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="showNotifications($event)" class="notification-btn" id="dashboard-notif-btn">
+        <ion-icon name="notifications-outline" slot="icon-only"></ion-icon>
+        <ion-badge *ngIf="notificationService.unreadCount() > 0" color="danger">
+          {{ notificationService.unreadCount() }}
+        </ion-badge>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="dashboard-content">
+  
+  <div class="page-container">
+    
+    <div class="header-content">
+      <h1>Welcome back, {{ user()?.firstName }}!</h1>
+      <p>Here is what requires your attention today.</p>
+    </div>
+
+    <div *ngIf="loading()" class="loading-container">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Syncing Dashboard...</p>
+    </div>
+
+    <div *ngIf="!loading() && dashboardData() as data" class="dashboard-grid">
+      
+      <div class="kpi-section" id="dashboard-kpi-section">
+        <ion-card class="kpi-list-card">
+          <div class="kpi-list-item-container">
+
+            <button class="kpi-item action-required warn" (click)="navigateTo('/app/tasks')">
+              <div class="icon-wrapper">
+                <ion-icon name="alert-circle-outline"></ion-icon>
+              </div>
+              <div class="text-wrapper">
+                <p>Overdue Tasks</p>
+                <h3>{{ data.kpi.myOverdueTasks }}</h3>
+              </div>
+            </button>
+
+            <button class="kpi-item" (click)="navigateTo('/app/calendar')">
+              <div class="icon-wrapper primary">
+                <ion-icon name="calendar-outline"></ion-icon>
+              </div>
+              <div class="text-wrapper">
+                <p>Events Today</p>
+                <h3>{{ data.kpi.myUpcomingEvents }}</h3>
+              </div>
+            </button>
+
+            <button class="kpi-item info" (click)="navigateTo('/app/matters')">
+              <div class="icon-wrapper info">
+                <ion-icon name="document-text-outline"></ion-icon>
+              </div>
+              <div class="text-wrapper">
+                <p>My Drafts</p>
+                <h3>{{ data.kpi.myDraftEndorsements }}</h3>
+              </div>
+            </button>
+
+            <button class="kpi-item" [class.success]="data.myAttendanceStatus?.status === 'IN'" [routerLink]="['/app/attendance']">
+              <div class="icon-wrapper" [class.success-icon]="data.myAttendanceStatus?.status === 'IN'">
+                <ion-icon [name]="data.myAttendanceStatus?.status === 'IN' ? 'log-in-outline' : 'log-out-outline'"></ion-icon>
+              </div>
+              <div class="text-wrapper">
+                <p>Status</p>
+                <h3>{{ data.myAttendanceStatus?.status || 'OUT' }}</h3>
+              </div>
+            </button>
+
+            <button class="kpi-item" (click)="navigateTo('/app/matters')">
+              <div class="icon-wrapper tertiary">
+                <ion-icon name="briefcase-outline"></ion-icon>
+              </div>
+              <div class="text-wrapper">
+                <p>Active Matters</p>
+                <h3>{{ data.kpi.firmActiveMatters }}</h3>
+              </div>
+            </button>
+
+          </div>
+        </ion-card>
+      </div>
+
+      <div class="widgets-row" id="dashboard-widgets-row">
+        <ion-card class="main-card">
+          <ion-card-header>
+            <ion-card-title>My Day at a Glance</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list class="agenda-list" lines="none">
+              <ng-container *ngIf="data.upcomingEvents.length > 0; else noEvents">
+                <ion-item *ngFor="let event of data.upcomingEvents" button="true">
+                  <div class="date-badge" slot="start">
+                    <span class="month">{{ event.start | date:'MMM' }}</span>
+                    <span class="day">{{ event.start | date:'d' }}</span>
+                  </div>
+                  <ion-label>
+                    <h2>{{ event.title }}</h2>
+                    <p>{{ event.start | date:'shortTime' }} <span *ngIf="event.end">-</span> {{ event.end | date:'shortTime' }}</p>
+                  </ion-label>
+                </ion-item>
+              </ng-container>
+              <ng-template #noEvents>
+                <div class="empty-state">
+                  <ion-icon name="sunny-outline"></ion-icon>
+                  <h3>Clear Schedule</h3>
+                  <p>No events scheduled for today.</p>
+                </div>
+              </ng-template>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- <ion-card class="main-card">
+          <ion-card-header>
+            <ion-card-title>Recent Activity</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list class="activity-feed" lines="none">
+              <ng-container *ngIf="data.activityFeed.length > 0; else noActivity">
+                <ion-item *ngFor="let item of data.activityFeed" button="true" (click)="navigateTo(item.link)">
+                  <div class="activity-icon-box" slot="start" 
+                       [class.task]="item.type === 'task-assigned'"
+                       [class.event]="item.type !== 'task-assigned'">
+                    <ion-icon [name]="item.type === 'task-assigned' ? 'checkbox-outline' : 'calendar-outline'"></ion-icon>
+                  </div>
+                  
+                  <ion-label>
+                    <h2>{{ item.text }}</h2>
+                    <p>{{ item.date }}</p>
+                  </ion-label>
+                </ion-item>
+              </ng-container>
+              <ng-template #noActivity>
+                <div class="empty-state">
+                  <ion-icon name="notifications-off-outline"></ion-icon>
+                  <h3>All Caught Up</h3>
+                  <p>No recent activity to report.</p>
+                </div>
+              </ng-template>
+            </ion-list>
+          </ion-card-content>
+        </ion-card> -->
+
+      </div>
+    </div>
+  </div>
+</ion-content>

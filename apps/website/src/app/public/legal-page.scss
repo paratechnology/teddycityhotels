@@ -1,0 +1,91 @@
+@use '../../theme/variables' as variables;
+
+.legal-page {
+  padding: 120px 24px 80px 24px; // 64px (header) + 56px = 120px top padding
+  background-color: #ffffff;
+  color: variables.$secondary-text;
+  font-family: 'Montserrat', sans-serif;
+  min-height: calc(100vh - 200px); // Ensure it's not too short
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    animation: slideInUp 0.6s 0.1s ease-out forwards;
+    opacity: 0;
+  }
+
+  h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: variables.$primary-text;
+    margin-bottom: 8px;
+    border-bottom: 2px solid rgba(variables.$primary-text, 0.1);
+    padding-bottom: 16px;
+  }
+
+  .last-updated {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 32px;
+    font-style: italic;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: variables.$primary-text;
+    margin-top: 40px;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: variables.$primary-text;
+    margin-top: 24px;
+    margin-bottom: 12px;
+  }
+
+  h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: variables.$secondary-text;
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+
+  p, li {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  ul {
+    padding-left: 24px;
+    list-style-type: disc;
+  }
+
+  a {
+    color: variables.$primary-text;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: variables.$accent-gold;
+      text-decoration: underline;
+    }
+  }
+}
+
+// Import the animation
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

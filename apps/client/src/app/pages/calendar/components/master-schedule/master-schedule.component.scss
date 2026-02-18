@@ -1,0 +1,299 @@
+// Uses variables.css
+
+/* --- HEADER --- */
+.premium-header {
+  --background: #ffffff;
+  --border-color: var(--ion-border-color);
+  ion-toolbar { --background: #ffffff; --border-style: none; }
+}
+
+.date-nav-toolbar {
+  --background: #ffffff;
+  border-bottom: 1px solid var(--ion-border-color);
+  --min-height: 44px;
+
+  .date-title {
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--ion-text-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.toggle-item {
+  --background: transparent;
+  --min-height: 32px;
+  font-size: 0.8rem;
+}
+
+/* --- LAYOUT --- */
+.layout-container {
+  display: flex;
+  height: 100%;
+  background: var(--ion-background-color);
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  background: #ffffff;
+  border-right: 1px solid var(--ion-border-color);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+
+  .sidebar-section {
+    padding: 12px;
+  }
+
+  .custom-searchbar {
+    --background: var(--ion-color-light);
+    --box-shadow: none;
+    --border-radius: 8px;
+    padding: 0;
+    margin-bottom: 16px;
+    height: 36px;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--ion-color-medium);
+    margin-bottom: 8px;
+    padding-left: 4px;
+  }
+}
+
+.dense-list {
+  background: transparent;
+  padding: 0;
+
+  .user-item {
+    --background: transparent;
+    --padding-start: 8px;
+    --inner-padding-end: 8px;
+    --min-height: 36px;
+    border-radius: 6px;
+    margin-bottom: 2px;
+    font-size: 0.9rem;
+    
+    .user-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      
+      .recent-icon { font-size: 1rem; opacity: 0.7; }
+    }
+
+    /* STATES */
+    &:hover { --background: var(--ion-color-light); }
+
+    /* Active Filter (User clicked in sidebar) */
+    &.active-filter {
+      --background: #eff6ff; /* Blue-50 */
+      --color: var(--ion-color-primary);
+      font-weight: 600;
+    }
+
+    /* Highlighted (User is attendee of selected event) */
+    &.highlighted {
+      --background: #f0fdf4; /* Green-50 */
+      --color: #15803d;      /* Green-700 */
+      font-weight: 600;
+      
+      .recent-icon { color: #15803d; }
+    }
+
+    /* Dimmed (Event selected, user NOT attending) */
+    &.dimmed { opacity: 0.4; }
+  }
+}
+
+/* --- MAIN GRID --- */
+.schedule-grid-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Day Tabs */
+.day-selector-header {
+  display: flex;
+  background: #ffffff;
+  border-bottom: 1px solid var(--ion-border-color);
+
+  .day-tab {
+    flex: 1;
+    text-align: center;
+    padding: 12px 4px;
+    cursor: pointer;
+    border-right: 1px solid var(--ion-color-light);
+    transition: all 0.2s;
+
+    &:hover { background: var(--ion-color-light); }
+
+    &.active-day {
+      background: var(--ion-color-light);
+      border-bottom: 3px solid var(--ion-color-primary);
+      
+      .day-name { color: var(--ion-color-primary); font-weight: 700; }
+      .day-date { color: var(--ion-text-color); font-weight: 700; }
+    }
+
+    .day-name { font-size: 0.75rem; text-transform: uppercase; color: var(--ion-color-medium); }
+    .day-date { font-size: 1.2rem; line-height: 1.2; color: var(--ion-text-color); }
+  }
+}
+
+/* Grid Body */
+.daily-focus-grid {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  .grid-header-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #f9fafb;
+    border-bottom: 1px solid var(--ion-border-color);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--ion-color-medium);
+    
+    div { padding: 8px 12px; }
+    .time-header { border-right: 1px solid var(--ion-border-color); text-align: right; }
+  }
+
+  .grid-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    min-height: 100px;
+    border-bottom: 1px solid var(--ion-border-color);
+
+    .time-col {
+      padding: 12px;
+      text-align: right;
+      border-right: 1px solid var(--ion-border-color);
+      background: #fafafa;
+      color: var(--ion-color-medium);
+      font-size: 0.85rem;
+      font-weight: 500;
+      position: relative;
+      cursor: pointer;
+      
+      .add-icon { 
+        display: none; 
+        position: absolute; 
+        top: 50%; left: 50%; 
+        transform: translate(-50%, -50%); 
+        font-size: 1.5rem; 
+        color: var(--ion-color-primary); 
+      }
+
+      &:hover {
+        background: #f0f9ff;
+        .time-label { opacity: 0.3; }
+        .add-icon { display: block; }
+      }
+    }
+
+    .events-col {
+      padding: 8px;
+      background: #ffffff;
+    }
+  }
+}
+
+/* --- EVENT CARD & SOVEREIGN CHIPS --- */
+.event-card {
+  background: #ffffff;
+  border: 1px solid var(--ion-border-color);
+  border-left: 4px solid var(--ion-color-primary);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+
+  &.draft { 
+    border-left-color: var(--ion-color-secondary); 
+    border-style: dashed;
+    border-width: 1px;
+    border-left-style: solid;
+    border-left-width: 4px;
+  }
+  
+  &.active {
+    border-left-color: var(--ion-color-danger);
+    background: #fffafa; /* Subtle red tint */
+    border-color: #fecaca;
+  }
+
+  .card-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+
+    .event-title { font-weight: 600; font-size: 0.95rem; color: var(--ion-text-color); }
+    .edit-btn { margin: -4px -4px 0 0; color: var(--ion-color-medium); }
+  }
+
+  /* Sovereign Chips (Matching Agenda View) */
+  .chip-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    .sovereign-chip {
+      display: flex;
+      align-items: center;
+      height: 24px;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 0 8px 0 2px;
+      font-size: 0.7rem;
+      color: var(--ion-text-color);
+
+      .chip-avatar {
+        width: 18px; height: 18px;
+        background: #ffffff;
+        border-radius: 4px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 0.55rem; font-weight: 700;
+        color: var(--ion-color-medium);
+        margin-right: 6px;
+        border: 1px solid rgba(0,0,0,0.05);
+      }
+
+      .chip-label { font-weight: 600; }
+
+      /* Visual state for filtering */
+      &.dimmed { opacity: 0.5; }
+    }
+  }
+}
+
+.master-footer {
+  ion-toolbar {
+    --border-top: 1px solid var(--ion-border-color);
+    --background: #ffffff;
+  }
+}

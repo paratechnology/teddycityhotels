@@ -1,0 +1,66 @@
+<ion-header class="premium-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="navigationService.toggleSidebar()">
+        <ion-icon name="menu-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="header-title-stack">
+        <span>Financials</span>
+        <span>Accounting & Trust</span>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+  
+  <ion-toolbar class="segment-toolbar">
+    <ion-segment [value]="activeSegment()" (ionChange)="segmentChanged($event)" scrollable mode="md">
+      <ion-segment-button value="dashboard">
+        <ion-label>Dashboard</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="accounts-receivable">
+        <ion-label>Receivables</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="operational-expenses">
+        <ion-label>Expenses</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="trust-accounts">
+        <ion-label>Trust Funds</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="payroll">
+        <ion-label>Payroll</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="page-background">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="financials-container">
+    <app-dashboard [hidden]="activeSegment() !== 'dashboard'"></app-dashboard>
+    <app-accounts-receivable [hidden]="activeSegment() !== 'accounts-receivable'"></app-accounts-receivable>
+    <app-trust-accounts [hidden]="activeSegment() !== 'trust-accounts'"></app-trust-accounts>
+    <app-payroll [hidden]="activeSegment() !== 'payroll'"></app-payroll>
+    <app-operational-expenses [hidden]="activeSegment() !== 'operational-expenses'"></app-operational-expenses>
+  </div>
+</ion-content>
+
+@if (activeSegment() === 'operational-expenses') {
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="openExpenseForm()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+}
+
+
+@if (activeSegment() === 'trust-accounts') {
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="openTrustDepositForm()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+}

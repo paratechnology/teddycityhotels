@@ -1,0 +1,116 @@
+<ion-content class="ion-padding">
+  <div class="register-container" [ngSwitch]="step()">
+
+    <!-- Step 1: Firm Information -->
+    <ion-card class="register-card" *ngSwitchCase="'firmInfo'">
+      <ion-card-header class="ion-text-center">
+        <img src="/assets/img/logo.png" alt="QuickProLaw Logo" class="logo" />
+        <ion-card-title>Set Up Your Firm</ion-card-title>
+        <ion-card-subtitle>Let's start with your firm's name.</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <form [formGroup]="firmForm" (ngSubmit)="nextStep()">
+          <ion-list>
+            <ion-item>
+              <ion-input label="Firm Name" labelPlacement="stacked" formControlName="firmName" required></ion-input>
+            </ion-item>
+          </ion-list>
+          <ion-button expand="block" type="submit" class="ion-margin-top">
+            <span>Next</span>
+            <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+          </ion-button>
+          <div class="footer-link">
+            Already have an account? <a routerLink="/login">Log In</a>
+          </div>
+        </form>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Step 2: Admin Information -->
+    <ion-card class="register-card" *ngSwitchCase="'adminInfo'">
+      <ion-card-header class="ion-text-center">
+        <ion-card-title>Create Your Admin Account</ion-card-title>
+        <ion-card-subtitle>This will be an admin account for {{ firmForm.value.firmName }}.</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <form [formGroup]="adminForm" (ngSubmit)="nextStep()">
+          <ion-list>
+            <ion-item>
+              <ion-input label="Your First Name" labelPlacement="stacked" formControlName="firstName" required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input label="Your Last Name" labelPlacement="stacked" formControlName="lastName" required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input label="Your Designation" labelPlacement="stacked" formControlName="designation" placeholder="e.g., Partner, IT Manager" required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input label="Your Email" labelPlacement="stacked" formControlName="email" type="email" required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input label="Password" labelPlacement="stacked" formControlName="password" type="password" required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input label="Confirm Password" labelPlacement="stacked" formControlName="confirmPassword" type="password" required></ion-input>
+            </ion-item>
+            <div *ngIf="adminForm.errors?.['passwordMismatch'] && adminForm.get('confirmPassword')?.touched" class="ion-padding-start">
+              <ion-note color="danger">Passwords do not match.</ion-note>
+            </div>
+
+            <ion-list-header>Your Permissions</ion-list-header>
+            <ion-item lines="none">
+              <ion-toggle formControlName="isSuperAdmin" labelPlacement="start" justify="space-between">
+                <div>
+                  <h3>Super Admin</h3>
+                  <p class="ion-text-wrap">Grants full control over the firm, including billing and user management. Typically for the managing partner.</p>
+                </div>
+              </ion-toggle>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-toggle formControlName="admin" labelPlacement="start" justify="space-between">
+                <h3>Firm Admin</h3>
+              </ion-toggle>
+            </ion-item>
+          </ion-list>
+          <ion-button expand="block" type="submit" class="ion-margin-top">
+            <span>Next</span>
+            <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+          </ion-button>
+          <ion-button expand="block" fill="clear" (click)="goBack()">Go Back</ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Step 3: Verify Email -->
+    <ion-card class="register-card" *ngSwitchCase="'verifyEmail'">
+      <ion-card-header class="ion-text-center">
+        <ion-card-title>Check Your Inbox</ion-card-title>
+        <ion-card-subtitle>We've sent a verification link to <strong>{{ adminForm.value.email }}</strong>. Please click the link to continue.</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p class="ion-text-center">After verifying, you can close that tab and return here to log in.</p>
+        <ion-button expand="block" routerLink="/login">Proceed to Login</ion-button>
+        <div class="footer-link">
+          Didn't get an email?
+          <a (click)="resendVerification()">Resend verification link</a>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+
+  <!-- Generic Error Message Display -->
+  <div *ngIf="errorMessage()" class="error-container">
+    <ion-card class="register-card">
+      <ion-card-content class="message-container error">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <p>{{ errorMessage() }}</p>
+        <ion-button fill="clear" (click)="errorMessage.set('')">OK</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- <div class="footer-link" *ngIf="step() !== 'verifyEmail'">
+    Already have an account? <a routerLink="/login">Log In</a>
+  </div> -->
+</ion-content>

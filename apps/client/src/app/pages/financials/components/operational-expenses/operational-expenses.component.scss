@@ -1,0 +1,64 @@
+.expenses-wrapper {
+  padding-bottom: 80px; /* Space for FAB in parent */
+}
+
+.centered-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 60vh; /* Fixed visual height for empty/loading states */
+}
+
+ion-list {
+  background: transparent;
+  padding-top: 0;
+}
+
+ion-item {
+  --background: #ffffff;
+  --border-radius: 8px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+
+  h2 {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 4px;
+    color: var(--ion-text-color);
+  }
+
+  p {
+    font-size: 0.95rem;
+    color: var(--ion-color-dark);
+    margin-bottom: 4px;
+  }
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--ion-color-medium);
+  margin-top: 4px;
+
+  .dot {
+    margin: 0 6px;
+    font-weight: bold;
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: var(--ion-color-medium);
+  
+  ion-icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    opacity: 0.5;
+  }
+}

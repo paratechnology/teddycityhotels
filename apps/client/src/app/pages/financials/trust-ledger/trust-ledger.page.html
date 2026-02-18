@@ -1,0 +1,106 @@
+<ion-header class="premium-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/financials" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="header-title-stack">
+        <span>Trust Ledger</span>
+        <span>Transaction History</span>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="page-background">
+  <ion-refresher slot="fixed" (ionRefresh)="loadLedger($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  @if (financialsService.selectedTrustLedgerStatus() === 'loading') {
+    <div class="centered-container"><ion-spinner name="crescent"></ion-spinner></div>
+  } 
+  @else if (financialsService.selectedTrustLedgerStatus() === 'error') {
+    <div class="centered-container ion-padding ion-text-center">
+      <ion-label color="danger">Failed to load ledger.</ion-label>
+      <ion-button (click)="loadLedger()" fill="outline" class="ion-margin-top">Retry</ion-button>
+    </div>
+  } 
+  @else {
+    <div class="ledger-wrapper ion-padding">
+      
+      @if (matterService.selectedMatter(); as matter) {
+        <div class="matter-hero">
+          <div class="hero-icon">
+            <ion-icon name="briefcase-outline"></ion-icon>
+          </div>
+          <div class="hero-info">
+            <span class="label">MATTER REFERENCE</span>
+            <h2>{{ matter.title }}</h2>
+            <div class="meta-badges">
+              <span class="badge">REF: {{ matter.fileNo || 'N/A' }}</span>
+            </div>
+          </div>
+        </div>
+      }
+
+      <div class="ledger-container">
+        <div class="ledger-header ion-hide-md-down">
+          <ion-grid>
+            <ion-row>
+              <ion-col size="2">Date</ion-col>
+              <ion-col size="5">Description</ion-col>
+              <ion-col size="3" class="ion-text-end">Amount</ion-col>
+              <ion-col size="2" class="ion-text-end">Balance</ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+
+        @for (tx of financialsService.selectedTrustLedger(); track tx.id) {
+          <div class="ledger-row">
+            <ion-grid>
+              <ion-row class="ion-align-items-center">
+                
+                <ion-col size="12" size-md="2" class="col-date">
+                  <span class="mobile-label ion-hide-md-up">Date:</span>
+                  <div class="date-stack">
+                    <span class="day">{{ tx.date | date:'dd MMM' }}</span>
+                    <span class="year">{{ tx.date | date:'yyyy' }}</span>
+                  </div>
+                </ion-col>
+
+                <ion-col size="12" size-md="5" class="col-desc">
+                  <div class="desc-flex">
+                    <div class="type-icon" [class.deposit]="tx.type === 'Deposit'" [class.withdrawal]="tx.type !== 'Deposit'">
+                      <ion-icon [name]="tx.type === 'Deposit' ? 'arrow-down-circle' : 'arrow-up-circle'"></ion-icon>
+                    </div>
+                    <span class="text">{{ tx.description }}</span>
+                  </div>
+                </ion-col>
+
+                <ion-col size="6" size-md="3" class="col-amount ion-text-end">
+                  <span class="mobile-label ion-hide-md-up">Amount:</span>
+                  <span class="amount-val" [class.text-success]="tx.type === 'Deposit'" [class.text-danger]="tx.type !== 'Deposit'">
+                    {{ getTransactionSign(tx.type) }} ₦{{ tx.amount.toLocaleString() }}
+                  </span>
+                </ion-col>
+
+                <ion-col size="6" size-md="2" class="col-balance ion-text-end">
+                  <span class="mobile-label ion-hide-md-up">Bal:</span>
+                  <span class="balance-val">₦{{ tx.runningBalance.toLocaleString() }}</span>
+                </ion-col>
+
+              </ion-row>
+            </ion-grid>
+          </div>
+        } @empty {
+          <div class="empty-state">
+            <ion-icon name="receipt-outline"></ion-icon>
+            <p>No transactions recorded for this matter.</p>
+          </div>
+        }
+      </div>
+
+    </div>
+  }
+</ion-content>

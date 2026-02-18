@@ -1,0 +1,31 @@
+<div [ngSwitch]="status()">
+  @switch (status()) {
+    @case ('loading') {
+      <div class="state-container">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+    }
+    @case ('error') {
+      <div class="state-container">
+        <p>Could not load financial data.</p>
+      </div>
+    }
+    @case ('loaded') {
+      @if (invoices().length > 0) {
+        <ion-list [inset]="true">
+          @for (invoice of invoices(); track invoice.id) {
+            <ion-item button (click)="viewInvoice(invoice)">
+              <ion-label>
+                <h2>{{ invoice.invoiceNumber }}</h2>
+                <p>Matter: {{ invoice.matter.title }}</p>
+              </ion-label>
+              <ion-note slot="end">{{ invoice.totalAmount | currency:'NGN':'symbol':'1.2-2' }}</ion-note>
+            </ion-item>
+          }
+        </ion-list>
+      } @else {
+        <div class="state-container"><p>No invoices found for this client.</p></div>
+      }
+    }
+  }
+</div>

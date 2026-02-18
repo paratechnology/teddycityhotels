@@ -1,0 +1,106 @@
+/* You can add global styles to this file, and also import other style files */
+@use 'sass:color';
+@use 'sass:map'; // REQUIRED for map.get
+@use 'theme' as theme; // Import your theme file
+@use '@angular/material' as mat;
+
+// Import Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+
+// --- ADDED: Import new legal page styles ---
+@import 'app/public/legal-page.scss';
+
+// Include the core styles for Angular Material.
+@include mat.core();
+
+// --- Helper variables from theme ---
+// This is the safer way to get your colors.
+
+// Get the theme's color config
+$theme-colors: map.get(theme.$theme, 'color');
+
+// Get the specific palettes
+$primary-palette: map.get($theme-colors, 'primary');
+$accent-palette: map.get($theme-colors, 'accent');
+$warn-palette: map.get($theme-colors, 'warn');
+$background-palette: map.get($theme-colors, 'background');
+$foreground-palette: map.get($theme-colors, 'foreground');
+
+// --- Global Styles ---
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  // 1. FIX for typography error:
+  font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  
+  // 2. FIX for "Undefined function" error:
+  // We use simple map.get instead of the complex Material function
+  background-color: map.get($background-palette, 'background');
+  color: map.get($foreground-palette, 'text');
+}
+
+// --- Global Component Overrides ---
+
+mat-card {
+  border-radius: 12px;
+  // CORRECTED:
+  border: 1px solid map.get($accent-palette, '200');
+  overflow: hidden;
+
+  mat-card-header {
+    // CORRECTED:
+    background-color: map.get($primary-palette, '500');
+    padding: 20px;
+    border-bottom: 1px solid map.get($accent-palette, '400');
+
+    mat-card-title {
+      // CORRECTED:
+      color: map.get($primary-palette, '500-contrast');
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  mat-card-actions {
+    padding: 16px;
+    // CORRECTED:
+    border-top: 1px solid map.get($foreground-palette, 'divider');
+  }
+}
+
+// SnackBar styles
+.snackbar-success {
+  background-color: #2f9c4c; // This is fine as-is
+  color: #ffffff;
+}
+
+.snackbar-error {
+  // CORRECTED:
+  background-color: map.get($warn-palette, '500');
+  color: map.get($warn-palette, '500-contrast');
+}
+
+.snackbar-info {
+  // CORRECTED:
+  background-color: map.get($primary-palette, '800');
+  color: map.get($primary-palette, '800-contrast');
+}
+
+// --- Utility Classes ---
+
+.full-width {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.fw-bold {
+  font-weight: 700;
+}

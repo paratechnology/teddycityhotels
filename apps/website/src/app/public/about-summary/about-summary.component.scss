@@ -1,0 +1,113 @@
+@use '../../../theme/variables' as variables;
+
+.about-summary-section {
+  padding: 80px 24px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: center;
+
+  @media (min-width: 992px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+}
+
+.about-image {
+  animation: slideInUp 0.6s 0.3s ease-out forwards;
+  opacity: 0;
+
+  img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(variables.$primary-text, 0.1);
+  }
+}
+
+.about-text {
+  animation: slideInUp 0.6s 0.2s ease-out forwards;
+  opacity: 0;
+
+  .eyebrow-text {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    color: variables.$accent-gold;
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: variables.$primary-text;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .lead {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: variables.$secondary-text;
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: variables.$secondary-text;
+    margin-bottom: 24px;
+  }
+
+  mat-list {
+    margin-top: 24px;
+  }
+
+  mat-list-item {
+    height: auto !important;
+    margin-bottom: 16px;
+    padding-left: 0 !important;
+
+    .mat-icon {
+      margin-right: 12px;
+    }
+    
+    [matListItemTitle] {
+      font-weight: 600;
+      color: variables.$primary-text;
+    }
+    
+    [matListItemLine] {
+      white-space: normal;
+      font-size: 0.95rem;
+    }
+  }
+
+  .learn-more-btn {
+    margin-top: 24px;
+    padding: 14px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

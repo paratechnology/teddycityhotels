@@ -1,0 +1,8 @@
+[
+  {
+    "origin": ["http://localhost:4200", "http://localhost:8100", "https://quickprolaw-api-1031356192568.africa-south1.run.app/api"],
+    "method": ["GET", "HEAD", "PUT", "POST"],
+    "responseHeader": ["Content-Type", "Content-Length"],
+    "maxAgeSeconds": 3600
+  }
+]

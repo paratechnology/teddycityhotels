@@ -1,0 +1,19 @@
+<section id="testimonials" class="testimonials-section">
+  <div class="section-container">
+    <div class="section-title">
+      <h2>Trusted by Leading Law Firms</h2>
+      <p>Hear what legal professionals are saying about the impact of QuickProLaw on their practice.</p>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial-card" *ngFor="let testimonial of testimonials">
+        <div class="testimonial-content">
+          <p class="quote">"{{ testimonial.quote }}"</p>
+        </div>
+        <div class="testimonial-author">
+          <span class="author-name">{{ testimonial.author }}</span>
+          <span class="author-title">{{ testimonial.title }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

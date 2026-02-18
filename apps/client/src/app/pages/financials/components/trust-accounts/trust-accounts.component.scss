@@ -1,0 +1,88 @@
+// Uses variables.css
+
+.trust-wrapper {
+  padding-bottom: 80px; /* Space for FAB */
+}
+
+/* --- HEADER --- */
+.data-header {
+  padding: 0 12px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--ion-border-color);
+  
+  ion-col {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--ion-color-medium);
+    letter-spacing: 0.5px;
+    padding-bottom: 12px;
+  }
+}
+
+/* --- ROWS --- */
+.trust-row {
+  background: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  
+  &:hover {
+    background: var(--ion-color-light-tint);
+    border-color: var(--ion-color-light-shade);
+    transform: translateX(2px);
+  }
+
+  ion-grid { padding: 12px; }
+  
+  .mobile-label {
+    font-size: 0.75rem; color: var(--ion-color-medium); margin-right: 8px;
+  }
+}
+
+/* --- COLUMNS --- */
+.col-matter {
+  .matter-title {
+    font-weight: 600; font-size: 0.95rem; color: var(--ion-color-dark);
+    display: block;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+}
+
+.col-client {
+  display: flex; align-items: center; gap: 8px;
+  color: var(--ion-color-medium-shade);
+  
+  .client-icon { font-size: 1.2rem; opacity: 0.7; }
+  .client-name { font-size: 0.9rem; }
+}
+
+.col-balance {
+  .balance-badge {
+    display: inline-flex; align-items: baseline;
+    background: #f0fdf4; /* Light Green Bg */
+    color: #166534; /* Green Text */
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-family: monospace; 
+    
+    .currency { font-size: 0.8rem; margin-right: 2px; opacity: 0.8; }
+    .val { font-size: 1.1rem; font-weight: 700; }
+  }
+}
+
+/* --- STATES --- */
+.centered-container, .empty-state {
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  height: 60vh;
+  text-align: center;
+}
+
+.empty-state {
+  color: var(--ion-color-medium);
+  ion-icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.4; }
+  p { font-size: 1rem; }
+}

@@ -1,0 +1,86 @@
+<ion-header class="premium-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="navigationService.toggleSidebar()">
+        <ion-icon name="menu-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    
+    <ion-title>
+      <div class="header-title-stack">
+        <span>My Inventory</span>
+        <span>Custody & Asset Tracking</span>
+      </div>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="loadPossessions()">
+        <ion-icon name="refresh-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="page-background">
+  <div class="page-container ion-padding-top">
+    
+    <div *ngIf="isLoading()" class="loading-container">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Verifying inventory...</p>
+    </div>
+
+    <div *ngIf="!isLoading()" class="inventory-list">
+      @for (item of possessions(); track item.id) {
+        <div class="inventory-card">
+          
+          <div class="item-icon-box" [ngClass]="getItemClass(item.type)">
+            <ion-icon [name]="getItemIcon(item.type)"></ion-icon>
+          </div>
+
+          <div class="item-content">
+            <div class="header-row">
+              <h3>{{ item.name }}</h3>
+              <ion-chip class="type-chip" outline="true" [color]="getTypeColor(item.type)">
+                {{ item.type }}
+              </ion-chip>
+            </div>
+            
+            <p class="meta-row">
+              <span class="ref-code" *ngIf="item.code">{{ item.code }}</span>
+              <span class="separator" *ngIf="item.code">•</span>
+              <span class="acquired-date">Acquired {{ item.lastMoved | date:'mediumDate' }}</span>
+            </p>
+          </div>
+
+          <div class="item-actions">
+            <ion-button 
+              fill="clear" 
+              size="small" 
+              (click)="transferItem(item)"
+              [disabled]="item.type === 'Library Book'"> 
+              <ion-icon name="swap-horizontal-outline" slot="start"></ion-icon>
+              Transfer
+            </ion-button>
+
+            <ion-button 
+              fill="clear" 
+              size="small" 
+              color="warning" 
+              (click)="returnItem(item)">
+              <ion-icon name="return-up-back-outline" slot="start"></ion-icon>
+              Return
+            </ion-button>
+          </div>
+
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <ion-icon name="file-tray-outline"></ion-icon>
+          <h3>Clean Desk</h3>
+          <p>You have no files or books currently checked out.</p>
+        </div>
+      }
+    </div>
+
+  </div>
+</ion-content>

@@ -1,0 +1,85 @@
+.popover-content {
+  --background: #ffffff;
+}
+
+.popover-header {
+  padding: 12px 16px 8px 16px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--ion-color-medium);
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--ion-color-light);
+}
+
+.history-body {
+  padding: 0;
+}
+
+/* Date Hero Section */
+.date-hero {
+  padding: 16px;
+  background: var(--ion-color-light-tint);
+  border-bottom: 1px solid var(--ion-color-light);
+  margin-bottom: 12px;
+
+  .label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--ion-color-medium);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+
+  .value {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    
+    ion-icon { color: var(--ion-color-primary); font-size: 1.1rem; }
+  }
+}
+
+.section-label {
+  padding: 0 16px 8px 16px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--ion-color-medium);
+  text-transform: uppercase;
+}
+
+/* Dense List (Matches Attendees Popover) */
+.dense-list {
+  padding: 0;
+
+  .attendee-item {
+    --min-height: 40px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    font-size: 0.9rem;
+    font-weight: 500;
+
+    .avatar-box {
+      width: 28px; height: 28px;
+      border-radius: 6px;
+      background: var(--ion-color-light);
+      color: var(--ion-color-medium-shade);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700;
+      margin-right: 12px;
+    }
+  }
+}
+
+/* States */
+.loading-state, .empty-state {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--ion-color-medium);
+  
+  ion-icon { font-size: 2rem; margin-bottom: 8px; opacity: 0.5; }
+  p { margin: 0; font-size: 0.9rem; }
+}

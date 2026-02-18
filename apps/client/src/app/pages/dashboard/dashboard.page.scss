@@ -1,0 +1,189 @@
+// Uses variables.css
+
+.dashboard-content {
+  --background: var(--ion-background-color);
+}
+
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+/* --- HEADER TEXT --- */
+.header-content {
+  margin-bottom: 32px;
+
+  h1 {
+    font-weight: 800; /* Extra bold */
+    font-size: 1.75rem;
+    margin: 0;
+    color: var(--ion-text-color);
+    letter-spacing: -0.5px;
+  }
+
+  p {
+    font-size: 1rem;
+    color: var(--ion-color-medium);
+    margin: 4px 0 0 0;
+  }
+}
+
+/* --- KPI LIST (The Ticker) --- */
+.kpi-section {
+  background: #ffffff;
+  margin-bottom: 24px;
+}
+
+.kpi-list-card {
+  margin: 0;
+  border: 1px solid var(--ion-border-color);
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02); /* Very subtle lift */
+  overflow: hidden;
+}
+
+.kpi-list-item-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.kpi-item {
+  flex: 1 1 200px; /* Responsive flex */
+  padding: 20px 24px;
+  border-right: 1px solid var(--ion-border-color);
+  border-bottom: 1px solid var(--ion-border-color); /* For mobile wrapping */
+  cursor: pointer;
+  transition: background 0.1s ease;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #ffffff;
+  /* Remove borders on edges for desktop */
+  @media (min-width: 992px) {
+    border-bottom: none;
+    &:last-child { border-right: none; }
+  }
+
+  &:hover {
+    background: var(--ion-color-light);
+  }
+
+  /* ICON WRAPPERS */
+  .icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--ion-color-light);
+    color: var(--ion-color-medium);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+
+    &.primary { background: rgba(var(--ion-color-primary-rgb), 0.1); color: var(--ion-color-primary); }
+    &.info { background: #eff6ff; color: #3b82f6; } /* Blue-50 */
+    &.tertiary { background: #f0fdf4; color: #16a34a; } /* Green-50 */
+    &.success-icon { background: #dcfce7; color: #15803d; }
+  }
+
+  /* Specific Logic for Overdue */
+  &.action-required.warn {
+    .icon-wrapper { background: #fef2f2; color: #ef4444; }
+    h3 { color: #ef4444; }
+  }
+
+  .text-wrapper {
+    p { margin: 0; font-size: 0.85rem; font-weight: 600; color: var(--ion-color-medium); text-transform: uppercase; letter-spacing: 0.5px; }
+    h3 { margin: 2px 0 0 0; font-size: 1.5rem; font-weight: 800; color: var(--ion-text-color); }
+  }
+}
+
+/* --- WIDGETS LAYOUT --- */
+.widgets-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+
+  @media (min-width: 992px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.main-card {
+  margin: 0;
+  height: 100%;
+  border: 1px solid var(--ion-border-color);
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+
+  ion-card-header {
+    border-bottom: 1px solid var(--ion-color-light);
+    padding-bottom: 16px;
+  }
+}
+
+/* AGENDA LIST */
+.agenda-list {
+  padding-top: 8px;
+
+  .date-badge {
+    width: 44px; height: 44px;
+    background: var(--ion-color-light);
+    border-radius: 10px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    border: 1px solid rgba(0,0,0,0.05);
+    margin-right: 16px;
+
+    .month { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--ion-color-primary); }
+    .day { font-size: 1.1rem; font-weight: 700; line-height: 1; color: var(--ion-text-color); }
+  }
+}
+
+/* ACTIVITY FEED (Modern) */
+.activity-feed {
+  padding-top: 8px;
+
+  ion-item {
+    --padding-start: 0;
+    --inner-padding-end: 0;
+    margin-bottom: 8px;
+  }
+
+  .activity-icon-box {
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    margin-right: 16px;
+
+    &.task { background: #fefce8; color: #ca8a04; } /* Yellow/Gold for Tasks */
+    &.event { background: #eff6ff; color: #2563eb; } /* Blue for Events */
+  }
+
+  h2 { font-size: 0.95rem; font-weight: 600; color: var(--ion-text-color); }
+  p { font-size: 0.8rem; color: var(--ion-color-medium); margin-top: 2px; }
+}
+
+/* EMPTY STATES */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--ion-color-medium);
+  ion-icon { font-size: 2.5rem; margin-bottom: 8px; opacity: 0.5; }
+  h3 { margin: 0; font-size: 1rem; font-weight: 600; color: var(--ion-text-color); }
+  p { font-size: 0.9rem; margin: 4px 0 0 0; }
+}
+
+/* NOTIFICATION BADGE (Header) */
+.notification-btn {
+  position: relative;
+  ion-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    font-size: 0.6rem;
+    border-radius: 10px;
+    padding: 2px 4px;
+  }
+}

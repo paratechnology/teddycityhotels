@@ -1,0 +1,59 @@
+<div class="trust-wrapper">
+
+  @if (financialsService.trustStatus() === 'loading' && financialsService.trustAccountSummaries().length === 0) {
+    <div class="centered-container">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  } 
+  @else if (financialsService.trustStatus() === 'error') {
+    <div class="centered-container ion-padding ion-text-center">
+      <ion-label color="danger">Failed to load trust accounts.</ion-label>
+      <ion-button (click)="loadSummaries()" fill="outline" class="ion-margin-top">Retry</ion-button>
+    </div>
+  } 
+  @else {
+    <div class="data-header ion-hide-md-down">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="5">Matter</ion-col>
+          <ion-col size="4">Client</ion-col>
+          <ion-col size="3" class="ion-text-end">Current Balance</ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div class="data-list">
+      @for (summary of financialsService.trustAccountSummaries(); track summary.matterId) {
+        <div class="trust-row" (click)="viewLedger(summary.matterId)">
+          <ion-grid>
+            <ion-row class="ion-align-items-center">
+              
+              <ion-col size="12" size-md="5" class="col-matter">
+                <span class="mobile-label ion-hide-md-up">Matter:</span>
+                <span class="matter-title">{{ summary.matterTitle }}</span>
+              </ion-col>
+
+              <ion-col size="12" size-md="4" class="col-client">
+                <ion-icon name="person-circle-outline" class="client-icon ion-hide-md-down"></ion-icon>
+                <span class="client-name">{{ summary.clientName }}</span>
+              </ion-col>
+
+              <ion-col size="12" size-md="3" class="col-balance ion-text-end">
+                <div class="balance-badge">
+                  <span class="currency">₦</span>
+                  <span class="val">{{ summary.currentBalance.toLocaleString() }}</span>
+                </div>
+              </ion-col>
+
+            </ion-row>
+          </ion-grid>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <ion-icon name="wallet-outline"></ion-icon>
+          <p>No trust funds currently held.</p>
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,127 @@
+<ion-header class="premium-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="navigationService.toggleMobileMenu()" class="ion-hide-md-up">
+        <ion-icon name="menu-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    
+    <ion-title>
+      <div class="header-title-stack">
+        <span>Calendar</span>
+        <span>Schedule & Events</span>
+      </div>
+    </ion-title>
+
+    <ion-buttons slot="end">
+            <ion-button (click)="exportWeeklyDocket()" color="primary" fill="clear" title="Export Weekly Docket">
+        <ion-icon name="download-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      
+      @if (canManageCalendar()) {
+        <ion-button id="calendar-admin-menu">
+          <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+        </ion-button>
+        <ion-popover #adminPopover trigger="calendar-admin-menu" triggerAction="click">
+          <ng-template>
+            <ion-list lines="full">
+              <ion-item>
+                <ion-toggle [checked]="editMode()" (ionChange)="toggleEditMode($event)" justify="space-between">Edit Mode</ion-toggle>
+              </ion-item>
+              <ion-item [button]="true" (click)="openMasterScheduleModal(adminPopover)" detail="false">Master Schedule</ion-item>
+            </ion-list>
+            <ion-item lines="none">
+              <ion-button (click)="sendCalendarNotification()" [disabled]="isSending()" expand="block" fill="clear">
+                @if (isSending()) { <ion-spinner></ion-spinner> } @else { Send Daily Reminders }
+              </ion-button>
+            </ion-item>
+          </ng-template>
+        </ion-popover>
+      }
+
+      <ion-button (click)="openEventForm()" id="calendar-add-btn">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+<ion-toolbar class="segment-toolbar">
+    <div class="toolbar-content" style="display: flex; align-items: center; justify-content: space-between; padding: 0 8px;">
+      
+      <div class="date-nav" id="calendar-date-nav" style="display: flex; align-items: center;">
+        <ion-button fill="clear" size="small" (click)="changeDate('prev')" color="dark">
+          <ion-icon name="chevron-back" slot="icon-only"></ion-icon>
+        </ion-button>
+        
+        <div class="current-date" style="font-weight: 700; font-size: 14px; min-width: 140px; text-align: center;">
+          {{ viewTitle() }}
+        </div>
+
+        <ion-button fill="clear" size="small" (click)="changeDate('next')" color="dark">
+          <ion-icon name="chevron-forward" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+
+      <div class="view-switcher" id="calendar-view-switcher">
+        <ion-segment [value]="view()" (ionChange)="onViewChanged($event)" mode="ios" style="min-width: 200px;">
+          <ion-segment-button value="month">
+            <ion-label>Month</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="week">
+            <ion-label>Week</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="day">
+            <ion-label>Day</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="calendar-content">
+  
+  @if (isLoading()) {
+    <div class="loading-container">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  } @else {
+    
+    <div class="view-container" [ngSwitch]="view()" id="calendar-main-grid">
+      
+      <app-agenda-view *ngSwitchCase="CalendarView.Week" 
+        [events]="calendarService.events()" 
+        [editMode]="editMode()" 
+        (eventClicked)="openEventForm($event)"
+        (eventDeleted)="handleDeleteEvent($event.id)" 
+        (showHistory)="handleShowHistory($event)">
+      </app-agenda-view>
+
+      <div class="calendar-wrapper" *ngSwitchCase="CalendarView.Month">
+        <mwl-calendar-month-view 
+          [viewDate]="viewDate()" 
+          [events]="calendarEvents()"
+          [activeDayIsOpen]="false"
+          (dayClicked)="viewDate.set($event.day.date); view.set(CalendarView.Day)">
+        </mwl-calendar-month-view>
+      </div>
+
+
+      <div class="calendar-wrapper" *ngSwitchCase="CalendarView.Day">
+        <mwl-calendar-day-view 
+          [viewDate]="viewDate()" 
+          [events]="calendarEvents()"
+          (eventClicked)="openEventForm($event.event.meta.sourceEvent)">
+        </mwl-calendar-day-view>
+      </div>
+    </div>
+  }
+
+  @if (!isTodayInView()) {
+    <ion-fab slot="fixed" vertical="bottom" horizontal="center" class="today-fab">
+      <ion-fab-button (click)="onDateChange('today')" size="small" color="light">
+        <ion-icon name="today-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  }
+</ion-content>

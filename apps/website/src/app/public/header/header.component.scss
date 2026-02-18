@@ -1,0 +1,88 @@
+@use '../../../theme/variables' as variables;
+
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: top 0.3s ease-in-out, background-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fff;
+  border-bottom: 1px solid transparent; // Start transparent
+  box-shadow: none;
+
+  &.hidden {
+    top: -80px;
+  }
+
+  // This class will be added on scroll by app.component.ts
+  &.scrolled {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid #eee;
+  }
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  height: 64px;
+}
+
+.logo a {
+  font-size: 1.6rem;
+  font-weight: 800;
+  text-decoration: none;
+  color: variables.$primary-text;
+  display: flex;
+  align-items: center;
+
+  span {
+    color: variables.$accent-gold;
+  }
+}
+
+.desktop-nav {
+  display: none; // Hidden on mobile by default
+  @media (min-width: 768px) {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    a.mat-button {
+      font-weight: 600;
+      color: variables.$secondary-text;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: variables.$primary-text;
+      }
+
+      // Add a subtle active state for scroll-to-hash
+      &.active-fragment {
+        color: variables.$accent-gold;
+      }
+    }
+  }
+}
+
+.header-actions {
+  display: none; // Hide by default on mobile
+
+  @media (min-width: 768px) {
+    display: block; // Show on desktop
+  }
+}
+
+.mobile-menu-button {
+  color: variables.$primary-text;
+  @media (min-width: 768px) {
+    display: none;
+  }
+}

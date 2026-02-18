@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>New Trust Deposit</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="save()" [strong]="true" [disabled]="isSubmitting || form.invalid">
+        <ion-spinner *ngIf="isSubmitting" name="crescent"></ion-spinner>
+        <span *ngIf="!isSubmitting">Save</span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form">
+    <ion-list [inset]="true">
+      <ion-item button="true" detail="false" (click)="openMatterSelect()">
+        <ion-label position="stacked">Matter <ion-text color="danger">*</ion-text></ion-label>
+        <ion-note slot="end" [color]="selectedMatter() ? '' : 'medium'">
+          {{ selectedMatter()?.title || 'Select a matter' }}
+        </ion-note>
+        <ion-icon name="chevron-forward" slot="end" color="medium"></ion-icon>
+      </ion-item>
+
+      <ion-item>
+        <ion-input label="Description" labelPlacement="stacked" formControlName="description" required
+          placeholder="e.g., Initial retainer"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label="Amount (₦)" labelPlacement="stacked" formControlName="amount" type="number"
+          required></ion-input>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>

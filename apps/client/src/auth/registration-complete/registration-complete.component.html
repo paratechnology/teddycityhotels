@@ -1,0 +1,38 @@
+<ion-content class="ion-padding">
+  <div class="container" [ngSwitch]="step()">
+
+    <ion-card class="card" *ngSwitchCase="'verifying'">
+      <ion-card-header class="ion-text-center">
+        <ion-spinner name="crescent"></ion-spinner>
+        <ion-card-title>Verifying Your Email</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card class="card" *ngSwitchCase="'onboarding'">
+      <ion-card-header class="ion-text-center">
+        <ion-card-title>Email Verified!</ion-card-title>
+        <ion-card-subtitle>Choose how you'd like to get started with QuickProLaw.</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="choice-actions">
+          <ion-button (click)="startTrial()" [disabled]="isSubmitting()" expand="block" fill="outline">
+            <ion-spinner *ngIf="isSubmitting()" name="crescent"></ion-spinner>
+            <span *ngIf="!isSubmitting()">Start 14-Day Free Trial</span>
+          </ion-button>
+          <ion-button (click)="subscribeNow()" expand="block">Subscribe Now</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="card" *ngSwitchCase="'error'">
+      <ion-card-header class="ion-text-center">
+        <ion-card-title>Verification Failed</ion-card-title>
+      </ion-card-header>
+      <ion-card-content class="ion-text-center">
+        <p class="error-message">{{ errorMessage() }}</p>
+        <ion-button routerLink="/register" expand="block" fill="clear">Return to Registration</ion-button>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+</ion-content>

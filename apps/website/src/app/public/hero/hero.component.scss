@@ -1,0 +1,94 @@
+@use '../../../theme/variables' as variables;
+
+.hero-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 24px;
+  min-height: calc(100vh - 64px);
+  overflow: hidden;
+  text-align: center;
+}
+
+.video-background {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; // Sits on top of video
+    
+    /* STYLE ELEVATION: Replaced the light scrim with a dark, corporate gradient 
+      using your theme's primary colors for better text readability.
+    */
+    background: linear-gradient(135deg, rgba(variables.$primary-text, 0.85), rgba(variables.$secondary-text, 0.95));
+  }
+}
+
+.hero-content {
+  animation: slideInUp 0.8s 0.2s ease-out forwards;
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  opacity: 0;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  /* STYLE ELEVATION: Changed text to white to pop against the new dark scrim */
+  color: #FFFFFF;
+  line-height: 1.2;
+  margin-bottom: 24px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); // Softened shadow for white text
+
+  @media (min-width: 992px) {
+    font-size: 4.5rem;
+  }
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  /* STYLE ELEVATION: Changed text to light gray/white for readability */
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 40px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (min-width: 992px) {
+    font-size: 1.4rem;
+  }
+}
+
+.hero-cta {
+  padding: 18px 40px !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  border-radius: 50px !important;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(variables.$accent-gold, 0.3);
+  }
+}

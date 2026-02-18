@@ -1,0 +1,102 @@
+// Uses variables.css
+
+/* --- HEADER --- */
+.premium-header {
+  --background: #ffffff;
+  --border-color: var(--ion-border-color);
+  ion-toolbar { --background: #ffffff; --border-style: none; }
+}
+
+.page-background { --background: var(--ion-background-color); }
+
+.ledger-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* --- MATTER HERO --- */
+.matter-hero {
+  background: #ffffff;
+  border: 1px solid var(--ion-border-color);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+
+  .hero-icon {
+    width: 56px; height: 56px;
+    background: var(--ion-color-secondary-tint); // Or primary tint
+    color: var(--ion-color-secondary);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem;
+  }
+
+  .hero-info {
+    flex: 1;
+    .label { font-size: 0.7rem; font-weight: 700; color: var(--ion-color-medium); letter-spacing: 1px; display: block; margin-bottom: 4px; }
+    h2 { margin: 0 0 8px 0; font-size: 1.2rem; font-weight: 700; color: var(--ion-color-dark); }
+    
+    .badge {
+      font-size: 0.75rem; background: var(--ion-color-light); color: var(--ion-color-medium-shade);
+      padding: 4px 8px; border-radius: 4px; font-weight: 600;
+    }
+  }
+}
+
+/* --- LEDGER TABLE --- */
+.ledger-header {
+  padding: 0 12px; margin-bottom: 8px;
+  ion-col { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--ion-color-medium); letter-spacing: 0.5px; }
+}
+
+.ledger-row {
+  background: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  border: 1px solid transparent;
+  
+  ion-grid { padding: 12px; }
+
+  .mobile-label { font-size: 0.7rem; color: var(--ion-color-medium); margin-right: 6px; }
+}
+
+/* Columns */
+.col-date {
+  .date-stack {
+    display: flex; flex-direction: column;
+    .day { font-weight: 600; font-size: 0.9rem; color: var(--ion-color-dark); }
+    .year { font-size: 0.75rem; color: var(--ion-color-medium); }
+  }
+}
+
+.col-desc {
+  .desc-flex {
+    display: flex; align-items: center; gap: 12px;
+    .type-icon {
+      font-size: 1.4rem;
+      &.deposit { color: var(--ion-color-success); }
+      &.withdrawal { color: var(--ion-color-danger); }
+    }
+    .text { font-size: 0.95rem; color: var(--ion-color-dark); font-weight: 500; }
+  }
+}
+
+.col-amount {
+  .amount-val { font-weight: 700; font-size: 1rem; }
+  .text-success { color: var(--ion-color-success); }
+  .text-danger { color: var(--ion-color-danger); }
+}
+
+.col-balance {
+  .balance-val { font-weight: 600; color: var(--ion-color-medium-shade); font-family: monospace; font-size: 0.95rem; }
+}
+
+/* --- STATES --- */
+.centered-container, .empty-state {
+  display: flex; flex-direction: column; justify-content: center; align-items: center; height: 60vh; text-align: center;
+}
+.empty-state { color: var(--ion-color-medium); ion-icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.5; } }

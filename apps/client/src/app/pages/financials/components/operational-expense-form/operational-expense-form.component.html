@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>New Expense Request</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="save()" [strong]="true" [disabled]="isSubmitting || form.invalid">
+        <ion-spinner *ngIf="isSubmitting" name="crescent"></ion-spinner>
+        <span *ngIf="!isSubmitting">Submit</span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form">
+    <ion-list [inset]="true">
+      <ion-item>
+        <ion-input label="Description" labelPlacement="stacked" formControlName="description" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label="Amount (₦)" labelPlacement="stacked" formControlName="amount" type="number" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-select label="Category" labelPlacement="stacked" formControlName="category" required>
+          @for (cat of categories; track cat) {
+          <ion-select-option [value]="cat">{{ cat }}</ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Date</ion-label>
+        <ion-datetime-button datetime="expense-date"></ion-datetime-button>
+      </ion-item>
+    </ion-list>
+  </form>
+
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime id="expense-date" formControlName="date" presentation="date"></ion-datetime>
+    </ng-template>
+  </ion-modal>
+</ion-content>

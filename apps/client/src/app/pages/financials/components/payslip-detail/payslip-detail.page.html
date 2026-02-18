@@ -1,0 +1,96 @@
+<ion-header class="premium-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/my-payslips" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="header-title-stack">
+        <span>Payslip Details</span>
+        <span>Transaction Record</span>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="page-background">
+  
+  @if (status() === 'loading') {
+    <div class="centered-container">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  } 
+  @else if (status() === 'error') {
+    <div class="centered-container ion-padding ion-text-center">
+      <ion-label color="danger">Failed to load details.</ion-label>
+    </div>
+  } 
+  @else {
+    @if (payslip(); as slip) {
+      <div class="page-container ion-padding">
+        
+        <div class="hero-card">
+          <div class="period-badge">
+            {{ slip.payPeriod | date:'MMMM yyyy' | uppercase }}
+          </div>
+          <div class="net-pay-section">
+            <div class="label">NET PAYABLE</div>
+            <div class="amount">₦{{ slip.netSalary.toLocaleString('en-NG', { minimumFractionDigits: 2 }) }}</div>
+            <div class="status-pill success">
+              <ion-icon name="wallet-outline"></ion-icon> PAID
+            </div>
+          </div>
+        </div>
+
+        <div class="breakdown-card">
+          <ion-grid class="ion-no-padding">
+            <ion-row>
+              
+              <ion-col size="12" size-md="6" class="breakdown-col border-right">
+                <div class="col-header earning-header">
+                  <ion-icon name="trending-up-outline"></ion-icon> EARNINGS
+                </div>
+                <div class="line-item">
+                  <span>Gross Salary</span>
+                  <span class="val">₦{{ slip.grossSalary.toLocaleString() }}</span>
+                </div>
+                <div class="line-item total-row">
+                  <span>Total Earnings</span>
+                  <span class="val">₦{{ slip.grossSalary.toLocaleString() }}</span>
+                </div>
+              </ion-col>
+
+              <ion-col size="12" size-md="6" class="breakdown-col">
+                <div class="col-header deduction-header">
+                  <ion-icon name="trending-down-outline"></ion-icon> DEDUCTIONS
+                </div>
+                @for (deduction of slip.deductions; track deduction.description) {
+                  <div class="line-item">
+                    <span>{{ deduction.description }}</span>
+                    <span class="val text-danger">- ₦{{ deduction.amount.toLocaleString() }}</span>
+                  </div>
+                }
+                <div class="line-item total-row">
+                  <span>Total Deductions</span>
+                  <span class="val text-danger">- ₦{{ (slip.grossSalary - slip.netSalary).toLocaleString() }}</span>
+                </div>
+              </ion-col>
+
+            </ion-row>
+          </ion-grid>
+        </div>
+
+        <div class="actions-footer">
+          <ion-button expand="block" fill="outline" (click)="emailPayslip()" [disabled]="isSendingEmail()">
+            @if (isSendingEmail()) {
+              <ion-spinner name="crescent"></ion-spinner>
+            } @else {
+              <ion-icon name="mail-outline" slot="start"></ion-icon>
+              Email Official PDF
+            }
+          </ion-button>
+        </div>
+
+      </div>
+    }
+  }
+</ion-content>

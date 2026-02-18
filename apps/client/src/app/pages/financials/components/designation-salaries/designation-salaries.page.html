@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/financials"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Designation Salaries</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-padding">
+    <div *ngIf="isLoading()" class="centered-container">
+      <ion-spinner></ion-spinner>
+    </div>
+
+    @if (!isLoading() && form) {
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="page-header">
+          <p>Set the default monthly gross salary for each designation. This can be overridden for individual users.</p>
+          <ion-button type="submit" [disabled]="form.invalid || isSubmitting()">
+            <ion-spinner *ngIf="isSubmitting()" name="crescent"></ion-spinner>
+            <span *ngIf="!isSubmitting()">Save All Changes</span>
+          </ion-button>
+        </div>
+
+        <div class="salaries-grid" formArrayName="designations">
+          @for (designation of designations.controls; track i; let i = $index) {
+            <ion-card [formGroupName]="i">
+              <ion-card-header>
+                <ion-card-title>{{ designation.value.name }}</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-input label="Default Gross Salary" labelPlacement="stacked" type="number" placeholder="e.g., 150000" formControlName="defaultGrossSalary">
+                  <span class="currency-prefix" slot="start">₦</span>
+                </ion-input>
+
+                <div class="deductions-section" formArrayName="defaultDeductions">
+                  <ion-list-header>
+                    <ion-label>Default Deductions</ion-label>
+                    <ion-button fill="clear" size="small" (click)="addDeduction(i)">
+                      <ion-icon name="add-circle-outline" slot="start"></ion-icon> Add
+                    </ion-button>
+                  </ion-list-header>
+                  @for (deduction of getDeductions(i).controls; track k; let k = $index) {
+                    <div class="deduction-item" [formGroupName]="k">
+                      <ion-input label="Description" label-placement="floating" formControlName="description"></ion-input>
+                      <ion-select label="Type" label-placement="floating" formControlName="type">
+                        <ion-select-option value="fixed">Fixed (₦)</ion-select-option>
+                        <ion-select-option value="percentage">Percentage (%)</ion-select-option>
+                      </ion-select>
+                      <ion-input label="Value" label-placement="floating" type="number" formControlName="value"></ion-input>
+                      <ion-button fill="clear" color="danger" (click)="removeDeduction(i, k)">
+                        <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
+                      </ion-button>
+                    </div>
+                  }
+                </div>
+              </ion-card-content>
+            </ion-card>
+          }
+        </div>
+      </form>
+    }
+  </div>
+</ion-content>

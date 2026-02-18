@@ -1,0 +1,126 @@
+<ion-header class="modal-header">
+  <ion-toolbar>
+    <ion-title>{{ isEditing ? 'Edit Profile' : 'New Client Onboarding' }}</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="form-content">
+  <form [formGroup]="form">
+    
+    <div class="form-section">
+      <div class="section-title">Client Classification</div>
+      <ion-segment formControlName="clientType" mode="ios" (ionChange)="onTypeChange()">
+        <ion-segment-button value="Individual">
+          <ion-label>Individual</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="Corporate">
+          <ion-label>Corporate</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+
+    <div class="form-section">
+      <div class="section-title">Identity & Profile</div>
+      
+      <ion-item class="input-item">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-input 
+          [label]="form.get('clientType')?.value === 'Corporate' ? 'Company Name' : 'Full Name'" 
+          labelPlacement="stacked" 
+          formControlName="fullname" 
+          placeholder="Enter official name">
+        </ion-input>
+      </ion-item>
+
+      @if (form.get('clientType')?.value === 'Corporate') {
+        <div class="corporate-group">
+          <ion-item class="input-item">
+            <ion-icon name="document-text-outline" slot="start"></ion-icon>
+            <ion-input 
+              label="RC Number" 
+              labelPlacement="stacked" 
+              formControlName="rcNumber" 
+              placeholder="CAC Registration No.">
+            </ion-input>
+          </ion-item>
+
+          <ion-item class="input-item">
+            <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+            <ion-input 
+              label="Primary Contact Person" 
+              labelPlacement="stacked" 
+              formControlName="primaryContactPerson" 
+              placeholder="Who do we talk to?">
+            </ion-input>
+          </ion-item>
+        </div>
+      }
+    </div>
+
+    <div class="form-section">
+      <div class="section-title">Contact Details</div>
+      
+      <ion-item class="input-item">
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-input 
+          label="Email Address" 
+          labelPlacement="stacked" 
+          type="email" 
+          formControlName="email" 
+          placeholder="primary@email.com">
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="input-item">
+        <ion-icon name="call-outline" slot="start"></ion-icon>
+        <ion-input 
+          label="Phone Number" 
+          labelPlacement="stacked" 
+          type="tel" 
+          formControlName="phoneNumber" 
+          placeholder="+234...">
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="input-item">
+        <ion-icon name="location-outline" slot="start"></ion-icon>
+        <ion-textarea 
+          label="Physical Address" 
+          labelPlacement="stacked" 
+          formControlName="address" 
+          rows="2"
+          placeholder="Registered office or home address">
+        </ion-textarea>
+      </ion-item>
+    </div>
+
+    <div class="form-section">
+      <div class="section-title">Relationship Status</div>
+      <ion-item class="input-item">
+        <ion-icon name="flag-outline" slot="start"></ion-icon>
+        <ion-select label="Current Status" labelPlacement="stacked" formControlName="status" interface="popover">
+          <ion-select-option value="Prospect">Prospect (Lead)</ion-select-option>
+          <ion-select-option value="Active">Active (Client)</ion-select-option>
+          <ion-select-option value="Archived">Archived</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+
+  </form>
+</ion-content>
+
+<ion-footer class="modal-footer">
+  <ion-toolbar>
+    <ion-button expand="block" (click)="save()" [disabled]="isSubmitting || form.invalid" class="save-btn">
+      @if (isSubmitting) {
+        <ion-spinner name="crescent"></ion-spinner>
+      } @else {
+        <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+        {{ isEditing ? 'Update Profile' : 'Onboard Client' }}
+      }
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

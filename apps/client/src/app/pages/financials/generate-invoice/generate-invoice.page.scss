@@ -1,0 +1,190 @@
+// Uses variables.css (Slate/Teal palette)
+
+.modal-header {
+  --background: #ffffff;
+  --border-color: var(--ion-border-color);
+  ion-toolbar { --background: #ffffff; --border-style: none; }
+  ion-title { font-size: 1rem; font-weight: 600; }
+}
+
+.invoice-content {
+  --background: var(--ion-background-color);
+}
+
+.content-wrapper {
+  padding: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+  padding-bottom: 100px; // Space for floating footer
+}
+
+/* --- HEADER --- */
+.selection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  .header-text {
+    h3 { margin: 0; font-size: 1rem; font-weight: 700; color: var(--ion-color-primary); }
+    p { margin: 2px 0 0 0; font-size: 0.8rem; color: var(--ion-color-medium); }
+  }
+}
+
+/* --- SELECTION DECK --- */
+.selection-deck {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.billable-card {
+  background: #ffffff;
+  border: 1px solid var(--ion-border-color);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+
+  /* CHECKBOX VISUAL */
+  .checkbox-circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--ion-color-medium);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+    margin-top: 2px; // Align with title visually
+
+    ion-icon { font-size: 16px; color: #ffffff; }
+  }
+
+  /* CARD CONTENT */
+  .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .type-badge {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        color: var(--ion-color-medium);
+        background: var(--ion-color-light);
+        padding: 2px 6px;
+        border-radius: 4px;
+
+        &.expense {
+          color: #d97706; // Amber-600
+          background: #fef3c7; // Amber-100
+        }
+      }
+
+      .date { font-size: 0.8rem; color: var(--ion-color-medium); }
+    }
+
+    h4 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ion-color-primary);
+      line-height: 1.4;
+    }
+
+    .amount {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ion-color-primary);
+    }
+  }
+
+  /* --- STATES --- */
+  
+  /* Hover State (Desktop) */
+  &:hover {
+    border-color: var(--ion-color-medium);
+    transform: translateY(-2px);
+  }
+
+  /* SELECTED STATE (The "Magic") */
+  &.selected {
+    border-color: var(--ion-color-secondary); // Electric Blue
+    background: rgba(var(--ion-color-secondary-rgb), 0.03); // Very subtle blue tint
+
+    .checkbox-circle {
+      border-color: var(--ion-color-secondary);
+      background: var(--ion-color-secondary);
+      transform: scale(1.1);
+    }
+  }
+}
+
+/* --- ACTION FOOTER --- */
+.action-footer {
+  background: transparent;
+  border: none;
+  padding: 0 16px 24px 16px; // Lifted from bottom
+
+  .footer-glass {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    
+    border-radius: 16px;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+
+    .total-block {
+      display: flex;
+      flex-direction: column;
+      
+      span { font-size: 0.75rem; color: var(--ion-color-medium); font-weight: 600; text-transform: uppercase; }
+      h3 { margin: 0; font-size: 1.2rem; font-weight: 800; color: var(--ion-color-primary); }
+    }
+  }
+}
+
+/* --- EMPTY STATE --- */
+.empty-state-modern {
+  text-align: center;
+  padding: 60px 20px;
+  
+  .icon-circle {
+    width: 64px; height: 64px;
+    background: var(--ion-color-light);
+    border-radius: 50%;
+    margin: 0 auto 16px auto;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; color: var(--ion-color-medium);
+  }
+  h3 { margin: 0; font-weight: 600; color: var(--ion-color-primary); }
+  p { font-size: 0.9rem; color: var(--ion-color-medium); }
+}
+
+.loading-state, .error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: 12px;
+  color: var(--ion-color-medium);
+}

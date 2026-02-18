@@ -1,0 +1,34 @@
+<div class="layout-wrapper" 
+     [class.sidebar-collapsed]="isSidebarCollapsed()"
+     [class.mobile-menu-open]="navigationService.isMobileMenuOpen()">
+  
+  <app-sidebar
+    [isMobile]="isMobile()"
+    (mobileToggleRequested)="navigationService.closeMobileMenu()">
+  </app-sidebar>
+
+  <ion-tabs class="main-content" id="main-content">
+    
+    <ion-tab-bar slot="bottom" id="app-tab-bar">
+      <ion-tab-button *ngFor="let link of tabLinks()" [tab]="link.path.split('/').pop()">
+        <ion-icon [name]="link.icon"></ion-icon>
+        <ion-label>{{ link.label }}</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+
+    <ion-fab vertical="bottom" horizontal="center" slot="fixed" class="docked-fab" id="app-quick-action-fab" style="z-index: 999;">
+      <ion-fab-button color="primary" (click)="presentQuickActions($event)">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+    <div class="backdrop" 
+         *ngIf="navigationService.isMobileMenuOpen()" 
+         (click)="navigationService.closeMobileMenu()"
+         tabindex="-1"
+         role="button"
+         aria-label="Close Menu">
+    </div>
+
+  </ion-tabs>
+</div>

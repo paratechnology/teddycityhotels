@@ -1,0 +1,88 @@
+<ion-header class="modal-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="isEditMode() ? '/app/financials/invoice/' + matterId() + '/' + invoiceId() : '/app/matters/' + matterId() + '/financials'"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ isEditMode() ? 'Edit' : 'Draft' }} Invoice</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="invoice-content">
+  
+  <div *ngIf="status() === 'loading'" class="loading-state">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Fetching unbilled items...</p>
+  </div>
+
+  <div *ngIf="status() === 'error'" class="error-state">
+    <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
+    <p>Failed to load billable items.</p>
+    <ion-button fill="outline" size="small" (click)="ngOnInit()">Retry</ion-button>
+  </div>
+
+  <div *ngIf="status() === 'success'" class="content-wrapper">
+    
+    <div class="selection-header" *ngIf="unbilledItems().length > 0">
+      <div class="header-text">
+        <h3>Billable Items</h3>
+        <p>{{ unbilledItems().length }} available</p>
+      </div>
+      <ion-button fill="clear" size="small" (click)="toggleSelectAll(!isAllSelected())">
+        {{ isAllSelected() ? 'Deselect All' : 'Select All' }}
+      </ion-button>
+    </div>
+
+    <div class="selection-deck">
+      @for (item of unbilledItems(); track item.id) {
+        <div 
+          class="billable-card" 
+          [class.selected]="selectedItems().has(item.id)"
+          (click)="toggleItemSelection(item.id, !selectedItems().has(item.id))"
+        >
+          <div class="checkbox-circle">
+            <ion-icon name="checkmark" *ngIf="selectedItems().has(item.id)"></ion-icon>
+          </div>
+
+          <div class="card-body">
+            <div class="meta-row">
+              <span class="type-badge" [class.expense]="item.type === 'expense'">
+                {{ item.type === 'expense' ? 'EXPENSE' : 'FEE' }}
+              </span>
+              <span class="date">{{ item.date | date:'mediumDate' }}</span>
+            </div>
+            <h4>{{ item.description }}</h4>
+            <div class="amount">₦{{ item.amount.toLocaleString() }}</div>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-state-modern">
+          <div class="icon-circle">
+            <ion-icon name="receipt-outline"></ion-icon>
+          </div>
+          <h3>All Caught Up</h3>
+          <p>There are no unbilled items for this matter.</p>
+        </div>
+      }
+    </div>
+
+  </div>
+</ion-content>
+
+<ion-footer class="action-footer" *ngIf="status() === 'success' && unbilledItems().length > 0">
+  <div class="footer-glass">
+    <div class="total-block">
+      <span>Total Selected</span>
+      <h3>{{ totalSelectedAmount() | currency:'NGN':'symbol-narrow' }}</h3>
+    </div>
+    
+    <ion-button 
+      shape="round" 
+      color="secondary" 
+      [disabled]="selectedItems().size === 0 || isCreating()"
+      (click)="saveInvoice()"
+    >
+      <span *ngIf="!isCreating()">Generate Invoice ({{ selectedItems().size }})</span>
+      <ion-spinner *ngIf="isCreating()" name="dots"></ion-spinner>
+    </ion-button>
+  </div>
+</ion-footer>

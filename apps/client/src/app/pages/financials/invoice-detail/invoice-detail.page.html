@@ -1,0 +1,141 @@
+<ion-header class="modal-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button ></ion-back-button>
+    </ion-buttons>
+    <ion-title>Invoice #{{ invoice()?.invoiceNumber }}</ion-title>
+    
+    <ion-buttons slot="end" *ngIf="invoice() as inv">
+      <ion-button *ngIf="inv.status === 'Draft'" [routerLink]="['/app/financials/edit-invoice', matterId(), invoiceId()]">
+        Edit
+      </ion-button>
+      <ion-button *ngIf="inv.status !== 'Draft'" (click)="downloadPdf()">
+        <ion-icon slot="icon-only" name="download-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="invoice-content">
+  <ion-refresher slot="fixed" (ionRefresh)="loadInvoice($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div *ngIf="financialsService.selectedInvoiceStatus() === 'loading'" class="loading-state">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <div *ngIf="invoice() as inv" class="invoice-wrapper">
+    
+    <div class="invoice-paper">
+      
+      <div class="paper-header">
+        <div class="brand-block">
+          <div class="firm-placeholder">
+            <ion-icon name="business"></ion-icon>
+          </div>
+          <div class="firm-info">
+            <h2>{{ inv.matter.title || 'Legal Matter' }}</h2>
+            <p>Invoice #{{ inv.invoiceNumber }}</p>
+          </div>
+        </div>
+        
+        <div class="status-stamp" [ngClass]="getStatusClass(inv.status)">
+          {{ inv.status }}
+        </div>
+      </div>
+
+      <div class="hero-section">
+        <div class="date-block">
+          <div class="date-item">
+            <label>Issued</label>
+            <span>{{ inv.issueDate | date:'mediumDate' }}</span>
+          </div>
+          <div class="date-item">
+            <label>Due</label>
+            <span>{{ inv.dueDate | date:'mediumDate' }}</span>
+          </div>
+        </div>
+        
+        <div class="amount-block">
+          <label>Amount Due</label>
+          <h1 class="total-text">{{ (inv.totalAmount - (inv.amountPaid || 0)) | currency:'NGN':'symbol-narrow' }}</h1>
+          <p *ngIf="inv.amountPaid > 0" class="paid-subtext">
+            (Total {{ inv.totalAmount | currency:'NGN':'symbol-narrow' }} - Paid {{ inv.amountPaid | currency:'NGN':'symbol-narrow' }})
+          </p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="line-items-container">
+        <div class="table-header">
+          <span>Description</span>
+          <span class="align-right">Amount</span>
+        </div>
+
+        <div class="item-row" *ngFor="let item of inv.items">
+          <div class="item-desc">
+            <h4>{{ item.description }}</h4>
+            <span class="type-badge" [class.expense]="item.type === 'expense'">
+              {{ item.type === 'expense' ? 'EXPENSE' : 'FEE' }}
+            </span>
+          </div>
+          <div class="item-amount">
+            {{ item.amount | currency:'NGN':'symbol-narrow' }}
+          </div>
+        </div>
+      </div>
+
+      <div class="totals-summary">
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>{{ inv.subtotal | currency:'NGN':'symbol-narrow' }}</span>
+        </div>
+        <div class="summary-row grand-total">
+          <span>Total</span>
+          <span>{{ inv.totalAmount | currency:'NGN':'symbol-narrow' }}</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</ion-content>
+
+<ion-footer *ngIf="invoice() as inv" class="action-footer">
+  <div class="footer-glass">
+    
+    <ng-container *ngIf="inv.status === 'Draft'">
+      <div class="status-msg">Draft - Not visible to client</div>
+      <ion-button (click)="confirmSendInvoice()" [disabled]="isSending()" color="secondary">
+        <ion-spinner *ngIf="isSending()" name="crescent"></ion-spinner>
+        <span *ngIf="!isSending()">Finalize & Send</span>
+      </ion-button>
+    </ng-container>
+
+    <ng-container *ngIf="inv.status !== 'Draft' && inv.status !== 'Paid'">
+      <div class="actions-grid">
+        <ion-button fill="outline" (click)="confirmEmailInvoice()" class="icon-btn">
+          <ion-icon name="mail-outline"></ion-icon>
+        </ion-button>
+        
+        <ion-button fill="outline" (click)="confirmPayFromTrust()">
+          Trust Pay
+        </ion-button>
+        
+        <ion-button (click)="recordPayment()" color="secondary">
+          Record Payment
+        </ion-button>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="inv.status === 'Paid'">
+      <div class="status-msg success">
+        <ion-icon name="checkmark-circle"></ion-icon> Fully Paid
+      </div>
+      <ion-button fill="outline" (click)="downloadPdf()">Download Receipt</ion-button>
+    </ng-container>
+
+  </div>
+</ion-footer>

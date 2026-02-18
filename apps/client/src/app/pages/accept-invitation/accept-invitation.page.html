@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Accept Invitation</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div [ngSwitch]="pageStatus()">
+
+    <div *ngSwitchCase="'loadingToken'" class="ion-text-center">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Verifying your invitation...</p>
+    </div>
+
+    <div *ngSwitchCase="'invalidToken'" class="ion-text-center">
+      <h2>Invalid Invitation</h2>
+      <ion-note color="danger">{{ errorMessage() }}</ion-note>
+      <ion-button expand="block" routerLink="/login" class="ion-margin-top">Return to Login</ion-button>
+    </div>
+
+    <div *ngSwitchCase="'valid'">
+      <div class="ion-text-center">
+        <h2>Welcome!</h2>
+        <p>You've been invited to join as a <strong class="ion-text-capitalize">{{ userDesignation() }}</strong>.</p>
+        <p>Your account will be linked to: <strong>{{ invitationEmail() }}</strong></p>
+      </div>
+
+      <form [formGroup]="registrationForm" (ngSubmit)="submitRegistration()">
+        <ion-list>
+          <!-- Manual Name Input for All Users -->
+          <ion-item>
+            <ion-input label="First Name" labelPlacement="stacked" formControlName="firstName" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Last Name" labelPlacement="stacked" formControlName="lastName" required></ion-input>
+          </ion-item>
+
+          <!-- Password Fields -->
+          <ion-item>
+            <ion-input label="Password" labelPlacement="stacked" formControlName="password" type="password" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Confirm Password" labelPlacement="stacked" formControlName="confirmPassword" type="password" required></ion-input>
+          </ion-item>
+          <div *ngIf="registrationForm.errors?.['passwordMismatch'] && registrationForm.get('confirmPassword')?.touched" class="ion-padding-start">
+            <ion-note color="danger">Passwords do not match.</ion-note>
+          </div>
+        </ion-list>
+
+        <ion-button
+          type="submit"
+          expand="block"
+          class="ion-margin-top"
+          [disabled]="registrationForm.invalid || isSubmitting()">
+          <ion-spinner *ngIf="isSubmitting()" name="dots"></ion-spinner>
+          <span *ngIf="!isSubmitting()">Create Account</span>
+        </ion-button>
+      </form>
+
+    </div>
+  </div>
+</ion-content>

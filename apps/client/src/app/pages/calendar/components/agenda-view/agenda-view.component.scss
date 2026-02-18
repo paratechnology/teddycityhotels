@@ -1,0 +1,238 @@
+// Uses variables.css
+
+/* --- GLASS HEADER --- */
+.day-group {
+  margin-bottom: 24px;
+}
+
+.day-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--ion-border-color);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+
+  .date-stack {
+    max-width: 800px;
+    margin: 0 auto;
+    
+    .day-name { margin: 0; font-size: 1.1rem; font-weight: 700; color: var(--ion-text-color); }
+    .full-date { margin: 2px 0 0 0; font-size: 0.85rem; color: var(--ion-color-medium); }
+  }
+}
+
+/* --- TIMELINE --- */
+.timeline {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.timeline-item {
+  display: flex;
+  margin-bottom: 16px;
+  
+  /* Remove line for last item in a day */
+  &:last-child .timeline-line { display: none; }
+}
+
+/* 1. LEFT COLUMN (Time & Line) */
+.timeline-time {
+  width: 70px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-right: 12px;
+
+  .time-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--ion-color-medium);
+    margin-top: 2px; // Align with title
+  }
+
+  .timeline-separator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    margin-top: 8px;
+    margin-right: -17px; // Pull icons onto the grid line
+    z-index: 2;
+
+    .timeline-icon-wrapper {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2px solid var(--ion-border-color);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      color: var(--ion-color-medium);
+      
+      /* Type Colors */
+      &.event-type--CourtAppearance { border-color: var(--ion-color-danger); color: var(--ion-color-danger); }
+      &.event-type--Meeting { border-color: var(--ion-color-secondary); color: var(--ion-color-secondary); }
+    }
+
+    .timeline-line {
+      width: 2px;
+      flex: 1;
+      background: var(--ion-border-color);
+      margin-top: 4px;
+    }
+  }
+}
+
+/* 2. CARD CONTENT */
+.timeline-content {
+  flex: 1;
+  padding-bottom: 12px;
+}
+
+.event-card {
+  background: #ffffff;
+  border: 1px solid var(--ion-border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  
+  /* Left Border for Attendance Indication */
+  border-left: 4px solid transparent;
+  &.user-attending { border-left-color: var(--ion-color-secondary); }
+
+  &:hover {
+    border-color: var(--ion-color-medium-shade);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+
+  .card-body {
+    padding: 16px;
+    
+    .title-row {
+      margin-bottom: 12px;
+      h3 { margin: 0; font-size: 1rem; font-weight: 600; color: var(--ion-text-color); line-height: 1.4; }
+      
+      .location-badge {
+        display: inline-flex; align-items: center; gap: 4px;
+        background: var(--ion-color-light);
+        padding: 2px 8px; border-radius: 4px;
+        margin-top: 6px;
+        font-size: 0.75rem; color: var(--ion-color-medium-shade);
+      }
+    }
+
+/* agenda-view.component.scss */
+
+.attendees-row {
+  margin-top: 12px;
+
+  .chip-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Custom "Sovereign" Chip */
+  .sovereign-chip {
+    display: flex;
+    align-items: center;
+    height: 26px;
+    background: #f3f4f6; /* Neutral Light Grey */
+    border: 1px solid #e5e7eb;
+    border-radius: 6px; /* Squarer radius for "tech" feel */
+    padding: 0 8px 0 2px;
+    font-size: 0.75rem;
+    color: var(--ion-text-color);
+    transition: all 0.2s ease;
+
+    .chip-avatar {
+      width: 20px;
+      height: 20px;
+      background: #ffffff;
+      border-radius: 4px; /* Matches chip shape */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: var(--ion-color-medium);
+      margin-right: 6px;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .chip-label {
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+
+    /* Highlight Current User */
+    &.current-user {
+      background: rgba(var(--ion-color-primary-rgb), 0.1);
+      border-color: rgba(var(--ion-color-primary-rgb), 0.2);
+      color: var(--ion-color-primary);
+
+      .chip-avatar {
+        background: var(--ion-color-secondary);
+        color: #ffffff;
+      }
+    }
+  }
+
+  /* Distinct "Show All" Button */
+  .more-attendees-btn {
+    background: transparent;
+    border: 1px dashed var(--ion-color-medium);
+    border-radius: 6px;
+    height: 26px;
+    padding: 0 10px;
+    font-size: 0.75rem;
+    color: var(--ion-color-medium);
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--ion-color-light);
+      border-color: var(--ion-color-dark);
+      color: var(--ion-color-dark);
+    }
+  }
+}
+  }
+
+  .card-footer {
+    border-top: 1px solid var(--ion-color-light);
+    padding: 4px 8px;
+    display: flex;
+    justify-content: space-between;
+    background: var(--ion-color-light-tint);
+
+    .action-btn {
+      font-size: 0.75rem;
+      font-weight: 600;
+      height: 28px;
+    }
+  }
+}
+
+/* --- EMPTY STATE --- */
+.empty-state-modern {
+  text-align: center;
+  padding: 60px 20px;
+  
+  .icon-circle {
+    width: 64px; height: 64px;
+    background: var(--ion-color-light);
+    border-radius: 50%;
+    margin: 0 auto 16px auto;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; color: var(--ion-color-medium);
+  }
+  h3 { margin: 0; font-weight: 600; color: var(--ion-text-color); }
+  p { font-size: 0.9rem; color: var(--ion-color-medium); }
+}

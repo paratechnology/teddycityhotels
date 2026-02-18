@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="card">
+    
+    <ng-container *ngIf="status() === 'idle'">
+      <h1>Confirm Deletion</h1>
+      <div class="warning">
+        <strong>Warning:</strong> This action is irreversible. All firm data, user accounts, matters, and documents will be permanently destroyed.
+      </div>
+      <p>Click the button below to confirm you want to delete your QuickProLaw account.</p>
+      <button class="btn-danger" (click)="confirmDelete()">
+        Permanently Delete Account
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="status() === 'processing'">
+      <p>Processing deletion... please wait.</p>
+    </ng-container>
+
+    <ng-container *ngIf="status() === 'success'">
+      <h1 style="color: #059669;">Account Deleted</h1>
+      <p>Your account and all associated data have been successfully removed from our systems.</p>
+      <a routerLink="/" style="color: #2563eb; text-decoration: none;">Return to Home</a>
+    </ng-container>
+
+    <ng-container *ngIf="status() === 'error'">
+      <h1>Error</h1>
+      <p class="error">{{ errorMessage() }}</p>
+      <a routerLink="/request-deletion" style="color: #2563eb;">Request a new link</a>
+    </ng-container>
+
+  </div>
+</div>

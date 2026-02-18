@@ -1,0 +1,120 @@
+// Uses variables.css
+
+.payroll-wrapper {
+  padding-bottom: 80px;
+}
+
+/* --- HERO SECTION --- */
+.col-hero {
+  padding-right: 16px;
+  @media (max-width: 992px) { padding-right: 0; padding-bottom: 16px; }
+}
+
+.hero-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid var(--ion-border-color);
+  border-radius: 12px;
+  padding: 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+
+  .hero-content {
+    margin-bottom: 24px;
+    
+    .hero-icon {
+      width: 48px; height: 48px;
+      background: var(--ion-color-primary-tint);
+      color: var(--ion-color-primary-contrast);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+    }
+
+    h3 { margin: 0 0 8px 0; font-size: 1.1rem; font-weight: 700; color: var(--ion-text-color); }
+    
+    .period-badge {
+      display: inline-block;
+      background: var(--ion-color-primary);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    p { font-size: 0.9rem; color: var(--ion-color-medium); line-height: 1.4; margin: 0; }
+  }
+}
+
+/* --- CONFIG TILES --- */
+.col-config {
+  padding: 4px;
+}
+
+.config-tile {
+  background: #ffffff;
+  border: 1px solid var(--ion-border-color);
+  border-radius: 12px;
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--ion-color-light);
+    transform: translateY(-2px);
+    border-color: var(--ion-color-medium-tint);
+  }
+
+  .tile-icon { font-size: 2rem; color: var(--ion-color-secondary); margin-bottom: 12px; }
+  .tile-label { font-weight: 600; color: var(--ion-color-dark); font-size: 0.95rem; margin-bottom: 4px; }
+  .tile-sub { font-size: 0.75rem; color: var(--ion-color-medium); }
+}
+
+/* --- HISTORY --- */
+.section-header {
+  margin-top: 32px; margin-bottom: 16px; padding: 0 8px;
+  h3 { font-size: 1.1rem; font-weight: 700; color: var(--ion-color-dark); margin: 0 0 4px 0; }
+  p { font-size: 0.85rem; color: var(--ion-color-medium); margin: 0; }
+}
+
+.history-header {
+  padding: 0 16px; margin-bottom: 8px;
+  ion-col { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--ion-color-medium); letter-spacing: 0.5px; }
+}
+
+.history-row {
+  background: #ffffff; border-radius: 8px; margin-bottom: 8px;
+  border: 1px solid transparent; transition: all 0.2s ease; cursor: pointer;
+
+  &:hover { background: var(--ion-color-light-tint); border-color: var(--ion-color-light-shade); }
+
+  ion-grid { padding: 12px; }
+
+  .col-period {
+    display: flex; align-items: center; gap: 12px;
+    .row-icon { font-size: 1.2rem; color: var(--ion-color-medium); }
+    .period-text { font-weight: 600; color: var(--ion-color-dark); font-size: 0.95rem; }
+  }
+
+  .status-badge {
+    display: inline-block; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;
+    &.draft { background: #fff7ed; color: #c2410c; } /* Orange */
+    &.finalized { background: #f0fdf4; color: #15803d; } /* Green */
+  }
+}
+
+.empty-state, .centered-container {
+  display: flex; flex-direction: column; justify-content: center; align-items: center; height: 40vh; text-align: center; color: var(--ion-color-medium);
+  ion-icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.5; }
+}

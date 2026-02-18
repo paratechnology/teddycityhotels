@@ -1,0 +1,127 @@
+<ion-header class="premium-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()" color="medium">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>{{ isEditMode ? 'Edit Event' : 'New Event' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="save()" [strong]="true" color="secondary" [disabled]="isSubmitting || form?.invalid">
+        <span *ngIf="!isSubmitting">Save</span>
+        <ion-spinner *ngIf="isSubmitting" name="crescent"></ion-spinner>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="form-content">
+  <form [formGroup]="form" *ngIf="form">
+
+    <div class="hero-section">
+      <ion-input formControlName="title" placeholder="Event Title" class="hero-input" autocapitalize="sentences"
+        [readonly]="form.get('eventType')?.value === 'Office Event' || (form.get('eventType')?.value === 'Court Appearance' && !!selectedMatter())">
+      </ion-input>
+    </div>
+
+    <div class="form-grid">
+
+      <div class="meta-section">
+
+        <div class="field-row">
+          <div class="field-group">
+            <label>Event Type</label>
+            <ion-select formControlName="eventType" interface="popover" placeholder="Select Type">
+              <ion-select-option *ngFor="let type of eventTypes" [value]="type">{{ type }}</ion-select-option>
+            </ion-select>
+          </div>
+
+          <div class="field-group">
+            <label>Location</label>
+            <ion-input formControlName="location" placeholder="Add location"></ion-input>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label>Date</label>
+            <ion-input type="date" formControlName="startDate" class="date-input"></ion-input>
+          </div>
+          <div class="field-group">
+            <label>Time</label>
+            <ion-input type="time" formControlName="startTime" class="date-input"></ion-input>
+          </div>
+        </div>
+
+        <div class="field-row">
+           <ion-item lines="none" class="toggle-item">
+            <ion-label>All Day</ion-label>
+            <ion-toggle formControlName="allDay" slot="end"></ion-toggle>
+          </ion-item>
+        </div>
+
+        <div class="field-group full-width" *ngIf="form.get('eventType')?.value !== 'Personal'">
+          <div class="label-with-help">
+            <label>Link to Matter</label>
+            <ion-icon name="information-circle-outline" id="help-event-matter" class="help-icon"></ion-icon>
+            <ion-popover trigger="help-event-matter" triggerAction="click">
+              <ng-template>
+                <ion-content class="ion-padding help-content">
+                  Link to a case file to track this event on the Matter Dashboard.
+                </ion-content>
+              </ng-template>
+            </ion-popover>
+          </div>
+          
+          <div class="fake-input" [class.placeholder]="!selectedMatter()" (click)="openMatterSelect()">
+            <ion-icon name="briefcase-outline"></ion-icon>
+            <span>{{ selectedMatter()?.title || 'Select Case File (Optional)' }}</span>
+            <ion-icon name="chevron-down" class="chevron"></ion-icon>
+          </div>
+        </div>
+
+        <div class="field-group full-width" *ngIf="form.get('eventType')?.value === 'Meeting'" (click)="openClientSelect()">
+          <label>Client (Optional)</label>
+          <div class="fake-input" [class.placeholder]="!selectedClient()">
+            <ion-icon name="person-circle-outline"></ion-icon>
+            <span>{{ selectedClient()?.fullname || 'Select Client' }}</span>
+            <ion-icon name="chevron-down" class="chevron"></ion-icon>
+          </div>
+        </div>
+
+        <div class="field-group full-width">
+          <div class="header-row">
+            <div class="label-with-help">
+              <label>Attendees</label>
+              <ion-icon name="information-circle-outline" id="help-event-attendees" class="help-icon"></ion-icon>
+              <ion-popover trigger="help-event-attendees" triggerAction="click">
+                <ng-template>
+                  <ion-content class="ion-padding help-content">
+                    Selected users will see this event on their dashboard.
+                  </ion-content>
+                </ng-template>
+              </ion-popover>
+            </div>
+            <ion-button fill="clear" size="small" (click)="openAttendeeSelect()">
+              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+            </ion-button>
+          </div>
+          
+          <div class="user-chips">
+            <app-user-chip *ngFor="let user of selectedAttendees()" [user]="user"
+              (remove)="removeAttendee(user.id)"></app-user-chip>
+            <div *ngIf="selectedAttendees().length === 0" class="empty-assignee" (click)="openAttendeeSelect()">
+              Add People...
+            </div>
+          </div>
+        </div>
+
+        <div class="field-group full-width">
+          <label>Description / Notes</label>
+          <ion-textarea formControlName="description" placeholder="Add details..." [autoGrow]="true" rows="3"
+            class="custom-textarea">
+          </ion-textarea>
+        </div>
+
+      </div>
+    </div>
+  </form>
+</ion-content>

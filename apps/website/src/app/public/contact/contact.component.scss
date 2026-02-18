@@ -1,0 +1,167 @@
+@use '../../../theme/variables' as variables;
+
+// --- Section 1: Header ---
+.contact-header {
+  padding: 120px 24px 80px 24px;
+  background-color: variables.$primary-text;
+  text-align: center;
+  animation: fadeIn 0.6s ease-out;
+
+  .section-title h2 {
+    color: #ffffff;
+    font-size: 3rem;
+  }
+
+  .section-title p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 16px auto 0 auto;
+  }
+}
+
+// --- Section 2: Content ---
+.contact-content {
+  padding: 80px 24px;
+  background-color: variables.$background-gradient-start;
+}
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  
+  @media (min-width: 992px) {
+    grid-template-columns: 1fr 1.5fr;
+    gap: 60px;
+  }
+}
+
+// Column 1: Info Card
+.contact-info-card {
+  animation: slideInUp 0.6s 0.2s ease-out forwards;
+  opacity: 0;
+
+  mat-card-header {
+    padding-bottom: 20px;
+  }
+
+  mat-list-item {
+    height: auto !important; // Allow items to grow
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    .mat-icon {
+      color: variables.$accent-gold;
+    }
+
+    [matListItemTitle] {
+      font-weight: 600;
+      color: variables.$primary-text;
+      margin-bottom: 4px;
+    }
+
+    [matListItemLine] {
+      white-space: normal;
+      font-size: 0.95rem;
+      color: variables.$secondary-text;
+    }
+    
+    a {
+      color: variables.$primary-text;
+      text-decoration: none;
+      font-weight: 500;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+// Column 2: Form Card
+.contact-form-card {
+  animation: slideInUp 0.6s 0.3s ease-out forwards;
+  opacity: 0;
+
+  mat-card-content {
+    padding-top: 24px;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+
+    @media (min-width: 768px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .full-width-field {
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  .submit-button {
+    margin-top: 16px;
+    padding: 16px 32px;
+    font-size: 1rem;
+    font-weight: 600;
+    width: 100%;
+
+    @media (min-width: 768px) {
+      width: auto;
+    }
+  }
+}
+
+// Success Message
+.success-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+  animation: fadeIn 0.5s ease-out;
+
+  mat-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    color: #2f9c4c; // Success green
+  }
+
+  h3 {
+    font-size: 1.8rem;
+    color: variables.$primary-text;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: variables.$secondary-text;
+  }
+}
+
+// --- Animations ---
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

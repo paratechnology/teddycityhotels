@@ -1,0 +1,244 @@
+@use '../../../theme/variables' as variables;
+
+// --- Header ---
+.download-header {
+  padding: 100px 24px 70px;
+  background: linear-gradient(135deg, variables.$primary-text, #2d2d3f);
+  text-align: center;
+  animation: fadeIn 0.6s ease-out;
+
+  h2 {
+    color: #fff;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+    max-width: 680px;
+    margin: 16px auto 0;
+    line-height: 1.6;
+  }
+}
+
+// --- Content ---
+.download-content {
+  padding: 80px 24px;
+  background: #fafafa;
+}
+
+.section-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.download-grid {
+  display: grid;
+  gap: 60px;
+  grid-template-columns: 1fr;
+
+  @media (min-width: 992px) {
+    grid-template-columns: 1.2fr 1fr;
+  }
+}
+
+// --- Info Column ---
+.info-column {
+  animation: slideInUp 0.6s 0.2s ease-out forwards;
+  opacity: 0;
+
+  h3 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: variables.$primary-text;
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 1.05rem;
+    color: variables.$secondary-text;
+    margin-bottom: 40px;
+    line-height: 1.7;
+  }
+
+  .steps-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    .step-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      }
+
+      .step-number {
+        flex-shrink: 0;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background-color: variables.$accent-gold;
+        color: #1e1e2f;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+
+      .step-details {
+        h4 {
+          font-size: 1.15rem;
+          font-weight: 600;
+          margin-bottom: 6px;
+          color: variables.$primary-text;
+        }
+
+        p {
+          font-size: 0.95rem;
+          color: variables.$secondary-text;
+          line-height: 1.6;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  .security-note {
+    margin-top: 36px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    border-radius: 8px;
+    background: #f1f5f8;
+    font-size: 0.9rem;
+    color: variables.$secondary-text;
+
+    mat-icon {
+      color: variables.$accent-gold;
+    }
+  }
+}
+
+// --- Actions Column ---
+.actions-column {
+  animation: slideInUp 0.6s 0.3s ease-out forwards;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.download-card {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  mat-card-header {
+    padding-bottom: 0;
+  }
+
+  mat-card-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: variables.$primary-text;
+  }
+
+  mat-card-subtitle {
+    color: variables.$secondary-text;
+  }
+}
+
+.store-buttons,
+.desktop-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.desktop-buttons button {
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 500;
+  justify-content: center;
+
+  .mat-icon {
+    margin-right: 12px;
+  }
+}
+
+.store-button {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #ddd;
+  text-decoration: none;
+  color: variables.$primary-text;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #f8f8f8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+
+  .mat-icon {
+    font-size: 30px;
+    margin-right: 16px;
+  }
+
+  .store-text {
+    line-height: 1.2;
+    .store-subtitle {
+      font-size: 0.8rem;
+      color: variables.$secondary-text;
+    }
+    .store-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+  }
+}
+
+.apk-sideload {
+  text-align: center;
+  margin-top: 8px;
+
+  a {
+    color: variables.$secondary-text;
+    font-size: 0.9rem;
+    text-decoration: none;
+
+    &:hover {
+      color: variables.$primary-text;
+      text-decoration: underline;
+    }
+  }
+}
+
+// --- Animations ---
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}

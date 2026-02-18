@@ -1,0 +1,39 @@
+<ion-item lines="full">
+  <ion-label class="ion-text-wrap">
+    <div class="comment-header">
+      <strong>{{ comment.createdBy.fullname }}</strong>
+      <ion-note>{{ comment.createdAt | date:'short' }}</ion-note>
+    </div>
+
+    <!-- View Mode -->
+    <p *ngIf="!isEditing()">{{ comment.content }}</p>
+
+    <!-- Edit Mode -->
+    <div *ngIf="isEditing()" class="edit-container">
+      <ion-textarea
+        [(ngModel)]="editedContent"
+        [autoGrow]="true"
+        class="edit-textarea"
+      ></ion-textarea>
+      <div class="edit-actions">
+        <ion-button fill="clear" size="small" (click)="onCancelEdit()">
+          <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" size="small" (click)="onSaveEdit()">
+          <ion-icon slot="icon-only" name="checkmark" color="success"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+
+  </ion-label>
+
+  <!-- Action buttons -->
+  <div slot="end" *ngIf="canModify() && !isEditing()">
+    <ion-button fill="clear" size="small" (click)="onStartEdit()">
+      <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+    </ion-button>
+    <ion-button fill="clear" size="small" color="danger" (click)="onDelete()">
+      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+    </ion-button>
+  </div>
+</ion-item>

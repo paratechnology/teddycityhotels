@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.quickprolaw.android",
+      "sha256_cert_fingerprints": [
+        "FE:F1:DC:AE:AD:BD:06:93:D8:73:83:DD:AD:5C:6E:AA:78:0D:99:E4:53:E2:13:82:C7:D9:66:BE:83:68:02:EB"
+      ]
+    }
+  }
+]

@@ -1,0 +1,69 @@
+<div class="verification-container">
+  <div class="header-section">
+    <h1>Document Verification</h1>
+    <p>Verify the authenticity of any QuickProLaw signed document.</p>
+  </div>
+
+  <!-- Hidden Input for File Selection -->
+  <input type="file" (change)="onFileDropped($event)" accept="application/pdf" hidden #fileInput>
+
+  <div class="verification-card">
+    
+    <!-- IDLE STATE: Upload -->
+    <div class="drop-zone" 
+         *ngIf="status() !== 'valid' && status() !== 'invalid' && status() !== 'processing'"
+         (drop)="onFileDropped($event)" 
+         (dragover)="onDragOver($event)">
+      <div class="content">
+        <img src="assets/icons/upload-icon.svg" alt="Upload" class="upload-icon">
+        <h3>Upload Document</h3>
+        <p class="sub">Drag & Drop PDF here or click to browse</p>
+        <button class="btn-primary" (click)="fileInput.click()">Select File</button>
+      </div>
+    </div>
+
+    <!-- PROCESSING STATE -->
+    <div class="result-state processing" *ngIf="status() === 'processing'">
+      <div class="spinner"></div>
+      <h3>Verifying...</h3>
+      <p>Checking digital signature and blockchain record.</p>
+    </div>
+
+    <!-- VALID STATE -->
+    <div class="result-state valid" *ngIf="status() === 'valid'">
+      <div class="icon-check">✓</div>
+      <h3>Document Verified</h3>
+      <p class="status-text">This document is authentic and has not been modified.</p>
+      
+      <div class="metadata-grid">
+        <div class="meta-row">
+          <span class="label">Document:</span>
+          <span class="value">{{ metadata()?.filename }}</span>
+        </div>
+        <div class="meta-row">
+          <span class="label">Signed By:</span>
+          <span class="value">{{ metadata()?.signedBy }}</span>
+        </div>
+        <div class="meta-row">
+          <span class="label">Date:</span>
+          <span class="value">{{ metadata()?.signedDate | date:'medium' }}</span>
+        </div>
+         <div class="meta-row" *ngIf="metadata()?.description">
+          <span class="label">Description:</span>
+          <span class="value">{{ metadata()?.description }}</span>
+        </div>
+      </div>
+
+      <button class="btn-secondary" (click)="fileInput.value = ''; status.set('idle')">Verify Another</button>
+    </div>
+
+    <!-- INVALID STATE -->
+    <div class="result-state invalid" *ngIf="status() === 'invalid'">
+      <div class="icon-cross">✗</div>
+      <h3>Verification Failed</h3>
+      <p class="status-text">We could not find a record of this document. It may have been modified or was not processed by QuickProLaw.</p>
+      <button class="btn-secondary" (click)="fileInput.value = ''; status.set('idle')">Try Again</button>
+    </div>
+
+  </div>
+</div>

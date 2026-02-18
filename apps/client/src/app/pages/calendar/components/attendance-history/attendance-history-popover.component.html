@@ -1,0 +1,40 @@
+<ion-content class="popover-content">
+  <div class="popover-header">Attendance History</div>
+
+  <div class="history-body">
+    @if (isLoading) {
+      <div class="loading-state">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+    } @else if (lastEvent) {
+      
+      <div class="date-hero">
+        <div class="label">Last Appearance</div>
+        <div class="value">
+          <ion-icon name="calendar-outline"></ion-icon>
+          {{ lastEvent.start | date:'fullDate' }}
+        </div>
+      </div>
+
+      <div class="section-label">Attendees</div>
+      <ion-list lines="none" class="dense-list">
+        @for (attendee of lastEvent.attendees; track attendee.id) {
+          <ion-item class="attendee-item">
+            <div class="avatar-box" slot="start">
+              {{ getInitials(attendee.fullname) }}
+            </div>
+            <ion-label>{{ attendee.fullname }}</ion-label>
+          </ion-item>
+        } @empty {
+          <div class="empty-state">No attendees recorded.</div>
+        }
+      </ion-list>
+
+    } @else {
+      <div class="empty-state">
+        <ion-icon name="time-outline"></ion-icon>
+        <p>No prior history found.</p>
+      </div>
+    }
+  </div>
+</ion-content>

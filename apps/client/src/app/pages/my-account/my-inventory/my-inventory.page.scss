@@ -1,0 +1,165 @@
+// Uses variables.css
+
+.page-background {
+  --background: var(--ion-background-color);
+}
+
+.page-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding-bottom: 60px;
+}
+
+/* --- PREMIUM HEADER --- */
+.premium-header {
+  --background: #ffffff;
+  --border-color: var(--ion-border-color);
+  ion-toolbar { --background: #ffffff; --border-style: none; }
+}
+
+/* --- INVENTORY LIST --- */
+.inventory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 16px;
+}
+
+.inventory-card {
+  background: #ffffff;
+  border: 1px solid var(--ion-border-color);
+  border-radius: 12px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  display: flex;
+  flex-wrap: wrap; 
+  align-items: stretch; /* Stretch to match height */
+  position: relative;
+  min-height: 90px;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border-color: var(--ion-color-medium-shade);
+  }
+}
+
+/* 1. ICON BOX */
+.item-icon-box {
+  width: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  border-right: 1px solid var(--ion-border-color);
+  
+  /* Type Styles - Matching File Room Logic */
+  &.matter-file { background: #fff7ed; color: #c2410c; } /* Orange */
+  &.general-file { background: #eff6ff; color: #2563eb; } /* Blue */
+  &.library-book { background: #f0fdf4; color: #15803d; } /* Green */
+  
+  /* Fallback */
+  background: var(--ion-color-light); color: var(--ion-color-medium);
+}
+
+/* 2. CONTENT */
+.item-content {
+  flex: 1;
+  padding: 12px 16px;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 6px;
+
+    h3 { 
+      margin: 0; 
+      font-size: 1rem; 
+      font-weight: 600; 
+      color: var(--ion-text-color); 
+      line-height: 1.3;
+    }
+    
+    .type-chip {
+      height: 20px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      margin: 0;
+    }
+  }
+
+  .meta-row {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--ion-color-medium);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .ref-code { 
+      font-family: monospace; 
+      font-weight: 600; 
+      color: var(--ion-color-dark); 
+      background: var(--ion-color-light); 
+      padding: 1px 6px; 
+      border-radius: 4px; 
+      font-size: 0.75rem;
+    }
+    .separator { font-size: 0.6rem; opacity: 0.5; }
+  }
+}
+
+/* 3. ACTIONS */
+.item-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-left: 1px solid var(--ion-border-color);
+  background: #fafafa;
+  width: 120px;
+
+  ion-button {
+    margin: 0;
+    --border-radius: 0;
+    height: 100%;
+    flex: 1;
+    font-weight: 600;
+    font-size: 0.75rem;
+    --box-shadow: none;
+    
+    &::part(native) {
+      justify-content: flex-start;
+      padding-left: 16px;
+    }
+
+    &:first-child { border-bottom: 1px solid var(--ion-border-color); }
+  }
+
+  @media (max-width: 576px) {
+    flex-direction: row;
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--ion-border-color);
+    
+    ion-button {
+      border-bottom: none !important;
+      &:first-child { border-right: 1px solid var(--ion-border-color); }
+      &::part(native) { justify-content: center; padding: 0; }
+    }
+  }
+}
+
+/* STATES */
+.loading-container, .empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--ion-color-medium);
+  ion-icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.5; }
+  p { font-size: 0.9rem; margin: 0; }
+}

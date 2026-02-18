@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ],
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "Node16",
+    "moduleResolution": "node16", // modern, works with Nx + Webpack/Esbuild
+    "experimentalDecorators": true,
+    "paths": {
+      "@quickprolaw/shared-interfaces": [
+        "./libs/shared-interfaces/src/index.ts"
+      ]
+    },
+    "esModuleInterop": true
+  }
+}

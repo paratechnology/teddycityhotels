@@ -1,0 +1,232 @@
+<ion-header class="premium-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/clients" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="header-title-stack">
+        <span>Client Profile</span>
+        <span>Relationship Management</span>
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="presentEditClientModal()">
+        <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+      </ion-button>
+      <ion-button id="client-detail-menu">
+        <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+      </ion-button>
+      <ion-popover trigger="client-detail-menu" triggerAction="click">
+        <ng-template>
+          <ion-list>
+            <ion-item button detail="false" (click)="presentDeleteConfirm()" lines="none" color="danger">
+              <ion-icon name="trash-outline" slot="start"></ion-icon>
+              Delete Client
+            </ion-item>
+          </ion-list>
+        </ng-template>
+      </ion-popover>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="page-background">
+  @if (clientsService.loadingSelected()) {
+    <div class="centered-container">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  } 
+  
+  @if (clientsService.selectedClient(); as client) {
+    <div class="client-dashboard">
+      
+      <div class="client-hero">
+        <div class="hero-content">
+          <div class="avatar-section">
+            <div class="avatar-circle">
+              {{ client.fullname.charAt(0) }}
+            </div>
+            @if (client.clientType === 'Corporate') {
+              <div class="type-badge corporate">
+                <ion-icon name="business"></ion-icon> Corp
+              </div>
+            } @else {
+              <div class="type-badge individual">
+                <ion-icon name="person"></ion-icon> Indiv
+              </div>
+            }
+          </div>
+          
+          <div class="info-section">
+            <h1>{{ client.fullname }}</h1>
+            <div class="meta-row">
+              <span class="id-pill">ID: {{ client.id.substring(0,6).toUpperCase() }}</span>
+              <span class="status-pill {{ (client.status || 'Active').toLowerCase() }}">
+                {{ client.status || 'Active' }}
+              </span>
+              @if (client.kycStatus) {
+                <span class="kyc-pill {{ client.kycStatus.toLowerCase() }}">
+                  KYC: {{ client.kycStatus }}
+                </span>
+              }
+            </div>
+            
+            <div class="contact-actions">
+              <ion-button size="small" fill="solid" color="light" (click)="contactClient('call', client.phoneNumber)">
+                <ion-icon name="call" slot="start"></ion-icon> Call
+              </ion-button>
+              <ion-button size="small" fill="solid" color="light" (click)="contactClient('mail', client.email)">
+                <ion-icon name="mail" slot="start"></ion-icon> Email
+              </ion-button>
+              @if (client.phoneNumber) {
+                <ion-button size="small" fill="solid" color="success" (click)="contactClient('whatsapp', client.phoneNumber)">
+                  <ion-icon name="logo-whatsapp" slot="start"></ion-icon> Chat
+                </ion-button>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+ <div class="stats-row">
+  <div class="stat-card" (click)="activeSegment.set('matters')">
+    <div class="icon-box blue"><ion-icon name="briefcase"></ion-icon></div>
+    <div class="stat-info">
+      <span class="label">Matters</span>
+      <span class="value">{{ mattersService.matters().length }}</span>
+    </div>
+  </div>
+
+  <div class="stat-card" (click)="activeSegment.set('financials')">
+    <div class="icon-box orange"><ion-icon name="receipt"></ion-icon></div>
+    <div class="stat-info">
+      <span class="label">Outstanding</span>
+      <span class="value">
+        {{ (clientsService.selectedClientStats()?.outstanding || 0) | currency:'NGN':'symbol-narrow':'1.0-0' }}
+      </span>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="icon-box green"><ion-icon name="wallet"></ion-icon></div>
+    <div class="stat-info">
+      <span class="label">Trust Balance</span>
+      <span class="value">
+        {{ (clientsService.selectedClientStats()?.trustBalance || 0) | currency:'NGN':'symbol-narrow':'1.0-0' }}
+      </span>
+    </div>
+  </div>
+</div>
+      <div class="dashboard-tabs">
+        <ion-segment [value]="activeSegment()" (ionChange)="segmentChanged($event)" mode="md" class="professional-segment">
+          <ion-segment-button value="details">
+            <ion-label>Profile Details</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="matters">
+            <ion-label>Case Files</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="financials">
+            <ion-label>Financials</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </div>
+
+      <div class="tab-content">
+        @switch (activeSegment()) {
+          
+          @case ('details') {
+            <div class="details-grid">
+              <div class="detail-card">
+                <h3>Contact Information</h3>
+                <ion-list lines="none">
+                  <ion-item>
+                    <ion-icon name="mail-outline" slot="start"></ion-icon>
+                    <ion-label>
+                      <p>Email Address</p>
+                      <h2>{{ client.email }}</h2>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-icon name="call-outline" slot="start"></ion-icon>
+                    <ion-label>
+                      <p>Phone Number</p>
+                      <h2>{{ client.phoneNumber }}</h2>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-icon name="location-outline" slot="start"></ion-icon>
+                    <ion-label class="ion-text-wrap">
+                      <p>Physical Address</p>
+                      <h2>{{ client.address }}</h2>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+
+              @if (client.clientType === 'Corporate') {
+                <div class="detail-card">
+                  <h3>Corporate Details</h3>
+                  <ion-list lines="none">
+                    <ion-item>
+                      <ion-icon name="business-outline" slot="start"></ion-icon>
+                      <ion-label>
+                        <p>Company Name</p>
+                        <h2>{{ client.fullname }}</h2>
+                      </ion-label>
+                    </ion-item>
+                    <ion-item>
+                      <ion-icon name="document-text-outline" slot="start"></ion-icon>
+                      <ion-label>
+                        <p>RC Number</p>
+                        <h2>{{ client.rcNumber || 'Not Provided' }}</h2>
+                      </ion-label>
+                    </ion-item>
+                    <ion-item>
+                      <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+                      <ion-label>
+                        <p>Primary Contact</p>
+                        <h2>{{ client.primaryContactPerson || 'Not Assigned' }}</h2>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+              }
+            </div>
+          }
+
+          @case ('matters') {
+            <div class="matters-list">
+              @if (mattersService.loading()) {
+                <ion-spinner name="crescent"></ion-spinner>
+              } @else {
+                @for (matter of mattersService.matters(); track matter.id) {
+                  <ion-card button [routerLink]="['/app/matters', matter.id]" class="matter-card">
+                    <ion-card-content>
+                      <div class="matter-header">
+                        <span class="matter-ref">{{ matter.fileNo || 'NO REF' }}</span>
+                        <span class="matter-status {{ (matter.status || 'open').toLowerCase() }}">{{ matter.status }}</span>
+                      </div>
+                      <h2>{{ matter.title }}</h2>
+                      <p class="matter-desc">{{ matter.description }}</p>
+                    </ion-card-content>
+                  </ion-card>
+                } @empty {
+                  <div class="empty-tab">
+                    <ion-icon name="folder-open-outline"></ion-icon>
+                    <p>No active matters found.</p>
+                    <ion-button fill="outline" size="small">Open New Matter</ion-button>
+                  </div>
+                }
+              }
+            </div>
+          }
+
+          @case ('financials') {
+            <app-client-financials [clientId]="client.id"></app-client-financials>
+          }
+        }
+      </div>
+
+    </div>
+  }
+</ion-content>

@@ -1,0 +1,168 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/app/matters/' + matterId + '/documents'"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Document Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div *ngIf="isLoading()" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <ng-container *ngIf="!isLoading() && detail() as details">
+    <div class="page-container ion-padding">
+      <!-- Document Info Card -->
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{ details.document.description }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list lines="none">
+            <ion-item>
+              <ion-icon name="document-text-outline" slot="start" color="medium"></ion-icon>
+              <ion-label>
+                <h3>Filename</h3>
+                <p>{{ details.document.filename }}</p>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="folder-outline" slot="start" color="medium"></ion-icon>
+              <ion-label>
+                <h3>Folder</h3>
+                <p>{{ details.document.folder }}</p>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="person-outline" slot="start" color="medium"></ion-icon>
+              <ion-label>
+                <h3>Created By</h3>
+                <p>{{ details.document.createdBy.fullname }} on {{ details.document.createdAt | date:'medium' }}</p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+
+            <!-- Actions Card -->
+      <ion-card>
+        <ion-list-header>Actions</ion-list-header>
+        <ion-list [inset]="true">
+          <ion-item button (click)="handleViewDocument()" *ngIf="details.document.status === 'draft'">
+            <ion-icon name="create-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>Edit Document</ion-label>
+          </ion-item>
+          <ion-item button (click)="handleViewDocument()" *ngIf="details.document.status === 'published'">
+            <ion-icon name="eye-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>View Document</ion-label>
+          </ion-item>
+          <ion-item button (click)="handleEmailDocument()">
+            <ion-icon name="mail-outline" slot="start" color="tertiary"></ion-icon>
+            <ion-label>Email Document</ion-label>
+          </ion-item>
+          <ion-item button (click)="handlePublish()" *ngIf="details.document.status === 'draft'">
+            <ion-icon name="lock-closed-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>Finalize & Publish</ion-label>
+          </ion-item>
+          <ion-item button (click)="handleUnpublish()" *ngIf="details.document.status === 'published' && details.document.sourceItemId">
+            <ion-icon name="lock-open-outline" slot="start" color="warning"></ion-icon>
+            <ion-label>Unpublish (Revert to Draft)</ion-label>
+          </ion-item>
+          <ion-item button (click)="downloadCertificate()" *ngIf="details.document.status === 'published'">
+            <ion-icon name="ribbon-outline" slot="start" color="success"></ion-icon>
+            <ion-label>Download Certificate</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card>
+
+      
+      <!-- Signatories Card -->
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Signatories</ion-card-title>
+        </ion-card-header>
+        <ion-list [inset]="true">
+          <ion-item *ngFor="let signer of details.document.signers; let i = index">
+            <ion-icon [name]="signer.status === 'signed' ? 'checkmark-circle' : 'time-outline'" slot="start" 
+              [color]="signer.status === 'signed' ? 'success' : 'warning'"></ion-icon>
+            <ion-label>
+              <h3>{{ signer.name }}</h3>
+              <p>{{ signer.email }}</p>
+            </ion-label>
+            <div slot="end" class="signer-actions">
+              <ion-note [color]="signer.status === 'signed' ? 'success' : 'warning'">
+                {{ signer.status | titlecase }}
+              </ion-note>
+              <ion-button *ngIf="signer.status === 'pending'" fill="clear" size="small" (click)="triggerSignerInvite(signer)">
+                <ion-icon slot="icon-only" name="send-outline"></ion-icon>
+              </ion-button>
+              <ion-button *ngIf="signer.status !== 'signed'" fill="clear" color="danger" size="small" (click)="removeSigner(i)">
+                <ion-icon slot="icon-only" name="close-circle"></ion-icon>
+              </ion-button>
+            </div>
+          </ion-item>
+          <ion-item button (click)="handleSignDocument()" *ngIf="details.document.status === 'published'" [disabled]="hasSigned()">
+            <ion-icon name="create-outline" slot="start" color="secondary"></ion-icon>
+            <ion-label>{{ hasSigned() ? 'Signed' : 'Sign Document' }}</ion-label>
+          </ion-item>
+          <ion-item button (click)="presentAddSignatoryOptions()" *ngIf="details.document.status === 'published'">
+            <ion-icon name="person-add-outline" slot="start" color="tertiary"></ion-icon>
+            <ion-label>Add Signatory</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card>
+
+      <!-- Version History Card -->
+      <ion-card *ngIf="details.document.versions && details.document.versions.length > 0">
+        <ion-accordion-group>
+          <ion-accordion value="versions">
+            <ion-item slot="header" color="light">
+              <ion-label>Version History</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <ion-list lines="none">
+                <ion-item *ngFor="let version of details.document.versions">
+                  <ion-icon [name]="getFileIcon(version.filename)" slot="start" color="medium"></ion-icon>
+                  <ion-label>
+                    <h3>{{ version.filename }}</h3>
+                    <p>Archived: {{ version.createdAt | date:'medium' }}</p>
+                    <p *ngIf="version.createdBy"><ion-text color="medium"><small>{{ version.createdBy }}</small></ion-text></p>
+                  </ion-label>
+                  <div slot="end">
+                    <ion-button fill="clear" (click)="viewVersion(version)"><ion-icon slot="icon-only" name="eye-outline"></ion-icon></ion-button>
+                    <ion-button fill="clear" color="warning" (click)="revertVersion(version)"><ion-icon slot="icon-only" name="refresh-outline"></ion-icon></ion-button>
+                  </div>
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-accordion>
+        </ion-accordion-group>
+      </ion-card>
+
+      <!-- Audit Trail Card -->
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Audit Trail</ion-card-title>
+        </ion-card-header>
+        <ion-list [inset]="true" lines="full">
+          <ion-item *ngFor="let log of (showAllLogs() ? details.accessLogs : details.accessLogs.slice(0, 5))">
+            <ion-label>
+              <p><strong>{{ log.userFullname }}</strong> {{ log.action }} the document.</p>
+              <ion-note>{{ log.timestamp | date:'medium' }}</ion-note>
+            </ion-label>
+          </ion-item>
+          <ion-item *ngIf="details.accessLogs.length === 0">
+            <ion-label><ion-note>No access history yet.</ion-note></ion-label>
+          </ion-item>
+        </ion-list>
+        <div class="ion-text-center ion-padding-bottom" *ngIf="details.accessLogs.length > 5">
+          <ion-button fill="clear" size="small" (click)="toggleLogs()">
+            {{ showAllLogs() ? 'Show Less' : 'View All' }}
+          </ion-button>
+        </div>
+      </ion-card>
+    </div>
+  </ng-container>
+</ion-content>

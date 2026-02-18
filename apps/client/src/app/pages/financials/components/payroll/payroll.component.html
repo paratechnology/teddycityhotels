@@ -1,0 +1,106 @@
+<div class="payroll-wrapper">
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      
+      <ion-col size="12" size-lg="6" class="col-hero">
+        <div class="hero-card">
+          <div class="hero-content">
+            <div class="hero-icon">
+              <ion-icon name="wallet-outline"></ion-icon>
+            </div>
+            <div class="hero-text">
+              <h3>Current Payroll</h3>
+              <div class="period-badge">{{ currentMonth }}</div>
+              <p>Prepare, review, and finalize the payroll for the current period.</p>
+            </div>
+          </div>
+          <div class="hero-actions">
+            <ion-button (click)="confirmPreviewPayroll()" expand="block" color="primary">
+              <ion-icon name="document-text-outline" slot="start"></ion-icon>
+              Open {{ currentMonth }} Draft
+            </ion-button>
+          </div>
+        </div>
+      </ion-col>
+
+      <ion-col size="12" size-lg="6">
+        <ion-grid class="ion-no-padding h-100">
+          <ion-row class="h-100">
+            
+            <ion-col size="6" class="col-config">
+              <div class="config-tile" routerLink="/app/financials/designation-salaries">
+                <ion-icon name="briefcase-outline" class="tile-icon"></ion-icon>
+                <span class="tile-label">Designation Salaries</span>
+                <span class="tile-sub">Manage base rates</span>
+              </div>
+            </ion-col>
+
+            <ion-col size="6" class="col-config">
+              <div class="config-tile" routerLink="/app/financials/user-salaries">
+                <ion-icon name="people-outline" class="tile-icon"></ion-icon>
+                <span class="tile-label">User Overrides</span>
+                <span class="tile-sub">Adjust individual pay</span>
+              </div>
+            </ion-col>
+
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+  <div class="section-header">
+    <h3>Payroll History</h3>
+    <p>Archive of finalized and draft periods</p>
+  </div>
+
+  @if (historyLoading()) {
+    <div class="centered-container">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  } 
+  @else if (payrollHistory().length === 0) {
+    <div class="empty-state">
+      <ion-icon name="file-tray-outline"></ion-icon>
+      <p>No payroll history found.</p>
+    </div>
+  } 
+  @else {
+    <div class="history-list">
+      <div class="history-header ion-hide-md-down">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">Period</ion-col>
+            <ion-col size="4">Status</ion-col>
+            <ion-col size="2" class="ion-text-end">Action</ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+      @for (period of payrollHistory(); track period.payPeriod) {
+        <div class="history-row" (click)="openOrCreateDraft(period.payPeriod)">
+          <ion-grid>
+            <ion-row class="ion-align-items-center">
+              <ion-col size="8" size-md="6" class="col-period">
+                <ion-icon name="calendar-outline" class="row-icon"></ion-icon>
+                <span class="period-text">{{ formatPayPeriod(period.payPeriod) }}</span>
+              </ion-col>
+              
+              <ion-col size="4" size-md="4" class="col-status">
+                <div class="status-badge" [class]="period.status">
+                  {{ period.status | titlecase }}
+                </div>
+              </ion-col>
+              
+              <ion-col size="12" size-md="2" class="col-action ion-text-end ion-hide-md-down">
+                <ion-icon name="chevron-forward" color="medium"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      }
+    </div>
+  }
+
+</div>

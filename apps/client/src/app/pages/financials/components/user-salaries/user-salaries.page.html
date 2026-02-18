@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/financials"></ion-back-button>
+    </ion-buttons>
+    <ion-title>User Salaries</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-padding">
+    <div *ngIf="isLoading()" class="centered-container">
+      <ion-spinner></ion-spinner>
+    </div>
+
+    <ion-card *ngIf="!isLoading() && form">
+      <ion-card-header>
+        <ion-card-title>Manage Individual Salaries</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Set a specific monthly gross salary for an individual user. This will override the default salary set for their designation.</p>
+        <form [formGroup]="form" (ngSubmit)="save()">
+          <ion-list [inset]="true" formArrayName="users">
+            <div *ngFor="let user of userControls.controls; let i = index" [formGroupName]="i">
+              <ion-item-divider>
+                <ion-label>{{ user.value.fullname }} ({{ user.value.designation }})</ion-label>
+              </ion-item-divider>
+              <ion-item>
+                <ion-input label="Override Gross Salary" labelPlacement="floating" type="number" placeholder="Leave blank to use default" formControlName="overrideSalary"></ion-input>
+                <ion-note slot="helper">
+                  Default: {{(getDefaultSalary(user.value.designation) || 0).toLocaleString() }}
+                </ion-note>
+              </ion-item>
+            </div>
+          </ion-list>
+          <ion-button expand="block" type="submit" [disabled]="form.invalid || isSubmitting()">
+            <ion-spinner *ngIf="isSubmitting()" name="crescent"></ion-spinner>
+            <span *ngIf="!isSubmitting()">Save All Changes</span>
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

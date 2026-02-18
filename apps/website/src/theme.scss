@@ -1,0 +1,183 @@
+@use '@angular/material' as mat;
+
+// Define custom typography with Montserrat (premium adjustments)
+$custom-typography: mat.m2-define-typography-config(
+  $font-family: '"Montserrat", sans-serif',
+  $headline-1: mat.m2-define-typography-level(48px, 56px, 800, $letter-spacing: 1.5px),
+  $headline-2: mat.m2-define-typography-level(36px, 44px, 800, $letter-spacing: 1.2px),
+  $headline-3: mat.m2-define-typography-level(28px, 36px, 700, $letter-spacing: 1px),
+  $headline-4: mat.m2-define-typography-level(24px, 32px, 700, $letter-spacing: 0.8px),
+  $headline-5: mat.m2-define-typography-level(20px, 28px, 700, $letter-spacing: 0.5px),
+  $headline-6: mat.m2-define-typography-level(18px, 24px, 700, $letter-spacing: 0.5px),
+  $subtitle-1: mat.m2-define-typography-level(16px, 24px, 500, $letter-spacing: 0.3px),
+  $subtitle-2: mat.m2-define-typography-level(14px, 20px, 500, $letter-spacing: 0.2px),
+  $body-1: mat.m2-define-typography-level(16px, 24px, 400, $letter-spacing: 0.2px),
+  $body-2: mat.m2-define-typography-level(14px, 20px, 400, $letter-spacing: 0.1px),
+  $caption: mat.m2-define-typography-level(12px, 16px, 400, $letter-spacing: 0.1px),
+  $button: mat.m2-define-typography-level(14px, 20px, 600, $letter-spacing: 0.5px),
+  $overline: mat.m2-define-typography-level(12px, 16px, 700, $letter-spacing: 1px)
+);
+
+// Premium Color Palettes (aligned with CaseDashboardComponent)
+$primary-palette: mat.m2-define-palette((
+  50: #e8eaf6,
+  100: #c5cae9,
+  200: #9fa8da,
+  300: #7986cb,
+  400: #5c6bc0,
+  500: #1a237e, // Deep Indigo
+  600: #15307a,
+  700: #102670,
+  800: #0d1d66,
+  900: #081458,
+  A100: #3f51b5,
+  A200: #3f51b5,
+  A400: #3f51b5,
+  A700: #3f51b5,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #ffffff,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  )
+));
+
+$accent-palette: mat.m2-define-palette((
+  50: #fff8e1,
+  100: #ffecb3,
+  200: #ffe082,
+  300: #ffd54f,
+  400: #ffca28,
+  500: #d4af37, // Gold Accent
+  600: #c9a032,
+  700: #bd902d,
+  800: #b28028,
+  900: #9e671f,
+  A100: #ffca28,
+  A200: #ffca28,
+  A400: #ffca28,
+  A700: #ffca28,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #1a237e, // Deep Indigo contrast for readability
+    600: #1a237e,
+    700: #1a237e,
+    800: #1a237e,
+    900: #1a237e,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  )
+));
+
+$warn-palette: mat.m2-define-palette((
+  50: #fef2f2,
+  100: #fee2e2,
+  200: #fecaca,
+  300: #fca5a5,
+  400: #f87171,
+  500: #d32f2f, // Deep Red (aligned with calendar-month-bg)
+  600: #b71c1c,
+  700: #991b1b,
+  800: #7f0000,
+  900: #670d0d,
+  A100: #ef5350,
+  A200: #ef5350,
+  A400: #ef5350,
+  A700: #ef5350,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #ffffff,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  )
+));
+
+$light-palette: mat.m2-define-palette((
+  50: #ffffff,
+  100: #f9f9f9,
+  200: #f0f0f0,
+  300: #e0e0e0,
+  400: #d0d0d0,
+  500: #cccccc,
+  600: #bbbbbb,
+  700: #aaaaaa,
+  800: #999999,
+  900: #888888,
+  A100: #eeeeee,
+  A200: #dddddd,
+  A400: #cccccc,
+  A700: #bbbbbb,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #000000,
+    900: #000000,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  )
+));
+
+// Define the theme with custom typography
+$theme: mat.m2-define-light-theme((
+  color: (
+    primary: $primary-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+    light: $light-palette
+  ),
+  typography: $custom-typography,
+  density: 0
+));
+
+// --- CORRECTED SECTION ---
+// Apply the core theme styles (required)
+@include mat.core-theme($theme);
+
+// Apply themes for each component used in your application.
+// Note: The "m2-" prefix is REMOVED from these mixin names.
+@include mat.button-theme($theme);
+@include mat.card-theme($theme);
+@include mat.expansion-theme($theme);
+@include mat.form-field-theme($theme);
+@include mat.icon-theme($theme);
+@include mat.list-theme($theme);
+@include mat.progress-spinner-theme($theme);
+@include mat.select-theme($theme);
+@include mat.sidenav-theme($theme);
+@include mat.snack-bar-theme($theme);
+@include mat.toolbar-theme($theme);
+

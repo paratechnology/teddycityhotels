@@ -1,0 +1,16 @@
+<ion-content class="popover-content">
+  <div class="popover-header">Attendees</div>
+  
+  <ion-list lines="none" class="dense-list">
+    <ion-item *ngFor="let attendee of attendees" class="attendee-item">
+      <div class="avatar-box" slot="start">
+        {{ getInitials(attendee.fullname) }}
+      </div>
+      <ion-label>{{ attendee.fullname }}</ion-label>
+    </ion-item>
+  </ion-list>
+  
+  <div *ngIf="attendees.length === 0" class="empty-state">
+    <p>No attendees assigned.</p>
+  </div>
+</ion-content>

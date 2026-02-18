@@ -1,0 +1,77 @@
+<div class="receivables-wrapper">
+
+  @if (financialsService.invoicesStatus() === 'loading' && financialsService.invoices().length === 0) {
+    <div class="centered-container">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  } 
+  @else if (financialsService.invoicesStatus() === 'error') {
+    <div class="centered-container ion-padding ion-text-center">
+      <ion-label color="danger">Failed to load invoices.</ion-label>
+      <ion-button (click)="loadInvoices()" fill="outline" class="ion-margin-top">Retry</ion-button>
+    </div>
+  } 
+  @else {
+    <div class="data-header ion-hide-md-down">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="2">Invoice #</ion-col>
+          <ion-col size="4">Client</ion-col>
+          <ion-col size="2">Due Date</ion-col>
+          <ion-col size="2">Status</ion-col>
+          <ion-col size="2" class="ion-text-end">Amount</ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div class="data-list">
+      @for (invoice of financialsService.invoices(); track invoice.id) {
+        <div class="invoice-row" (click)="viewInvoice(invoice)">
+          <ion-grid>
+            <ion-row class="ion-align-items-center">
+              
+              <ion-col size="12" size-md="2" class="col-id">
+                <span class="mobile-label ion-hide-md-up">Inv #:</span>
+                <span class="id-badge">{{ invoice.invoiceNumber }}</span>
+              </ion-col>
+
+              <ion-col size="12" size-md="4" class="col-client">
+                <span class="client-name">{{ invoice.client?.fullname || 'Unknown Client' }}</span>
+                <span class="matter-name ion-hide-md-up">{{ invoice?.matter?.title }}</span>
+              </ion-col>
+
+              <ion-col size="6" size-md="2" class="col-date">
+                <span class="mobile-label ion-hide-md-up">Due:</span>
+                {{ invoice.dueDate | date:'mediumDate' }}
+              </ion-col>
+
+              <ion-col size="6" size-md="2" class="col-status">
+                <div class="status-indicator {{invoice.status.toLowerCase()}}">
+                  <div class="dot"></div>
+                  {{ invoice.status }}
+                </div>
+              </ion-col>
+
+              <ion-col size="12" size-md="2" class="col-amount ion-text-end">
+                <div class="amount-wrapper">
+                  <span class="currency">₦</span>
+                  <span class="val">{{ invoice.totalAmount.toLocaleString() }}</span>
+                </div>
+              </ion-col>
+
+            </ion-row>
+          </ion-grid>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <ion-icon name="folder-open-outline"></ion-icon>
+          <p>No invoices found.</p>
+        </div>
+      }
+    </div>
+
+    <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more invoices..."></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  }
+</div>

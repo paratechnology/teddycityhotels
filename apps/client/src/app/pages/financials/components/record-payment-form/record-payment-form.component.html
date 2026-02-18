@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Record Payment</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="save()" [strong]="true" [disabled]="isSubmitting || form.invalid">
+        <ion-spinner *ngIf="isSubmitting" name="crescent"></ion-spinner>
+        <span *ngIf="!isSubmitting">Save</span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- The [formGroup] directive is crucial -->
+  <form [formGroup]="form">
+    <ion-list [inset]="true">
+      <ion-item>
+        <ion-input label="Amount (₦)" labelPlacement="stacked" formControlName="amount" type="number"
+          required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-select label="Payment Method" labelPlacement="stacked" formControlName="method" required>
+          @for (method of paymentMethods; track method) {
+          <ion-select-option [value]="method">{{ method }}</ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Payment Date</ion-label>
+        <ion-datetime-button datetime="payment-date"></ion-datetime-button>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-checkbox formControlName="sendReceipt" labelPlacement="end" justify="start">Send receipt to client</ion-checkbox>
+      </ion-item>
+    </ion-list>
+
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime id="payment-date" formControlName="date" presentation="date"></ion-datetime>
+      </ng-template>
+    </ion-modal>
+  </form>
+</ion-content>

@@ -1,0 +1,299 @@
+/* sidebar.component.scss */
+
+// --- HOST & CONTAINER ---
+:host {
+  display: flex;
+  height: 100%;
+  
+  background: var(--ion-color-dark, #0f172a); 
+  color: #94a3b8; 
+
+  /* FIX: Added transform to transition for smooth mobile slide */
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  flex-shrink: 0;
+  width: 270px; 
+
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.2); 
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at top left, rgba(255,255,255,0.03), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+  z-index: 1;
+
+  scrollbar-width: none; 
+  &::-webkit-scrollbar { display: none; }
+}
+
+// --- 1. BRAND LOGO SECTION ---
+.logo-section {
+  display: flex;
+  align-items: center;
+  padding: 24px 20px;
+  gap: 12px;
+  margin-bottom: 8px;
+
+  .logo-icon-wrapper {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
+    
+    .brand-logo {
+      width: 20px;
+      height: auto;
+    }
+  }
+
+  .logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  }
+}
+
+// --- 2. PROFILE CARD ---
+.profile-wrapper {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.profile-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.2s;
+
+  &:hover { background: rgba(255, 255, 255, 0.06); }
+
+  .profile-avatar {
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .profile-details {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .profile-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #f8fafc;
+      margin-bottom: 2px;
+    }
+
+    .profile-role {
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+
+    .firm-badge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 4px;
+      font-size: 0.7rem;
+      color: var(--ion-color-secondary-tint); 
+      font-weight: 500;
+      ion-icon { font-size: 0.8rem; }
+    }
+  }
+}
+
+.divider {
+  height: 1px;
+  background: rgba(255,255,255,0.05);
+  margin: 0 20px 16px 20px;
+}
+
+// --- 3. NAVIGATION LINKS ---
+.nav-links {
+  background: transparent;
+  padding: 0 24px;
+  flex: 1;
+
+  .section-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #475569;
+    font-weight: 700;
+    margin: 20px 0 8px 12px;
+  }
+
+  ion-item {
+    --background: transparent;
+    --color: #94a3b8;
+    --min-height: 44px;
+    --padding-start: 12px;
+    --inner-padding-end: 12px;
+    border-radius: 8px;
+    margin-bottom: 2px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    ion-icon {
+      font-size: 1.2rem;
+      margin-right: 12px;
+      color: #64748b;
+      transition: color 0.2s;
+    }
+
+    &:hover {
+      --background: rgba(255, 255, 255, 0.04);
+      --color: #f1f5f9;
+      ion-icon { color: #f1f5f9; }
+    }
+
+    &.active-link {
+      --background: rgba(37, 99, 235, 0.15); 
+      --color: #ffffff;
+      font-weight: 600;
+      
+      ion-icon { color: var(--ion-color-secondary-tint); }
+      
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0; top: 8px; bottom: 8px; width: 3px;
+        background: var(--ion-color-secondary);
+        border-radius: 0 4px 4px 0;
+      }
+    }
+  }
+
+  .active-parent { --color: #ffffff; ion-icon { color: #ffffff; } }
+  .chevron { font-size: 1rem !important; margin-right: 0 !important; opacity: 0.5; }
+}
+
+.submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding-left: 12px; 
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 24px; top: 0; bottom: 10px; width: 1px;
+    background: rgba(255,255,255,0.05);
+  }
+
+  &.open { max-height: 500px; }
+  ion-item { font-size: 0.85rem; --min-height: 40px; margin-bottom: 2px; ion-icon { font-size: 1.1rem; } }
+}
+
+.footer-actions {
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(0,0,0,0.1);
+
+  .logout-item {
+    --color: #f87171; 
+    --background: transparent;
+    border-radius: 8px;
+    ion-icon { color: #f87171; margin-right: 12px; }
+    &:hover { --background: rgba(239, 68, 68, 0.1); }
+  }
+}
+
+// =================================================================
+// COLLAPSED STATE (Desktop Rail)
+// =================================================================
+// This applies ONLY when NOT in mobile (handled by TS isMobile check now, 
+// but keeps CSS fallback)
+:host(.collapsed) {
+  width: 80px;
+
+  /* Hide Elements */
+  .logo-text, .profile-details, .firm-badge, ion-label, .chevron, .section-label, .divider {
+    display: none !important;
+  }
+
+  .logo-section {
+    justify-content: center;
+    padding: 24px 0;
+    .logo-icon-wrapper { margin: 0; }
+  }
+
+  .profile-wrapper { padding: 0 10px; }
+  .profile-card {
+    justify-content: center;
+    padding: 10px;
+    .profile-avatar { width: 32px; height: 32px; margin: 0; }
+  }
+
+  .nav-links ion-item {
+    justify-content: center;
+    --padding-start: 0;
+    --inner-padding-end: 0;
+    display: flex;
+    ion-icon { margin: 0 !important; font-size: 1.5rem; }
+    &.active-link::before { display: none; } 
+  }
+
+  .submenu { display: none; } 
+  .footer-actions { display: none; }
+}
+
+// =================================================================
+// MOBILE OVERRIDES (Drawer Logic)
+// =================================================================
+@media (max-width: 768px) {
+  :host {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: 280px; /* Force Open Width */
+    z-index: 2000; /* Ensure above Ionic backdrop */
+    box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+    
+    /* FIX: When the class '.collapsed' is REMOVED, we are OPEN. 
+       So we ensure transform is 0 here. */
+    transform: translateX(0);
+  }
+
+  /* When the class '.collapsed' IS present, we hide it */
+  :host(.collapsed) {
+    width: 280px; /* Keep width, just slide it out */
+    transform: translateX(-100%);
+    box-shadow: none;
+  }
+}

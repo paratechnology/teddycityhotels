@@ -1,0 +1,72 @@
+<div class="dashboard-wrapper">
+
+  @if (financialsService.dashboardStatus() === 'loading') {
+    <div class="centered-container"><ion-spinner name="crescent"></ion-spinner></div>
+  } 
+  @else if (financialsService.dashboardStatus() === 'error') {
+    <div class="centered-container ion-padding ion-text-center">
+      <ion-label color="danger">Unable to load financial data.</ion-label>
+    </div>
+  } 
+  @else if (financialsService.dashboardStats()) {
+    <div class="dashboard-grid">
+      
+      <div class="kpi-row">
+        
+        <div class="kpi-card primary" (click)="navigateTo('accounts-receivable')">
+          <div class="icon-box"><ion-icon name="cash-outline"></ion-icon></div>
+          <div class="kpi-content">
+            <div class="label">Total Receivables</div>
+            <div class="value">{{ financialsService.dashboardStats()!.totalReceivables | currency:'NGN':'symbol-narrow':'1.0-0' }}</div>
+            <div class="sub-value">
+              <span class="highlight">{{ financialsService.dashboardStats()!.revenueReceived | currency:'NGN':'symbol-narrow':'1.0-0' }}</span> collected
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-card danger" (click)="navigateTo('accounts-receivable')">
+          <div class="icon-box"><ion-icon name="alert-circle-outline"></ion-icon></div>
+          <div class="kpi-content">
+            <div class="label">Overdue Invoices</div>
+            <div class="value">{{ financialsService.dashboardStats()!.totalOverdue | currency:'NGN':'symbol-narrow':'1.0-0' }}</div>
+            <div class="sub-value">Requires action</div>
+          </div>
+        </div>
+
+        <div class="kpi-card warning" (click)="navigateTo('operational-expenses')">
+          <div class="icon-box"><ion-icon name="receipt-outline"></ion-icon></div>
+          <div class="kpi-content">
+            <div class="label">Pending Expenses</div>
+            <div class="value">{{ financialsService.dashboardStats()!.pendingExpensesCount }}</div>
+            <div class="sub-value">
+              Est. {{ financialsService.dashboardStats()!.totalExpenses | currency:'NGN':'symbol-narrow':'1.0-0' }}
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="section-title">Recent Activity</div>
+      <div class="feed-card">
+        <ion-list lines="full">
+          @for (item of financialsService.financialActivities(); track item.id) {
+            <ion-item button detail="false" (click)="navigateTo(item.link)" class="feed-item">
+              <div class="feed-icon-col" slot="start">
+                <div class="dot"></div>
+                <div class="line"></div>
+              </div>
+              <ion-label>
+                <div class="meta">{{ item.date | date:'mediumDate' }} • {{ item.date | date:'shortTime' }}</div>
+                <div class="text">{{ item.text }}</div>
+              </ion-label>
+              <ion-icon name="chevron-forward" slot="end" size="small" color="medium"></ion-icon>
+            </ion-item>
+          } @empty { 
+            <div class="empty-feed">No recent financial activity.</div> 
+          }
+        </ion-list>
+      </div>
+
+    </div>
+  }
+</div>

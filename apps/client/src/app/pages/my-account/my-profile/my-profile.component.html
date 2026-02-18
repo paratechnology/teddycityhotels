@@ -1,0 +1,148 @@
+<ion-header class="premium-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="navigationService.toggleSidebar()">
+        <ion-icon name="menu-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    
+    <ion-title>
+      <div class="header-title-stack">
+        <span>My Profile</span>
+        <span>Settings & Preferences</span>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="page-background">
+  <ng-container *ngIf="authService.userProfile() as user; else loading">
+    
+    <div class="profile-hero">
+      <div class="avatar-wrapper">
+        <ion-avatar class="profile-avatar">
+          <img *ngIf="user.picture" [src]="user.picture + '?t=' + profilePictureTimestamp()" alt="Profile" />
+          <div *ngIf="!user.picture" class="initials-fallback">
+            {{ getInitials(user.fullname) }}
+          </div>
+          <div class="upload-overlay" *ngIf="isUploadingProfilePic()">
+            <ion-spinner name="crescent" color="light"></ion-spinner>
+          </div>
+        </ion-avatar>
+        <button class="edit-avatar-btn" (click)="triggerFileUpload()" [disabled]="isUploadingProfilePic()">
+          <ion-icon name="camera-outline"></ion-icon>
+        </button>
+      </div>
+      
+      <div class="identity-text">
+        <h1>{{ user.fullname }}</h1>
+        <ion-chip class="role-chip" outline="true">
+          <ion-icon name="shield-checkmark-outline"></ion-icon>
+          <ion-label class="ion-text-capitalize">{{ user.designation || 'Staff' }}</ion-label>
+        </ion-chip>
+      </div>
+    </div>
+
+    <div class="form-container">
+      <form [formGroup]="profileForm" (ngSubmit)="save()">
+        
+        <div class="section-title">Personal Details</div>
+        <div class="form-grid">
+          <div class="field-group">
+            <label>First Name</label>
+            <ion-input formControlName="firstName" class="custom-input"></ion-input>
+          </div>
+          <div class="field-group">
+            <label>Last Name</label>
+            <ion-input formControlName="lastName" class="custom-input"></ion-input>
+          </div>
+          
+          <div class="field-group full-width">
+            <label>Email Address</label>
+            <ion-input formControlName="email" type="email" readonly class="custom-input readonly"></ion-input>
+          </div>
+          <div class="field-group full-width">
+            <label>Phone Number</label>
+            <ion-input formControlName="phoneNumber" class="custom-input"></ion-input>
+          </div>
+        </div>
+
+        <div class="section-title mt-large">Digital Signature</div>
+        <div class="signature-card">
+          <p class="helper-text">Used for document endorsements and official signing.</p>
+          
+          <ng-container *ngIf="authService.userProfile()?.signatureRefreshToken; else connectAccount">
+            <div class="signature-area">
+              <ion-spinner *ngIf="isUploadingSignature()" name="crescent"></ion-spinner>
+              
+              <ng-container *ngIf="!isUploadingSignature()">
+                <div *ngIf="!authService.userProfile()?.signatureItemId" class="signature-placeholder" (click)="triggerSignatureUpload()">
+                  <div class="icon-circle">
+                    <ion-icon name="create-outline"></ion-icon>
+                  </div>
+                  <span>Add Signature</span>
+                </div>
+
+                <div *ngIf="signatureUrl()" class="signature-preview">
+                  <img [src]="signatureUrl()" alt="Signature" />
+                  <div class="signature-actions">
+                    <ion-button fill="clear" color="danger" size="small" (click)="removeSignature()">
+                      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                    </ion-button>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+            
+            <div class="account-link active">
+              <ion-icon name="logo-microsoft" color="success"></ion-icon>
+              <span>OneDrive Connected</span>
+              <ion-button fill="clear" color="medium" size="small" (click)="removePersonalMicrosoftAccount()">Disconnect</ion-button>
+            </div>
+          </ng-container>
+
+          <ng-template #connectAccount>
+            <ion-button expand="block" fill="outline" class="connect-btn" (click)="connectPersonalAccount()">
+              <ion-icon name="logo-microsoft" slot="start"></ion-icon>
+              Connect Personal Microsoft Account
+            </ion-button>
+          </ng-template>
+        </div>
+
+        <div class="section-title mt-large">Roles & Permissions</div>
+        <div class="permissions-grid">
+          <div class="perm-card" [class.active]="user.roles.canBill">
+            <ion-icon [name]="user.roles.canBill ? 'checkmark-circle' : 'lock-closed'"></ion-icon>
+            <span>Billing</span>
+          </div>
+          <div class="perm-card" [class.active]="user.roles.canSchedule">
+            <ion-icon [name]="user.roles.canSchedule ? 'checkmark-circle' : 'lock-closed'"></ion-icon>
+            <span>Scheduling</span>
+          </div>
+          <div class="perm-card" [class.active]="user.roles.canAssign">
+            <ion-icon [name]="user.roles.canAssign ? 'checkmark-circle' : 'lock-closed'"></ion-icon>
+            <span>Task Assignment</span>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <ion-button expand="block" type="submit" [disabled]="profileForm.invalid || isSubmitting()" color="primary" class="save-btn">
+            <ion-spinner *ngIf="isSubmitting()" name="crescent"></ion-spinner>
+            <span *ngIf="!isSubmitting()">Save Changes</span>
+          </ion-button>
+        </div>
+
+      </form>
+    </div>
+
+    <input type="file" id="profile-pic-upload" (change)="onFileSelected($event)" hidden accept="image/*" />
+    <input type="file" #signatureUploadInput hidden (change)="onSignatureFileSelected($event)" accept="image/*" />
+
+  </ng-container>
+</ion-content>
+
+<ng-template #loading>
+  <div class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+</ng-template>

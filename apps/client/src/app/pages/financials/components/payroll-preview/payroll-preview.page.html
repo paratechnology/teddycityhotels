@@ -1,0 +1,148 @@
+<ion-header class="premium-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/financials" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="header-title-stack">
+        <span>Payroll Preview</span>
+        <span>Review & Finalize</span>
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="saveAdjustments()" [disabled]="isSaving() || isFinalizing()">
+        @if (isSaving()) {
+          <ion-spinner name="crescent"></ion-spinner>
+        } @else {
+          <ion-icon name="save-outline" slot="start"></ion-icon>
+          <span class="ion-hide-sm-down">Save Draft</span>
+        }
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="page-background">
+  @switch (status()) {
+    @case ('loading') {
+      <div class="centered-container">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+    }
+    @case ('error') {
+      <div class="centered-container ion-padding ion-text-center">
+        <ion-label color="danger">Unable to load payroll draft.</ion-label>
+        <ion-button fill="outline" class="ion-margin-top" (click)="ngOnInit()">Retry</ion-button>
+      </div>
+    }
+    @case ('success') {
+      @if (draft(); as d) {
+        <div class="preview-container ion-padding" [formGroup]="payrollForm">
+          
+          <div class="summary-hero">
+            <div class="hero-left">
+              <div class="period-label">PAYROLL PERIOD</div>
+              <div class="period-value">
+                <ion-icon name="calendar-outline"></ion-icon>
+                {{ d.payPeriod | date:'MMMM yyyy' | uppercase }}
+              </div>
+              <div class="status-badge warning">DRAFT MODE</div>
+            </div>
+            <div class="hero-right">
+              <div class="total-label">TOTAL NET PAYROLL</div>
+              <div class="total-value">
+                ₦{{ totalNetPayroll().toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
+              </div>
+              <div class="total-sub">
+                {{ payrollItems.length }} Employees Included
+              </div>
+            </div>
+          </div>
+
+          <div class="list-title">Employee Breakdown</div>
+          
+          <ion-accordion-group formArrayName="items" class="employee-accordions">
+            @for (item of payrollItems.controls; track i; let i = $index) {
+              <ion-accordion [formGroupName]="i" class="employee-card">
+                
+                <ion-item slot="header" lines="none" class="accordion-header">
+                  <div class="header-content">
+                    <div class="info-col">
+                      <h3>{{ item.value.fullname }}</h3>
+                      <p>{{ item.value.designation }}</p>
+                    </div>
+                    <div class="amount-col">
+                      <span class="net-label">Net Pay</span>
+                      <span class="net-val">₦{{ calculateNetSalary(item.value).toLocaleString() }}</span>
+                    </div>
+                  </div>
+                </ion-item>
+
+                <div class="accordion-body" slot="content">
+                  
+                  <div class="static-data">
+                    <div class="data-row">
+                      <span>Gross Salary</span>
+                      <span class="val">₦{{ item.value.grossSalary.toLocaleString() }}</span>
+                    </div>
+                    
+                    <div class="divider">Standard Deductions</div>
+                    @for (deduction of item.value.deductions; track j; let j = $index) {
+                      <div class="data-row deduction">
+                        <span>{{ deduction.description }}</span>
+                        <span class="val">- ₦{{ deduction.amount.toLocaleString() }}</span>
+                      </div>
+                    }
+                  </div>
+
+                  <div class="adjustments-section" [formArrayName]="'adjustments'">
+                    <div class="adj-header">
+                      <span>Adjustments (Bonuses / Fines)</span>
+                      <ion-button fill="clear" size="small" (click)="addAdjustment(i)">
+                        <ion-icon name="add-circle-outline" slot="start"></ion-icon> Add
+                      </ion-button>
+                    </div>
+
+                    @if (getAdjustments(i).controls.length === 0) {
+                      <div class="no-adj">No adjustments added.</div>
+                    }
+
+                    @for (adj of getAdjustments(i).controls; track k; let k = $index) {
+                      <div class="adj-row" [formGroupName]="k">
+                        <ion-item class="input-item desc-input">
+                          <ion-input placeholder="Description (e.g. Performance Bonus)" formControlName="description"></ion-input>
+                        </ion-item>
+                        <ion-item class="input-item amount-input">
+                          <ion-input placeholder="Amount (+/-)" type="number" formControlName="amount"></ion-input>
+                        </ion-item>
+                        <ion-button fill="clear" color="danger" (click)="removeAdjustment(i, k)">
+                          <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
+                        </ion-button>
+                      </div>
+                    }
+                  </div>
+
+                </div>
+              </ion-accordion>
+            }
+          </ion-accordion-group>
+
+          <div class="action-footer">
+            <ion-button expand="block" size="large" class="finalize-btn" (click)="confirmFinalize()" [disabled]="isFinalizing() || isSaving()">
+              @if (isFinalizing()) {
+                <ion-spinner name="crescent"></ion-spinner>
+              } @else {
+                <ion-icon name="checkmark-done-circle-outline" slot="start"></ion-icon>
+                Finalize & Run Payroll
+              }
+            </ion-button>
+            <p class="disclaimer">
+              Finalizing will generate payslips for all users and close this period. This action cannot be undone.
+            </p>
+          </div>
+
+        </div>
+      }
+    }
+  }
+</ion-content>

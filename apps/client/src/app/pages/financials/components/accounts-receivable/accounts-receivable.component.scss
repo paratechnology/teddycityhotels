@@ -1,0 +1,108 @@
+// Uses variables.css
+
+.receivables-wrapper {
+  padding-bottom: 80px; /* Space for FAB in parent */
+}
+
+/* --- DATA TABLE HEADER --- */
+.data-header {
+  padding: 0 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--ion-border-color);
+  
+  ion-col {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--ion-color-medium);
+    letter-spacing: 0.5px;
+    padding-bottom: 12px;
+  }
+}
+
+/* --- INVOICE ROWS --- */
+.invoice-row {
+  background: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  
+  &:hover {
+    background: var(--ion-color-light-tint);
+    border-color: var(--ion-color-light-shade);
+  }
+
+  ion-grid { padding: 8px; }
+  
+  .mobile-label {
+    font-size: 0.75rem;
+    color: var(--ion-color-medium);
+    margin-right: 8px;
+  }
+}
+
+/* --- COLUMNS --- */
+.col-id {
+  .id-badge {
+    font-family: monospace;
+    font-weight: 600;
+    background: var(--ion-color-light);
+    color: var(--ion-color-dark);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+  }
+}
+
+.col-client {
+  display: flex; flex-direction: column; justify-content: center;
+  .client-name { font-weight: 600; color: var(--ion-color-dark); font-size: 0.95rem; }
+  .matter-name { font-size: 0.8rem; color: var(--ion-color-medium); margin-top: 2px; }
+}
+
+.col-date {
+  font-size: 0.9rem;
+  color: var(--ion-color-medium-shade);
+}
+
+.col-status {
+  .status-indicator {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.8rem; font-weight: 600;
+    padding: 4px 10px; border-radius: 20px;
+    
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    
+    &.paid { background: #dcfce7; color: #166534; } /* Green */
+    &.overdue { background: #fee2e2; color: #991b1b; } /* Red */
+    &.sent { background: #e0f2fe; color: #075985; } /* Blue */
+    &.draft { background: #f3f4f6; color: #4b5563; } /* Gray */
+    &.part-paid { background: #fef9c3; color: #854d0e; } /* Yellow */
+  }
+}
+
+.col-amount {
+  .amount-wrapper {
+    font-family: sans-serif;
+    color: var(--ion-color-dark);
+    
+    .currency { font-size: 0.85rem; color: var(--ion-color-medium); margin-right: 2px; }
+    .val { font-size: 1rem; font-weight: 700; }
+  }
+}
+
+/* --- EMPTY & LOADING STATES --- */
+.centered-container, .empty-state {
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  height: 60vh;
+  text-align: center;
+}
+
+.empty-state {
+  color: var(--ion-color-medium);
+  ion-icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.4; }
+  p { font-size: 1rem; }
+}

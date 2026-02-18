@@ -1,0 +1,125 @@
+<div class="sidebar-container" (mouseenter)="expandSidebar()" (mouseleave)="collapseSidebar()">
+  
+  <div class="logo-section">
+    <div class="logo-icon-wrapper">
+      <img src="assets/img/logo2.png" alt="Logo" class="brand-logo" />
+    </div>
+    <span class="logo-text serif-title">QuickProLaw</span>
+  </div>
+
+  <div class="profile-wrapper" *ngIf="userProfile() as user">
+    <div class="profile-card">
+      <ion-avatar class="profile-avatar">
+        <img [src]="user.picture || 'assets/img/avatar.png'" alt="avatar" />
+      </ion-avatar>
+      <div class="profile-details">
+        <ion-label class="profile-name">{{ user.fullname }}</ion-label>
+        <ion-note class="profile-role">{{ user.designation || 'Counsel' | titlecase }}</ion-note>
+        <div class="firm-badge">
+          <ion-icon name="business-outline"></ion-icon>
+          <span>{{ firmProfile()?.name || 'Chamber' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="divider"></div>
+
+  <ion-list class="nav-links">
+
+    <ion-item (click)="toggleAccountMenu()" lines="none" button detail="false" class="nav-item has-submenu" [class.active-parent]="isAccountMenuOpen()">
+      <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+      <ion-label>My Workspace</ion-label>
+      <ion-icon [name]="isAccountMenuOpen() ? 'chevron-up-outline' : 'chevron-down-outline'" slot="end" class="chevron"></ion-icon>
+    </ion-item>
+
+    <div class="submenu" [class.open]="isAccountMenuOpen()">
+      <ion-item routerLink="/app/dashboard" routerLinkActive="active-link" lines="none" button (click)="handleLinkClick()">
+        <ion-icon name="grid-outline" slot="start"></ion-icon>
+        <ion-label>Dashboard</ion-label>
+      </ion-item>
+      
+      <ion-item routerLink="/app/calendar" routerLinkActive="active-link" lines="none" button (click)="handleLinkClick()">
+        <ion-icon name="calendar-outline" slot="start"></ion-icon>
+        <ion-label>Calendar</ion-label>
+      </ion-item>
+
+      <ion-item routerLink="/app/tasks" routerLinkActive="active-link" lines="none" button (click)="handleLinkClick()">
+        <ion-icon name="list-outline" slot="start"></ion-icon>
+        <ion-label>Tasks</ion-label>
+      </ion-item>
+
+      <ion-item routerLink="/app/attendance" routerLinkActive="active-link" lines="none" button (click)="handleLinkClick()">
+        <ion-icon name="alarm-outline" slot="start"></ion-icon>
+        <ion-label>Attendance</ion-label>
+      </ion-item>
+
+      <ion-item routerLink="/app/my-expenses" routerLinkActive="active-link" lines="none" button (click)="handleLinkClick()">
+        <ion-icon name="receipt-outline" slot="start"></ion-icon>
+        <ion-label>My Expenses</ion-label>
+      </ion-item>
+
+      <ion-item routerLink="/app/my-inventory" routerLinkActive="active-link" lines="none" button (click)="handleLinkClick()">
+        <ion-icon name="file-tray-full-outline" slot="start"></ion-icon>
+        <ion-label>Inventory</ion-label>
+      </ion-item>
+    </div>
+
+    <div class="section-label" *ngIf="!navigationService.isSidebarCollapsed()">Firm Modules</div>
+
+    <ion-item *ngIf="acs.canManageMatter()" routerLink="/app/matters" routerLinkActive="active-link" lines="none" button (click)="handleLinkClick()" class="nav-item">
+      <ion-icon name="briefcase-outline" slot="start"></ion-icon>
+      <ion-label>Matters</ion-label>
+    </ion-item>
+
+    <ion-item *ngIf="acs.canManageMatter()" routerLink="/app/clients" routerLinkActive="active-link" lines="none" button (click)="handleLinkClick()" class="nav-item">
+      <ion-icon name="people-outline" slot="start"></ion-icon>
+      <ion-label>Clients</ion-label>
+    </ion-item>
+
+    <ion-item *ngIf="acs.canBill()" routerLink="/app/properties" routerLinkActive="active-link" lines="none" button (click)="handleLinkClick()" class="nav-item">
+      <ion-icon name="home-outline" slot="start"></ion-icon>
+      <ion-label>Properties</ion-label>
+    </ion-item>
+    
+    <ion-item *ngIf="acs.isFileManager()" routerLink="/app/file-room" routerLinkActive="active-link" lines="none" button (click)="handleLinkClick()" class="nav-item">
+      <ion-icon name="folder-open-outline" slot="start"></ion-icon>
+      <ion-label>File Room</ion-label>
+    </ion-item>
+    
+    <ion-item *ngIf="acs.isLibrarian()" routerLink="/app/library" routerLinkActive="active-link" lines="none" button (click)="handleLinkClick()" class="nav-item">
+      <ion-icon name="book-outline" slot="start"></ion-icon>
+      <ion-label>Library</ion-label>
+    </ion-item>
+
+    <ion-item *ngIf="acs.isAdmin()" (click)="toggleFirmMenu()" lines="none" button detail="false" class="nav-item has-submenu" [class.active-parent]="isFirmMenuOpen()">
+      <ion-icon name="business-outline" slot="start"></ion-icon>
+      <ion-label>Firm Management</ion-label>
+      <ion-icon [name]="isFirmMenuOpen() ? 'chevron-up-outline' : 'chevron-down-outline'" slot="end" class="chevron"></ion-icon>
+    </ion-item>
+
+    <div class="submenu" [class.open]="isFirmMenuOpen()">
+      <ion-item routerLink="/app/firm/dashboard" routerLinkActive="active-link" lines="none" button (click)="handleLinkClick()">
+        <ion-icon name="stats-chart-outline" slot="start"></ion-icon>
+        <ion-label>Overview</ion-label>
+      </ion-item>
+      <ion-item routerLink="/app/financials" routerLinkActive="active-link" lines="none" button (click)="handleLinkClick()">
+        <ion-icon name="wallet-outline" slot="start"></ion-icon>
+        <ion-label>Financials</ion-label>
+      </ion-item>
+      <ion-item routerLink="/app/firm/settings" routerLinkActive="active-link" lines="none" button (click)="handleLinkClick()">
+        <ion-icon name="settings-outline" slot="start"></ion-icon>
+        <ion-label>Settings</ion-label>
+      </ion-item>
+    </div>
+
+  </ion-list>
+
+  <div class="footer-actions">
+    <ion-item button (click)="logout()" lines="none" class="logout-item">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      <ion-label>Sign Out</ion-label>
+    </ion-item>
+  </div>
+
+</div>
