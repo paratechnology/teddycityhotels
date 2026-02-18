@@ -15,6 +15,10 @@ import { GuestSigningComponent } from './public/guest-signing/guest-signing.comp
 import { ConfirmDeletionComponent } from './public/confirm-deletion/confirm-deletion.component';
 import { RequestDeletionComponent } from './public/request-deletion/request-deletion.component';
 
+// --- NEW HOTEL COMPONENTS ---
+import { SnookerComponent } from './public/snooker/snooker.component';
+import { SwimmingComponent } from './public/swimming/swimming.component';
+import { BookingComponent } from './public/booking/booking.component';
 
 export const routes: Routes = [
   {
@@ -45,6 +49,21 @@ export const routes: Routes = [
     path: 'contact',
     component: ContactComponent
   },
+
+  // --- HOTEL ROUTES ---
+  {
+    path: 'snooker',
+    component: SnookerComponent
+  },
+  {
+    path: 'swimming',
+    component: SwimmingComponent
+  },
+  {
+    path: 'booking',
+    component: BookingComponent
+  },
+
   // Add these to your website's routes array:
   {
     path: 'delete-account',
