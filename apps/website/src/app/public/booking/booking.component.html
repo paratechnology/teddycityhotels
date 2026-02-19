@@ -1,0 +1,41 @@
+<div class="booking-container">
+  <div class="booking-wrapper">
+    <h1>Book Your Stay</h1>
+    <p>Reserve your room at Teddy City Hotel</p>
+
+    <form (ngSubmit)="submitBooking()" class="booking-form">
+      <div class="form-group">
+        <label for="check-in">Check-in Date</label>
+        <input type="date" id="check-in" name="checkIn" [(ngModel)]="checkInDate" required>
+      </div>
+
+      <div class="form-group">
+        <label for="check-out">Check-out Date</label>
+        <input type="date" id="check-out" name="checkOut" [(ngModel)]="checkOutDate" required>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="adults">Adults</label>
+          <input type="number" id="adults" name="adults" [(ngModel)]="adults" min="1" max="5">
+        </div>
+        <div class="form-group">
+          <label for="children">Children</label>
+          <input type="number" id="children" name="children" [(ngModel)]="children" min="0" max="5">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="room-type">Room Type</label>
+        <select id="room-type" name="roomType" [(ngModel)]="roomType">
+          <option value="standard">Standard Room</option>
+          <option value="deluxe">Deluxe Room</option>
+          <option value="suite">Executive Suite</option>
+          <option value="presidential">Presidential Suite</option>
+        </select>
+      </div>
+
+      <button type="submit" class="submit-btn">Check Availability</button>
+    </form>
+  </div>
+</div>

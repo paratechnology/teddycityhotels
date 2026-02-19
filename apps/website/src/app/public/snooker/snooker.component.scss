@@ -1,0 +1,111 @@
+.snooker-container {
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+
+  .hero {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+
+    .cta-button {
+      background-color: #ffc107;
+      color: #333;
+      padding: 15px 30px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #e0a800;
+      }
+    }
+  }
+
+  .info {
+    padding: 50px 20px;
+    text-align: center;
+    background-color: #f9f9f9;
+
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+
+      .feature-item {
+        flex: 1 1 300px;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        h3 {
+          font-size: 1.5rem;
+          margin-bottom: 10px;
+          color: #1e3c72;
+        }
+
+        p {
+          font-size: 1rem;
+          color: #666;
+        }
+      }
+    }
+  }
+
+  .registration {
+    background-color: #fff;
+    padding: 60px 20px;
+    text-align: center;
+
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+    }
+
+    .price-tag {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #28a745;
+      margin-bottom: 20px;
+
+      .currency {
+        font-size: 1.5rem;
+        vertical-align: top;
+      }
+    }
+
+    .register-btn {
+      background-color: #007bff;
+      color: white;
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+}

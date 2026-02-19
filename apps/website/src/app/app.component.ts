@@ -36,8 +36,9 @@ export class AppComponent {
   // Changed hrefs from anchors (#) to router paths (/)
   navLinks = [
     { label: 'Home', href: '/', isExternal: false },
-    { label: 'Features', href: '/features', isExternal: false },
-    { label: 'Pricing', href: '/pricing', isExternal: false },
+    { label: 'Snooker League', href: '/snooker', isExternal: false },
+    { label: 'Swimming', href: '/swimming', isExternal: false },
+    { label: 'Book Now', href: '/booking', isExternal: false },
     { label: 'Contact', href: '/contact', isExternal: false }
   ];
 
