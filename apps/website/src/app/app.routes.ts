@@ -11,7 +11,6 @@ import { ContactComponent } from './public/contact/contact.component';
 import { PrivacyPolicyComponent } from './public/privacy-policy/privacy-policy.component';
 import { TermsOfServiceComponent } from './public/terms-of-service/terms-of-service.component';
 import { VerificationComponent } from './public/verification/verification.component';
-import { GuestSigningComponent } from './public/guest-signing/guest-signing.component';
 import { ConfirmDeletionComponent } from './public/confirm-deletion/confirm-deletion.component';
 import { RequestDeletionComponent } from './public/request-deletion/request-deletion.component';
 
@@ -85,8 +84,7 @@ export const routes: Routes = [
     component: TermsOfServiceComponent
   },
   { path: 'verify', component: VerificationComponent },
-  { path: 'sign', component: GuestSigningComponent },
-  // Fallback route 
+   // Fallback route 
   {
     path: '**',
     redirectTo: '',

@@ -1,4 +1,3 @@
-import { ISalaryOverride } from "./financials.interface";
 
 /**
 import { ISalaryOverride } from './financials.interface';
@@ -53,7 +52,6 @@ export interface IFirmUser {
         librarian: boolean;
         canAssign: boolean;
     };
-    salaryOverrides?: ISalaryOverride;
     fcmTokens: [],
     passwordResetToken: string,
     createdAt: string;

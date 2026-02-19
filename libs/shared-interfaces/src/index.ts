@@ -2,39 +2,15 @@
  * Public API Surface of shared-interfaces
  */
 
-export * from './lib/attendance.interface';
-export * from './lib/calendar.interface';
-export * from './lib/financials.interface';
-export * from './lib/firm.interface';
 export * from './lib/property.interface';
-export * from './lib/task.interface';
 export * from './baseurl';
 export * from './lib/admin-dashboard.interface';
 export * from './lib/notification.interface';
-export * from './lib/comment.interface';
 export * from './lib/user.interface';
 export * from './lib/attachment.interface';
 export * from './lib/invitation.interface';
-export * from './lib/nba-profile.interface';
-export * from './lib/subscription.interface';
 export * from './lib/accept-invitation.interface';
-export * from './lib/client.interface';
-export * from './lib/client-filters.interface';
-export * from './lib/matter.interface';
-export * from './lib/matter-filters.interface';
-export * from './lib/dashboard.interface';
 export * from './lib/auth-response.interface';
-export * from './lib/paginated-response.interface';
-export * from './lib/matter-log.interface';
-export * from './lib/library.interface';
-export * from './lib/general-file.interface';
-export * from './lib/physical-file.interface';
-export * from './lib/inventory.interface';
-export * from './lib/search.interface';
-export * from './lib/schemas/users.schema';
-export * from './lib/schemas/deadlines.schema';
-export * from './lib/schemas/accept-invitation.schema';
-export * from './lib/schemas/clients.schema';
 export * from './lib/schemas/matter.schema';
 export * from './lib/schemas/calendar.schema';
 export * from './lib/schemas/document.schema';   
@@ -57,6 +33,4 @@ export * from './lib/schemas/update-firm.schema';
 export * from './lib/schemas/create-invitation.schema';  
 export * from './lib/schemas/task-template.schema';  
 export * from './lib/schemas/auth.schema';  
-export * from './lib/email.interfaces'
-export * from './lib/deadline.interface'
  

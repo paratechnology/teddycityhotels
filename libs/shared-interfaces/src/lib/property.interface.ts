@@ -1,4 +1,3 @@
-import { IClientSubset } from "./client.interface";
 
 // 1. TENANT (Distinct from Client)
 export interface ITenant {
@@ -21,7 +20,6 @@ export interface IProperty {
     id: string;
     firmId: string;
     ownerId: string;
-    owner: IClientSubset; // The Landlord
     description: string;
     title: string; // e.g., "Sunrise Apartments" or "12 Baker St"
     address: string;

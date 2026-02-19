@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { publicGuard } from './core/guards/public.guard';
-import { adminGuard } from './core/guards/admin.guard';
 import { profileCompleteGuard } from './core/guards/profile-complete.guard';
 
 export const routes: Routes = [
@@ -40,23 +39,6 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/my-account/my-profile/my-profile.component').then(m => m.MyProfileComponent)
       },
 
-      // Organization / Tenant Settings (Admin Only)
-      {
-        path: 'settings', // Renamed from "firm" to "settings" to be generic
-        canActivate: [profileCompleteGuard, adminGuard],
-        loadComponent: () => import('./pages/settings/settings.page').then(m => m.SettingsPage), // You will need to create/rename this
-        children: [
-           { path: 'users', loadComponent: () => import('./pages/settings/users/users.page').then(m => m.UsersPage) },
-           { path: 'subscription', loadComponent: () => import('./pages/settings/subscription/subscription.page').then(m => m.SubscriptionPage) }
-        ]
-      },
-
-      // Optional: Example Feature (Tasks)
-      {
-        path: 'tasks',
-        loadComponent: () => import('./pages/tasks/tasks.page').then(m => m.TasksPage),
-        canActivate: [profileCompleteGuard]
-      }
     ],
   },
   
