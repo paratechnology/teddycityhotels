@@ -25,24 +25,30 @@ import { FaqComponent } from './faq/faq.component';
       <app-about-summary></app-about-summary>
 
       <!-- Snooker Summary -->
-      <section class="summary-section snooker-summary" style="padding: 60px 20px; text-align: center; background-color: #f5f5f5;">
-        <div class="container" style="max-width: 800px; margin: 0 auto;">
-          <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Teddy City Snooker League</h2>
-          <p style="font-size: 1.2rem; color: #666; margin-bottom: 30px;">
-            Join the most exciting snooker competition in town. Structured like a football tournament with groups and knockouts.
+      <section class="summary-section snooker-summary">
+        <span class="section-bg-text">LEAGUE</span>
+        <div class="content-wrapper">
+          <h2>The Gentlemen's Game</h2>
+          <div class="divider"></div>
+          <p>
+            Join the most exciting snooker competition in town. Our league mimics the thrill of professional tournaments,
+            complete with group stages and intense knockout rounds. Prove your skill on the baize.
           </p>
-          <a mat-raised-button color="accent" routerLink="/snooker">Join the League</a>
+          <a mat-raised-button color="accent" class="btn-luxury" routerLink="/snooker">Join the League</a>
         </div>
       </section>
 
       <!-- Swimming Summary -->
-      <section class="summary-section swimming-summary" style="padding: 60px 20px; text-align: center; background-color: #fff;">
-        <div class="container" style="max-width: 800px; margin: 0 auto;">
-          <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Dive into Luxury</h2>
-          <p style="font-size: 1.2rem; color: #666; margin-bottom: 30px;">
-            Enjoy our world-class swimming facilities. Memberships, lessons, and bookings available.
+      <section class="summary-section swimming-summary">
+        <span class="section-bg-text">OASIS</span>
+        <div class="content-wrapper">
+          <h2>Dive into Serenity</h2>
+          <div class="divider"></div>
+          <p>
+            Escape to our pristine aquatic center. Whether you're looking to refine your stroke with private lessons
+            or simply float your cares away, our world-class pool offers a refreshing retreat.
           </p>
-          <a mat-raised-button color="primary" routerLink="/swimming">Explore Pool</a>
+          <a mat-stroked-button color="primary" class="btn-luxury-outline" routerLink="/swimming">Explore the Pool</a>
         </div>
       </section>
 

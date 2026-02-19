@@ -1,14 +1,33 @@
 <section class="about-summary">
-  <div class="content-wrapper">
-    <div class="text-block">
-      <h2>Experience Luxury</h2>
-      <p>
-        Teddy City Hotel offers a unique blend of comfort and excitement. Whether you are here for a relaxing swim, a competitive game of snooker, or a restful night's sleep, we have you covered.
-      </p>
-      <a mat-stroked-button color="primary" routerLink="/booking">Learn More About Us</a>
-    </div>
-    <div class="image-block">
-      <div class="placeholder-image"></div>
+  <div class="container">
+    <div class="content-wrapper">
+      <div class="image-grid">
+        <div class="img-box lg">
+          <!-- Placeholder for large lobby/room image -->
+          <div class="placeholder-img" style="background-color: #eee;"></div>
+        </div>
+        <div class="img-box sm">
+          <!-- Placeholder for detail/amenity image -->
+          <div class="placeholder-img" style="background-color: #ddd;"></div>
+        </div>
+      </div>
+
+      <div class="text-block">
+        <span class="subtitle">About Us</span>
+        <h2>A Legacy of Luxury</h2>
+        <p>
+          Nestled in the heart of the city, Teddy City Hotel offers a sanctuary of sophistication and comfort.
+          Whether you are here for our world-renowned snooker league, our pristine swimming facilities, or simply
+          to unwind in our opulent suites, we promise an unforgettable experience.
+        </p>
+        <p>
+          Our commitment to excellence is evident in every detail, from our personalized service to our
+          exquisite culinary offerings. Discover the perfect blend of excitement and relaxation.
+        </p>
+        <a mat-button color="primary" class="read-more-btn" routerLink="/booking">
+          Read Our Story <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </div>
     </div>
   </div>
 </section>

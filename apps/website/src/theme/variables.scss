@@ -1,0 +1,53 @@
+
+// Custom Hotel Theme Variables
+$hotel-primary: #1a237e; // Deep Royal Blue
+$hotel-secondary: #c5a059; // Luxury Gold
+$hotel-accent: #ff6f00; // Warm Amber for CTAs
+$hotel-background: #f8f9fa; // Soft White/Gray
+$hotel-text-dark: #212121;
+$hotel-text-light: #ffffff;
+
+// Typography
+$font-family-serif: 'Playfair Display', serif; // For Headings
+$font-family-sans: 'Lato', sans-serif; // For Body text
+
+// Overrides
+:root {
+  --ion-color-primary: #{$hotel-primary};
+  --ion-color-secondary: #{$hotel-secondary};
+  --ion-background-color: #{$hotel-background};
+  --ion-text-color: #{$hotel-text-dark};
+}
+
+body {
+  font-family: $font-family-sans;
+  color: $hotel-text-dark;
+  background-color: $hotel-background;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-family-serif;
+  font-weight: 700;
+  color: $hotel-primary;
+}
+
+// Button Styles
+.btn-luxury {
+  background-color: $hotel-secondary;
+  color: $hotel-text-light;
+  border: none;
+  padding: 12px 30px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    background-color: darken($hotel-secondary, 10%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+}

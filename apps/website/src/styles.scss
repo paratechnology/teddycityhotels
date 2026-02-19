@@ -4,11 +4,13 @@
 @use 'theme' as theme; // Import your theme file
 @use '@angular/material' as mat;
 
-// Import Google Fonts
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+// Import Google Fonts for Luxury Feel
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
 
 // --- ADDED: Import new legal page styles ---
 @import 'app/public/legal-page.scss';
+@import 'theme/variables.scss';
+@import 'app/public/home-summaries.scss'; // NEW: Imported here
 
 // Include the core styles for Angular Material.
 @include mat.core();
@@ -33,43 +35,49 @@ body {
   height: 100%;
   margin: 0;
   // 1. FIX for typography error:
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Lato', sans-serif; // Luxury Sans-serif for body
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   
   // 2. FIX for "Undefined function" error:
   // We use simple map.get instead of the complex Material function
-  background-color: map.get($background-palette, 'background');
-  color: map.get($foreground-palette, 'text');
+  background-color: $hotel-background; // Use luxury theme var
+  color: $hotel-text-dark;
+}
+
+// Global Heading Styles
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  color: $hotel-primary;
 }
 
 // --- Global Component Overrides ---
 
 mat-card {
-  border-radius: 12px;
-  // CORRECTED:
-  border: 1px solid map.get($accent-palette, '200');
+  border-radius: 4px; // Sharper, more elegant corners
+  border: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08); // Soft luxury shadow
   overflow: hidden;
+  background-color: #fff;
 
   mat-card-header {
-    // CORRECTED:
-    background-color: map.get($primary-palette, '500');
-    padding: 20px;
-    border-bottom: 1px solid map.get($accent-palette, '400');
+    background-color: #fff;
+    padding: 24px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
 
     mat-card-title {
-      // CORRECTED:
-      color: map.get($primary-palette, '500-contrast');
+      color: $hotel-primary;
+      font-family: 'Playfair Display', serif;
       font-weight: 600;
       letter-spacing: 0.5px;
+      font-size: 1.5rem;
     }
   }
 
   mat-card-actions {
-    padding: 16px;
-    // CORRECTED:
-    border-top: 1px solid map.get($foreground-palette, 'divider');
+    padding: 16px 24px;
+    border-top: 1px solid rgba(0,0,0,0.05);
   }
 }
 
@@ -103,4 +111,10 @@ mat-card {
 
 .fw-bold {
   font-weight: 700;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }

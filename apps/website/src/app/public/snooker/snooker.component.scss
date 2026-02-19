@@ -1,110 +1,128 @@
+@use 'theme/variables' as *;
+
 .snooker-container {
-  font-family: 'Roboto', sans-serif;
-  color: #333;
+  padding-top: 80px; // Offset for fixed header
 
   .hero {
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    color: white;
-    padding: 60px 20px;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('assets/img/snooker-bg.jpg'); // Placeholder
+    background-size: cover;
+    background-position: center;
+    background-color: #1a1a1a; // Fallback
+    padding: 150px 20px;
+    color: #fff;
     text-align: center;
 
     h1 {
-      font-size: 3rem;
+      font-size: 4rem;
+      color: $hotel-secondary; // Gold
       margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
 
     p {
-      font-size: 1.2rem;
-      margin-bottom: 30px;
+      font-size: 1.5rem;
+      max-width: 700px;
+      margin: 0 auto 40px;
+      color: #ddd;
     }
 
     .cta-button {
-      background-color: #ffc107;
-      color: #333;
-      padding: 15px 30px;
-      font-size: 1rem;
+      background-color: $hotel-secondary;
+      color: #fff;
+      padding: 15px 40px;
+      font-family: $font-family-sans;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
       border: none;
-      border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: all 0.3s ease;
 
       &:hover {
-        background-color: #e0a800;
+        background-color: #fff;
+        color: $hotel-text-dark;
       }
     }
   }
 
   .info {
-    padding: 50px 20px;
+    padding: 100px 20px;
+    background-color: #111;
+    color: #fff;
     text-align: center;
-    background-color: #f9f9f9;
 
     h2 {
-      font-size: 2.5rem;
-      margin-bottom: 30px;
+      color: #fff;
+      margin-bottom: 60px;
     }
 
     .features {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
-      gap: 30px;
+      gap: 40px;
+      flex-wrap: wrap;
 
       .feature-item {
         flex: 1 1 300px;
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background: #222;
+        padding: 40px;
+        border-top: 3px solid $hotel-secondary;
+        transition: transform 0.3s ease;
+
+        &:hover {
+          transform: translateY(-10px);
+        }
 
         h3 {
+          color: $hotel-secondary;
           font-size: 1.5rem;
-          margin-bottom: 10px;
-          color: #1e3c72;
+          margin-bottom: 15px;
         }
 
         p {
-          font-size: 1rem;
-          color: #666;
+          color: #aaa;
         }
       }
     }
   }
 
   .registration {
-    background-color: #fff;
-    padding: 60px 20px;
+    padding: 100px 20px;
+    background-color: $hotel-background;
     text-align: center;
 
     h2 {
-      font-size: 2.5rem;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
     }
 
     .price-tag {
-      font-size: 3rem;
-      font-weight: bold;
-      color: #28a745;
-      margin-bottom: 20px;
+      font-size: 4rem;
+      font-weight: 700;
+      color: $hotel-primary;
+      font-family: $font-family-serif;
+      margin-bottom: 30px;
 
       .currency {
-        font-size: 1.5rem;
+        font-size: 2rem;
         vertical-align: top;
+        margin-right: 5px;
       }
     }
 
     .register-btn {
-      background-color: #007bff;
-      color: white;
-      padding: 15px 40px;
+      background-color: $hotel-primary;
+      color: #fff;
+      padding: 18px 50px;
       font-size: 1.2rem;
       border: none;
-      border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: background 0.3s ease;
 
       &:hover {
-        background-color: #0056b3;
+        background-color: darken($hotel-primary, 10%);
       }
     }
   }
