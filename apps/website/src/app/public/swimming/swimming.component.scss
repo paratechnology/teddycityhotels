@@ -1,105 +1,97 @@
+@use 'theme/variables' as *;
+
 .swimming-container {
-  font-family: 'Roboto', sans-serif;
-  color: #333;
+  padding-top: 80px;
 
   .hero {
-    background: linear-gradient(135deg, #00b4db, #0083b0);
-    color: white;
-    padding: 80px 20px;
+    background: linear-gradient(rgba(0,180,219,0.3), rgba(0,131,176,0.5)), url('assets/img/pool-bg.jpg'); // Placeholder
+    background-size: cover;
+    background-position: center;
+    background-color: #e0f7fa;
+    padding: 150px 20px;
+    color: #fff;
     text-align: center;
 
     h1 {
-      font-size: 3.5rem;
+      font-size: 4rem;
       margin-bottom: 20px;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
 
     p {
       font-size: 1.5rem;
-      margin-bottom: 30px;
+      color: #fff;
+      margin-bottom: 40px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.2);
     }
 
     .cta-button {
-      background-color: white;
+      background-color: #fff;
       color: #0083b0;
-      padding: 15px 35px;
-      font-size: 1.1rem;
+      padding: 15px 40px;
       border: none;
       border-radius: 30px;
+      font-weight: 700;
+      text-transform: uppercase;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
       cursor: pointer;
-      font-weight: bold;
-      transition: transform 0.2s ease;
+      transition: transform 0.3s ease;
 
       &:hover {
-        transform: scale(1.05);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
       }
     }
   }
 
   .offerings {
-    padding: 60px 20px;
+    padding: 100px 20px;
+    background-color: #fff;
     text-align: center;
-    background-color: #f4f4f4;
 
     h2 {
-      font-size: 2.5rem;
-      margin-bottom: 40px;
-      color: #006080;
+      color: #0083b0;
+      margin-bottom: 60px;
     }
 
     .cards {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
       gap: 30px;
+      flex-wrap: wrap;
 
       .card {
         flex: 1 1 300px;
-        background: white;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-        transition: transform 0.3s ease;
+        padding: 40px;
+        background: #f8fdff;
+        border: 1px solid #e1f5fe;
+        border-radius: 10px;
+        transition: all 0.3s ease;
 
         &:hover {
-          transform: translateY(-10px);
+          background: #fff;
+          box-shadow: 0 15px 30px rgba(0,131,176,0.1);
+          transform: translateY(-5px);
         }
 
         h3 {
-          font-size: 1.8rem;
           color: #0083b0;
-          margin-bottom: 15px;
-        }
-
-        p {
-          font-size: 1rem;
-          color: #666;
+          font-size: 1.8rem;
           margin-bottom: 20px;
         }
 
-        ul {
-          list-style: none;
-          padding: 0;
-          text-align: left;
-          margin-bottom: 25px;
-
-          li {
-            padding: 5px 0;
-            border-bottom: 1px solid #eee;
-            &:last-child {
-              border-bottom: none;
-            }
-          }
+        ul li {
+          border-bottom: 1px solid #e1f5fe;
+          color: #555;
         }
 
         .card-btn {
           background-color: #0083b0;
-          color: white;
-          padding: 10px 25px;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
+          border-radius: 20px;
+          margin-top: 20px;
+
           &:hover {
-            background-color: #006080;
+            background-color: darken(#0083b0, 10%);
           }
         }
       }
@@ -107,28 +99,37 @@
   }
 
   .pool-info {
-    padding: 50px 20px;
-    background-color: #fff;
+    padding: 80px 20px;
+    background-color: #0277bd;
+    color: #fff;
     text-align: center;
 
     h2 {
-      font-size: 2rem;
-      margin-bottom: 30px;
+      color: #fff;
+      margin-bottom: 40px;
     }
 
     .info-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      max-width: 800px;
+      gap: 30px;
+      max-width: 1000px;
       margin: 0 auto;
 
       .info-item {
-        background-color: #e3f2fd;
-        padding: 20px;
+        background: rgba(255,255,255,0.1);
+        padding: 30px;
         border-radius: 8px;
+        border: 1px solid rgba(255,255,255,0.2);
+        color: #fff;
         font-size: 1.1rem;
-        color: #0277bd;
+
+        strong {
+          display: block;
+          margin-bottom: 10px;
+          font-size: 1.3rem;
+          color: #81d4fa;
+        }
       }
     }
   }

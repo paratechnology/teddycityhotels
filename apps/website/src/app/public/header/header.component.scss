@@ -1,4 +1,4 @@
-@use '../../../theme/variables' as variables;
+@use 'theme/variables' as *;
 
 .main-header {
   position: fixed;
@@ -6,83 +6,114 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  transition: top 0.3s ease-in-out, background-color 0.3s ease, box-shadow 0.3s ease;
-  background-color: #fff;
-  border-bottom: 1px solid transparent; // Start transparent
+  background-color: transparent; // Transparent initially
+  color: #fff; // White text for hero overlay
+  transition: all 0.3s ease-in-out;
+  padding: 0;
+  height: 80px;
   box-shadow: none;
 
   &.hidden {
-    top: -80px;
+    transform: translateY(-100%);
   }
 
-  // This class will be added on scroll by app.component.ts
   &.scrolled {
-    background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(8px);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-    border-bottom: 1px solid #eee;
+    background-color: rgba(255, 255, 255, 0.95); // Solid white when scrolled
+    color: $hotel-text-dark;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    height: 70px;
+
+    .logo a {
+      color: $hotel-primary;
+      span { color: $hotel-secondary; }
+    }
+
+    .desktop-nav a {
+      color: $hotel-text-dark;
+      &:hover { color: $hotel-secondary; }
+    }
   }
-}
 
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-  height: 64px;
-}
-
-.logo a {
-  font-size: 1.6rem;
-  font-weight: 800;
-  text-decoration: none;
-  color: variables.$primary-text;
-  display: flex;
-  align-items: center;
-
-  span {
-    color: variables.$accent-gold;
-  }
-}
-
-.desktop-nav {
-  display: none; // Hidden on mobile by default
-  @media (min-width: 768px) {
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 8px;
+    padding: 0 20px;
+    height: 100%;
+  }
 
-    a.mat-button {
-      font-weight: 600;
-      color: variables.$secondary-text;
+  .logo {
+    a {
+      text-decoration: none;
+      font-family: $font-family-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1px;
       transition: color 0.3s ease;
 
-      &:hover {
-        color: variables.$primary-text;
-      }
-
-      // Add a subtle active state for scroll-to-hash
-      &.active-fragment {
-        color: variables.$accent-gold;
+      span {
+        color: $hotel-secondary;
       }
     }
   }
-}
 
-.header-actions {
-  display: none; // Hide by default on mobile
+  .desktop-nav {
+    display: none; // Hidden on mobile
+    @media (min-width: 768px) {
+      display: flex;
+      gap: 20px;
+    }
 
-  @media (min-width: 768px) {
-    display: block; // Show on desktop
+    a {
+      font-family: $font-family-sans;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      font-weight: 600;
+      color: #fff;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: $hotel-secondary;
+      }
+
+      &.active-link {
+        color: $hotel-secondary;
+        border-bottom: 2px solid $hotel-secondary;
+      }
+    }
   }
-}
 
-.mobile-menu-button {
-  color: variables.$primary-text;
-  @media (min-width: 768px) {
+  .header-actions {
     display: none;
+    @media (min-width: 768px) {
+      display: block;
+    }
+
+    .btn-book-now {
+      background-color: $hotel-secondary;
+      color: #fff;
+      border-radius: 0; // Sharp edges for luxury feel
+      padding: 0 25px;
+      font-family: $font-family-sans;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+
+      &:hover {
+        background-color: darken($hotel-secondary, 10%);
+      }
+    }
+  }
+
+  .mobile-menu-button {
+    @media (min-width: 768px) {
+      display: none;
+    }
+    color: inherit;
   }
 }

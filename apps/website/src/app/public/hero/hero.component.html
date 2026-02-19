@@ -1,16 +1,41 @@
 <section class="hero-section">
-  <div class="video-background">
-    <!-- Placeholder for hotel video/image -->
-    <div class="placeholder-image"></div>
-  </div>
+  <div class="background-overlay"></div>
+  <!-- Use a high-quality hotel image or video placeholder here -->
+  <div class="hero-background" style="background-image: url('assets/img/hotel-hero.jpg');"></div>
 
   <div class="hero-content">
     <div class="text-content">
-      <h1 class="hero-title">Welcome to Teddy City Hotel</h1>
+      <span class="pre-title">Welcome to Paradise</span>
+      <h1 class="hero-title">Experience Unmatched Luxury</h1>
       <h2 class="hero-subtitle">
-        World class hospitality. Experience luxury, comfort, and entertainment. From our pristine swimming pool to our competitive snooker league, we have it all.
+        Teddy City Hotel invites you to a world of elegance, comfort, and exclusive entertainment.
       </h2>
-      <a mat-raised-button color="accent" class="hero-cta" routerLink="/booking">Book Your Stay Now</a>
+
+      <div class="action-buttons">
+        <a mat-raised-button color="primary" class="hero-cta btn-luxury" routerLink="/booking">Book Your Stay</a>
+        <a mat-stroked-button class="hero-secondary-cta" routerLink="/swimming">Explore Amenities</a>
+      </div>
+    </div>
+
+    <!-- Booking Widget Overlay -->
+    <div class="booking-widget">
+      <div class="widget-item">
+        <label>Check In</label>
+        <input type="date" placeholder="Select Date">
+      </div>
+      <div class="widget-item">
+        <label>Check Out</label>
+        <input type="date" placeholder="Select Date">
+      </div>
+      <div class="widget-item">
+        <label>Guests</label>
+        <select>
+          <option>1 Adult</option>
+          <option>2 Adults</option>
+          <option>Family</option>
+        </select>
+      </div>
+      <button class="btn-check-availability" routerLink="/booking">Check Availability</button>
     </div>
   </div>
 </section>
