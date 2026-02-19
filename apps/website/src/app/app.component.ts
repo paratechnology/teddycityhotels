@@ -28,7 +28,7 @@ import { FooterComponent } from "./public/footer/footer.component";
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'marketing-site';
+  title = 'Teddy City Hotel'; // Updated Title
 
   @ViewChild('sidenav') sidenav!: MatSidenav;
 

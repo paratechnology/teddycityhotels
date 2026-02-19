@@ -9,5 +9,5 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./snooker.component.scss'],
 })
 export class SnookerComponent {
-  // Placeholder for logic
+  // Placeholder logic
 }
