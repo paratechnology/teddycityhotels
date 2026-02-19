@@ -14,6 +14,7 @@ import { VerificationComponent } from './public/verification/verification.compon
 import { ConfirmDeletionComponent } from './public/confirm-deletion/confirm-deletion.component';
 import { RequestDeletionComponent } from './public/request-deletion/request-deletion.component';
 
+
 // --- NEW HOTEL COMPONENTS ---
 import { SnookerComponent } from './public/snooker/snooker.component';
 import { SwimmingComponent } from './public/swimming/swimming.component';
