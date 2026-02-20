@@ -11,7 +11,7 @@ export class FirestoreService {
 
   constructor() {
     if (admin.apps.length > 0) {
-      this.db = getFirestore('quickprolaw');
+      this.db = getFirestore();
       this.storage = getStorage(admin.app());
       return;
     }

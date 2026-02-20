@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { HeroComponent } from './hero/hero.component';
-import { TestimonialsComponent } from "./testimonials/testimonials.component";
 import { AboutSummaryComponent } from "./about-summary/about-summary.component";
 import { ContactComponent } from "./contact/contact.component";
 import { FaqComponent } from './faq/faq.component';             
@@ -14,7 +13,6 @@ import { FaqComponent } from './faq/faq.component';
     RouterModule,
     MatButtonModule,
     HeroComponent,
-    TestimonialsComponent,
     FaqComponent,    
     ContactComponent,
     AboutSummaryComponent
@@ -52,7 +50,6 @@ import { FaqComponent } from './faq/faq.component';
         </div>
       </section>
 
-      <app-testimonials></app-testimonials>
       <app-faq></app-faq>
       <app-contact></app-contact>
     </main>
