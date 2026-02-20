@@ -1,11 +1,7 @@
 import { Routes } from '@angular/router';
 import { PublicContainerComponent } from './public/public-container.component';
-import { AcceptInvitationComponent } from './public/accept-invitation/accept-invitation.component';
-import { DownloadComponent } from './public/download/download.component';
-import { FeaturesComponent } from './public/features/features.component';
-import { PricingComponent } from './public/pricing/pricing.component';
-import { FaqComponent } from './public/faq/faq.component';
 import { ContactComponent } from './public/contact/contact.component';
+import { FaqComponent } from './public/faq/faq.component';
 
 // --- ADDED IMPORTS ---
 import { PrivacyPolicyComponent } from './public/privacy-policy/privacy-policy.component';
@@ -25,22 +21,7 @@ export const routes: Routes = [
     path: '',
     component: PublicContainerComponent
   },
-  {
-    path: 'download',
-    component: DownloadComponent
-  },
-  {
-    path: 'accept-invitation',
-    component: AcceptInvitationComponent
-  },
-  {
-    path: 'features',
-    component: FeaturesComponent
-  },
-  {
-    path: 'pricing',
-    component: PricingComponent
-  },
+  // Removed legacy "download", "features", "pricing"
   {
     path: 'faq',
     component: FaqComponent

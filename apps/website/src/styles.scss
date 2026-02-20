@@ -10,7 +10,6 @@
 // --- ADDED: Import new legal page styles ---
 @import 'app/public/legal-page.scss';
 @import 'theme/variables.scss';
-@import 'app/public/home-summaries.scss'; // NEW: Imported here
 
 // Include the core styles for Angular Material.
 @include mat.core();
@@ -41,7 +40,6 @@ body {
   text-rendering: optimizeLegibility;
   
   // 2. FIX for "Undefined function" error:
-  // We use simple map.get instead of the complex Material function
   background-color: $hotel-background; // Use luxury theme var
   color: $hotel-text-dark;
 }

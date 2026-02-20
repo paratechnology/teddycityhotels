@@ -24,11 +24,6 @@ import { AttachmentRoutes } from './routes/attachment.routes'; // Generic file h
 import { TenantRoutes } from './routes/tenants.routes'; // SaaS Multi-tenancy
 // import { TaskRoutes } from './routes/task.routes'; // Optional: Keep if template includes Tasks
 
-// Import Hotel Routes
-import { SnookerRoutes } from './routes/snooker.routes';
-import { SwimmingRoutes } from './routes/swimming.routes';
-import { BookingRoutes } from './routes/booking.routes';
-
 class App {
   public app: Application;
 
@@ -68,11 +63,6 @@ class App {
     apiRouter.use('/auth', new AuthRoutes().router);
     apiRouter.use('/app', new AppRoutes().router);
     // apiRouter.use('/public', new PublicSyncRoutes().router); // Remove if specific to QuickProLaw
-
-    // Hotel Public Routes
-    apiRouter.use('/snooker', new SnookerRoutes().router);
-    apiRouter.use('/swimming', new SwimmingRoutes().router);
-    apiRouter.use('/bookings', new BookingRoutes().router);
 
     // Protected Routes (Require Authentication)
     apiRouter.use(verifyUser);
