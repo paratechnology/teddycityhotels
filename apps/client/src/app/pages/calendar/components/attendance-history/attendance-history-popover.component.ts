@@ -1,7 +1,7 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonList, IonItem, IonLabel, IonSpinner, IonIcon, IonContent } from '@ionic/angular/standalone';
-import { ICalendarAppEvent } from '@quickprolaw/shared-interfaces';
+import { ICalendarAppEvent } from '@teddy-city-hotels/shared-interfaces';
 import { CalendarService } from '../../../../core/services/calendar.service';
 import { addIcons } from 'ionicons';
 import { timeOutline, calendarOutline } from 'ionicons/icons';

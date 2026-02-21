@@ -1,14 +1,7 @@
 import { Routes } from '@angular/router';
 import { PublicContainerComponent } from './public/public-container.component';
-import { ContactComponent } from './public/contact/contact.component';
-import { FaqComponent } from './public/faq/faq.component';
+import { RoomsComponent } from './public/rooms/rooms.component';
 
-// --- ADDED IMPORTS ---
-import { PrivacyPolicyComponent } from './public/privacy-policy/privacy-policy.component';
-import { TermsOfServiceComponent } from './public/terms-of-service/terms-of-service.component';
-import { VerificationComponent } from './public/verification/verification.component';
-import { ConfirmDeletionComponent } from './public/confirm-deletion/confirm-deletion.component';
-import { RequestDeletionComponent } from './public/request-deletion/request-deletion.component';
 
 
 // --- NEW HOTEL COMPONENTS ---
@@ -21,14 +14,9 @@ export const routes: Routes = [
     path: '',
     component: PublicContainerComponent
   },
-  // Removed legacy "download", "features", "pricing"
   {
-    path: 'faq',
-    component: FaqComponent
-  },
-  {
-    path: 'contact',
-    component: ContactComponent
+    path: 'rooms',
+    component: RoomsComponent
   },
 
   // --- HOTEL ROUTES ---
@@ -44,29 +32,8 @@ export const routes: Routes = [
     path: 'booking',
     component: BookingComponent
   },
-
-  // Add these to your website's routes array:
-  {
-    path: 'delete-account',
-    component: RequestDeletionComponent
-  },
-  {
-    path: 'delete-account-confirm',
-    component: ConfirmDeletionComponent
-  },
   
-
-  // --- ADDED LEGAL ROUTES ---
-  {
-    path: 'privacy-policy',
-    component: PrivacyPolicyComponent
-  },
-  {
-    path: 'terms-of-service',
-    component: TermsOfServiceComponent
-  },
-  { path: 'verify', component: VerificationComponent },
-   // Fallback route 
+ // Fallback route 
   {
     path: '**',
     redirectTo: '',

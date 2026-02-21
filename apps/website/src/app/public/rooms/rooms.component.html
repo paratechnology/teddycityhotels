@@ -1,0 +1,35 @@
+<div class="rooms-page">
+  <header class="rooms-header">
+    <h1>Our Rooms</h1>
+    <p>Find the perfect space for your stay.</p>
+  </header>
+
+  <div class="rooms-list">
+    <div *ngFor="let room of rooms" class="room-card" [class.unavailable]="!room.availability.isAvailable">
+      <div class="room-image">
+        <img [src]="room.images[0]" [alt]="room.name">
+        <div class="room-price">
+          <span>${{ room.price }}</span> / night
+        </div>
+      </div>
+      <div class="room-details">
+        <h3>{{ room.name }}</h3>
+        <p class="room-type">{{ room.type }} | Max Occupancy: {{ room.maxOccupancy }}</p>
+        <p class="room-description">{{ room.description }}</p>
+        
+        <div class="room-amenities">
+          <span *ngFor="let amenity of room.amenities" class="amenity">
+            <i class="material-icons">{{ amenity.icon }}</i> {{ amenity.name }}
+          </span>
+        </div>
+
+        <div class="room-actions">
+          <button class="btn btn-details">View Details</button>
+          <button class="btn btn-book" [disabled]="!room.availability.isAvailable">
+            {{ room.availability.isAvailable ? 'Book Now' : 'Unavailable' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

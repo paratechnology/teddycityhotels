@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable, Subject, forkJoin, of, map } from 'rxjs';
-import { baseURL, CreateDocumentDto, IDocument, DefaultFolderType, IDocumentAccessLog, IMatter } from '@quickprolaw/shared-interfaces';
+import { baseURL, CreateDocumentDto, IDocument, DefaultFolderType, IDocumentAccessLog, IMatter } from '@teddy-city-hotels/shared-interfaces';
 import { switchMap, catchError } from 'rxjs/operators';
 
 @Injectable({

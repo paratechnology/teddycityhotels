@@ -1,7 +1,7 @@
 import { Request,  Response, NextFunction } from 'express';
 import { injectable, inject } from 'tsyringe';
 
-import { IFirmUser, IUserIndex } from '@quickprolaw/shared-interfaces';
+import { IFirmUser, IUserIndex } from '@teddy-city-hotels/shared-interfaces';
 import { PushNotificationService } from '../services/push-notification.service';
 import { NotificationService } from '../services/notification.service';
 

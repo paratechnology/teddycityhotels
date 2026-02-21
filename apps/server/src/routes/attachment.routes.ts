@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { AttachmentController } from '../controllers/attachment.controller';
 import { validationMiddleware } from '../middleware/validation.middleware';
 import { container } from 'tsyringe';
-import { GenerateUploadUrlSchema } from '@quickprolaw/shared-interfaces';
+import { GenerateUploadUrlSchema } from '@teddy-city-hotels/shared-interfaces';
 
 export class AttachmentRoutes {
   public router: Router;

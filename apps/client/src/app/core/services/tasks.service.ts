@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ITask, TaskStatus, baseURL, IComment, IFirmUser, ITaskTemplate } from '@quickprolaw/shared-interfaces';
+import { ITask, TaskStatus, baseURL, IComment, IFirmUser, ITaskTemplate } from '@teddy-city-hotels/shared-interfaces';
 import { tap, Observable, catchError, of, throwError, map } from 'rxjs';
 import { ToastController } from '@ionic/angular/standalone';
 import { AuthService } from './auth.service';

@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalController, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonList, IonItem, IonInput, IonSelect, IonSelectOption, IonSpinner, IonLabel, IonDatetime, IonDatetimeButton, IonModal, ToastController } from '@ionic/angular/standalone';
-import { CreateOperationalExpenseDto, OperationalExpenseCategory } from '@quickprolaw/shared-interfaces';
+import { CreateOperationalExpenseDto, OperationalExpenseCategory } from '@teddy-city-hotels/shared-interfaces';
 import { FinancialsService } from '../../../../core/services/financials.service';
 import { finalize } from 'rxjs/operators';
 

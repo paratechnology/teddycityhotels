@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { IFirmUser, IinventoryItem, baseURL } from '@quickprolaw/shared-interfaces';
+import { IFirmUser, IinventoryItem, baseURL } from '@teddy-city-hotels/shared-interfaces';
 import { firstValueFrom, Observable, switchMap, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 

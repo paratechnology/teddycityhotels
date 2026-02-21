@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonList, IonItem, IonLabel, IonNote, IonSpinner, IonButton } from '@ionic/angular/standalone';
-import { IInvoice } from '@quickprolaw/shared-interfaces';
+import { IInvoice } from '@teddy-city-hotels/shared-interfaces';
 import { InvoiceService } from '../../../../core/services/invoice.service';
 import { Router } from '@angular/router';
 

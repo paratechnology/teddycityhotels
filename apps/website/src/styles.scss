@@ -1,118 +1,129 @@
-/* You can add global styles to this file, and also import other style files */
-@use 'sass:color';
-@use 'sass:map'; // REQUIRED for map.get
-@use 'theme' as theme; // Import your theme file
+// Teddy City Hotel - Global Stylesheet
+// 2. THEME IMPORTS
 @use '@angular/material' as mat;
+@use 'theme';
+@use 'theme/variables' as theme-vars;
 
-// Import Google Fonts for Luxury Feel
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
 
-// --- ADDED: Import new legal page styles ---
-@import 'app/public/legal-page.scss';
-@import 'theme/variables.scss';
+// 1. FONT IMPORTS
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;700&family=Roboto:wght@400;500;700&display=swap');
 
-// Include the core styles for Angular Material.
+
+
+// 3. ANGULAR MATERIAL CORE
+// Include the core styles for Angular Material components.
 @include mat.core();
 
-// --- Helper variables from theme ---
-// This is the safer way to get your colors.
-
-// Get the theme's color config
-$theme-colors: map.get(theme.$theme, 'color');
-
-// Get the specific palettes
-$primary-palette: map.get($theme-colors, 'primary');
-$accent-palette: map.get($theme-colors, 'accent');
-$warn-palette: map.get($theme-colors, 'warn');
-$background-palette: map.get($theme-colors, 'background');
-$foreground-palette: map.get($theme-colors, 'foreground');
-
-// --- Global Styles ---
-
-html,
-body {
+// 4. GLOBAL RESETS & DEFAULTS
+html {
+  scroll-behavior: smooth;
   height: 100%;
+}
+
+body {
+  font-family: theme-vars.$font-family-sans;
+  background-color: theme-vars.$theme-background;
+  color: theme-vars.$theme-text-dark;
   margin: 0;
-  // 1. FIX for typography error:
-  font-family: 'Lato', sans-serif; // Luxury Sans-serif for body
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  
-  // 2. FIX for "Undefined function" error:
-  background-color: $hotel-background; // Use luxury theme var
-  color: $hotel-text-dark;
 }
 
-// Global Heading Styles
+// 5. TYPOGRAPHY & HEADINGS
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Playfair Display', serif;
-  color: $hotel-primary;
+  font-family: theme-vars.$font-family-serif;
+  font-weight: 700; // Bolder for luxury feel
+  color: theme-vars.$theme-primary;
+  margin-block-start: 1.5em;
+  margin-block-end: 0.8em;
 }
 
-// --- Global Component Overrides ---
+h1 { font-size: 4.0rem; line-height: 1.2; }
+h2 { font-size: 2.8rem; line-height: 1.25; }
+h3 { font-size: 2.0rem; line-height: 1.3; }
+h4 { font-size: 1.6rem; line-height: 1.35; }
+h5 { font-size: 1.3rem; line-height: 1.4; }
+h6 { font-size: 1.1rem; line-height: 1.4; }
 
-mat-card {
-  border-radius: 4px; // Sharper, more elegant corners
-  border: none;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08); // Soft luxury shadow
-  overflow: hidden;
-  background-color: #fff;
+p {
+  line-height: 1.7;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
 
-  mat-card-header {
-    background-color: #fff;
-    padding: 24px;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+// 6. LINKS & BUTTONS
+a {
+  color: theme-vars.$theme-accent;
+  text-decoration: none;
+  transition: color 0.3s ease;
 
-    mat-card-title {
-      color: $hotel-primary;
-      font-family: 'Playfair Display', serif;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      font-size: 1.5rem;
-    }
-  }
-
-  mat-card-actions {
-    padding: 16px 24px;
-    border-top: 1px solid rgba(0,0,0,0.05);
+  &:hover {
+    color: darken(theme-vars.$theme-accent, 10%);
   }
 }
 
-// SnackBar styles
-.snackbar-success {
-  background-color: #2f9c4c; // This is fine as-is
-  color: #ffffff;
+.btn {
+  display: inline-block;
+  padding: 12px 30px;
+  font-family: theme-vars.$font-family-sans;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 50px; // Pill shape for modern look
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease-in-out;
+  text-align: center;
 }
 
-.snackbar-error {
-  // CORRECTED:
-  background-color: map.get($warn-palette, '500');
-  color: map.get($warn-palette, '500-contrast');
+.btn-primary {
+  background-color: theme-vars.$theme-accent;
+  color: #fff;
+
+  &:hover {
+    background-color: darken(theme-vars.$theme-accent, 8%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+  }
 }
 
-.snackbar-info {
-  // CORRECTED:
-  background-color: map.get($primary-palette, '800');
-  color: map.get($primary-palette, '800-contrast');
+.btn-secondary {
+  background-color: transparent;
+  color: theme-vars.$theme-accent;
+  border-color: theme-vars.$theme-accent;
+
+  &:hover {
+    background-color: theme-vars.$theme-accent;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+  }
 }
 
-// --- Utility Classes ---
+// 7. UTILITY CLASSES
+.container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
 
-.full-width {
-  width: 100%;
+.section {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
 }
 
 .text-center {
   text-align: center;
 }
 
-.fw-bold {
-  font-weight: 700;
+// Override Angular Material components if necessary
+// Example:
+/*
+.mat-mdc-button {
+  border-radius: 50px !important;
 }
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
+*/

@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { CreateLibraryBookDto, IFirmUserSubset, ILibraryBook, PaginatedResponse, baseURL, IBookLogEntry } from '@quickprolaw/shared-interfaces';
+import { CreateLibraryBookDto, IFirmUserSubset, ILibraryBook, PaginatedResponse, baseURL, IBookLogEntry } from '@teddy-city-hotels/shared-interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable({

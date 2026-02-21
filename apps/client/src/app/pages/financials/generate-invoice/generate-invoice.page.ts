@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonNote, IonSpinner, IonButton, IonButtons, IonBackButton, IonListHeader, IonCheckbox, IonFooter, ToastController, IonIcon } from '@ionic/angular/standalone';
 import { FinancialsService } from '../../../core/services/financials.service';
-import { IUnbilledItem, CreateInvoiceDto, IInvoice } from '@quickprolaw/shared-interfaces';
+import { IUnbilledItem, CreateInvoiceDto, IInvoice } from '@teddy-city-hotels/shared-interfaces';
 import { finalize } from 'rxjs';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction, response } from 'express';
 import { injectable, inject } from 'tsyringe';
-import { IFirmUser } from '@quickprolaw/shared-interfaces';
+import { IFirmUser } from '@teddy-city-hotels/shared-interfaces';
 import { UserService } from '../services/user.service';
 import { BadRequestError, NotFoundError, UnauthorizedError } from '../errors/http-errors';
 import { FirestoreService } from '../services/firestore.service';

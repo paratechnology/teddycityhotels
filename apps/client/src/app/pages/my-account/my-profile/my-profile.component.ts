@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { IonList, IonItem, IonInput, IonButton, IonSpinner, IonLabel, IonNote, ToastController, IonToggle, IonListHeader, ModalController, IonHeader, IonToolbar, IonContent, IonTitle, AlertController, ActionSheetController, LoadingController, IonButtons, IonMenuButton, IonChip } from '@ionic/angular/standalone';
 import { IonAvatar, IonIcon } from '@ionic/angular/standalone';
 import { AuthService } from '../../../core/services/auth.service';
-import { IFirmUser, baseURL } from '@quickprolaw/shared-interfaces';
+import { IFirmUser, baseURL } from '@teddy-city-hotels/shared-interfaces';
 import { finalize } from 'rxjs';
 import { addIcons } from 'ionicons';
 import { cameraOutline, personCircleOutline, cloudUploadOutline, trashOutline, logoMicrosoft, calendarOutline, createOutline, menuOutline, shieldCheckmarkOutline, checkmarkCircle } from 'ionicons/icons';
@@ -16,7 +16,7 @@ import { NavigationService } from '../../../core/services/navigation.service';
 import { BiometricSecurityService } from '../../../core/services/biometric-security.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { ImageProcessingService } from '@quickprolaw/shared-services';
+import { ImageProcessingService } from '@teddy-city-hotels/shared-services';
 @Component({
   selector: 'app-my-profile',
   templateUrl: './my-profile.component.html',

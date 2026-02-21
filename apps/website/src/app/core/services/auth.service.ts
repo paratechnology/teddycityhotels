@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { IAuthResponse, baseURL } from '@quickprolaw/shared-interfaces';
+import { IAuthResponse, baseURL } from '@teddy-city-hotels/shared-interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable({

@@ -9,7 +9,7 @@ import {
 import { DashboardService } from '../../core/services/dashboard.service';
 import { AuthService } from '../../core/services/auth.service';
 import { NavigationService } from '../../core/services/navigation.service';
-import { IFirmUser } from '@quickprolaw/shared-interfaces';
+import { IFirmUser } from '@teddy-city-hotels/shared-interfaces';
 import { addIcons } from 'ionicons';
 import { 
   notificationsOutline, listOutline, warningOutline, calendarOutline, 

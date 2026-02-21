@@ -13,7 +13,7 @@
     "moduleResolution": "node16", // modern, works with Nx + Webpack/Esbuild
     "experimentalDecorators": true,
     "paths": {
-      "@quickprolaw/shared-interfaces": [
+      "@teddy-city-hotels/shared-interfaces": [
         "./libs/shared-interfaces/src/index.ts"
       ]
     },

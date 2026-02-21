@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { IFirmUser } from '@quickprolaw/shared-interfaces';
+import { IFirmUser } from '@teddy-city-hotels/shared-interfaces';
 import { ForbiddenError, UnauthorizedError } from '../errors/http-errors';
 
 /**

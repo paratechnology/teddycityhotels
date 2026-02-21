@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { baseURL, ICreateMatterLog, IMatterLogEntry } from '@quickprolaw/shared-interfaces';
+import { baseURL, ICreateMatterLog, IMatterLogEntry } from '@teddy-city-hotels/shared-interfaces';
 
 @Injectable({
   providedIn: 'root'

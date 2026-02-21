@@ -1,52 +1,87 @@
-@use 'theme/variables' as *;
+@use 'theme/variables' as theme;
 
 .about-summary {
-  padding: 100px 0;
-  background-color: #fff;
+  padding: 10rem 0;
+  background-color: theme.$theme-background;
+  position: relative;
+  overflow: hidden;
+
+  // Add a subtle background pattern for texture
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/assets/img/subtle-pattern.png'); // Placeholder for a luxury pattern
+    opacity: 0.03;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+  }
 
   .content-wrapper {
     display: flex;
     align-items: center;
-    gap: 60px;
+    gap: 5rem;
 
     @media (max-width: 900px) {
-      flex-direction: column;
+      flex-direction: column-reverse; // Show text first on mobile
     }
   }
 
   .image-grid {
-    flex: 1;
+    flex: 1.2; // Give image grid slightly more space
     position: relative;
-    height: 500px;
+    height: 550px;
     width: 100%;
 
     .img-box {
       position: absolute;
       overflow: hidden;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+      border-radius: 4px; // Soften edges
 
       .placeholder-img {
         width: 100%;
         height: 100%;
         background-size: cover;
         background-position: center;
+        transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+      }
+      
+      &:hover .placeholder-img {
+        transform: scale(1.05);
       }
 
       &.lg {
-        width: 70%;
-        height: 85%;
+        width: 75%;
+        height: 90%;
         top: 0;
         left: 0;
         z-index: 1;
+
+        .placeholder-img {
+          // Placeholder for large lobby/room image
+          background-image: url('/assets/img/placeholder.jpg');
+        }
       }
 
       &.sm {
-        width: 55%;
+        width: 50%;
         height: 60%;
         bottom: 0;
         right: 0;
         z-index: 2;
-        border: 10px solid #fff; // Border effect to separate images
+        border: 4px solid theme.$theme-secondary; // Gold border effect
+        
+        .placeholder-img {
+          // Placeholder for detail/amenity image
+          background-image: url('/assets/img/branding.webp');
+        }
       }
     }
   }
@@ -56,39 +91,52 @@
 
     .subtitle {
       display: block;
-      font-family: $font-family-sans;
+      font-family: theme.$font-family-sans;
       font-size: 0.9rem;
       letter-spacing: 2px;
       text-transform: uppercase;
-      color: $hotel-secondary;
-      margin-bottom: 15px;
+      color: theme.$theme-secondary;
+      margin-bottom: 1.5rem;
     }
 
     h2 {
-      font-size: 3rem;
-      margin-bottom: 30px;
+      font-family: theme.$font-family-serif;
+      font-size: 3.5rem; // Larger heading
+      color: theme.$theme-primary;
+      margin-bottom: 2rem;
       line-height: 1.2;
     }
 
     p {
-      font-family: $font-family-sans;
+      font-family: theme.$font-family-sans;
       font-size: 1.1rem;
       line-height: 1.8;
-      color: #666;
-      margin-bottom: 20px;
+      color: theme.$theme-text-dark;
+      margin-bottom: 1.5rem;
     }
 
     .read-more-btn {
-      margin-top: 20px;
-      font-family: $font-family-sans;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 2rem;
+      font-family: theme.$font-family-sans;
       font-weight: 700;
       letter-spacing: 1px;
       text-transform: uppercase;
-      color: $hotel-primary;
+      color: theme.$theme-secondary; // Gold
+      transition: all 0.3s ease;
 
       mat-icon {
-        vertical-align: middle;
-        margin-left: 5px;
+        transition: transform 0.3s ease;
+      }
+      
+      &:hover {
+        color: lighten(theme.$theme-secondary, 10%);
+        
+        mat-icon {
+          transform: translateX(5px);
+        }
       }
     }
   }

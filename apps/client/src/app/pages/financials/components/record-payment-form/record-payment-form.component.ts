@@ -2,7 +2,7 @@ import { Component, OnInit, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalController, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonList, IonItem, IonInput, IonSpinner, IonLabel, ToastController, IonSelect, IonSelectOption, IonDatetimeButton, IonModal, IonDatetime, IonCheckbox } from '@ionic/angular/standalone';
-import { CreatePaymentDto, IInvoice } from '@quickprolaw/shared-interfaces';
+import { CreatePaymentDto, IInvoice } from '@teddy-city-hotels/shared-interfaces';
 import { FinancialsService } from '../../../../core/services/financials.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { finalize } from 'rxjs/operators';

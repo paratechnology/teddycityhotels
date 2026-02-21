@@ -1,7 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { from, switchMap } from 'rxjs';
-import { baseURL } from '@quickprolaw/shared-interfaces';
+import { baseURL } from '@teddy-city-hotels/shared-interfaces';
 import { AuthService } from '../services/auth.service';
 
 const EXCLUDED_DOMAINS = [

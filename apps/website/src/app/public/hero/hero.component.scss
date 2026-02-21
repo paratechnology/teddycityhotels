@@ -1,14 +1,31 @@
-@use 'theme/variables' as *;
+@use '../../../theme/variables' as theme;
+
+// Define a common base style for all buttons in this component
+%btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 30px;
+  font-family: theme.$font-family-sans;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 50px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease-in-out;
+}
 
 .hero-section {
   position: relative;
   height: 100vh;
-  min-height: 700px;
+  min-height: 800px; // Ensure it's tall enough on most screens
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  color: #fff;
+  color: #fff; // White text
   text-align: center;
 
   .hero-background {
@@ -17,11 +34,12 @@
     left: 0;
     width: 100%;
     height: 100%;
+    background: url('../../../assets/img/hero-poster.webp') no-repeat center center;
     background-size: cover;
-    background-position: center;
-    z-index: -2;
-    // Fallback color if image fails
-    background-color: $hotel-primary;
+    z-index: 1;
+    // Add a subtle zoom animation for dynamism
+    transform: scale(1.05);
+    animation: zoom-in-out 30s linear infinite;
   }
 
   .background-overlay {
@@ -30,86 +48,100 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4); // Dark overlay for text readability
-    z-index: -1;
+    background: linear-gradient(to top, rgba(theme.$theme-background, 0.8), rgba(theme.$theme-background, 0.6));
+    z-index: 2;
   }
 
   .hero-content {
     position: relative;
-    z-index: 1;
+    z-index: 3;
     width: 100%;
     max-width: 1200px;
-    padding: 0 20px;
-    margin-top: 60px; // Offset for header
+    padding: 0 2rem;
+    margin-top: 80px; // Offset for header height
 
     .text-content {
-      margin-bottom: 60px;
+      margin-bottom: 4rem;
 
       .pre-title {
         display: block;
-        font-family: $font-family-sans;
+        font-family: theme.$font-family-sans;
         font-size: 1rem;
-        letter-spacing: 3px;
+        letter-spacing: 4px;
         text-transform: uppercase;
-        margin-bottom: 15px;
-        color: $hotel-secondary;
+        margin-bottom: 1.5rem;
+        color: theme.$theme-accent; // Gold
       }
 
       .hero-title {
-        font-size: 3.5rem;
+        font-family: theme.$font-family-serif;
+        font-size: 6rem; // Much larger for impact
         font-weight: 700;
-        margin-bottom: 20px;
+        margin-bottom: 1.5rem;
         line-height: 1.1;
         color: #fff;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        text-shadow: 0 4px 20px rgba(0,0,0,0.5);
 
         @media (max-width: 768px) {
-          font-size: 2.5rem;
+          font-size: 4rem;
         }
       }
 
       .hero-subtitle {
-        font-family: $font-family-sans;
+        font-family: theme.$font-family-sans;
         font-size: 1.2rem;
-        max-width: 700px;
-        margin: 0 auto 40px;
-        line-height: 1.6;
+        max-width: 600px;
+        margin: 0 auto 3rem;
+        line-height: 1.7;
         color: rgba(255, 255, 255, 0.9);
       }
 
       .action-buttons {
         display: flex;
-        gap: 20px;
+        gap: 1.5rem;
         justify-content: center;
 
         .hero-cta {
-          // Inherits btn-luxury styles from global
-          min-width: 180px;
+          @extend %btn;
+          background-color: theme.$theme-accent;
+          color: #fff;
+          padding: 18px 40px;
+          font-size: 1rem;
+          &:hover {
+            background-color: darken(theme.$theme-accent, 8%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+          }
         }
 
         .hero-secondary-cta {
+          @extend %btn;
+          background-color: transparent;
           color: #fff;
           border-color: #fff;
-          padding: 10px 30px;
-          font-family: $font-family-sans;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-
+          padding: 18px 40px;
+          font-size: 1rem;
           &:hover {
-            background-color: rgba(255,255,255,0.1);
+            background-color: #fff;
+            color: theme.$theme-primary;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
           }
         }
       }
     }
 
     .booking-widget {
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 4px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      padding: 2rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
       display: flex;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 1.5rem;
       align-items: flex-end;
       justify-content: center;
       max-width: 1000px;
@@ -121,47 +153,50 @@
 
         label {
           display: block;
-          font-family: $font-family-sans;
+          font-family: theme.$font-family-sans;
           font-size: 0.8rem;
           text-transform: uppercase;
           letter-spacing: 1px;
-          color: #888;
-          margin-bottom: 8px;
+          color: rgba(255, 255, 255, 0.8);
+          margin-bottom: 0.75rem;
         }
 
         input, select {
           width: 100%;
-          padding: 10px 0;
+          padding: 12px 0;
           border: none;
-          border-bottom: 1px solid #ddd;
-          font-family: $font-family-serif;
-          font-size: 1.1rem;
-          color: $hotel-text-dark;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+          font-family: theme.$font-family-serif;
+          font-size: 1.2rem;
+          color: #fff;
           outline: none;
           background: transparent;
+          transition: border-color 0.3s ease;
 
           &:focus {
-            border-bottom-color: $hotel-primary;
+            border-bottom-color: theme.$theme-accent;
           }
         }
       }
 
       .btn-check-availability {
-        background-color: $hotel-primary;
+        @extend %btn;
+        flex-grow: 1;
+        min-height: 54px; // Align height with inputs
+        background-color: theme.$theme-accent;
         color: #fff;
-        border: none;
-        padding: 15px 30px;
-        text-transform: uppercase;
-        font-weight: 700;
-        letter-spacing: 1px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        flex: 0 0 auto;
-
         &:hover {
-          background-color: darken($hotel-primary, 10%);
+          background-color: darken(theme.$theme-accent, 8%);
+          transform: translateY(-2px);
         }
       }
     }
   }
+}
+
+// Keyframe animation for background image
+@keyframes zoom-in-out {
+  0% { transform: scale(1.05); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1.05); }
 }

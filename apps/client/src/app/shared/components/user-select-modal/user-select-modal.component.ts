@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, IonSearchbar, IonList, IonItem, IonAvatar, IonLabel, ModalController } from '@ionic/angular/standalone';
-import { IFirmUser } from '@quickprolaw/shared-interfaces';
+import { IFirmUser } from '@teddy-city-hotels/shared-interfaces';
 import { FirmService } from '../../../core/services/firm.service';
 
 @Component({

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { baseURL } from '@quickprolaw/shared-interfaces';
+import { baseURL } from '@teddy-city-hotels/shared-interfaces';
 
 // Define the shape of the contact form data for type safety
 export interface IContactFormData {

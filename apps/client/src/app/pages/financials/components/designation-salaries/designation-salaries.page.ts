@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonButton, IonSpinner, ToastController, IonButtons, IonBackButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonList, IonItem, IonLabel, IonSelect, IonSelectOption, IonIcon, IonListHeader } from '@ionic/angular/standalone';
 import { FirmService } from '../../../../core/services/firm.service';
-import { IFirm, IDeductionRule } from '@quickprolaw/shared-interfaces';
+import { IFirm, IDeductionRule } from '@teddy-city-hotels/shared-interfaces';
 import { addIcons } from 'ionicons';
 import { addCircleOutline, removeCircleOutline } from 'ionicons/icons';
 import { v4 as uuidv4 } from 'uuid';

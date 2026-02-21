@@ -1,8 +1,8 @@
-@use 'theme/variables' as *;
+@use '../../../theme/variables' as *;
 
 .booking-container {
   padding: 120px 20px; // Offset header
-  background-color: $hotel-background;
+  background-color: $theme-background;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -14,12 +14,12 @@
     width: 100%;
     max-width: 600px;
     box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-    border-top: 5px solid $hotel-primary;
+    border-top: 5px solid $theme-primary;
 
     h1 {
       text-align: center;
       margin-bottom: 10px;
-      color: $hotel-primary;
+      color: $theme-primary;
     }
 
     p {
@@ -44,7 +44,7 @@
           font-family: $font-family-sans;
           font-weight: 700;
           font-size: 0.9rem;
-          color: $hotel-text-dark;
+          color: $theme-text-dark;
           text-transform: uppercase;
           letter-spacing: 1px;
         }
@@ -59,7 +59,7 @@
 
           &:focus {
             outline: none;
-            border-color: $hotel-primary;
+            border-color: $theme-primary;
             background-color: #fff;
           }
         }
@@ -76,7 +76,7 @@
 
       .submit-btn {
         margin-top: 20px;
-        background-color: $hotel-primary;
+        background-color: $theme-primary;
         color: #fff;
         padding: 18px;
         font-family: $font-family-sans;
@@ -88,7 +88,7 @@
         transition: all 0.3s ease;
 
         &:hover {
-          background-color: darken($hotel-primary, 5%);
+          background-color: darken($theme-primary, 5%);
           box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
       }

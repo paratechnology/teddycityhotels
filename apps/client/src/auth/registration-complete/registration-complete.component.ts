@@ -4,7 +4,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonSpinner, IonIcon, IonCardSubtitle, ToastController } from '@ionic/angular/standalone';
 import { AuthService } from '../../app/core/services/auth.service';
 import { finalize } from 'rxjs/operators';
-import { IRegisterFirm } from '@quickprolaw/shared-interfaces';
+import { IRegisterFirm } from '@teddy-city-hotels/shared-interfaces';
 
 @Component({
   selector: 'app-registration-complete',

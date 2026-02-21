@@ -1,6 +1,6 @@
 // --- ACCESS CONTROL UTILITY ---
 
-import { IMatter, IUserIndex } from "@quickprolaw/shared-interfaces";
+import { IMatter, IUserIndex } from "@teddy-city-hotels/shared-interfaces";
 
 /**
  * Checks if a user has access to a given matter.

@@ -1,6 +1,6 @@
 import { Injectable, signal, computed, inject, runInInjectionContext, Injector } from '@angular/core';
 import { Firestore, collection, query, where, getCountFromServer, collectionGroup, getDocs, limit, orderBy } from '@angular/fire/firestore';
-import { IDashboardData, ICalendarAppEvent, IFirmUser } from '@quickprolaw/shared-interfaces';
+import { IDashboardData, ICalendarAppEvent, IFirmUser } from '@teddy-city-hotels/shared-interfaces';
 import { AttendanceService } from './attendance.service';
 import { firstValueFrom } from 'rxjs';
 

@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonSpinner, IonButton, IonButtons, IonBackButton, IonRefresher, IonRefresherContent, IonFooter, ModalController, AlertController, ToastController, IonIcon, IonCard } from '@ionic/angular/standalone';
 import { FinancialsService } from '../../../core/services/financials.service';
-import { IInvoice } from '@quickprolaw/shared-interfaces';
+import { IInvoice } from '@teddy-city-hotels/shared-interfaces';
 import { finalize } from 'rxjs/operators';
 import { RecordPaymentFormComponent } from '../components/record-payment-form/record-payment-form.component';
-import { baseURL } from '@quickprolaw/shared-interfaces';
+import { baseURL } from '@teddy-city-hotels/shared-interfaces';
 import { addIcons } from 'ionicons';
 import { mailOutline, downloadOutline } from 'ionicons/icons';
 

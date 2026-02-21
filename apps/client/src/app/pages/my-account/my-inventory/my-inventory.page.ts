@@ -5,7 +5,7 @@ import {
   IonList, IonItem, IonLabel, IonSpinner, IonIcon, IonButton, 
   ModalController, ToastController, IonChip 
 } from '@ionic/angular/standalone';
-import { IinventoryItem, IFirmUser } from '@quickprolaw/shared-interfaces';
+import { IinventoryItem, IFirmUser } from '@teddy-city-hotels/shared-interfaces';
 import { addIcons } from 'ionicons';
 import { 
   swapHorizontalOutline, returnUpBackOutline, menuOutline, refreshOutline,

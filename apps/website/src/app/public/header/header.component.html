@@ -1,23 +1,28 @@
-<mat-toolbar class="main-header" [class.hidden]="isHeaderHidden" [class.scrolled]="isScrolled">
-  <div class="header-content">
+<!-- Urban Oasis Header -->
+<header class="main-header" [class.scrolled]="isScrolled">
+  <div class="header-content container">
+
+    <!-- Logo -->
     <div class="logo">
-      <a routerLink="/">Teddy City<span>.</span></a>
+      <a routerLink="/">Teddy City Hotels</a>
     </div>
+
+    <!-- Desktop Navigation -->
     <nav class="desktop-nav">
-      <a mat-button *ngFor="let link of navLinks"
-         [routerLink]="link.href" 
-         [fragment]="link.fragment"
-         [href]="link.href + (link.fragment ? '#' + link.fragment : '')"
+      <a *ngFor="let link of navLinks"
+         [routerLink]="link.href"
          routerLinkActive="active-link"
          [routerLinkActiveOptions]="{exact: true}">
         {{ link.label }}
       </a>
     </nav>
+
+    <!-- Header Actions -->
     <div class="header-actions">
-      <a mat-raised-button color="accent" routerLink="/booking" class="btn-book-now">Book Now</a>
+      <a routerLink="/booking" class="btn btn-primary">Book Now</a>
     </div>
-    <button mat-icon-button class="mobile-menu-button" (click)="toggleSidenav.emit()">
-      <mat-icon>menu</mat-icon>
-    </button>
+
+    <!-- Mobile menu can be added here later -->
+
   </div>
-</mat-toolbar>
+</header>

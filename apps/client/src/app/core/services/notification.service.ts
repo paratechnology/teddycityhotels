@@ -8,7 +8,7 @@ import {
   limit,
   onSnapshot,
 } from '@angular/fire/firestore';
-import { INotification, baseURL } from '@quickprolaw/shared-interfaces';
+import { INotification, baseURL } from '@teddy-city-hotels/shared-interfaces';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';

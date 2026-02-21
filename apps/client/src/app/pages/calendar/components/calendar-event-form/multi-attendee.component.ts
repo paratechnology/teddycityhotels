@@ -15,7 +15,7 @@ import {
   IonSearchbar,
   ModalController
 } from '@ionic/angular/standalone';
-import { IFirmUser } from '@quickprolaw/shared-interfaces';
+import { IFirmUser } from '@teddy-city-hotels/shared-interfaces';
 
 @Component({
   selector: 'app-multi-attendee-select',

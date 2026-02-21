@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { IonSearchbar, IonList, IonItem, IonLabel, IonSpinner, IonListHeader, PopoverController } from '@ionic/angular/standalone';
-import { IGlobalSearchResult } from '@quickprolaw/shared-interfaces';
+import { IGlobalSearchResult } from '@teddy-city-hotels/shared-interfaces';
 import { SearchService } from '../../../core/services/search.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';

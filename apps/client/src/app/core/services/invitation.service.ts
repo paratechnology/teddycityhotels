@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { IInvitation, baseURL } from '@quickprolaw/shared-interfaces';
+import { IInvitation, baseURL } from '@teddy-city-hotels/shared-interfaces';
 import { Observable } from 'rxjs';
 
 export interface CreateInvitationDto {

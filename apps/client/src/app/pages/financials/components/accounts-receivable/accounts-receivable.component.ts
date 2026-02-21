@@ -6,7 +6,7 @@ import {
 } from '@ionic/angular/standalone';
 import { FinancialsService } from '../../../../core/services/financials.service';
 import { Router } from '@angular/router';
-import { IInvoice } from '@quickprolaw/shared-interfaces';
+import { IInvoice } from '@teddy-city-hotels/shared-interfaces';
 import { addIcons } from 'ionicons';
 import { folderOpenOutline } from 'ionicons/icons';
 import { InvoiceFormComponent } from '../invoice-form/invoice-form.component';

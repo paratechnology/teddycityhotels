@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import * as admin from 'firebase-admin';
-import { IUserIndex } from '@quickprolaw/shared-interfaces';
+import { IUserIndex } from '@teddy-city-hotels/shared-interfaces';
 
 // This interface is now obsolete because we are using declaration merging
 // in `src/types/express.d.ts` to augment the global Express.Request type.

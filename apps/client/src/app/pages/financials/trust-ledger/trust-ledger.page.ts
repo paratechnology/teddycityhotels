@@ -8,7 +8,7 @@ import {
 } from '@ionic/angular/standalone';
 import { FinancialsService } from '../../../core/services/financials.service';
 import { MatterService } from '../../../core/services/matter.service';
-import { ITrustTransaction } from '@quickprolaw/shared-interfaces';
+import { ITrustTransaction } from '@teddy-city-hotels/shared-interfaces';
 import { addIcons } from 'ionicons';
 import { 
   briefcaseOutline, arrowDownCircle, arrowUpCircle, receiptOutline 

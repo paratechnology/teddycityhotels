@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal, runInInjectionContext, Injector, computed } from '@angular/core';
 import { Router } from '@angular/router';
-import { IFirmUser, baseURL, IAuthResponse, IAcceptInvitation, IRegisterFirm } from '@quickprolaw/shared-interfaces';
+import { IFirmUser, baseURL, IAuthResponse, IAcceptInvitation, IRegisterFirm } from '@teddy-city-hotels/shared-interfaces';
 
 import { Observable, of, from, EMPTY, throwError } from 'rxjs';
 import { map, switchMap, tap, shareReplay, catchError, finalize } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import { AuthenticationResult } from '@azure/msal-browser';
 import { Capacitor } from '@capacitor/core';
 import { Preferences } from '@capacitor/preferences';
 import { Auth, signInWithEmailAndPassword, authState, User, signInWithCustomToken, getIdTokenResult, applyActionCode } from '@angular/fire/auth';
-import { ILoginSchemaType } from '@quickprolaw/shared-interfaces';
+import { ILoginSchemaType } from '@teddy-city-hotels/shared-interfaces';
 import { MicrosoftAuthService } from './microsoft-auth.service'; // <-- Import
 
 

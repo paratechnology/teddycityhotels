@@ -9,7 +9,7 @@ import {
   PermissionStatus,
 } from '@capacitor/push-notifications';
 import { HttpClient } from '@angular/common/http';
-import { baseURL } from '@quickprolaw/shared-interfaces';
+import { baseURL } from '@teddy-city-hotels/shared-interfaces';
 import { ToastController } from '@ionic/angular/standalone';
 import { AuthService } from './auth.service';
 

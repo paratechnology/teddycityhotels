@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonInput, IonButton, IonSpinner, ToastController, IonButtons, IonBackButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonNote, IonItemDivider } from '@ionic/angular/standalone';
 import { FirmService } from '../../../../core/services/firm.service';
-import { IFirm, IFirmUser } from '@quickprolaw/shared-interfaces';
+import { IFirm, IFirmUser } from '@teddy-city-hotels/shared-interfaces';
 
 @Component({
   selector: 'app-user-salaries',

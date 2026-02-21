@@ -5,7 +5,7 @@ import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validatio
 import { IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonInput, IonButton, IonIcon, IonList, IonNote, IonCardSubtitle, ToastController, IonListHeader } from '@ionic/angular/standalone';
 import { AuthService } from '../../app/core/services/auth.service';
 import { finalize } from 'rxjs/operators';
-import { IRegisterFirm } from '@quickprolaw/shared-interfaces';
+import { IRegisterFirm } from '@teddy-city-hotels/shared-interfaces';
 import {addIcons} from 'ionicons';
 import { alertCircleOutline, arrowForwardOutline } from 'ionicons/icons';
 

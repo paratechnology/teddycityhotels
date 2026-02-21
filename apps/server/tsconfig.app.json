@@ -8,7 +8,7 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "paths": {
-      "@quickprolaw/shared-interfaces": [
+      "@teddy-city-hotels/shared-interfaces": [
         "libs/shared-interfaces/src/index.ts"
       ]
     }

@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, computed, inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon, IonLabel, IonChip, IonAvatar, IonButton, AlertController, ModalController, PopoverController, IonCardSubtitle, IonPopover, IonList, IonItem } from '@ionic/angular/standalone';
-import { ICalendarAppEvent, IFirmUser, IFirmUserSubset } from '@quickprolaw/shared-interfaces';
+import { ICalendarAppEvent, IFirmUser, IFirmUserSubset } from '@teddy-city-hotels/shared-interfaces';
 
 import { addIcons } from 'ionicons';
 import {

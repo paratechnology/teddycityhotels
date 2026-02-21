@@ -3,7 +3,7 @@ import { injectable, inject } from 'tsyringe';
 import { AuthService } from '../services/auth.service';
 import firebaseAdmin from 'firebase-admin';
 import { FirestoreService } from '../services/firestore.service';
-import { AcceptInvitationDto, IAuthResponse, IFirmUser, IRegisterFirm, IUserIndex } from '@quickprolaw/shared-interfaces';
+import { AcceptInvitationDto, IAuthResponse, IFirmUser, IRegisterFirm, IUserIndex } from '@teddy-city-hotels/shared-interfaces';
 import { BadRequestError, NotFoundError, UnauthorizedError } from '../errors/http-errors';
 import HttpStatusCodes from '../constants/HttpStatusCodes';
 import { FirmService } from '../services/firm.service';

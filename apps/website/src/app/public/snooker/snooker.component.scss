@@ -1,129 +1,150 @@
-@use 'theme/variables' as *;
+@use '../../../theme/variables' as theme;
 
-.snooker-container {
-  padding-top: 80px; // Offset for fixed header
+:host {
+  display: block;
+  background-color: #f9f9f9; // Soft, light background for the whole page
+}
 
-  .hero {
-    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('assets/img/snooker-bg.jpg'); // Placeholder
-    background-size: cover;
-    background-position: center;
-    background-color: #1a1a1a; // Fallback
-    padding: 150px 20px;
-    color: #fff;
+.snooker-hero {
+  position: relative;
+  padding: 120px 40px;
+  background: linear-gradient(rgba(26, 35, 126, 0.85), rgba(26, 35, 126, 0.85)), url('/assets/img/snooker-hero.webp') no-repeat center center;
+  background-size: cover;
+  text-align: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  h1 {
+    font-family: theme.$font-family-serif;
+    font-size: 5rem;
+    font-weight: 700;
+    color: theme.$theme-secondary; // Luxury Gold
+    margin: 0;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+  }
+
+  p.subtitle {
+    font-family: theme.$font-family-sans;
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    max-width: 600px;
+    opacity: 0.9;
+    line-height: 1.6;
+  }
+}
+
+.content-section {
+  padding: 80px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .section-title {
     text-align: center;
+    font-family: theme.$font-family-serif;
+    font-size: 3rem;
+    color: theme.$theme-primary;
+    margin-bottom: 60px;
+    position: relative;
 
-    h1 {
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background-color: theme.$theme-secondary;
+    }
+  }
+}
+
+.league-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+  text-align: center;
+
+  .detail-card {
+    background: #ffffff;
+    padding: 40px 30px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 4px solid transparent;
+
+    &:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+      border-top-color: theme.$theme-secondary;
+    }
+
+    mat-icon {
       font-size: 4rem;
-      color: $hotel-secondary; // Gold
+      width: 80px;
+      height: 80px;
+      line-height: 80px;
+      color: theme.$theme-primary;
       margin-bottom: 20px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
+    }
+
+    h3 {
+      font-family: theme.$font-family-serif;
+      font-size: 1.8rem;
+      color: theme.$theme-primary;
+      margin-bottom: 15px;
     }
 
     p {
-      font-size: 1.5rem;
-      max-width: 700px;
-      margin: 0 auto 40px;
-      color: #ddd;
+      font-family: theme.$font-family-sans;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #555;
     }
+  }
+}
 
-    .cta-button {
-      background-color: $hotel-secondary;
-      color: #fff;
-      padding: 15px 40px;
-      font-family: $font-family-sans;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
+.registration-section {
+  background-color: #ffffff;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
 
-      &:hover {
-        background-color: #fff;
-        color: $hotel-text-dark;
-      }
+  .section-title {
+    color: theme.$theme-primary;
+  }
+
+  .registration-form {
+    max-width: 700px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+
+    .form-field {
+      width: 100%;
     }
   }
 
-  .info {
-    padding: 100px 20px;
-    background-color: #111;
-    color: #fff;
-    text-align: center;
+  .register-button {
+    margin-top: 20px;
+    padding: 15px 40px;
+    font-family: theme.$font-family-sans;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 50px;
+    background-color: theme.$theme-secondary;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 
-    h2 {
-      color: #fff;
-      margin-bottom: 60px;
-    }
-
-    .features {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
-
-      .feature-item {
-        flex: 1 1 300px;
-        background: #222;
-        padding: 40px;
-        border-top: 3px solid $hotel-secondary;
-        transition: transform 0.3s ease;
-
-        &:hover {
-          transform: translateY(-10px);
-        }
-
-        h3 {
-          color: $hotel-secondary;
-          font-size: 1.5rem;
-          margin-bottom: 15px;
-        }
-
-        p {
-          color: #aaa;
-        }
-      }
-    }
-  }
-
-  .registration {
-    padding: 100px 20px;
-    background-color: $hotel-background;
-    text-align: center;
-
-    h2 {
-      margin-bottom: 40px;
-    }
-
-    .price-tag {
-      font-size: 4rem;
-      font-weight: 700;
-      color: $hotel-primary;
-      font-family: $font-family-serif;
-      margin-bottom: 30px;
-
-      .currency {
-        font-size: 2rem;
-        vertical-align: top;
-        margin-right: 5px;
-      }
-    }
-
-    .register-btn {
-      background-color: $hotel-primary;
-      color: #fff;
-      padding: 18px 50px;
-      font-size: 1.2rem;
-      border: none;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: background 0.3s ease;
-
-      &:hover {
-        background-color: darken($hotel-primary, 10%);
-      }
+    &:hover {
+      background-color: darken(theme.$theme-secondary, 10%);
+      transform: translateY(-3px);
     }
   }
 }

@@ -1,6 +1,5 @@
-import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Component, HostListener, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink, RouterLinkActive } from '@angular/router';
@@ -8,36 +7,27 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, MatToolbarModule, MatButtonModule, MatIconModule],
+  imports: [
+    CommonModule,
+    RouterLink,
+    RouterLinkActive,
+    MatButtonModule,
+    MatIconModule
+  ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  @Output() toggleSidenav = new EventEmitter<void>();
+  // The navigation links are passed in from the main app component.
   @Input() navLinks: any[] = [];
 
-  private lastScroll = 0;
-  isHeaderHidden = false;
-  isScrolled = false; // Added to track scroll state for styling
+  // This boolean will be true if the user has scrolled down more than 10 pixels.
+  isScrolled = false;
 
+  // Listen to the window's scroll event.
   @HostListener('window:scroll')
   onWindowScroll() {
-    const currentScroll = window.pageYOffset;
-
-    // Determine if page is scrolled
-    this.isScrolled = currentScroll > 50;
-
-    if (currentScroll <= 0) {
-      this.isHeaderHidden = false;
-      return;
-    }
-
-    if (currentScroll > this.lastScroll && currentScroll > 100) {
-      this.isHeaderHidden = true;
-    } else {
-      this.isHeaderHidden = false;
-    }
-
-    this.lastScroll = currentScroll;
+    // Set isScrolled to true if the page is scrolled more than 10px, otherwise false.
+    this.isScrolled = window.pageYOffset > 10;
   }
 }

@@ -1,0 +1,186 @@
+@use '../../theme/variables' as theme;
+
+:host {
+  display: block;
+  background-color: #f4f6f8; // A very light grey for a soft, premium feel
+}
+
+// Base styles for all summary sections (snooker, swimming, etc.)
+.summary-section {
+  display: flex;
+  min-height: 70vh;
+  align-items: center;
+  padding: 5rem 0;
+  position: relative;
+  overflow: hidden;
+
+  // Alternating layout
+  &:nth-child(odd) {
+    flex-direction: row-reverse;
+  }
+
+  // Common background image styling
+  .summary-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+  }
+
+  // Content card
+  .summary-content {
+    position: relative;
+    z-index: 2;
+    background-color: white;
+    padding: 3.5rem;
+    max-width: 550px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+
+    h2 {
+      font-family: theme.$font-family-serif;
+      font-size: 3.2rem;
+      color: theme.$theme-primary;
+      margin-top: 0;
+      line-height: 1.2;
+    }
+
+    .divider {
+      width: 80px;
+      height: 3px;
+      background-color: theme.$theme-accent;
+      margin: 1.5rem 0;
+      border: none;
+    }
+
+    p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #444;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn {
+      padding: 14px 35px;
+    }
+  }
+}
+
+// Specific section styles
+.snooker-summary {
+  .summary-bg {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/img/snooker-bg.jpg');
+  }
+  .summary-content {
+    margin-left: 10%;
+  }
+}
+
+.swimming-summary {
+  .summary-bg {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/img/poolside.webp');
+  }
+  .summary-content {
+    margin-right: 10%;
+  }
+}
+
+// Responsive adjustments for summary sections
+@media (max-width: 992px) {
+  .summary-section, .summary-section:nth-child(odd) {
+    flex-direction: column;
+    justify-content: center;
+    min-height: auto;
+    padding: 5rem 2rem;
+  }
+
+  .snooker-summary .summary-content,
+  .swimming-summary .summary-content {
+    margin: 0;
+    text-align: center;
+    .divider { margin: 1.5rem auto; }
+  }
+
+  .summary-bg {
+    filter: brightness(0.6); // Darken image on mobile to ensure text is readable
+  }
+
+  .summary-content h2 { font-size: 2.5rem; }
+}
+
+
+// Testimonials Section
+.testimonials-section {
+  padding: 8rem 2rem;
+  background-color: #fff;
+  text-align: center;
+
+  .section-title {
+    font-size: 3.5rem;
+    font-family: theme.$font-family-serif;
+    color: theme.$theme-primary;
+    margin-bottom: 5rem;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background-color: theme.$theme-accent;
+    }
+  }
+
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .testimonial-card {
+    background-color: #f4f6f8;
+    padding: 2.5rem;
+    border-radius: 8px;
+    border: 1px solid #e9eef2;
+    text-align: left;
+    position: relative;
+    padding-top: 4rem;
+
+    &::before {
+      content: '“';
+      position: absolute;
+      top: 0;
+      left: 2rem;
+      font-size: 6rem;
+      font-family: theme.$font-family-serif;
+      color: theme.$theme-accent;
+      line-height: 1;
+      opacity: 0.5;
+    }
+
+    .quote {
+      font-family: theme.$font-family-sans;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #333;
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+
+    .author {
+      font-family: theme.$font-family-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: theme.$theme-primary;
+    }
+  }
+}

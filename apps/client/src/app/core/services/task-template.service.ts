@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CreateTaskTemplateDto, ITaskTemplate, baseURL } from '@quickprolaw/shared-interfaces';
+import { CreateTaskTemplateDto, ITaskTemplate, baseURL } from '@teddy-city-hotels/shared-interfaces';
 
 @Injectable({
   providedIn: 'root'

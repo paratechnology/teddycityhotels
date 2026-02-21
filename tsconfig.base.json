@@ -14,10 +14,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@quickprolaw/shared-interfaces": ["libs/shared-interfaces/src/index.ts"],
-      "@quickprolaw/shared-interfaces/*": ["libs/shared-interfaces/src/*"],
-      "@quickprolaw/shared-services": ["libs/shared-services/src/index.ts"],
-      "@quickprolaw/shared-services/*": ["libs/shared-services/src/*"]
+      "@teddy-city-hotels/shared-interfaces": ["libs/shared-interfaces/src/index.ts"],
+      "@teddy-city-hotels/shared-interfaces/*": ["libs/shared-interfaces/src/*"],
+      "@teddy-city-hotels/shared-services": ["libs/shared-services/src/index.ts"],
+      "@teddy-city-hotels/shared-services/*": ["libs/shared-services/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

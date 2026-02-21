@@ -14,7 +14,7 @@ import {
 } from 'ionicons/icons';
 import { AuthService } from '../../../core/services/auth.service';
 import { NavigationService } from '../../../core/services/navigation.service';
-import { IFirm } from '@quickprolaw/shared-interfaces';
+import { IFirm } from '@teddy-city-hotels/shared-interfaces';
 import { FirmService } from '../../../core/services/firm.service';
 import { AccessControlService } from '../../../core/services/access-control.service';
 

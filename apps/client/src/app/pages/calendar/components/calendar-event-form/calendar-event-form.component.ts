@@ -2,7 +2,7 @@ import { Component, Input, OnInit, inject, signal, OnDestroy } from '@angular/co
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalController, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonList, IonItem, IonInput, IonSelect, IonSelectOption, IonSpinner, IonLabel, IonNote, IonIcon, IonTextarea, IonToggle, IonDatetime, IonDatetimeButton, IonModal, ToastController, IonItemGroup, IonItemDivider, IonText, IonListHeader, IonFooter, IonPopover } from '@ionic/angular/standalone';
-import { ICalendarAppEvent, IMatter, IClient, IFirmUserSubset, CalendarEventType, ILitigationMatter, IRealEstateMatter } from '@quickprolaw/shared-interfaces';
+import { ICalendarAppEvent, IMatter, IClient, IFirmUserSubset, CalendarEventType, ILitigationMatter, IRealEstateMatter } from '@teddy-city-hotels/shared-interfaces';
 import { CalendarService } from '../../../../core/services/calendar.service';
 import { MatterService } from '../../../../core/services/matter.service';
 import { FirmService } from '../../../../core/services/firm.service';

@@ -6,7 +6,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonInput
 import { catchError, finalize, of } from 'rxjs';
 import { InvitationService } from '../../core/services/invitation.service';
 import { AuthService } from '../../core/services/auth.service';
-import { IAcceptInvitation } from '@quickprolaw/shared-interfaces';
+import { IAcceptInvitation } from '@teddy-city-hotels/shared-interfaces';
 
 type PageStatus = 'loadingToken' | 'valid' | 'invalidToken' ;
 

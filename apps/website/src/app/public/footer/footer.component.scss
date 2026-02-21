@@ -1,10 +1,10 @@
-@use 'theme/variables' as *;
+@use '../../../theme/variables' as theme;
 
 .main-footer {
-  background-color: #111; // Deep dark footer
-  color: #fff;
+  background-color: theme.$theme-background; // Use theme's dark background
+  color: theme.$theme-text-dark; // Use theme's primary light text color
   padding: 80px 0 30px;
-  font-family: $font-family-sans;
+  font-family: theme.$font-family-sans;
 
   .footer-container {
     max-width: 1200px;
@@ -28,21 +28,21 @@
 
   .footer-column {
     h4 {
-      color: #fff;
+      color: theme.$theme-primary; // White headings
       font-size: 1.5rem;
       margin-bottom: 25px;
       letter-spacing: 1px;
 
       &.logo {
-        font-family: $font-family-serif;
+        font-family: theme.$font-family-serif;
         font-size: 2rem;
 
-        span { color: $hotel-secondary; }
+        span { color: theme.$theme-secondary; } // Gold accent
       }
     }
 
     p {
-      color: #aaa;
+      color: theme.$theme-text-dark; // Soft ivory text
       line-height: 1.6;
       margin-bottom: 20px;
     }
@@ -56,12 +56,12 @@
         margin-bottom: 12px;
 
         a {
-          color: #aaa;
+          color: theme.$theme-text-dark; // Soft ivory text
           text-decoration: none;
-          transition: color 0.3s ease;
+          transition: all 0.3s ease;
 
           &:hover {
-            color: $hotel-secondary;
+            color: theme.$theme-secondary; // Gold on hover
             padding-left: 5px;
           }
         }
@@ -71,10 +71,10 @@
         display: flex;
         align-items: flex-start;
         gap: 10px;
-        color: #aaa;
+        color: theme.$theme-text-dark;
 
         mat-icon {
-          color: $hotel-secondary;
+          color: theme.$theme-secondary; // Gold icon
           font-size: 1.2rem;
           width: 1.2rem;
           height: 1.2rem;
@@ -93,14 +93,15 @@
         justify-content: center;
         width: 40px;
         height: 40px;
-        border: 1px solid #333;
+        border: 1px solid theme.$theme-border; // Use theme border color
         border-radius: 50%;
-        color: #fff;
+        color: theme.$theme-primary; // White icon color
         transition: all 0.3s ease;
 
         &:hover {
-          background-color: $hotel-secondary;
-          border-color: $hotel-secondary;
+          background-color: theme.$theme-secondary; // Gold background on hover
+          border-color: theme.$theme-secondary;
+          color: theme.$theme-background; // Dark text for contrast
           transform: translateY(-3px);
         }
       }
@@ -108,10 +109,10 @@
   }
 
   .footer-copyright {
-    border-top: 1px solid #222;
+    border-top: 1px solid theme.$theme-border;
     padding-top: 30px;
     text-align: center;
-    color: #666;
+    color: darken(theme.$theme-text-dark, 25%); // Darker ivory for copyright
     font-size: 0.9rem;
   }
 }

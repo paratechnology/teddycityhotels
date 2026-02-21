@@ -1,5 +1,5 @@
 import { Injectable, signal, inject } from '@angular/core';
-import { IFirmUser } from '@quickprolaw/shared-interfaces';
+import { IFirmUser } from '@teddy-city-hotels/shared-interfaces';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 export interface INavLink {

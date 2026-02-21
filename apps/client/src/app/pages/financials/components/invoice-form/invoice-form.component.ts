@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalController, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonList, IonItem, IonSpinner, IonLabel, ToastController, IonNote, IonIcon, IonText, IonListHeader, IonCheckbox, IonItemDivider } from '@ionic/angular/standalone';
-import { CreateInvoiceDto, IMatter, IUnbilledItem } from '@quickprolaw/shared-interfaces';
+import { CreateInvoiceDto, IMatter, IUnbilledItem } from '@teddy-city-hotels/shared-interfaces';
 import { FinancialsService } from '../../../../core/services/financials.service';
 import { MatterService } from '../../../../core/services/matter.service';
 import { SearchableSelectComponent } from '../../../../components/searchable-select/searchable-select.component';

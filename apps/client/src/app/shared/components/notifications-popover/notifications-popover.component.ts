@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { IonList, IonItem, IonLabel, IonNote, IonIcon, IonButton, PopoverController, ToastController } from '@ionic/angular/standalone';
-import { INotification, NotificationType } from '@quickprolaw/shared-interfaces';
+import { INotification, NotificationType } from '@teddy-city-hotels/shared-interfaces';
 import { NotificationService } from '../../../core/services/notification.service';
 import { addIcons } from 'ionicons';
 import { checkmarkOutline, closeCircleOutline } from 'ionicons/icons';

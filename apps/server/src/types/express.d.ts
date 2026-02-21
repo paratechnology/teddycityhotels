@@ -1,4 +1,4 @@
-import { IUserIndex } from "@quickprolaw/shared-interfaces";
+import { IUserIndex } from "@teddy-city-hotels/shared-interfaces";
 
 // This uses declaration merging to add a 'user' property to the global Express Request interface.
 // This tells TypeScript that any 'Request' object *might* have a 'user' property.

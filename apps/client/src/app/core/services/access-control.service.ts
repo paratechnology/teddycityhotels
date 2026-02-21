@@ -1,6 +1,6 @@
 import { Injectable, computed, inject } from '@angular/core';
 import { AuthService } from './auth.service';
-import { IFirmUser } from '@quickprolaw/shared-interfaces';
+import { IFirmUser } from '@teddy-city-hotels/shared-interfaces';
 
 /**
  * A centralized service for handling role-based access control (RBAC) throughout the application.

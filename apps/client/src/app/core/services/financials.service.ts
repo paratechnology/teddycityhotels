@@ -21,7 +21,7 @@ import {
     IProfessionalFeeAgreement, CreateProfessionalFeeAgreementDto,
     IFinancialActivity,
     IPayrollDraft
-} from '@quickprolaw/shared-interfaces';
+} from '@teddy-city-hotels/shared-interfaces';
 import { Observable, tap, catchError } from 'rxjs';
 
 interface FinancialsState {

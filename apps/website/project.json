@@ -37,6 +37,11 @@
         "styles": [
           "apps/website/src/styles.scss"
         ],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "apps/website/src"
+          ]
+        },
         "scripts": []
       },
       "configurations": {

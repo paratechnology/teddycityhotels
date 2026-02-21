@@ -2,7 +2,7 @@ import { Injectable, signal, computed, inject, WritableSignal } from '@angular/c
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
-import { baseURL, FetchStatus, IMatter, MatterStatus, PaginatedResponse, MatterFilters } from '@quickprolaw/shared-interfaces';
+import { baseURL, FetchStatus, IMatter, MatterStatus, PaginatedResponse, MatterFilters } from '@teddy-city-hotels/shared-interfaces';
 
 interface MattersState {
   matters: IMatter[];

@@ -2,7 +2,7 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalController, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonList, IonItem, IonInput, IonSpinner, IonLabel, ToastController, IonNote, IonIcon, IonText } from '@ionic/angular/standalone';
-import { CreateTrustDepositDto, IMatter } from '@quickprolaw/shared-interfaces';
+import { CreateTrustDepositDto, IMatter } from '@teddy-city-hotels/shared-interfaces';
 import { FinancialsService } from '../../../../core/services/financials.service';
 import { MatterService } from '../../../../core/services/matter.service';
 import { SearchableSelectComponent } from '../../../../components/searchable-select/searchable-select.component';

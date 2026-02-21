@@ -1,9 +1,0 @@
-<ion-searchbar (ionInput)="onSearch($event)" placeholder="Search for a colleague" [debounce]="250"></ion-searchbar>
-<ion-list>
-  <ion-item *ngFor="let user of filteredUsers()" (click)="selectUser(user)" button detail="false">
-    <ion-label>{{ user.firstName }} {{ user.lastName }}</ion-label>
-  </ion-item>
-  <ion-item *ngIf="filteredUsers().length === 0" lines="none">
-    <ion-label class="ion-text-center"><small>No users found.</small></ion-label>
-  </ion-item>
-</ion-list>

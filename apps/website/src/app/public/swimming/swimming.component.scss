@@ -1,10 +1,10 @@
-@use 'theme/variables' as *;
+@use '../../../theme/variables' as *;
 
 .swimming-container {
   padding-top: 80px;
 
   .hero {
-    background: linear-gradient(rgba(0,180,219,0.3), rgba(0,131,176,0.5)), url('assets/img/pool-bg.jpg'); // Placeholder
+    background: linear-gradient(rgba(0,180,219,0.3), rgba(0,131,176,0.5)), url('../../../assets/img/poolside.webp'); // Placeholder
     background-size: cover;
     background-position: center;
     background-color: #e0f7fa;

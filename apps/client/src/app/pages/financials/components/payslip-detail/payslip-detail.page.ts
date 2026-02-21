@@ -8,7 +8,7 @@ import {
   IonListHeader, IonGrid, IonRow, IonCol, IonChip 
 } from '@ionic/angular/standalone';
 import { FinancialsService } from '../../../../core/services/financials.service';
-import { IPayslip } from '@quickprolaw/shared-interfaces';
+import { IPayslip } from '@teddy-city-hotels/shared-interfaces';
 import { addIcons } from 'ionicons';
 import { mailOutline, downloadOutline, shareOutline, walletOutline, trendingDownOutline, trendingUpOutline } from 'ionicons/icons';
 

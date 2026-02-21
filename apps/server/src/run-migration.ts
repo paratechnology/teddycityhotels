@@ -1,7 +1,7 @@
 import * as admin from 'firebase-admin';
 import dotenv from 'dotenv';
 import { getFirestore, Timestamp } from 'firebase-admin/firestore';
-import { IAttendanceRecord, IAttendanceUserPunch, IAttendanceUserRecord, IFirm, IFirmUser, IDesignation, IMatter, MatterFilters, PaginatedResponse, ISubscriptionPlan } from '@quickprolaw/shared-interfaces';
+import { IAttendanceRecord, IAttendanceUserPunch, IAttendanceUserRecord, IFirm, IFirmUser, IDesignation, IMatter, MatterFilters, PaginatedResponse, ISubscriptionPlan } from '@teddy-city-hotels/shared-interfaces';
 
 // --- SCRIPT INITIALIZATION ---
 // Load environment variables from the root .env.production file, just like your app does.

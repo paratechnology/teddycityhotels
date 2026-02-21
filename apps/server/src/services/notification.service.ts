@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import { FirestoreService } from './firestore.service';
-import { INotification } from '@quickprolaw/shared-interfaces';
+import { INotification } from '@teddy-city-hotels/shared-interfaces';
 import { PushNotificationService } from './push-notification.service';
 
 @injectable()

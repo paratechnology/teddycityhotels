@@ -1,6 +1,6 @@
 import { Request, NextFunction, Response } from 'express';
 import { AttachmentService } from '../services/attachment.service';
-import { GenerateUploadUrlDto, IFirmUser } from '@quickprolaw/shared-interfaces';
+import { GenerateUploadUrlDto, IFirmUser } from '@teddy-city-hotels/shared-interfaces';
 import { injectable, inject } from 'tsyringe';
 import { UnauthorizedError } from '../errors/http-errors';
 

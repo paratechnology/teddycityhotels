@@ -7,7 +7,7 @@ import {
   ModalController, IonIcon, IonFooter, IonSegment, IonSegmentButton, IonLabel,
   IonTextarea 
 } from '@ionic/angular/standalone';
-import { IClient, CreateClientDto, UpdateClientDto, ClientType } from '@quickprolaw/shared-interfaces';
+import { IClient, CreateClientDto, UpdateClientDto, ClientType } from '@teddy-city-hotels/shared-interfaces';
 import { finalize } from 'rxjs';
 import { ClientService } from '../../../../core/services/client.service';
 import { addIcons } from 'ionicons';

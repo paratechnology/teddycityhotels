@@ -11,3 +11,4 @@ export * from './lib/attachment.interface';
 export * from './lib/invitation.interface';
 export * from './lib/accept-invitation.interface';
 export * from './lib/auth-response.interface';
+export * from './lib/room.interface';

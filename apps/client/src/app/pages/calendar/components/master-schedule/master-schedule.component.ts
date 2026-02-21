@@ -43,7 +43,7 @@ import {
   CreateCalendarEventDto,
   UpdateCalendarEventDto,
   IFirmUserSubset,
-} from '@quickprolaw/shared-interfaces';
+} from '@teddy-city-hotels/shared-interfaces';
 
 import { TourService } from '../../../../core/services/tour.service';
 import { DriveStep } from 'driver.js';

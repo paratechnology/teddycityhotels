@@ -6,7 +6,7 @@ import { FirmController } from '../controllers/firm.controller';
 import { validationMiddleware } from '../middleware/validation.middleware';
 import { InvitationRoutes } from './invitation.routes';
 import { verifyUser } from '../middleware/authenticate.middleware';
-import { AcceptInvitationSchema } from '@quickprolaw/shared-interfaces';
+import { AcceptInvitationSchema } from '@teddy-city-hotels/shared-interfaces';
 
 
 export class AuthRoutes {

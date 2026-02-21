@@ -8,7 +8,7 @@ import {
   IonButtons, ModalController, ActionSheetController, IonChip 
 } from '@ionic/angular/standalone';
 import { Subject, distinctUntilChanged, switchMap, takeUntil } from 'rxjs';
-import { IClient } from '@quickprolaw/shared-interfaces';
+import { IClient } from '@teddy-city-hotels/shared-interfaces';
 import { ClientService, ClientFilters } from '../../core/services/client.service';
 import { addIcons } from 'ionicons';
 import { 

@@ -2,7 +2,7 @@ import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
-import { baseURL, IProperty, IUnit, ILease, CreatePropertyDto, IMaintenanceRequest } from '@quickprolaw/shared-interfaces';
+import { baseURL, IProperty, IUnit, ILease, CreatePropertyDto, IMaintenanceRequest } from '@teddy-city-hotels/shared-interfaces';
 
 interface PropertyState {
   properties: IProperty[];

@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { IAdminDashboardStats, ITasksPerUserStat, ITask } from '@quickprolaw/shared-interfaces';
+import { IAdminDashboardStats, ITasksPerUserStat, ITask } from '@teddy-city-hotels/shared-interfaces';
 import { Observable, switchMap, of, map, BehaviorSubject, combineLatest, filter as rxFilter, from } from 'rxjs';
 import { Firestore, collection, getDocs, query } from '@angular/fire/firestore';
 import { AuthService } from './auth.service';

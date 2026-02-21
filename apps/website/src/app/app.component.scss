@@ -1,103 +1,18 @@
-@use '../theme/variables' as variables;
+@use '../theme/variables' as theme;
 
-// --- Main App Layout ---
-.app-container {
+:host {
+  // Use block display and flexbox to ensure the layout fills the viewport.
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-}
-
-.app-content {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background-color: #fff;
 }
 
 .main-content {
-  flex: 1 1 auto; // Ensures content area grows and pushes footer down
-  padding-top: 64px; // Pushes content below the fixed header
-}
+  // The main content area should grow to fill available space,
+  // pushing the footer to the bottom of the page.
+  flex: 1 1 auto;
 
-// --- "Brilliant" Sidenav Styling ---
-.app-sidenav {
-  width: 300px;
-  max-width: 80vw;
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-.sidenav-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid #eee;
-  min-height: 64px;
-
-  .logo a {
-    font-size: 1.6rem;
-    font-weight: 800;
-    text-decoration: none;
-    color: variables.$primary-text;
-
-    span {
-      color: variables.$accent-gold;
-    }
-  }
-
-  button {
-    color: variables.$secondary-text;
-  }
-}
-
-.sidenav-nav {
-  flex: 1 1 auto; // Makes the nav list grow to fill available space
-  padding-top: 1rem;
-
-  .mat-list-item {
-    padding: 0 1.5rem;
-
-    [matListItemTitle] {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: variables.$primary-text;
-      padding: 12px 0;
-    }
-
-    &:hover {
-      background-color: rgba(variables.$accent-gold, 0.05);
-
-      [matListItemTitle] {
-        color: variables.$accent-gold;
-      }
-    }
-  }
-}
-
-.sidenav-footer {
-  flex-shrink: 0; // Prevents this from shrinking
-  padding: 1.5rem;
-  border-top: 1px solid #eee;
-  background-color: #f9f9f9;
-
-  a.mat-raised-button {
-    width: 100%;
-    padding: 16px 0;
-    font-size: 1rem;
-    font-weight: 600;
-
-    .mat-icon {
-      margin-right: 8px;
-    }
-  }
-
-  .copyright {
-    text-align: center;
-    font-size: 0.8rem;
-    color: variables.$secondary-text;
-    margin-top: 1.5rem;
-  }
+  // No top padding, so pages can have full-width hero elements.
+  // Pages themselves should manage their top padding if needed.
+  padding-bottom: 2rem;
 }

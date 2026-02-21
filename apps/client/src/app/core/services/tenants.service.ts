@@ -1,8 +1,8 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { baseURL } from '@quickprolaw/shared-interfaces';
-import { ITenant } from '@quickprolaw/shared-interfaces';
+import { baseURL } from '@teddy-city-hotels/shared-interfaces';
+import { ITenant } from '@teddy-city-hotels/shared-interfaces';
 
 @Injectable({ providedIn: 'root' })
 export class TenantsService {

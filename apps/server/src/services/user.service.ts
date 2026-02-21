@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe';
-import { IFirm, IFirmUser, IGeneralFile, ILibraryBook, IMatter, IinventoryItem } from '@quickprolaw/shared-interfaces';
+import { IFirm, IFirmUser, IGeneralFile, ILibraryBook, IMatter, IinventoryItem } from '@teddy-city-hotels/shared-interfaces';
 import { FirestoreService } from './firestore.service';
 import { BadRequestError, NotFoundError, UnauthorizedError } from '../errors/http-errors';
 import axios from 'axios';

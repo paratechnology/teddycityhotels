@@ -1,6 +1,6 @@
 import { injectable, inject } from 'tsyringe';
 import { FirestoreService } from './firestore.service';
-import { IFirmUser, IPushNotification } from '@quickprolaw/shared-interfaces';
+import { IFirmUser, IPushNotification } from '@teddy-city-hotels/shared-interfaces';
 import * as admin from 'firebase-admin';
 import { link } from 'fs';
 

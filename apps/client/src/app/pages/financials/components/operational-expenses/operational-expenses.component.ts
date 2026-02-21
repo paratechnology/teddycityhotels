@@ -6,7 +6,7 @@ import {
 } from '@ionic/angular/standalone';
 import { AuthService } from '../../../../core/services/auth.service';
 import { FinancialsService } from '../../../../core/services/financials.service';
-import { IOperationalExpense, UpdateOperationalExpenseStatusDto } from '@quickprolaw/shared-interfaces';
+import { IOperationalExpense, UpdateOperationalExpenseStatusDto } from '@teddy-city-hotels/shared-interfaces';
 import { addIcons } from 'ionicons';
 import { add, checkmark, close, receiptOutline } from 'ionicons/icons';
 import { AlertController, ToastController } from '@ionic/angular/standalone';

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { injectable, inject } from 'tsyringe';
 import { FirestoreService } from '../services/firestore.service'; // Assuming you have this generic service
-import { IFirmUser, ITenant } from '@quickprolaw/shared-interfaces';
+import { IFirmUser, ITenant } from '@teddy-city-hotels/shared-interfaces';
 
 @injectable()
 export class TenantsController {

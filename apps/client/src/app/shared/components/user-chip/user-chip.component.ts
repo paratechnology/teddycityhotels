@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonChip, IonAvatar, IonLabel } from '@ionic/angular/standalone';
-import { IFirmUserSubset } from '@quickprolaw/shared-interfaces';
+import { IFirmUserSubset } from '@teddy-city-hotels/shared-interfaces';
 
 @Component({
   selector: 'app-user-chip',

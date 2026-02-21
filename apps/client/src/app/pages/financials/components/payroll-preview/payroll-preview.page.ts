@@ -8,7 +8,7 @@ import {
   IonInput, IonButton, IonIcon, AlertController, ToastController 
 } from '@ionic/angular/standalone';
 import { FinancialsService } from '../../../../core/services/financials.service';
-import { IPayrollDraft, IPayrollDraftItem } from '@quickprolaw/shared-interfaces';
+import { IPayrollDraft, IPayrollDraftItem } from '@teddy-city-hotels/shared-interfaces';
 import { addIcons } from 'ionicons';
 import { 
   addCircleOutline, removeCircleOutline, saveOutline, calendarOutline, 

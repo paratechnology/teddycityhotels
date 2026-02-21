@@ -48,7 +48,7 @@ import {
   isSameMonth,
 } from 'date-fns'; // <--- Ensure these are imported
 import { CalendarService } from '../../core/services/calendar.service';
-import { ICalendarAppEvent } from '@quickprolaw/shared-interfaces';
+import { ICalendarAppEvent } from '@teddy-city-hotels/shared-interfaces';
 import { addIcons } from 'ionicons';
 import {
   add,

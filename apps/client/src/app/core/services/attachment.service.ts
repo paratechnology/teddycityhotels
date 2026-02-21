@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, from, switchMap } from 'rxjs';
-import { IAttachment, CreateAttachmentDto, baseURL } from '@quickprolaw/shared-interfaces';
+import { IAttachment, CreateAttachmentDto, baseURL } from '@teddy-city-hotels/shared-interfaces';
 
 interface UploadUrlResponse {
   uploadUrl: string;
