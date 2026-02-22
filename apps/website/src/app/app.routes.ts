@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { PublicContainerComponent } from './public/public-container.component';
 import { RoomsComponent } from './public/rooms/rooms.component';
+import { BookingConfirmationComponent } from './public/booking-confirmation/booking-confirmation.component';
+import { PaymentVerificationComponent } from './public/payment-verification/payment-verification.component';
 
 
 
@@ -18,6 +20,18 @@ export const routes: Routes = [
     path: 'rooms',
     component: RoomsComponent
   },
+  {
+    path: 'booking/:roomId',
+    component: BookingComponent
+  },
+  {
+    path: 'booking-confirmation/:bookingId',
+    component: BookingConfirmationComponent
+  },
+  {
+    path: 'payment-verification',
+    component: PaymentVerificationComponent
+  },
 
   // --- HOTEL ROUTES ---
   {
@@ -27,10 +41,6 @@ export const routes: Routes = [
   {
     path: 'swimming',
     component: SwimmingComponent
-  },
-  {
-    path: 'booking',
-    component: BookingComponent
   },
   
  // Fallback route 

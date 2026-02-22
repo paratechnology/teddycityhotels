@@ -1,40 +1,166 @@
-<div class="snooker-container">
-  <section class="hero">
-    <h1>Teddy City Snooker League</h1>
-    <p>Join the most exciting snooker competition in town!</p>
-    <button class="cta-button">Register Now</button>
-  </section>
-
-  <section class="info">
-    <h2>About the League</h2>
-    <p>
-      Compete with the best players in a professionally organized league.
-      Our structure mimics the excitement of a football tournament.
-    </p>
-
-    <div class="features">
-      <div class="feature-item">
-        <h3>Group Stages</h3>
-        <p>Players are divided into groups where everyone plays each other.</p>
-      </div>
-      <div class="feature-item">
-        <h3>Knockout Rounds</h3>
-        <p>Top qualifiers advance to the thrilling knockout stage.</p>
-      </div>
-      <div class="feature-item">
-        <h3>Grand Finale</h3>
-        <p>Battle for the championship title and prizes.</p>
-      </div>
+<div class="snooker-page">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>The Gentlemen's Game</h1>
+      <p>Join the Teddy City Snooker League. Precision, Strategy, Glory.</p>
     </div>
   </section>
 
-  <section class="registration">
-    <h2>Registration Details</h2>
-    <div class="price-tag">
-      <span class="currency">₦</span>
-      <span class="amount">5,000</span>
-    </div>
-    <p>One-time registration fee.</p>
-    <button class="register-btn">Sign Up for the League</button>
-  </section>
+  <!-- Main Content -->
+  <div class="container main-content">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" animationDuration="500ms" class="custom-tabs">
+      
+      <!-- Overview Tab -->
+      <mat-tab label="League Overview">
+        <div class="tab-content">
+          <div class="info-grid">
+            <div class="info-card">
+              <mat-icon>emoji_events</mat-icon>
+              <h3>Professional Rules</h3>
+              <p>We follow standard WPBSA rules to ensure a fair and competitive environment for all players.</p>
+            </div>
+            <div class="info-card">
+              <mat-icon>groups</mat-icon>
+              <h3>Community</h3>
+              <p>Connect with fellow enthusiasts. Our league is as much about the social experience as it is about the game.</p>
+            </div>
+            <div class="info-card">
+              <mat-icon>schedule</mat-icon>
+              <h3>Flexible Scheduling</h3>
+              <p>Matches are scheduled weekly, but players have flexibility to arrange exact times with opponents.</p>
+            </div>
+          </div>
+
+          <div class="season-info" *ngIf="leagueData">
+            <h2>{{ leagueData.seasonName }}</h2>
+            <p>The current season is underway. Check the standings to see who is leading the pack.</p>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Standings Tab -->
+      <mat-tab label="Standings">
+        <div class="tab-content">
+          <div *ngFor="let group of leagueData.groups" class="group-table-container">
+            <h3>{{ group.name }}</h3>
+            <table mat-table [dataSource]="group.players" class="mat-elevation-z0">
+              <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef> Pos </th>
+                <td mat-cell *matCellDef="let element; let i = index"> {{i + 1}} </td>
+              </ng-container>
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Player </th>
+                <td mat-cell *matCellDef="let element"> {{element.fullName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="played">
+                <th mat-header-cell *matHeaderCellDef> P </th>
+                <td mat-cell *matCellDef="let element"> {{element.stats?.played || 0}} </td>
+              </ng-container>
+              <ng-container matColumnDef="won">
+                <th mat-header-cell *matHeaderCellDef> W </th>
+                <td mat-cell *matCellDef="let element"> {{element.stats?.won || 0}} </td>
+              </ng-container>
+              <ng-container matColumnDef="lost">
+                <th mat-header-cell *matHeaderCellDef> L </th>
+                <td mat-cell *matCellDef="let element"> {{element.stats?.lost || 0}} </td>
+              </ng-container>
+              <ng-container matColumnDef="points">
+                <th mat-header-cell *matHeaderCellDef> Pts </th>
+                <td mat-cell *matCellDef="let element"> <strong>{{element.stats?.points || 0}}</strong> </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Fixtures Tab -->
+      <mat-tab label="Fixtures & Results">
+        <div class="tab-content">
+          <div class="matches-list">
+            <div *ngFor="let match of leagueData.matches" class="match-card">
+              <div class="match-header">
+                <span class="stage">{{ match.stage }}</span>
+                <span class="status" [class.live]="match.status === 'Live'" [class.completed]="match.status === 'Completed'">{{ match.status }}</span>
+              </div>
+              <div class="match-body">
+                <div class="player p1">
+                  <span class="name">{{ match.player1.name }}</span>
+                  <span class="score" *ngIf="match.score">{{ match.score.p1 }}</span>
+                </div>
+                <div class="vs">vs</div>
+                <div class="player p2">
+                  <span class="score" *ngIf="match.score">{{ match.score.p2 }}</span>
+                  <span class="name">{{ match.player2.name }}</span>
+                </div>
+              </div>
+              <div class="match-footer">
+                {{ match.dateScheduled | date:'mediumDate' }} • {{ match.dateScheduled | date:'shortTime' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Registration Tab -->
+      <mat-tab label="Register">
+        <div class="tab-content registration-container" id="register">
+          <div class="form-wrapper">
+            <h2>Join the League</h2>
+            <p>Fill out the form below to register for the next season.</p>
+            
+            <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+              <div class="form-row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Full Name</mat-label>
+                  <input matInput formControlName="fullName" placeholder="John Doe">
+                  <mat-error *ngIf="registrationForm.get('fullName')?.hasError('required')">Name is required</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Nickname (Optional)</mat-label>
+                  <input matInput formControlName="nickname" placeholder="The Rocket">
+                </mat-form-field>
+              </div>
+
+              <div class="form-row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Email Address</mat-label>
+                  <input matInput formControlName="email" placeholder="john@example.com">
+                  <mat-error *ngIf="registrationForm.get('email')?.hasError('email')">Invalid email</mat-error>
+                  <mat-error *ngIf="registrationForm.get('email')?.hasError('required')">Email is required</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Phone Number</mat-label>
+                  <input matInput formControlName="phoneNumber" placeholder="+234...">
+                  <mat-error *ngIf="registrationForm.get('phoneNumber')?.hasError('required')">Phone number is required</mat-error>
+                </mat-form-field>
+              </div>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Skill Level</mat-label>
+                <mat-select formControlName="skillLevel">
+                  <mat-option value="Beginner">Beginner (Just for fun)</mat-option>
+                  <mat-option value="Intermediate">Intermediate (Know the rules, can pot balls)</mat-option>
+                  <mat-option value="Pro">Pro (Competitive)</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <div class="form-actions">
+                <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting || registrationForm.invalid">
+                  <mat-spinner diameter="20" *ngIf="isSubmitting"></mat-spinner>
+                  <span *ngIf="!isSubmitting">Submit Registration</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </mat-tab>
+
+    </mat-tab-group>
+  </div>
 </div>

@@ -19,6 +19,9 @@ import { verifyUser } from './middleware/authenticate.middleware';
 import { AuthRoutes } from './routes/auth.routes';
 import { UserRoutes } from './routes/user.routes';
 import { AppRoutes } from './routes/app.routes'; // Version/Download info
+import { RoomRoutes } from './routes/room.routes';
+import { BookingRoutes } from './routes/booking.routes';
+import { PaymentRoutes } from './routes/payment.routes';
 import { NotificationRoutes } from './routes/notification.routes';
 import { AttachmentRoutes } from './routes/attachment.routes'; // Generic file handling
 import { TenantRoutes } from './routes/tenants.routes'; // SaaS Multi-tenancy
@@ -62,6 +65,7 @@ class App {
     // Public Routes
     apiRouter.use('/auth', new AuthRoutes().router);
     apiRouter.use('/app', new AppRoutes().router);
+    apiRouter.use('/rooms', new RoomRoutes().router);
     // apiRouter.use('/public', new PublicSyncRoutes().router); // Remove if specific to QuickProLaw
 
     // Protected Routes (Require Authentication)
@@ -69,6 +73,8 @@ class App {
     
     // Core Infrastructure
     apiRouter.use('/users', new UserRoutes().router);
+    apiRouter.use('/bookings', new BookingRoutes().router);
+    apiRouter.use('/payments', new PaymentRoutes().router);
     apiRouter.use('/notifications', new NotificationRoutes().router);
     apiRouter.use('/attachments', new AttachmentRoutes().router);
     apiRouter.use('/tenants', new TenantRoutes().router);

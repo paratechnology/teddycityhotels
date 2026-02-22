@@ -2,149 +2,348 @@
 
 :host {
   display: block;
-  background-color: #f9f9f9; // Soft, light background for the whole page
+  background-color: #f4f6f8;
 }
 
-.snooker-hero {
+.snooker-page {
+  min-height: 100vh;
+}
+
+// Hero Section
+.hero-section {
   position: relative;
-  padding: 120px 40px;
-  background: linear-gradient(rgba(26, 35, 126, 0.85), rgba(26, 35, 126, 0.85)), url('/assets/img/snooker-hero.webp') no-repeat center center;
-  background-size: cover;
-  text-align: center;
-  color: white;
+  height: 50vh;
+  min-height: 400px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #1a237e; // Fallback color
+  background-image: url('/assets/img/snooker-arena.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
 
-  h1 {
-    font-family: theme.$font-family-serif;
-    font-size: 5rem;
-    font-weight: 700;
-    color: theme.$theme-secondary; // Luxury Gold
-    margin: 0;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4));
+    z-index: 1;
   }
 
-  p.subtitle {
-    font-family: theme.$font-family-sans;
-    font-size: 1.5rem;
-    margin-top: 1rem;
-    max-width: 600px;
-    opacity: 0.9;
-    line-height: 1.6;
-  }
-}
-
-.content-section {
-  padding: 80px 40px;
-  max-width: 1200px;
-  margin: 0 auto;
-
-  .section-title {
-    text-align: center;
-    font-family: theme.$font-family-serif;
-    font-size: 3rem;
-    color: theme.$theme-primary;
-    margin-bottom: 60px;
+  .hero-content {
     position: relative;
+    z-index: 2;
+    padding: 0 20px;
+    
+    h1 {
+      font-family: theme.$font-family-serif;
+      font-size: 4.5rem;
+      margin-bottom: 1rem;
+      color: theme.$theme-secondary;
+      text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      
+      @media (max-width: 768px) {
+        font-size: 3rem;
+      }
+    }
 
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -15px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 3px;
-      background-color: theme.$theme-secondary;
+    p {
+      font-size: 1.4rem;
+      margin-bottom: 2rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
   }
 }
 
-.league-details {
+// Main Content
+.main-content {
+  max-width: 1200px;
+  margin: -80px auto 40px;
+  position: relative;
+  z-index: 3;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+  padding: 3rem;
+  min-height: 500px;
+
+  @media (max-width: 768px) {
+    margin-top: 0;
+    border-radius: 0;
+    padding: 1.5rem;
+    box-shadow: none;
+  }
+}
+
+.tab-content {
+  padding: 3rem 0 1rem;
+}
+
+// Overview Tab
+.info-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 40px;
-  text-align: center;
+  gap: 2.5rem;
+  margin-bottom: 3rem;
 
-  .detail-card {
-    background: #ffffff;
-    padding: 40px 30px;
+  .info-card {
+    text-align: center;
+    padding: 2.5rem;
+    background: #fff;
+    border: 1px solid #eee;
     border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-top: 4px solid transparent;
+    transition: transform 0.3s ease;
 
     &:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-      border-top-color: theme.$theme-secondary;
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+      border-color: theme.$theme-secondary;
     }
 
     mat-icon {
-      font-size: 4rem;
-      width: 80px;
-      height: 80px;
-      line-height: 80px;
+      font-size: 56px;
+      height: 56px;
+      width: 56px;
       color: theme.$theme-primary;
-      margin-bottom: 20px;
+      margin-bottom: 1.5rem;
     }
 
     h3 {
       font-family: theme.$font-family-serif;
-      font-size: 1.8rem;
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
       color: theme.$theme-primary;
-      margin-bottom: 15px;
     }
-
+    
     p {
-      font-family: theme.$font-family-sans;
-      font-size: 1rem;
-      line-height: 1.7;
-      color: #555;
+      color: #666;
+      line-height: 1.6;
     }
   }
 }
 
-.registration-section {
-  background-color: #ffffff;
-  border-top: 1px solid #e0e0e0;
-  border-bottom: 1px solid #e0e0e0;
+.season-info {
+  text-align: center;
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid #eee;
 
-  .section-title {
+  h2 {
+    font-family: theme.$font-family-serif;
+    font-size: 2.8rem;
     color: theme.$theme-primary;
+    margin-bottom: 0.5rem;
+  }
+  
+  p {
+    font-size: 1.2rem;
+    color: #555;
+  }
+}
+
+// Standings Tab
+.group-table-container {
+  margin-bottom: 4rem;
+  overflow-x: auto;
+
+  h3 {
+    font-size: 1.8rem;
+    font-family: theme.$font-family-serif;
+    color: theme.$theme-primary;
+    margin-bottom: 1.5rem;
+    border-bottom: 3px solid theme.$theme-secondary;
+    display: inline-block;
+    padding-bottom: 0.5rem;
   }
 
-  .registration-form {
-    max-width: 700px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    
+    th {
+      background-color: theme.$theme-primary;
+      color: white;
+      font-weight: bold;
+      padding: 16px;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    td {
+      padding: 16px;
+      font-size: 1rem;
+      color: #333;
+      border-bottom: 1px solid #eee;
+    }
 
-    .form-field {
-      width: 100%;
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    
+    tr:hover {
+      background-color: rgba(theme.$theme-secondary, 0.05);
     }
   }
+}
 
-  .register-button {
-    margin-top: 20px;
-    padding: 15px 40px;
-    font-family: theme.$font-family-sans;
-    font-size: 1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-radius: 50px;
-    background-color: theme.$theme-secondary;
-    color: white;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+// Fixtures Tab
+.matches-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
 
+  .match-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+    
     &:hover {
-      background-color: darken(theme.$theme-secondary, 10%);
-      transform: translateY(-3px);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .match-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: #777;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+
+      .status {
+        font-weight: bold;
+        &.live { color: #d32f2f; }
+        &.completed { color: #388e3c; }
+      }
+    }
+
+    .match-body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
+      width: 100%;
+      margin-bottom: 1.5rem;
+
+      .player {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: theme.$theme-primary;
+
+        &.p1 { justify-content: flex-end; text-align: right; }
+        &.p2 { justify-content: flex-start; text-align: left; }
+
+        .score {
+          background: theme.$theme-secondary;
+          color: white;
+          padding: 5px 15px;
+          border-radius: 4px;
+          font-size: 1.6rem;
+          min-width: 40px;
+          text-align: center;
+        }
+      }
+
+      .vs {
+        color: #bbb;
+        font-style: italic;
+        font-family: theme.$font-family-serif;
+        font-size: 1.2rem;
+      }
+    }
+
+    .match-footer {
+      font-size: 0.9rem;
+      color: #888;
+      border-top: 1px solid #f0f0f0;
+      width: 100%;
+      text-align: center;
+      padding-top: 1rem;
+    }
+  }
+}
+
+// Registration Tab
+.registration-container {
+  display: flex;
+  justify-content: center;
+
+  .form-wrapper {
+    width: 100%;
+    max-width: 700px;
+    background: white;
+    padding: 1rem;
+    
+    h2 {
+      text-align: center;
+      font-family: theme.$font-family-serif;
+      font-size: 2.5rem;
+      color: theme.$theme-primary;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      text-align: center;
+      margin-bottom: 3rem;
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 1.5rem;
+      
+      @media (max-width: 600px) {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      mat-form-field {
+        flex: 1;
+      }
+    }
+
+    .full-width {
+      width: 100%;
+    }
+
+    .form-actions {
+      text-align: center;
+      margin-top: 2rem;
+
+      button {
+        padding: 0.8rem 4rem;
+        font-size: 1.2rem;
+        height: 56px;
+        border-radius: 28px;
+        background-color: theme.$theme-secondary;
+        color: white;
+        font-weight: bold;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        
+        &:hover {
+          background-color: darken(theme.$theme-secondary, 10%);
+        }
+      }
     }
   }
 }

@@ -24,10 +24,56 @@ export class HeaderComponent {
   // This boolean will be true if the user has scrolled down more than 10 pixels.
   isScrolled = false;
 
+  // This boolean will be true if the mobile menu is open.
+  isMobileMenuOpen = false;
+
+  openMobileDropdown: any = null;
+
   // Listen to the window's scroll event.
   @HostListener('window:scroll')
   onWindowScroll() {
     // Set isScrolled to true if the page is scrolled more than 10px, otherwise false.
     this.isScrolled = window.pageYOffset > 10;
+  }
+
+  // Toggle the mobile menu.
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  // Close the mobile menu.
+  closeMobileMenu() {
+    this.isMobileMenuOpen = false;
+  }
+
+  toggleDropdown(event: MouseEvent) {
+    const dropdown = (event.currentTarget as HTMLElement).closest('.dropdown');
+    dropdown?.classList.toggle('open');
+  }
+
+  isDropdownActive(dropdown: any[]): boolean {
+    return dropdown.some(item => this.isLinkActive(item.href));
+  }
+
+  private isLinkActive(href: string): boolean {
+    return window.location.pathname === href;
+  }
+
+  toggleMobileDropdown(event: MouseEvent) {
+    const dropdown = (event.currentTarget as HTMLElement).closest('.mobile-dropdown');
+    const link = dropdown?.querySelector('a');
+    if (this.openMobileDropdown === link) {
+      this.openMobileDropdown = null;
+    } else {
+      this.openMobileDropdown = link;
+    }
+  }
+
+  isMobileDropdownOpen(link: any): boolean {
+    return this.openMobileDropdown === link;
+  }
+
+  getMobileDropdownIcon(link: any): string {
+    return this.isMobileDropdownOpen(link) ? 'arrow_drop_up' : 'arrow_drop_down';
   }
 }

@@ -7,7 +7,8 @@
     "prebuild": "node ./scripts/replace-env.js",
     "postbuild": "node ./scripts/postbuild.js",
     "replace-env": "node ./scripts/replace-env.js",
-    "migrate:claims": "ts-node apps/server/src/run-migration.ts"
+    "migrate:claims": "ts-node apps/server/src/run-migration.ts",
+    "seed:rooms": "ts-node apps/server/src/seed-rooms.ts"
   },
   "appflow": {
     "version": {
@@ -64,6 +65,7 @@
     "multer": "^1.4.5-lts.1",
     "ngx-image-cropper": "^9.1.5",
     "papaparse": "^5.5.3",
+    "paystack-node": "^0.3.0",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^5.4.449",
     "pdfmake": "^0.2.20",

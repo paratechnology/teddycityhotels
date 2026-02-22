@@ -78,7 +78,8 @@
           "buildTarget": "website:build:production"
         },
         "development": {
-          "buildTarget": "website:build:development"
+          "buildTarget": "website:build:development",
+          "proxyConfig": "apps/website/proxy.conf.json"
         }
       },
       "defaultConfiguration": "development"

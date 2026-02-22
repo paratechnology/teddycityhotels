@@ -39,7 +39,7 @@ export class FirestoreService {
       });
 
       console.log("✅ Firebase Admin SDK initialized successfully by FirestoreService.");
-      this.db = getFirestore(app, 'quickprolaw');
+      this.db = getFirestore(app);
       this.storage = getStorage(app);
     } catch (error) {
       console.error("❌ Error initializing Firebase Admin SDK:", error);

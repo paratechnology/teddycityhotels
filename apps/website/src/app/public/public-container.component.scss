@@ -2,114 +2,296 @@
 
 :host {
   display: block;
-  background-color: #f4f6f8; // A very light grey for a soft, premium feel
+  background-color: #fff;
 }
 
-// Base styles for all summary sections (snooker, swimming, etc.)
-.summary-section {
-  display: flex;
-  min-height: 70vh;
-  align-items: center;
-  padding: 5rem 0;
-  position: relative;
-  overflow: hidden;
-
-  // Alternating layout
-  &:nth-child(odd) {
-    flex-direction: row-reverse;
+.section {
+  padding: 80px 24px;
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
-  // Common background image styling
-  .summary-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  h2 {
+    font-family: theme.$font-family-serif;
+    font-size: 2.5rem;
+    color: theme.$theme-primary;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+}
+
+// Amenities Section
+.amenities-section {
+  background-color: #f9f9f9;
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    p { color: #666; font-size: 1.1rem; }
+  }
+
+  .amenities-horizontal-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+  }
+
+  .amenity-card-horizontal {
+    flex: 1 1 300px; // Grow, shrink, base width
+    min-height: 400px;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
     background-size: cover;
     background-position: center;
-    z-index: 1;
-  }
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s ease;
+    display: flex;
+    align-items: flex-end; // Text at bottom
 
-  // Content card
-  .summary-content {
-    position: relative;
-    z-index: 2;
-    background-color: white;
-    padding: 3.5rem;
-    max-width: 550px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-
-    h2 {
-      font-family: theme.$font-family-serif;
-      font-size: 3.2rem;
-      color: theme.$theme-primary;
-      margin-top: 0;
-      line-height: 1.2;
+    &:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+      
+      .overlay {
+        background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.2));
+      }
+      
+      .content p {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    .divider {
-      width: 80px;
-      height: 3px;
-      background-color: theme.$theme-accent;
-      margin: 1.5rem 0;
-      border: none;
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.1));
+      transition: background 0.4s ease;
+      z-index: 1;
     }
 
-    p {
-      font-size: 1.05rem;
-      line-height: 1.8;
-      color: #444;
-      margin-bottom: 2.5rem;
+    .content {
+      position: relative;
+      z-index: 2;
+      padding: 2rem;
+      width: 100%;
+      color: white;
+
+      h3 {
+        font-family: theme.$font-family-serif;
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+        color: white;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      }
+
+      p {
+        font-size: 1rem;
+        line-height: 1.5;
+        color: rgba(255,255,255,0.9);
+        opacity: 0.8; // Slightly hidden initially for effect
+        transform: translateY(10px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      }
     }
-
-    .btn {
-      padding: 14px 35px;
-    }
-  }
-}
-
-// Specific section styles
-.snooker-summary {
-  .summary-bg {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/img/snooker-bg.jpg');
-  }
-  .summary-content {
-    margin-left: 10%;
-  }
-}
-
-.swimming-summary {
-  .summary-bg {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/img/poolside.webp');
-  }
-  .summary-content {
-    margin-right: 10%;
-  }
-}
-
-// Responsive adjustments for summary sections
-@media (max-width: 992px) {
-  .summary-section, .summary-section:nth-child(odd) {
-    flex-direction: column;
-    justify-content: center;
-    min-height: auto;
-    padding: 5rem 2rem;
   }
 
-  .snooker-summary .summary-content,
-  .swimming-summary .summary-content {
-    margin: 0;
+  // Background Images (Placeholders/Assets)
+  .pool-bg { background-image: url('/assets/img/poolside.webp'); }
+  .restaurant-bg { background-image: url('/assets/img/restaurant-bg.jpg'); background-color: #3e2723; } // Fallback color
+  .snooker-bg { background-image: url('/assets/img/snooker-bg.jpg'); }
+  .conference-bg { background-image: url('/assets/img/conference-bg.jpg'); background-color: #263238; }
+  .workspace-bg { background-image: url('/assets/img/workspace-bg.jpg'); background-color: #455a64; }
+
+  .center-action {
     text-align: center;
-    .divider { margin: 1.5rem auto; }
+  }
+}
+
+// Leisure Section
+.leisure-section {
+  padding: 0; // Full width items
+
+  .leisure-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
   }
 
-  .summary-bg {
-    filter: brightness(0.6); // Darken image on mobile to ensure text is readable
+  .leisure-card {
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    color: white;
+    text-align: center;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 2;
+      padding: 2rem;
+
+      h3 {
+        font-family: theme.$font-family-serif;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
   }
 
-  .summary-content h2 { font-size: 2.5rem; }
+  .snooker-card { background-image: url('/assets/img/snooker-bg.jpg'); background-color: #1a237e; }
+  .pool-card { background-image: url('/assets/img/poolside.webp'); background-color: #00695c; }
+}
+
+// Nightclub Section
+.nightclub-section {
+  background-color: #000;
+  color: white;
+  text-align: center;
+  padding: 100px 24px;
+
+  .club-logo {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 3rem;
+    letter-spacing: 5px;
+    background: linear-gradient(45deg, #ff00cc, #3333ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+  }
+
+  h2 { color: white; }
+  
+  .club-gallery-placeholder {
+    height: 300px;
+    background: rgba(255,255,255,0.05);
+    margin-top: 3rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.5);
+  }
+}
+
+// Location Section
+.location-section {
+  .map-container {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+
+    .location-card {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+      max-width: 320px;
+      z-index: 10;
+      text-align: left;
+
+      h3 {
+        font-family: theme.$font-family-serif;
+        font-size: 1.5rem;
+        color: theme.$theme-primary;
+        margin-top: 0;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 1rem;
+        color: #555;
+        font-size: 1rem;
+        line-height: 1.5;
+
+        mat-icon {
+          color: theme.$theme-secondary;
+          font-size: 20px;
+          width: 20px;
+          height: 20px;
+          margin-top: 2px;
+        }
+      }
+
+      a {
+        margin-top: 0.5rem;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .location-card {
+        position: relative;
+        top: 0;
+        left: 0;
+        max-width: 100%;
+        border-radius: 0;
+      }
+    }
+  }
+}
+
+// Newsletter Section
+.newsletter-section {
+  background-color: theme.$theme-primary;
+  color: white;
+  text-align: center;
+
+  h2 { color: white; }
+  p { margin-bottom: 2rem; opacity: 0.9; }
+  
+  .newsletter-form {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+
+    .email-input {
+      width: 300px;
+      margin-bottom: -1.25em; // Fix mat-form-field spacing
+      
+      ::ng-deep .mat-mdc-text-field-wrapper {
+        background-color: white;
+        border-radius: 4px;
+      }
+    }
+  }
 }
 
 
@@ -118,69 +300,21 @@
   padding: 8rem 2rem;
   background-color: #fff;
   text-align: center;
-
-  .section-title {
-    font-size: 3.5rem;
+  
+  .testimonial-slide {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: #555;
+  }
+  
+  .author {
+    margin-top: 1.5rem;
+    font-weight: bold;
     font-family: theme.$font-family-serif;
     color: theme.$theme-primary;
-    margin-bottom: 5rem;
-    position: relative;
-
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 3px;
-      background-color: theme.$theme-accent;
-    }
-  }
-
-  .testimonial-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2.5rem;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .testimonial-card {
-    background-color: #f4f6f8;
-    padding: 2.5rem;
-    border-radius: 8px;
-    border: 1px solid #e9eef2;
-    text-align: left;
-    position: relative;
-    padding-top: 4rem;
-
-    &::before {
-      content: '“';
-      position: absolute;
-      top: 0;
-      left: 2rem;
-      font-size: 6rem;
-      font-family: theme.$font-family-serif;
-      color: theme.$theme-accent;
-      line-height: 1;
-      opacity: 0.5;
-    }
-
-    .quote {
-      font-family: theme.$font-family-sans;
-      font-size: 1.1rem;
-      line-height: 1.7;
-      color: #333;
-      margin-bottom: 1.5rem;
-      font-style: italic;
-    }
-
-    .author {
-      font-family: theme.$font-family-serif;
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: theme.$theme-primary;
-    }
+    font-style: normal;
+    font-size: 1.1rem;
   }
 }

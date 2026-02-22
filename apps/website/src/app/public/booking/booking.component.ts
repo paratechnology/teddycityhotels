@@ -1,30 +1,53 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { RoomService } from '../rooms/room.service';
+import { Room } from '@teddy-city-hotels/shared-interfaces';
+import { Observable, switchMap } from 'rxjs';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { BookingService } from './booking.service';
+import { BookingResponse } from './booking.response.interface';
 
 @Component({
   selector: 'app-booking',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './booking.component.html',
-  styleUrls: ['./booking.component.scss'],
+  styleUrls: ['./booking.component.scss']
 })
-export class BookingComponent {
-  // Placeholder data for booking form
-  checkInDate: string = '';
-  checkOutDate: string = '';
-  adults: number = 1;
-  children: number = 0;
-  roomType: string = 'standard';
+export class BookingComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private roomService = inject(RoomService);
+  private bookingService = inject(BookingService);
+  private fb = inject(FormBuilder);
 
-  submitBooking() {
-    console.log('Booking submitted:', {
-      checkIn: this.checkInDate,
-      checkOut: this.checkOutDate,
-      adults: this.adults,
-      children: this.children,
-      roomType: this.roomType
-    });
-    alert('Booking request received! (This is a demo)');
+  room$!: Observable<Room>;
+  bookingForm = this.fb.group({
+    checkInDate: ['', Validators.required],
+    checkOutDate: ['', Validators.required],
+    numberOfGuests: [1, [Validators.required, Validators.min(1)]]
+  });
+
+  ngOnInit(): void {
+    const roomId = this.route.snapshot.paramMap.get('roomId');
+    if (roomId) {
+      this.room$ = this.roomService.getRoomById(roomId);
+    }
+  }
+
+  onSubmit() {
+    if (this.bookingForm.valid) {
+      this.room$.pipe(
+        switchMap(room => {
+          const bookingData = {
+            ...this.bookingForm.value,
+            roomId: room.id,
+          };
+          return this.bookingService.createBooking(bookingData);
+        })
+      ).subscribe((response: BookingResponse) => {
+        window.location.href = response.paymentData.authorization_url;
+      });
+    }
   }
 }

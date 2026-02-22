@@ -9,20 +9,68 @@
 
     <!-- Desktop Navigation -->
     <nav class="desktop-nav">
-      <a *ngFor="let link of navLinks"
-         [routerLink]="link.href"
-         routerLinkActive="active-link"
-         [routerLinkActiveOptions]="{exact: true}">
-        {{ link.label }}
-      </a>
+      <div *ngFor="let link of navLinks" class="nav-item">
+        <a *ngIf="!link.dropdown"
+           [routerLink]="link.href"
+           routerLinkActive="active-link"
+           [routerLinkActiveOptions]="{exact: true}">
+          {{ link.label }}
+        </a>
+        <div *ngIf="link.dropdown" class="dropdown">
+          <a (click)="toggleDropdown($event)"
+             [class.active-link]="isDropdownActive(link.dropdown)">
+            {{ link.label }}
+            <i class="material-icons">arrow_drop_down</i>
+          </a>
+          <div class="dropdown-menu">
+            <a *ngFor="let item of link.dropdown"
+               [routerLink]="item.href"
+               routerLinkActive="active-link"
+               [routerLinkActiveOptions]="{exact: true}">
+              {{ item.label }}
+            </a>
+          </div>
+        </div>
+      </div>
     </nav>
 
     <!-- Header Actions -->
     <div class="header-actions">
-      <a routerLink="/booking" class="btn btn-primary">Book Now</a>
+      <a routerLink="/rooms" class="btn btn-primary">Book Now</a>
+      <!-- Mobile Menu Button -->
+      <button class="mobile-menu-btn" (click)="toggleMobileMenu()">
+        <i class="material-icons">{{ isMobileMenuOpen ? 'close' : 'menu' }}</i>
+      </button>
     </div>
+  </div>
 
-    <!-- Mobile menu can be added here later -->
-
+  <!-- Mobile Navigation Overlay -->
+  <div class="mobile-nav-overlay" [class.open]="isMobileMenuOpen">
+    <nav class="mobile-nav">
+      <div *ngFor="let link of navLinks" class="mobile-nav-item">
+        <a *ngIf="!link.dropdown"
+           [routerLink]="link.href"
+           routerLinkActive="active-link"
+           [routerLinkActiveOptions]="{exact: true}"
+           (click)="closeMobileMenu()">
+          {{ link.label }}
+        </a>
+        <div *ngIf="link.dropdown" class="mobile-dropdown">
+          <a (click)="toggleMobileDropdown($event)">
+            {{ link.label }}
+            <i class="material-icons">{{ getMobileDropdownIcon(link) }}</i>
+          </a>
+          <div class="mobile-dropdown-menu" [class.open]="isMobileDropdownOpen(link)">
+            <a *ngFor="let item of link.dropdown"
+               [routerLink]="item.href"
+               routerLinkActive="active-link"
+               [routerLinkActiveOptions]="{exact: true}"
+               (click)="closeMobileMenu()">
+              {{ item.label }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
   </div>
 </header>

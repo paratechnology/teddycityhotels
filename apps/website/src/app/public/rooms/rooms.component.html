@@ -4,7 +4,7 @@
     <p>Find the perfect space for your stay.</p>
   </header>
 
-  <div class="rooms-list">
+  <div class="rooms-list" *ngIf="rooms$ | async as rooms; else loading">
     <div *ngFor="let room of rooms" class="room-card" [class.unavailable]="!room.availability.isAvailable">
       <div class="room-image">
         <img [src]="room.images[0]" [alt]="room.name">
@@ -25,11 +25,19 @@
 
         <div class="room-actions">
           <button class="btn btn-details">View Details</button>
-          <button class="btn btn-book" [disabled]="!room.availability.isAvailable">
-            {{ room.availability.isAvailable ? 'Book Now' : 'Unavailable' }}
-          </button>
+          <a [routerLink]="['/booking', room.id]">
+            <button class="btn btn-book" [disabled]="!room.availability.isAvailable">
+              {{ room.availability.isAvailable ? 'Book Now' : 'Unavailable' }}
+            </button>
+          </a>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #loading>
+  <div class="loading-spinner">
+    <p>Loading rooms...</p>
+  </div>
+</ng-template>
