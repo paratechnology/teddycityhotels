@@ -2,7 +2,6 @@
  * Public API Surface of shared-interfaces
  */
 
-export * from './lib/property.interface';
 export * from './baseurl';
 export * from './lib/admin-dashboard.interface';
 export * from './lib/notification.interface';
@@ -13,3 +12,5 @@ export * from './lib/accept-invitation.interface';
 export * from './lib/auth-response.interface';
 export * from './lib/room.interface';
 export * from './lib/booking.interface';
+export * from './lib/invoice.interface';
+export * from './lib/transaction.interface';

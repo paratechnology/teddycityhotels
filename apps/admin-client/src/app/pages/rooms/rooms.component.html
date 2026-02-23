@@ -1,0 +1,35 @@
+<h2>Rooms Management</h2>
+
+<div *ngIf="rooms$ | async as rooms; else loading">
+  <ng-container *ngIf="rooms.length > 0; else noRooms">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Price</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let room of rooms">
+          <td>{{ room.name }}</td>
+          <td>{{ room.type }}</td>
+          <td>{{ room.price | currency }}</td>
+          <td>
+            <a [routerLink]="['/rooms/edit', room.id]">Edit</a>
+            <button (click)="deleteRoom(room.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+  <ng-template #noRooms>
+    <p>No rooms found.</p>
+  </ng-template>
+</div>
+<ng-template #loading>
+  <p>Loading rooms...</p>
+</ng-template>
+
+<a routerLink="/rooms/new">Add New Room</a>

@@ -1,0 +1,56 @@
+<div class="room-form-container">
+  <h2 mat-dialog-title>{{ isEditMode ? 'Edit Room' : 'Add New Room' }}</h2>
+  <mat-dialog-content [formGroup]="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" placeholder="e.g., Presidential Suite">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type">
+        <mat-option value="Single">Single</mat-option>
+        <mat-option value="Double">Double</mat-option>
+        <mat-option value="Suite">Suite</mat-option>
+        <mat-option value="Penthouse">Penthouse</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Price per Night</mat-label>
+      <input matInput type="number" formControlName="price" placeholder="e.g., 250">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Max Occupancy</mat-label>
+      <input matInput type="number" formControlName="maxOccupancy" placeholder="e.g., 2">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" placeholder="A short description of the room..."></textarea>
+    </mat-form-field>
+
+    <div class="images-section">
+      <h3>Images</h3>
+      <div class="image-previews">
+        <div *ngFor="let preview of imagePreviews; let i = index" class="image-preview">
+          <img [src]="preview" alt="Room image">
+          <button mat-icon-button (click)="removeImage(i)" class="remove-btn">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+      <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;">
+      <button mat-stroked-button (click)="fileInput.click()">
+        <mat-icon>add_a_photo</mat-icon>
+        Upload Image
+      </button>
+    </div>
+
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="close()">Cancel</button>
+    <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="save()">Save</button>
+  </mat-dialog-actions>
+</div>

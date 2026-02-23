@@ -1,21 +1,58 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
-    path: 'login',
-    component: LoginComponent
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./pages/dashboard/dashboard.component').then(
+        (m) => m.DashboardComponent
+      ),
   },
   {
-    path: 'dashboard',
-    component: DashboardComponent,
-    canActivate: [authGuard]
+    path: 'rooms',
+    loadComponent: () =>
+      import('./pages/rooms/rooms.component').then(
+        (m) => m.RoomsComponent
+      ),
+  },
+  {
+    path: 'rooms/new',
+    loadComponent: () =>
+      import('./pages/rooms/room-edit/room-edit.component').then(
+        (m) => m.RoomEditComponent
+      ),
+  },
+  {
+    path: 'rooms/edit/:id',
+    loadComponent: () =>
+      import('./pages/rooms/room-edit/room-edit.component').then(
+        (m) => m.RoomEditComponent
+      ),
+  },
+  {
+    path: 'bookings',
+    loadComponent: () =>
+      import('./pages/bookings/bookings.component').then(
+        (m) => m.BookingsComponent
+      ),
+  },
+  {
+    path: 'snooker',
+    loadComponent: () =>
+      import('./pages/snooker/snooker.component').then(
+        (m) => m.SnookerComponent
+      ),
+  },
+  {
+    path: 'financials',
+    loadComponent: () =>
+      import('./pages/financials/financials.component').then(
+        (m) => m.FinancialsComponent
+      ),
   },
   {
     path: '',
-    redirectTo: '/dashboard',
-    pathMatch: 'full'
-  }
+    redirectTo: 'dashboard',
+    pathMatch: 'full',
+  },
 ];

@@ -25,6 +25,7 @@ import { PaymentRoutes } from './routes/payment.routes';
 import { NotificationRoutes } from './routes/notification.routes';
 import { AttachmentRoutes } from './routes/attachment.routes'; // Generic file handling
 import { TenantRoutes } from './routes/tenants.routes'; // SaaS Multi-tenancy
+import { SnookerRoutes } from './routes/snooker.routes';
 // import { TaskRoutes } from './routes/task.routes'; // Optional: Keep if template includes Tasks
 
 class App {
@@ -66,6 +67,7 @@ class App {
     apiRouter.use('/auth', new AuthRoutes().router);
     apiRouter.use('/app', new AppRoutes().router);
     apiRouter.use('/rooms', new RoomRoutes().router);
+    apiRouter.use('/snooker', new SnookerRoutes().router);
     // apiRouter.use('/public', new PublicSyncRoutes().router); // Remove if specific to QuickProLaw
 
     // Protected Routes (Require Authentication)

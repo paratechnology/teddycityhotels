@@ -1,0 +1,31 @@
+<h2>{{ isEditMode ? 'Edit' : 'Add' }} Room</h2>
+
+<form [formGroup]="roomForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="name">Name:</label>
+    <input id="name" formControlName="name">
+  </div>
+  <div>
+    <label for="type">Type:</label>
+    <select id="type" formControlName="type">
+      <option value="Single">Single</option>
+      <option value="Double">Double</option>
+      <option value="Suite">Suite</option>
+      <option value="Penthouse">Penthouse</option>
+    </select>
+  </div>
+  <div>
+    <label for="price">Price:</label>
+    <input id="price" type="number" formControlName="price">
+  </div>
+  <div>
+    <label for="maxOccupancy">Max Occupancy:</label>
+    <input id="maxOccupancy" type="number" formControlName="maxOccupancy">
+  </div>
+  <div>
+    <label for="description">Description:</label>
+    <textarea id="description" formControlName="description"></textarea>
+  </div>
+
+  <button type="submit" [disabled]="roomForm.invalid">{{ isEditMode ? 'Update' : 'Create' }}</button>
+</form>
