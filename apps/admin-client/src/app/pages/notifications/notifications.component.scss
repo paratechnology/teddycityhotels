@@ -1,0 +1,43 @@
+.page {
+  display: grid;
+  gap: 1rem;
+}
+
+.list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+article {
+  border: 1px solid #d9e1e8;
+  border-radius: 12px;
+  padding: 0.9rem;
+  background: #fff;
+}
+
+article.read {
+  opacity: 0.72;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+p {
+  margin: 0.5rem 0;
+}
+
+button {
+  border: 0;
+  background: #1f5ea8;
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.4rem 0.7rem;
+}

@@ -1,38 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Room } from '@teddy-city-hotels/shared-interfaces';
-import { baseURL } from '@teddy-city-hotels/shared-interfaces';
+import { Room, UpsertRoomDto, baseURL } from '@teddy-city-hotels/shared-interfaces';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RoomService {
-
   private roomsUrl = `${baseURL}rooms`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getRooms(): Observable<Room[]> {
     return this.http.get<Room[]>(this.roomsUrl);
   }
 
   getRoom(id: string): Observable<Room> {
-    const url = `${this.roomsUrl}/${id}`;
-    return this.http.get<Room>(url);
+    return this.http.get<Room>(`${this.roomsUrl}/${id}`);
   }
 
-  addRoom(room: Room): Observable<Room> {
+  addRoom(room: UpsertRoomDto): Observable<Room> {
     return this.http.post<Room>(this.roomsUrl, room);
   }
 
-  updateRoom(room: Room): Observable<any> {
-    const url = `${this.roomsUrl}/${room.id}`;
-    return this.http.put(url, room);
+  updateRoom(id: string, room: UpsertRoomDto): Observable<Room> {
+    return this.http.put<Room>(`${this.roomsUrl}/${id}`, room);
   }
 
-  deleteRoom(id: string): Observable<Room> {
-    const url = `${this.roomsUrl}/${id}`;
-    return this.http.delete<Room>(url);
+  deleteRoom(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.roomsUrl}/${id}`);
   }
 }

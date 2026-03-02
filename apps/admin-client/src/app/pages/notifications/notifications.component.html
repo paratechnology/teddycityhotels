@@ -1,0 +1,19 @@
+<section class="page">
+  <h2>Notifications</h2>
+  <p *ngIf="loading">Loading notifications...</p>
+
+  <div class="list" *ngIf="!loading">
+    <article *ngFor="let notification of notifications" [class.read]="notification.read">
+      <header>
+        <h3>{{ notification.title }}</h3>
+        <span>{{ notification.createdAt | date: 'short' }}</span>
+      </header>
+      <p>{{ notification.body }}</p>
+      <button (click)="markRead(notification)" [disabled]="notification.read">
+        {{ notification.read ? 'Read' : 'Mark read' }}
+      </button>
+    </article>
+
+    <p *ngIf="!notifications.length">No notifications yet.</p>
+  </div>
+</section>

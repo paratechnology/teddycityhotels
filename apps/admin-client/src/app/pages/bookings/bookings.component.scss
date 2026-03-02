@@ -1,23 +1,64 @@
-h2 {
-  color: #333;
+.page {
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #d9e1e8;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.7rem;
+}
+
+label {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+input,
+select,
+textarea {
+  border: 1px solid #c3ccd5;
+  border-radius: 8px;
+  padding: 0.45rem 0.6rem;
+}
+
+button {
+  border: 0;
+  background: #0f4f8a;
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.45rem 0.75rem;
+  cursor: pointer;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
 }
 
-th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
+th,
+td {
+  border-bottom: 1px solid #e7edf3;
+  padding: 0.55rem;
   text-align: left;
 }
 
-th {
-  background-color: #f2f2f2;
+.actions {
+  display: grid;
+  gap: 0.35rem;
 }
 
-button {
-  margin-right: 5px;
+.error {
+  color: #b91c1c;
 }

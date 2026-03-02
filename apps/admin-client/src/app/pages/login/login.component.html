@@ -1,0 +1,25 @@
+<section class="login-page">
+  <article class="login-card">
+    <h1>Admin Login</h1>
+    <p>Sign in to manage Teddy City Hotels operations.</p>
+
+    <p class="error" *ngIf="error">{{ error }}</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <label>
+        Email
+        <input type="email" formControlName="email" autocomplete="email" />
+      </label>
+
+      <label>
+        Password
+        <input type="password" formControlName="password" autocomplete="current-password" />
+      </label>
+
+      <button type="submit" [disabled]="loading || form.invalid">
+        {{ loading ? 'Signing in...' : 'Sign in' }}
+      </button>
+    </form>
+  </article>
+</section>
+

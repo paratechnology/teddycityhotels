@@ -1,3 +1,63 @@
-h2 {
-  color: #333;
+.page {
+  display: grid;
+  gap: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  border: 1px solid #d9e1e8;
+  border-radius: 12px;
+  padding: 1rem;
+  background: #fff;
+}
+
+form {
+  display: grid;
+  gap: 0.65rem;
+}
+
+label {
+  display: grid;
+  gap: 0.35rem;
+}
+
+input,
+select {
+  border: 1px solid #c3ccd5;
+  border-radius: 8px;
+  padding: 0.45rem 0.6rem;
+}
+
+button {
+  border: 0;
+  background: #0f4f8a;
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.42rem 0.7rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border-bottom: 1px solid #e7edf3;
+  text-align: left;
+  padding: 0.5rem;
+}
+
+.actions {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.error {
+  color: #b91c1c;
 }

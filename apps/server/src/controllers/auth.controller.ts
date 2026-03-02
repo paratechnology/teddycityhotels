@@ -14,6 +14,18 @@ export class AuthController {
     @inject(FirestoreService) private firestore: FirestoreService,
      @inject(FirmService) private firmService: FirmService) { }
 
+  public adminLogin = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { email, password } = req.body;
+      const result = await this.authService.adminLogin(email, password);
+
+      console.log('result', result);
+      res.status(HttpStatusCodes.OK).json(result);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public login = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { idToken } = req.body;

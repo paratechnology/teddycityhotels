@@ -1,35 +1,37 @@
-<h2>Rooms Management</h2>
+<section class="page">
+  <header>
+    <h2>Rooms Management</h2>
+    <a routerLink="/rooms/new" class="button">Add New Room</a>
+  </header>
 
-<div *ngIf="rooms$ | async as rooms; else loading">
-  <ng-container *ngIf="rooms.length > 0; else noRooms">
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Price</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let room of rooms">
-          <td>{{ room.name }}</td>
-          <td>{{ room.type }}</td>
-          <td>{{ room.price | currency }}</td>
-          <td>
-            <a [routerLink]="['/rooms/edit', room.id]">Edit</a>
-            <button (click)="deleteRoom(room.id)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </ng-container>
-  <ng-template #noRooms>
-    <p>No rooms found.</p>
-  </ng-template>
-</div>
-<ng-template #loading>
-  <p>Loading rooms...</p>
-</ng-template>
+  <p class="error" *ngIf="error">{{ error }}</p>
+  <p *ngIf="loading">Loading rooms...</p>
 
-<a routerLink="/rooms/new">Add New Room</a>
+  <table *ngIf="!loading && rooms.length">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Occupancy</th>
+        <th>Price</th>
+        <th>Available</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let room of rooms">
+        <td>{{ room.name }}</td>
+        <td>{{ room.type }}</td>
+        <td>{{ room.maxOccupancy }}</td>
+        <td>{{ room.price | currency : 'NGN' }}</td>
+        <td>{{ room.availability?.isAvailable ? 'Yes' : 'No' }}</td>
+        <td>
+          <a [routerLink]="['/rooms/edit', room.id]">Edit</a>
+          <button (click)="deleteRoom(room.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading && !rooms.length">No rooms found.</p>
+</section>

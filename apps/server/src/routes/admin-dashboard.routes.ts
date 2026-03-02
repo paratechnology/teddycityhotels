@@ -1,18 +1,21 @@
-import { verifyUser } from '../middleware/authenticate.middleware';
+import { Router } from 'express';
 import { AdminDashboardController } from '../controllers/admin-dashboard.controller';
-import express from 'express';
 import { container } from 'tsyringe';
-import { verifySubscription } from '../middleware/subscription.middleware';
+import { verifyUser } from '../middleware/authenticate.middleware';
+import { adminOnly, requireModuleAccess } from '../middleware/admin.middleware';
 
-const adminDashboardRouter = express.Router();
-adminDashboardRouter.use(express.json());
-const adminDashboardController = container.resolve(AdminDashboardController);
+export class AdminDashboardRoutes {
+  public router: Router;
+  private controller: AdminDashboardController;
 
-// All dashboard routes are protected
-adminDashboardRouter.use(verifyUser as any, verifySubscription as any);
+  constructor() {
+    this.router = Router();
+    this.controller = container.resolve(AdminDashboardController);
+    this.initializeRoutes();
+  }
 
-// A single endpoint to get all aggregated data for the dashboard
-adminDashboardRouter.route('/')
-    .get(adminDashboardController.getDashboardStats);
-
-export default adminDashboardRouter;
+  private initializeRoutes() {
+    this.router.use(verifyUser, adminOnly, requireModuleAccess('dashboard'));
+    this.router.get('/', this.controller.getDashboardStats);
+  }
+}

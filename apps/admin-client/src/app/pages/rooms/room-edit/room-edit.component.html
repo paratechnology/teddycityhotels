@@ -1,31 +1,80 @@
-<h2>{{ isEditMode ? 'Edit' : 'Add' }} Room</h2>
+<section class="page">
+  <h2>{{ isEditMode ? 'Edit Room' : 'Add Room' }}</h2>
+  <p class="error" *ngIf="error">{{ error }}</p>
 
-<form [formGroup]="roomForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="name">Name:</label>
-    <input id="name" formControlName="name">
-  </div>
-  <div>
-    <label for="type">Type:</label>
-    <select id="type" formControlName="type">
-      <option value="Single">Single</option>
-      <option value="Double">Double</option>
-      <option value="Suite">Suite</option>
-      <option value="Penthouse">Penthouse</option>
-    </select>
-  </div>
-  <div>
-    <label for="price">Price:</label>
-    <input id="price" type="number" formControlName="price">
-  </div>
-  <div>
-    <label for="maxOccupancy">Max Occupancy:</label>
-    <input id="maxOccupancy" type="number" formControlName="maxOccupancy">
-  </div>
-  <div>
-    <label for="description">Description:</label>
-    <textarea id="description" formControlName="description"></textarea>
-  </div>
+  <form [formGroup]="roomForm" (ngSubmit)="onSubmit()">
+    <div class="grid">
+      <label>Name <input formControlName="name" /></label>
+      <label>Room number <input formControlName="roomNumber" /></label>
+      <label>
+        Type
+        <select formControlName="type">
+          <option value="Single">Single</option>
+          <option value="Double">Double</option>
+          <option value="Suite">Suite</option>
+          <option value="Penthouse">Penthouse</option>
+        </select>
+      </label>
+      <label>Price <input type="number" formControlName="price" /></label>
+      <label>Max occupancy <input type="number" formControlName="maxOccupancy" /></label>
+      <label class="check"><input type="checkbox" formControlName="isAvailable" /> Available now</label>
+    </div>
 
-  <button type="submit" [disabled]="roomForm.invalid">{{ isEditMode ? 'Update' : 'Create' }}</button>
-</form>
+    <label>Description <textarea formControlName="description"></textarea></label>
+
+    <section>
+      <h3>Beds</h3>
+      <div class="list" formArrayName="beds">
+        <div class="row" *ngFor="let bed of beds.controls; let i = index" [formGroupName]="i">
+          <select formControlName="type">
+            <option value="King">King</option>
+            <option value="Queen">Queen</option>
+            <option value="Double">Double</option>
+            <option value="Single">Single</option>
+          </select>
+          <input type="number" formControlName="count" />
+          <button type="button" (click)="removeBed(i)">Remove</button>
+        </div>
+      </div>
+      <button type="button" (click)="addBed()">Add bed</button>
+    </section>
+
+    <section>
+      <h3>Amenities</h3>
+      <div class="list" formArrayName="amenities">
+        <div class="row" *ngFor="let amenity of amenities.controls; let i = index" [formGroupName]="i">
+          <input formControlName="icon" placeholder="icon" />
+          <input formControlName="name" placeholder="name" />
+          <button type="button" (click)="removeAmenity(i)">Remove</button>
+        </div>
+      </div>
+      <button type="button" (click)="addAmenity()">Add amenity</button>
+    </section>
+
+    <section>
+      <h3>Images</h3>
+      <div class="list" formArrayName="images">
+        <div class="row" *ngFor="let image of images.controls; let i = index">
+          <input [formControlName]="i" placeholder="https://..." />
+          <button type="button" (click)="removeImage(i)">Remove</button>
+        </div>
+      </div>
+      <button type="button" (click)="addImage()">Add image</button>
+    </section>
+
+    <section>
+      <h3>Features</h3>
+      <div class="list" formArrayName="features">
+        <div class="row" *ngFor="let feature of features.controls; let i = index">
+          <input [formControlName]="i" placeholder="Balcony" />
+          <button type="button" (click)="removeFeature(i)">Remove</button>
+        </div>
+      </div>
+      <button type="button" (click)="addFeature()">Add feature</button>
+    </section>
+
+    <div class="actions">
+      <button type="submit" [disabled]="roomForm.invalid">{{ isEditMode ? 'Update' : 'Create' }}</button>
+    </div>
+  </form>
+</section>

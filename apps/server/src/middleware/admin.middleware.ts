@@ -1,23 +1,39 @@
 import { Request, Response, NextFunction } from 'express';
-import { IFirmUser } from '@teddy-city-hotels/shared-interfaces';
+import { AdminModuleKey, IUserIndex } from '@teddy-city-hotels/shared-interfaces';
 import { ForbiddenError, UnauthorizedError } from '../errors/http-errors';
 
-/**
- * Middleware to ensure the user is a firm administrator (admin flag or partner designation).
- */
-export const adminOnly = (req: Request, res: Response, next: NextFunction) => {
-  // First, ensure the user object exists (i.e., verifyUser middleware has run successfully)
+export const adminOnly = (req: Request, _res: Response, next: NextFunction) => {
   if (!req.user) {
     return next(new UnauthorizedError('Authentication required.'));
   }
 
-  const user = req.user as IFirmUser; // We can still cast here for type-specific properties like isSuperAdmin
-  // Check if user exists and has admin privileges
-  if (user && (user.admin) || user.isSuperAdmin) {
-    // console.log('admin detected', user);
+  const user = req.user as IUserIndex;
+  if (user.admin || user.isSuperAdmin) {
     return next();
   }
-  
-  // If not an admin, send a forbidden error
+
   return next(new ForbiddenError('Forbidden: Administrator access required.'));
+};
+
+export const requireModuleAccess = (moduleKey: AdminModuleKey) => {
+  return (req: Request, _res: Response, next: NextFunction) => {
+    if (!req.user) {
+      return next(new UnauthorizedError('Authentication required.'));
+    }
+
+    const user = req.user as IUserIndex;
+    if (user.isSuperAdmin) {
+      return next();
+    }
+
+    if (!user.admin) {
+      return next(new ForbiddenError('Administrator access required.'));
+    }
+
+    if (!user.adminAccess || user.adminAccess[moduleKey]) {
+      return next();
+    }
+
+    return next(new ForbiddenError(`No access to ${moduleKey} module.`));
+  };
 };

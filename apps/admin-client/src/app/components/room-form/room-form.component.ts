@@ -8,7 +8,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { AttachmentService } from '../../services/attachment.service';
 
 @Component({
   selector: 'app-room-form',
@@ -22,19 +21,18 @@ import { AttachmentService } from '../../services/attachment.service';
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
-    MatIconModule
-  ]
+    MatIconModule,
+  ],
 })
 export class RoomFormComponent implements OnInit {
-  form: FormGroup;
+  form!: FormGroup;
   isEditMode: boolean;
   imagePreviews: string[] = [];
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<RoomFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { room: Room },
-    private attachmentService: AttachmentService
+    @Inject(MAT_DIALOG_DATA) public data: { room: Room }
   ) {
     this.isEditMode = !!data.room;
     if (this.isEditMode) {
@@ -49,7 +47,7 @@ export class RoomFormComponent implements OnInit {
       price: [this.data.room?.price || '', [Validators.required, Validators.min(0)]],
       maxOccupancy: [this.data.room?.maxOccupancy || '', [Validators.required, Validators.min(1)]],
       description: [this.data.room?.description || ''],
-      images: this.fb.array(this.data.room?.images || [])
+      images: this.fb.array(this.data.room?.images || []),
     });
   }
 
@@ -58,12 +56,11 @@ export class RoomFormComponent implements OnInit {
   }
 
   onFileSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement).files[0];
+    const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-      this.attachmentService.upload(file).subscribe(attachment => {
-        this.images.push(this.fb.control(attachment.url));
-        this.imagePreviews.push(attachment.url);
-      });
+      const preview = URL.createObjectURL(file);
+      this.images.push(this.fb.control(preview));
+      this.imagePreviews.push(preview);
     }
   }
 

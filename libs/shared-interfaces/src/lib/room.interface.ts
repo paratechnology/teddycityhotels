@@ -4,9 +4,10 @@ export interface Amenity {
 }
 
 export interface Room {
-  id: string; // Unique identifier for the room
-  name: string; // e.g., "Presidential Suite"
-  slug: string; // URL-friendly version of the name
+  id: string;
+  name: string;
+  slug: string;
+  roomNumber?: string;
   description: string;
   type: 'Single' | 'Double' | 'Suite' | 'Penthouse';
   maxOccupancy: number;
@@ -14,13 +15,31 @@ export interface Room {
     type: 'King' | 'Queen' | 'Double' | 'Single';
     count: number;
   }[];
-  price: number; // Price per night
-  amenities: Amenity[]; // List of amenities
-  images: string[]; // URLs of room images
+  price: number;
+  amenities: Amenity[];
+  images: string[];
   availability: {
     isAvailable: boolean;
-    // can add more complex availability rules here if needed
-    // e.g., blocked dates
   };
-  features?: string[]; // Optional additional features, e.g., "Ocean View", "Balcony"
+  features?: string[];
+}
+
+export interface UpsertRoomDto {
+  name: string;
+  slug?: string;
+  roomNumber?: string;
+  description: string;
+  type: 'Single' | 'Double' | 'Suite' | 'Penthouse';
+  maxOccupancy: number;
+  beds: {
+    type: 'King' | 'Queen' | 'Double' | 'Single';
+    count: number;
+  }[];
+  price: number;
+  amenities: Amenity[];
+  images: string[];
+  availability?: {
+    isAvailable: boolean;
+  };
+  features?: string[];
 }

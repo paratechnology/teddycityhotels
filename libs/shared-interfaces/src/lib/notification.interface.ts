@@ -4,28 +4,39 @@ export enum NotificationType {
   MENTION = 'mention',
   FILE_TRANSFER_REJECTED = 'FILE_TRANSFER_REJECTED',
   FILE_TRANSFER_CANCELLED = 'file_transfer_cancelled',
+  BOOKING_CREATED = 'booking_created',
+  BOOKING_STATUS_CHANGED = 'booking_status_changed',
 }
 
 export interface INotification {
   id: string;
-  userId: string; // The user who receives the notification
-  firmId: string; // For data scoping and security rules
+  userId: string;
+  firmId: string;
   type: NotificationType;
-  message: string; // The main text displayed in the notification list
-  link: string; // A link to navigate to when the notification is clicked (e.g., '/tasks/task-id')
+  message: string;
+  link: string;
   read: boolean;
-  createdAt: string; // ISO 8601 string
-  relatedId?: string; // e.g., the ID of the task or file log entry
+  createdAt: string;
+  relatedId?: string;
 }
 
-
-
 export interface IPushNotification {
-  userId: string; // The user who should receive the notification
+  userId: string;
   title: string;
   body: string;
   link: string;
   isRead: string;
   createdAt: string;
-  firmId: string
+  firmId: string;
+}
+
+export interface IAdminNotification {
+  id: string;
+  title: string;
+  body: string;
+  type: NotificationType;
+  link: string;
+  read: boolean;
+  createdAt: string;
+  bookingId?: string;
 }

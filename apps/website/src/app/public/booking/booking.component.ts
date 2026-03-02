@@ -13,7 +13,7 @@ import { BookingResponse } from './booking.response.interface';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './booking.component.html',
-  styleUrls: ['./booking.component.scss']
+  styleUrls: ['./booking.component.scss'],
 })
 export class BookingComponent implements OnInit {
   private route = inject(ActivatedRoute);
@@ -25,7 +25,11 @@ export class BookingComponent implements OnInit {
   bookingForm = this.fb.group({
     checkInDate: ['', Validators.required],
     checkOutDate: ['', Validators.required],
-    numberOfGuests: [1, [Validators.required, Validators.min(1)]]
+    numberOfGuests: [1, [Validators.required, Validators.min(1)]],
+    guestName: ['', Validators.required],
+    guestEmail: ['', [Validators.required, Validators.email]],
+    guestPhone: [''],
+    notes: [''],
   });
 
   ngOnInit(): void {
@@ -37,17 +41,21 @@ export class BookingComponent implements OnInit {
 
   onSubmit() {
     if (this.bookingForm.valid) {
-      this.room$.pipe(
-        switchMap(room => {
-          const bookingData = {
-            ...this.bookingForm.value,
-            roomId: room.id,
-          };
-          return this.bookingService.createBooking(bookingData);
-        })
-      ).subscribe((response: BookingResponse) => {
-        window.location.href = response.paymentData.authorization_url;
-      });
+      this.room$
+        .pipe(
+          switchMap((room) => {
+            const bookingData = {
+              ...this.bookingForm.value,
+              roomId: room.id,
+            };
+            return this.bookingService.createBooking(bookingData);
+          })
+        )
+        .subscribe((response: BookingResponse) => {
+          if (response.paymentData?.authorization_url) {
+            window.location.href = response.paymentData.authorization_url;
+          }
+        });
     }
   }
 }

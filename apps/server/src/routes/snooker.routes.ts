@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { SnookerController } from '../controllers/snooker.controller';
 import { container } from 'tsyringe';
+import { adminOnly, requireModuleAccess } from '../middleware/admin.middleware';
+import { verifyUser } from '../middleware/authenticate.middleware';
 
 export class SnookerRoutes {
   public router: Router;
@@ -16,8 +18,50 @@ export class SnookerRoutes {
     this.router.get('/', this.controller.getLeagueData);
     this.router.get('/players', this.controller.getPlayers);
     this.router.get('/players/:playerId', this.controller.getPlayerById);
-    this.router.put('/players/:playerId', this.controller.updatePlayer);
     this.router.get('/matches', this.controller.getMatches);
-    this.router.put('/matches/:matchId', this.controller.updateMatch);
+
+    this.router.post(
+      '/players',
+      verifyUser,
+      adminOnly,
+      requireModuleAccess('snooker'),
+      this.controller.createPlayer
+    );
+    this.router.put(
+      '/players/:playerId',
+      verifyUser,
+      adminOnly,
+      requireModuleAccess('snooker'),
+      this.controller.updatePlayer
+    );
+    this.router.delete(
+      '/players/:playerId',
+      verifyUser,
+      adminOnly,
+      requireModuleAccess('snooker'),
+      this.controller.deletePlayer
+    );
+
+    this.router.post(
+      '/matches',
+      verifyUser,
+      adminOnly,
+      requireModuleAccess('snooker'),
+      this.controller.createMatch
+    );
+    this.router.put(
+      '/matches/:matchId',
+      verifyUser,
+      adminOnly,
+      requireModuleAccess('snooker'),
+      this.controller.updateMatch
+    );
+    this.router.delete(
+      '/matches/:matchId',
+      verifyUser,
+      adminOnly,
+      requireModuleAccess('snooker'),
+      this.controller.deleteMatch
+    );
   }
 }

@@ -1,37 +1,62 @@
-<h2>Bookings Management</h2>
+<section class="page">
+  <h2>Bookings Management</h2>
+  <p class="error" *ngIf="error">{{ error }}</p>
 
-<div *ngIf="bookings$ | async as bookings; else loading">
-  <ng-container *ngIf="bookings.length > 0; else noBookings">
-    <table>
+  <article class="card">
+    <h3>Manual Booking</h3>
+    <form [formGroup]="bookingForm" (ngSubmit)="createManualBooking()" class="grid">
+      <label>
+        Room
+        <select formControlName="roomId">
+          <option value="" disabled>Select room</option>
+          <option *ngFor="let room of rooms" [value]="room.id">{{ room.name }}</option>
+        </select>
+      </label>
+      <label>Check-in <input type="date" formControlName="checkInDate" /></label>
+      <label>Check-out <input type="date" formControlName="checkOutDate" /></label>
+      <label>Guests <input type="number" formControlName="numberOfGuests" /></label>
+      <label>Guest name <input formControlName="guestName" /></label>
+      <label>Guest email <input formControlName="guestEmail" type="email" /></label>
+      <label>Guest phone <input formControlName="guestPhone" /></label>
+      <label class="full">Notes <textarea formControlName="notes"></textarea></label>
+      <button type="submit">Create booking</button>
+    </form>
+  </article>
+
+  <article class="card">
+    <h3>All Bookings</h3>
+    <p *ngIf="loading">Loading bookings...</p>
+
+    <table *ngIf="!loading && bookings.length">
       <thead>
         <tr>
-          <th>Room ID</th>
-          <th>User ID</th>
-          <th>Check-in Date</th>
-          <th>Check-out Date</th>
+          <th>ID</th>
+          <th>Room</th>
+          <th>Guest</th>
+          <th>Check-in</th>
+          <th>Check-out</th>
           <th>Status</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let booking of bookings">
+          <td>{{ booking.id }}</td>
           <td>{{ booking.roomId }}</td>
-          <td>{{ booking.userId }}</td>
-          <td>{{ booking.checkInDate.toDate() | date:'short' }}</td>
-          <td>{{ booking.checkOutDate.toDate() | date:'short' }}</td>
+          <td>{{ booking.guestName || booking.userId }}</td>
+          <td>{{ formatDate(booking.checkInDate) }}</td>
+          <td>{{ formatDate(booking.checkOutDate) }}</td>
           <td>{{ booking.status }}</td>
-          <td>
-            <button>Edit</button>
-            <button (click)="cancelBooking(booking)" [disabled]="booking.status === 'cancelled'">Cancel</button>
+          <td class="actions">
+            <button (click)="updateStatus(booking, 'confirmed')" [disabled]="booking.status === 'confirmed'">Confirm</button>
+            <button (click)="updateStatus(booking, 'checked_in')" [disabled]="booking.status === 'checked_in'">Check-in</button>
+            <button (click)="updateStatus(booking, 'checked_out')" [disabled]="booking.status === 'checked_out'">Check-out</button>
+            <button (click)="updateStatus(booking, 'cancelled')" [disabled]="booking.status === 'cancelled'">Cancel</button>
           </td>
         </tr>
       </tbody>
     </table>
-  </ng-container>
-  <ng-template #noBookings>
-    <p>No bookings found.</p>
-  </ng-template>
-</div>
-<ng-template #loading>
-  <p>Loading bookings...</p>
-</ng-template>
+
+    <p *ngIf="!loading && !bookings.length">No bookings found.</p>
+  </article>
+</section>

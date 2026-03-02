@@ -1,3 +1,107 @@
-<h2>Financials</h2>
+<section class="page">
+  <header>
+    <h2>Financials</h2>
+    <button (click)="exportMonth()">Export current month (CSV)</button>
+  </header>
 
-<p>This is where you will manage the hotel financials, including invoicing and generating financial reports.</p>
+  <p class="error" *ngIf="error">{{ error }}</p>
+  <p *ngIf="loading">Loading financial data...</p>
+
+  <div class="summary" *ngIf="overview">
+    <article>
+      <h3>Total Revenue</h3>
+      <p>{{ overview.totalRevenue | currency : 'NGN' }}</p>
+    </article>
+    <article>
+      <h3>Total Expenses</h3>
+      <p>{{ overview.totalExpenses | currency : 'NGN' }}</p>
+    </article>
+    <article>
+      <h3>Net Income</h3>
+      <p>{{ overview.netIncome | currency : 'NGN' }}</p>
+    </article>
+  </div>
+
+  <div class="grid">
+    <article class="card">
+      <h3>Log Expense</h3>
+      <form [formGroup]="expenseForm" (ngSubmit)="addExpense()">
+        <label>
+          Category
+          <select formControlName="category">
+            <option value="utilities">Utilities</option>
+            <option value="maintenance">Maintenance</option>
+            <option value="supplies">Supplies</option>
+            <option value="salary">Salary</option>
+            <option value="other">Other</option>
+          </select>
+        </label>
+        <label>Description <input formControlName="description" /></label>
+        <label>Amount <input type="number" formControlName="amount" /></label>
+        <label>Date <input type="date" formControlName="incurredOn" /></label>
+        <button type="submit">Save expense</button>
+      </form>
+    </article>
+
+    <article class="card">
+      <h3>Payroll Oversight</h3>
+      <form [formGroup]="payrollForm" (ngSubmit)="addPayroll()">
+        <label>Staff name <input formControlName="staffName" /></label>
+        <label>Role <input formControlName="role" /></label>
+        <label>Amount <input type="number" formControlName="amount" /></label>
+        <label>Month <input type="month" formControlName="month" /></label>
+        <button type="submit">Add payroll item</button>
+      </form>
+    </article>
+  </div>
+
+  <article class="card" *ngIf="overview">
+    <h3>Recent Expenses</h3>
+    <table *ngIf="overview.recentExpenses.length">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Category</th>
+          <th>Description</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let expense of overview.recentExpenses">
+          <td>{{ expense.incurredOn | date: 'mediumDate' }}</td>
+          <td>{{ expense.category }}</td>
+          <td>{{ expense.description }}</td>
+          <td>{{ expense.amount | currency : 'NGN' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </article>
+
+  <article class="card" *ngIf="overview">
+    <h3>Payroll Items</h3>
+    <table *ngIf="overview.payroll.length">
+      <thead>
+        <tr>
+          <th>Staff</th>
+          <th>Role</th>
+          <th>Month</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of overview.payroll">
+          <td>{{ item.staffName }}</td>
+          <td>{{ item.role }}</td>
+          <td>{{ item.month }}</td>
+          <td>{{ item.amount | currency : 'NGN' }}</td>
+          <td>{{ item.status }}</td>
+          <td>
+            <button (click)="markPayrollPaid(item.id)" [disabled]="item.status === 'paid'">Mark paid</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </article>
+</section>

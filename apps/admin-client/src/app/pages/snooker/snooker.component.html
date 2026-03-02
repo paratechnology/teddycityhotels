@@ -1,3 +1,95 @@
-<h2>Snooker League Management</h2>
+<section class="page">
+  <h2>Snooker Operations</h2>
+  <p class="error" *ngIf="error">{{ error }}</p>
 
-<p>This is where you will manage the snooker league. You will be able to manage players, teams, and matches.</p>
+  <div class="grid">
+    <article class="card">
+      <h3>Add Player</h3>
+      <form [formGroup]="playerForm" (ngSubmit)="createPlayer()">
+        <label>Full name <input formControlName="fullName" /></label>
+        <label>Email <input formControlName="email" type="email" /></label>
+        <label>Phone <input formControlName="phoneNumber" /></label>
+        <label>
+          Skill level
+          <select formControlName="skillLevel">
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Pro">Pro</option>
+          </select>
+        </label>
+        <button type="submit">Add player</button>
+      </form>
+    </article>
+
+    <article class="card">
+      <h3>Schedule Match</h3>
+      <form [formGroup]="matchForm" (ngSubmit)="createMatch()">
+        <label>
+          Player 1
+          <select formControlName="player1Id">
+            <option value="" disabled>Select</option>
+            <option *ngFor="let player of players" [value]="player.id">{{ player.fullName }}</option>
+          </select>
+        </label>
+        <label>
+          Player 2
+          <select formControlName="player2Id">
+            <option value="" disabled>Select</option>
+            <option *ngFor="let player of players" [value]="player.id">{{ player.fullName }}</option>
+          </select>
+        </label>
+        <label>Date <input type="datetime-local" formControlName="dateScheduled" /></label>
+        <label>Stage <input formControlName="stage" /></label>
+        <button type="submit">Schedule match</button>
+      </form>
+    </article>
+  </div>
+
+  <article class="card">
+    <h3>Players</h3>
+    <table *ngIf="players.length">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Skill</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let player of players">
+          <td>{{ player.fullName }}</td>
+          <td>{{ player.skillLevel }}</td>
+          <td><button (click)="deletePlayer(player.id)">Delete</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="!players.length">No players yet.</p>
+  </article>
+
+  <article class="card">
+    <h3>Matches</h3>
+    <table *ngIf="matches.length">
+      <thead>
+        <tr>
+          <th>Match</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let match of matches">
+          <td>{{ match.player1.name }} vs {{ match.player2.name }}</td>
+          <td>{{ match.dateScheduled | date: 'short' }}</td>
+          <td>{{ match.status }}</td>
+          <td class="actions">
+            <button (click)="setMatchStatus(match, 'Live')">Live</button>
+            <button (click)="setMatchStatus(match, 'Completed')">Complete</button>
+            <button (click)="setMatchStatus(match, 'Postponed')">Postpone</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="!matches.length">No matches yet.</p>
+  </article>
+</section>

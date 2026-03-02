@@ -1,0 +1,56 @@
+<section class="page">
+  <h2>Admin Access Management</h2>
+
+  <p class="error" *ngIf="error">{{ error }}</p>
+
+  <div class="grid">
+    <article class="card">
+      <h3>Create Admin</h3>
+      <form [formGroup]="form" (ngSubmit)="createAdmin()">
+        <label>Full name <input formControlName="fullname" /></label>
+        <label>Email <input formControlName="email" type="email" /></label>
+        <label>Phone <input formControlName="phoneNumber" /></label>
+        <label>Temporary password <input formControlName="temporaryPassword" type="password" /></label>
+
+        <label class="check"><input type="checkbox" formControlName="isSuperAdmin" /> Super admin</label>
+
+        <div class="access">
+          <label class="check"><input type="checkbox" formControlName="rooms" /> Rooms</label>
+          <label class="check"><input type="checkbox" formControlName="bookings" /> Bookings</label>
+          <label class="check"><input type="checkbox" formControlName="snooker" /> Snooker</label>
+          <label class="check"><input type="checkbox" formControlName="financials" /> Financials</label>
+          <label class="check"><input type="checkbox" formControlName="notifications" /> Notifications</label>
+          <label class="check"><input type="checkbox" formControlName="admins" /> Admin users</label>
+        </div>
+
+        <button type="submit">Create</button>
+      </form>
+    </article>
+
+    <article class="card">
+      <h3>Current Admins</h3>
+      <p *ngIf="loading">Loading...</p>
+      <table *ngIf="!loading && admins.length">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let admin of admins">
+            <td>{{ admin.fullname }}</td>
+            <td>{{ admin.email }}</td>
+            <td>{{ admin.isSuperAdmin ? 'Super Admin' : 'Admin' }}</td>
+            <td>{{ admin.active ? 'Active' : 'Disabled' }}</td>
+            <td><button (click)="toggleActive(admin)">{{ admin.active ? 'Disable' : 'Enable' }}</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="!loading && !admins.length">No admins yet.</p>
+    </article>
+  </div>
+</section>

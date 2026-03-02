@@ -23,6 +23,7 @@ export class AuthRoutes {
     }
 
     private initializeRoutes() {
+        this.router.post('/admin-login', this.controller.adminLogin);
         this.router.post('/login', this.controller.login);
         this.router.post('/initiate-registration', this.controller.initiateRegistration);
         this.router.post('/resend-verification', this.controller.resendVerificationEmail);
