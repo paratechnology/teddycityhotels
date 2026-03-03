@@ -28,6 +28,18 @@ export class AdminUsersController {
 
   list = async (_req: Request, res: Response, next: NextFunction) => {
     try {
+      const pageQuery = _req.query['page'];
+      const pageSizeQuery = _req.query['pageSize'];
+      const search = _req.query['search'] as string | undefined;
+
+      if (pageQuery !== undefined || pageSizeQuery !== undefined || search !== undefined) {
+        const page = Number(pageQuery || 1);
+        const pageSize = Number(pageSizeQuery || 12);
+        const admins = await this.adminUsersService.listAdminsPaginated({ page, pageSize, search });
+        res.status(200).json(admins);
+        return;
+      }
+
       const admins = await this.adminUsersService.listAdmins();
       res.status(200).json(admins);
     } catch (error) {

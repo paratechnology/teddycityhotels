@@ -1,37 +1,99 @@
-<section class="page">
-  <header>
-    <h2>Rooms Management</h2>
-    <a routerLink="/rooms/new" class="button">Add New Room</a>
-  </header>
+<section class="page-shell">
+  <div class="page-header">
+    <div>
+      <h2>Room Management</h2>
+      <p>Maintain your inventory, availability and commercial metadata.</p>
+    </div>
+    <div class="toolbar">
+      <button class="btn btn-ghost" (click)="loadRooms()">Refresh</button>
+      <a routerLink="/rooms/new" class="btn btn-primary">+ Add Room</a>
+    </div>
+  </div>
 
-  <p class="error" *ngIf="error">{{ error }}</p>
-  <p *ngIf="loading">Loading rooms...</p>
+  <article class="surface panel">
+    <div class="filters">
+      <div class="field">
+        <label>Search</label>
+        <input [(ngModel)]="search" placeholder="Name, type, room number" />
+      </div>
 
-  <table *ngIf="!loading && rooms.length">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Occupancy</th>
-        <th>Price</th>
-        <th>Available</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let room of rooms">
-        <td>{{ room.name }}</td>
-        <td>{{ room.type }}</td>
-        <td>{{ room.maxOccupancy }}</td>
-        <td>{{ room.price | currency : 'NGN' }}</td>
-        <td>{{ room.availability?.isAvailable ? 'Yes' : 'No' }}</td>
-        <td>
-          <a [routerLink]="['/rooms/edit', room.id]">Edit</a>
-          <button (click)="deleteRoom(room.id)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+      <div class="field">
+        <label>Type</label>
+        <select [(ngModel)]="typeFilter">
+          <option value="">All</option>
+          <option *ngFor="let type of roomTypes" [value]="type">{{ type }}</option>
+        </select>
+      </div>
 
-  <p *ngIf="!loading && !rooms.length">No rooms found.</p>
+      <div class="field">
+        <label>Availability</label>
+        <select [(ngModel)]="availabilityFilter">
+          <option value="">Any</option>
+          <option value="true">Available</option>
+          <option value="false">Unavailable</option>
+        </select>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" (click)="applyFilters()">Apply</button>
+        <button class="btn btn-ghost" (click)="clearFilters()">Clear</button>
+      </div>
+    </div>
+  </article>
+
+  <p class="error-text" *ngIf="error">{{ error }}</p>
+
+  <article class="surface panel">
+    <p *ngIf="loading" class="muted">Loading rooms...</p>
+
+    <div class="table-wrap" *ngIf="!loading && rooms.length">
+      <table class="mobile-table">
+        <thead>
+          <tr>
+            <th>Room</th>
+            <th>Type</th>
+            <th>Occupancy</th>
+            <th>Price / Night</th>
+            <th>Availability</th>
+            <th>Media</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let room of rooms">
+            <td data-label="Room">
+              <strong>{{ room.name }}</strong>
+              <div class="muted">{{ room.roomNumber || 'No room number' }}</div>
+            </td>
+            <td data-label="Type">{{ room.type }}</td>
+            <td data-label="Occupancy">{{ room.maxOccupancy }} guests</td>
+            <td data-label="Price / Night">{{ room.price | currency : 'NGN' }}</td>
+            <td data-label="Availability">
+              <span
+                class="badge"
+                [ngClass]="room.availability.isAvailable ? 'badge-success' : 'badge-danger'"
+              >
+                {{ room.availability.isAvailable ? 'Available' : 'Occupied / Blocked' }}
+              </span>
+            </td>
+            <td data-label="Media">{{ room.images.length }} image(s)</td>
+            <td class="row-actions" data-label="Actions">
+              <a [routerLink]="['/rooms/edit', room.id]" class="btn btn-ghost">Edit</a>
+              <button class="btn btn-danger" (click)="deleteRoom(room.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p *ngIf="!loading && !rooms.length" class="muted">No rooms found for this filter combination.</p>
+
+    <div class="pagination" *ngIf="!loading && total > 0">
+      <span>Showing page {{ page }} of {{ totalPages }} ({{ total }} rooms)</span>
+      <div class="controls">
+        <button class="btn btn-ghost" (click)="goToPage(page - 1)" [disabled]="page <= 1">Prev</button>
+        <button class="btn btn-ghost" (click)="goToPage(page + 1)" [disabled]="page >= totalPages">Next</button>
+      </div>
+    </div>
+  </article>
 </section>

@@ -1,5 +1,4 @@
 import * as dotenv from 'dotenv';
-dotenv.config({ path: process.env['ENV_FILE'] || 'apps/server/.env' });
 dotenv.config();
 import 'reflect-metadata';
 import express, { Application, Request, Response, NextFunction } from 'express';
@@ -25,6 +24,7 @@ import { SnookerRoutes } from './routes/snooker.routes';
 import { FinancialsRoutes } from './routes/financials.routes';
 import { AdminDashboardRoutes } from './routes/admin-dashboard.routes';
 import { AdminUsersRoutes } from './routes/admin-users.routes';
+import { KitchenRoutes } from './routes/kitchen.routes';
 
 class App {
   public app: Application;
@@ -74,6 +74,7 @@ class App {
     apiRouter.use('/attachments', new AttachmentRoutes().router);
     apiRouter.use('/tenants', new TenantRoutes().router);
     apiRouter.use('/financials', new FinancialsRoutes().router);
+    apiRouter.use('/kitchen', new KitchenRoutes().router);
     apiRouter.use('/admin/dashboard', new AdminDashboardRoutes().router);
     apiRouter.use('/admin/users', new AdminUsersRoutes().router);
 

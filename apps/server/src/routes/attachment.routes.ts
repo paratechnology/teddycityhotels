@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { AttachmentController } from '../controllers/attachment.controller';
 import { validationMiddleware } from '../middleware/validation.middleware';
 import { container } from 'tsyringe';
-import { GenerateUploadUrlSchema } from '@teddy-city-hotels/shared-interfaces';
+import { GenerateUploadUrlSchema, PublishUploadSchema } from '@teddy-city-hotels/shared-interfaces';
 import { verifyUser } from '../middleware/authenticate.middleware';
 
 export class AttachmentRoutes {
@@ -21,6 +21,11 @@ export class AttachmentRoutes {
       '/upload-url',
       validationMiddleware(GenerateUploadUrlSchema),
       this.controller.generateAdminUploadUrl
+    );
+    this.router.post(
+      '/publish',
+      validationMiddleware(PublishUploadSchema),
+      this.controller.publishAdminUpload
     );
     this.router.post(
       '/tasks/:taskId/attachments/generate-upload-url',

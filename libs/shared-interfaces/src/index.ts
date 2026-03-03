@@ -16,6 +16,8 @@ export * from './lib/invoice.interface';
 export * from './lib/transaction.interface';
 export * from './lib/tenant.interface';
 export * from './lib/response';
+export * from './lib/revenue.interface';
+export * from './lib/kitchen.interface';
 
 export * from './lib/legacy-compat.interface';
 

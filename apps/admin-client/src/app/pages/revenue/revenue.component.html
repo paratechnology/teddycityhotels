@@ -1,0 +1,181 @@
+<section class="page-shell">
+  <div class="page-header">
+    <div>
+      <h2>Revenue Ledger</h2>
+      <p>Track all incoming money by source with payment status control.</p>
+    </div>
+    <div class="toolbar">
+      <button class="btn btn-primary" (click)="openCreateModal()">+ Record Payment</button>
+      <button class="btn btn-ghost" (click)="loadRevenue()">Refresh</button>
+    </div>
+  </div>
+
+  <p class="error-text" *ngIf="error">{{ error }}</p>
+
+  <div class="summary-grid">
+    <article class="surface tile">
+      <h3>Total Paid Revenue</h3>
+      <p>{{ totalPaidRevenue | currency : 'NGN' }}</p>
+    </article>
+    <article class="surface tile">
+      <h3>Pending Revenue</h3>
+      <p>{{ pendingRevenue | currency : 'NGN' }}</p>
+    </article>
+    <article class="surface tile" *ngFor="let item of paidBySource | keyvalue">
+      <h3>{{ item.key }}</h3>
+      <p>{{ item.value | currency : 'NGN' }}</p>
+    </article>
+  </div>
+
+  <article class="surface panel">
+    <h3>Filters</h3>
+    <div class="filter-grid">
+      <div class="field">
+        <label>Search</label>
+        <input [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" placeholder="Description or related ID" />
+      </div>
+      <div class="field">
+        <label>Source</label>
+        <select [(ngModel)]="sourceFilter" [ngModelOptions]="{ standalone: true }">
+          <option *ngFor="let row of sourceOptions" [value]="row.value">{{ row.label }}</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Status</label>
+        <select [(ngModel)]="paymentStatusFilter" [ngModelOptions]="{ standalone: true }">
+          <option *ngFor="let row of paymentStatusOptions" [value]="row.value">{{ row.label }}</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Method</label>
+        <select [(ngModel)]="paymentMethodFilter" [ngModelOptions]="{ standalone: true }">
+          <option *ngFor="let row of paymentMethodOptions" [value]="row.value">{{ row.label }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" (click)="applyFilters()">Apply</button>
+      <button class="btn btn-ghost" (click)="clearFilters()">Clear</button>
+    </div>
+  </article>
+
+  <article class="surface panel">
+    <p *ngIf="loading" class="muted">Loading revenue ledger...</p>
+
+    <div class="table-wrap" *ngIf="!loading && rows.length">
+      <table class="mobile-table">
+        <thead>
+          <tr>
+            <th>Source</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Method</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of rows">
+            <td data-label="Source">{{ row.sourceType }}</td>
+            <td data-label="Description">
+              <div>{{ row.description }}</div>
+              <small class="muted">{{ row.relatedId || '-' }}</small>
+            </td>
+            <td data-label="Amount">{{ row.amount | currency : 'NGN' }}</td>
+            <td data-label="Method">{{ row.paymentMethod }}</td>
+            <td data-label="Status">
+              <span
+                class="badge"
+                [ngClass]="{
+                  'badge-success': row.paymentStatus === 'paid',
+                  'badge-warning': row.paymentStatus === 'pending',
+                  'badge-danger': row.paymentStatus === 'failed' || row.paymentStatus === 'refunded'
+                }"
+              >
+                {{ row.paymentStatus }}
+              </span>
+            </td>
+            <td data-label="Created">{{ row.createdAt | date: 'short' }}</td>
+            <td data-label="Actions" class="row-actions">
+              <button class="btn btn-ghost" (click)="setPaymentStatus(row, 'paid')">Mark Paid</button>
+              <button class="btn btn-ghost" (click)="setPaymentStatus(row, 'pending')">Mark Pending</button>
+              <button class="btn btn-danger" (click)="setPaymentStatus(row, 'refunded')">Refund</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p *ngIf="!loading && !rows.length" class="muted">No revenue records found.</p>
+
+    <div class="pagination" *ngIf="!loading && total > 0">
+      <span>Page {{ page }} / {{ totalPages }} ({{ total }} records)</span>
+      <div class="controls">
+        <button class="btn btn-ghost" (click)="goToPage(page - 1)" [disabled]="page <= 1">Prev</button>
+        <button class="btn btn-ghost" (click)="goToPage(page + 1)" [disabled]="page >= totalPages">Next</button>
+      </div>
+    </div>
+  </article>
+</section>
+
+<div class="modal-backdrop" *ngIf="showCreateModal">
+  <article class="modal">
+    <header class="modal-header">
+      <h3>Add Payment Record</h3>
+      <p class="muted">Record manual and operational income entries.</p>
+    </header>
+    <section class="modal-body">
+      <form [formGroup]="manualForm" class="form-grid">
+        <div class="field">
+          <label>Source</label>
+          <select formControlName="sourceType">
+            <option value="manual">Manual</option>
+            <option value="booking">Booking</option>
+            <option value="snooker_registration">Snooker Registration</option>
+            <option value="food_and_beverage">Food & Beverage</option>
+            <option value="swimming">Swimming</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Description</label>
+          <input formControlName="description" placeholder="Cash payment at front desk" />
+        </div>
+
+        <div class="field">
+          <label>Amount (NGN)</label>
+          <input type="number" formControlName="amount" />
+        </div>
+
+        <div class="field">
+          <label>Payment Method</label>
+          <select formControlName="paymentMethod">
+            <option value="cash">Cash</option>
+            <option value="online">Online</option>
+            <option value="bank_transfer">Bank Transfer</option>
+            <option value="card">Card</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Payment Status</label>
+          <select formControlName="paymentStatus">
+            <option value="paid">Paid</option>
+            <option value="pending">Pending</option>
+            <option value="failed">Failed</option>
+            <option value="refunded">Refunded</option>
+          </select>
+        </div>
+      </form>
+    </section>
+    <footer class="modal-footer">
+      <button class="btn btn-ghost" (click)="closeCreateModal()">Cancel</button>
+      <button class="btn btn-primary" (click)="createManualRecord()" [disabled]="saving || manualForm.invalid">
+        {{ saving ? 'Saving...' : 'Save Payment' }}
+      </button>
+    </footer>
+  </article>
+</div>

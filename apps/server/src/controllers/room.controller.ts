@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { injectable, inject } from 'tsyringe';
 import { RoomService } from '../services/room.service';
+import { Room } from '@teddy-city-hotels/shared-interfaces';
 
 @injectable()
 export class RoomController {
@@ -9,6 +10,35 @@ export class RoomController {
   public getAllRooms = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const rooms = await this.roomService.getAllRooms();
+      res.status(200).json(rooms);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public getAdminRoomsPaginated = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const page = Number(req.query['page'] || 1);
+      const pageSize = Number(req.query['pageSize'] || 12);
+      const search = (req.query['search'] as string | undefined) || undefined;
+      const type = req.query['type'] as Room['type'] | undefined;
+      const isAvailableQuery = req.query['isAvailable'] as string | undefined;
+      const isAvailable =
+        isAvailableQuery === undefined
+          ? undefined
+          : isAvailableQuery === 'true'
+          ? true
+          : isAvailableQuery === 'false'
+          ? false
+          : undefined;
+
+      const rooms = await this.roomService.getAdminRoomsPaginated({
+        page,
+        pageSize,
+        search,
+        type,
+        isAvailable,
+      });
       res.status(200).json(rooms);
     } catch (error) {
       next(error);

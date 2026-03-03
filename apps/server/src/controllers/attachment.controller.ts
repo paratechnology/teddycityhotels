@@ -1,6 +1,6 @@
 import { Request, NextFunction, Response } from 'express';
 import { AttachmentService } from '../services/attachment.service';
-import { GenerateUploadUrlDto } from '@teddy-city-hotels/shared-interfaces';
+import { GenerateUploadUrlDto, PublishUploadDto } from '@teddy-city-hotels/shared-interfaces';
 import { injectable, inject } from 'tsyringe';
 import { UnauthorizedError } from '../errors/http-errors';
 
@@ -31,6 +31,17 @@ export class AttachmentController {
       if (!req.user) return next(new UnauthorizedError('Authentication required.'));
       const { fileName, contentType }: GenerateUploadUrlDto = req.body;
       const result = await this.attachmentService.generateAdminUploadUrl(fileName, contentType);
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  publishAdminUpload = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      if (!req.user) return next(new UnauthorizedError('Authentication required.'));
+      const { filePath }: PublishUploadDto = req.body;
+      const result = await this.attachmentService.publishAdminUpload(filePath);
       res.status(200).json(result);
     } catch (error) {
       next(error);

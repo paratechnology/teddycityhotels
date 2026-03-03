@@ -5,6 +5,7 @@ import {
   IAdminUser,
   ICreateAdminUserDto,
   IUpdateAdminUserDto,
+  PaginatedResponse,
   baseURL,
 } from '@teddy-city-hotels/shared-interfaces';
 
@@ -18,8 +19,22 @@ export class AdminUsersService {
     return this.http.get<IAdminUser>(`${this.adminUsersUrl}/me`);
   }
 
-  list(): Observable<IAdminUser[]> {
-    return this.http.get<IAdminUser[]>(this.adminUsersUrl);
+  list(params?: {
+    page?: number;
+    pageSize?: number;
+    search?: string;
+  }): Observable<IAdminUser[] | PaginatedResponse<IAdminUser>> {
+    if (!params || (!params.page && !params.pageSize && !params.search)) {
+      return this.http.get<IAdminUser[]>(this.adminUsersUrl);
+    }
+
+    const query = new URLSearchParams({
+      page: String(params.page || 1),
+      pageSize: String(params.pageSize || 12),
+    });
+    if (params.search?.trim()) query.set('search', params.search.trim());
+
+    return this.http.get<PaginatedResponse<IAdminUser>>(`${this.adminUsersUrl}?${query.toString()}`);
   }
 
   create(payload: ICreateAdminUserDto): Observable<IAdminUser> {

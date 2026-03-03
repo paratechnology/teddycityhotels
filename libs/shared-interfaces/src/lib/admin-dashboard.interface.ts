@@ -1,3 +1,5 @@
+import { IRevenueRecord, RevenueSourceType } from './revenue.interface';
+
 export interface ITasksPerUserStat {
   userId: string;
   userName: string;
@@ -57,6 +59,8 @@ export interface IFinancialOverview {
   netIncome: number;
   dailyRevenue: IRevenuePoint[];
   monthlyRevenue: IRevenuePoint[];
+  revenueBySource: Record<RevenueSourceType, number>;
+  recentRevenue: IRevenueRecord[];
   recentExpenses: IFinancialExpense[];
   payroll: IPayrollEntry[];
 }

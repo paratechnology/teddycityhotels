@@ -31,3 +31,14 @@ export interface IUploadUrlResponse {
   uploadUrl: string;
   filePath: string;
 }
+
+export const PublishUploadSchema = z.object({
+  filePath: z.string().min(1),
+});
+
+export type PublishUploadDto = z.infer<typeof PublishUploadSchema>;
+
+export interface IPublishUploadResponse {
+  filePath: string;
+  publicUrl: string;
+}

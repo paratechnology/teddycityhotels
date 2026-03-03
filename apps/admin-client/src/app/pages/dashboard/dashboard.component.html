@@ -1,0 +1,39 @@
+<section class="page-shell">
+  <div class="page-header">
+    <div>
+      <h2>Operations Dashboard</h2>
+      <p>Live metrics across bookings, occupancy, revenue and alerts.</p>
+    </div>
+    <button class="btn btn-ghost" (click)="load()">Refresh</button>
+  </div>
+
+  <p *ngIf="loading" class="muted">Loading dashboard...</p>
+  <p class="error-text" *ngIf="error">{{ error }}</p>
+
+  <div class="cards" *ngIf="!loading && stats">
+    <article class="surface card metric">
+      <h3>Occupancy</h3>
+      <p>{{ stats.occupancyRate }}%</p>
+      <small>{{ stats.occupiedRooms }} occupied / {{ stats.totalRooms }} total rooms</small>
+    </article>
+
+    <article class="surface card metric">
+      <h3>Active Bookings</h3>
+      <p>{{ stats.activeBookings }}</p>
+      <small>{{ stats.pendingBookings }} pending confirmation</small>
+    </article>
+
+    <article class="surface card metric">
+      <h3>Revenue Today</h3>
+      <p>{{ stats.todayRevenue | currency : 'NGN' }}</p>
+      <small>Month to date: {{ stats.monthRevenue | currency : 'NGN' }}</small>
+    </article>
+
+    <article class="surface card metric">
+      <h3>Pending Alerts</h3>
+      <p>{{ stats.pendingNotifications }}</p>
+      <small>Unread admin notifications</small>
+    </article>
+  </div>
+</section>
+

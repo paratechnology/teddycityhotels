@@ -1,0 +1,283 @@
+<section class="page-shell">
+  <div class="page-header">
+    <div>
+      <h2>Teddy City Kitchen</h2>
+      <p>Manage menu inventory and track food and drink orders from your website.</p>
+    </div>
+    <div class="toolbar">
+      <button class="btn btn-ghost" (click)="loadMenu(); loadOrders()">Refresh</button>
+    </div>
+  </div>
+
+  <p class="error-text" *ngIf="error">{{ error }}</p>
+
+  <div class="summary-grid">
+    <article class="surface tile">
+      <h3>Total Orders</h3>
+      <p>{{ totalOrders }}</p>
+    </article>
+    <article class="surface tile">
+      <h3>Pending Payments</h3>
+      <p>{{ pendingPayments }}</p>
+    </article>
+    <article class="surface tile">
+      <h3>Pending Kitchen</h3>
+      <p>{{ pendingKitchen }}</p>
+    </article>
+  </div>
+
+  <article class="surface panel section-tabs">
+    <button class="btn" [ngClass]="activeTab === 'orders' ? 'btn-primary' : 'btn-ghost'" (click)="activeTab = 'orders'">
+      Orders
+    </button>
+    <button class="btn" [ngClass]="activeTab === 'menu' ? 'btn-primary' : 'btn-ghost'" (click)="activeTab = 'menu'">
+      Menu
+    </button>
+  </article>
+
+  <ng-container *ngIf="activeTab === 'menu'">
+    <article class="surface panel">
+      <div class="page-header compact">
+        <div>
+          <h3>Menu Items</h3>
+          <p>Manage the Teddy City kitchen catalog.</p>
+        </div>
+        <div class="toolbar">
+          <button class="btn btn-primary" (click)="openMenuModal()">+ Add Menu Item</button>
+        </div>
+      </div>
+
+      <div class="filter-grid">
+        <div class="field">
+          <label>Search</label>
+          <input [(ngModel)]="menuSearch" [ngModelOptions]="{ standalone: true }" placeholder="Item name or description" />
+        </div>
+        <div class="field">
+          <label>Category</label>
+          <select [(ngModel)]="menuCategoryFilter" [ngModelOptions]="{ standalone: true }">
+            <option value="">All</option>
+            <option value="food">Food</option>
+            <option value="drink">Drink</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Availability</label>
+          <select [(ngModel)]="menuAvailabilityFilter" [ngModelOptions]="{ standalone: true }">
+            <option value="">Any</option>
+            <option value="true">Available</option>
+            <option value="false">Unavailable</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" (click)="applyMenuFilters()">Apply</button>
+        <button class="btn btn-ghost" (click)="clearMenuFilters()">Clear</button>
+      </div>
+
+      <p *ngIf="menuLoading" class="muted">Loading menu items...</p>
+
+      <div class="table-wrap" *ngIf="!menuLoading && menuRows.length">
+        <table class="mobile-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Availability</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of menuRows">
+              <td data-label="Name">
+                <strong>{{ row.name }}</strong>
+                <div class="muted">{{ row.description }}</div>
+              </td>
+              <td data-label="Category">{{ row.category }}</td>
+              <td data-label="Price">{{ row.price | currency : 'NGN' }}</td>
+              <td data-label="Availability">
+                <span class="badge" [ngClass]="row.available ? 'badge-success' : 'badge-danger'">
+                  {{ row.available ? 'Available' : 'Unavailable' }}
+                </span>
+              </td>
+              <td data-label="Actions" class="row-actions">
+                <button class="btn btn-ghost" (click)="editMenuItem(row)">Edit</button>
+                <button class="btn btn-ghost" (click)="toggleMenuAvailability(row)">
+                  {{ row.available ? 'Disable' : 'Enable' }}
+                </button>
+                <button class="btn btn-danger" (click)="deleteMenuItem(row)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p *ngIf="!menuLoading && !menuRows.length" class="muted">No menu items found.</p>
+
+      <div class="pagination" *ngIf="!menuLoading && menuTotal > 0">
+        <span>Page {{ menuPage }} / {{ totalMenuPages }} ({{ menuTotal }} items)</span>
+        <div class="controls">
+          <button class="btn btn-ghost" (click)="goToMenuPage(menuPage - 1)" [disabled]="menuPage <= 1">Prev</button>
+          <button class="btn btn-ghost" (click)="goToMenuPage(menuPage + 1)" [disabled]="menuPage >= totalMenuPages">Next</button>
+        </div>
+      </div>
+    </article>
+  </ng-container>
+
+  <ng-container *ngIf="activeTab === 'orders'">
+    <article class="surface panel">
+      <h3>Orders</h3>
+
+      <div class="filter-grid order-filters">
+        <div class="field">
+          <label>Search</label>
+          <input [(ngModel)]="ordersSearch" [ngModelOptions]="{ standalone: true }" placeholder="Order ID, customer or item" />
+        </div>
+        <div class="field">
+          <label>Order Status</label>
+          <select [(ngModel)]="orderStatusFilter" [ngModelOptions]="{ standalone: true }">
+            <option value="">All</option>
+            <option *ngFor="let status of orderStatuses" [value]="status">{{ status }}</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Payment Status</label>
+          <select [(ngModel)]="paymentStatusFilter" [ngModelOptions]="{ standalone: true }">
+            <option value="">All</option>
+            <option *ngFor="let status of paymentStatuses" [value]="status">{{ status }}</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Method</label>
+          <select [(ngModel)]="paymentMethodFilter" [ngModelOptions]="{ standalone: true }">
+            <option value="">All</option>
+            <option value="online">Online</option>
+            <option value="cash">Cash</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" (click)="applyOrderFilters()">Apply</button>
+        <button class="btn btn-ghost" (click)="clearOrderFilters()">Clear</button>
+      </div>
+
+      <p *ngIf="orderLoading" class="muted">Loading kitchen orders...</p>
+
+      <div class="table-wrap" *ngIf="!orderLoading && orderRows.length">
+        <table class="mobile-table">
+          <thead>
+            <tr>
+              <th>Order</th>
+              <th>Customer</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Order Status</th>
+              <th>Payment</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of orderRows">
+              <td data-label="Order">
+                <strong>{{ row.id }}</strong>
+                <div class="muted">{{ row.createdAt | date: 'short' }}</div>
+              </td>
+              <td data-label="Customer">
+                <div>{{ row.customerName }}</div>
+                <small class="muted">{{ row.customerEmail || row.customerPhone || '-' }}</small>
+              </td>
+              <td data-label="Items">{{ orderItemsLabel(row) }}</td>
+              <td data-label="Total">{{ row.totalAmount | currency : 'NGN' }}</td>
+              <td data-label="Order Status">
+                <span class="badge" [ngClass]="row.orderStatus === 'completed' ? 'badge-success' : 'badge-warning'">
+                  {{ row.orderStatus }}
+                </span>
+              </td>
+              <td data-label="Payment">
+                <span
+                  class="badge"
+                  [ngClass]="{
+                    'badge-success': row.paymentStatus === 'paid',
+                    'badge-warning': row.paymentStatus === 'pending',
+                    'badge-danger': row.paymentStatus === 'failed' || row.paymentStatus === 'refunded'
+                  }"
+                >
+                  {{ row.paymentMethod }} / {{ row.paymentStatus }}
+                </span>
+              </td>
+              <td data-label="Actions" class="row-actions">
+                <button class="btn btn-ghost" (click)="updateOrderStatus(row, 'preparing')">Preparing</button>
+                <button class="btn btn-ghost" (click)="updateOrderStatus(row, 'ready')">Ready</button>
+                <button class="btn btn-ghost" (click)="updateOrderStatus(row, 'completed')">Complete</button>
+                <button class="btn btn-primary" (click)="updatePaymentStatus(row, 'paid')">Mark Paid</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p *ngIf="!orderLoading && !orderRows.length" class="muted">No kitchen orders found.</p>
+
+      <div class="pagination" *ngIf="!orderLoading && ordersTotal > 0">
+        <span>Page {{ ordersPage }} / {{ totalOrdersPages }} ({{ ordersTotal }} orders)</span>
+        <div class="controls">
+          <button class="btn btn-ghost" (click)="goToOrdersPage(ordersPage - 1)" [disabled]="ordersPage <= 1">Prev</button>
+          <button class="btn btn-ghost" (click)="goToOrdersPage(ordersPage + 1)" [disabled]="ordersPage >= totalOrdersPages">Next</button>
+        </div>
+      </div>
+    </article>
+  </ng-container>
+</section>
+
+<div class="modal-backdrop" *ngIf="showMenuModal">
+  <article class="modal">
+    <header class="modal-header">
+      <h3>{{ editingMenuId ? 'Edit Menu Item' : 'Add Menu Item' }}</h3>
+      <p class="muted">Configure food and drink items for website ordering.</p>
+    </header>
+    <section class="modal-body">
+      <form [formGroup]="menuForm" class="form-grid">
+        <div class="field">
+          <label>Name</label>
+          <input formControlName="name" />
+        </div>
+
+        <div class="field">
+          <label>Category</label>
+          <select formControlName="category">
+            <option value="food">Food</option>
+            <option value="drink">Drink</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Price (NGN)</label>
+          <input type="number" formControlName="price" />
+        </div>
+
+        <div class="field">
+          <label>Image URL (optional)</label>
+          <input formControlName="imageUrl" />
+        </div>
+
+        <div class="field full">
+          <label>Description</label>
+          <textarea rows="3" formControlName="description"></textarea>
+        </div>
+
+        <label class="field check-line full">
+          <input type="checkbox" formControlName="available" />
+          <span>Available for ordering</span>
+        </label>
+      </form>
+    </section>
+    <footer class="modal-footer">
+      <button class="btn btn-ghost" (click)="closeMenuModal()">Cancel</button>
+      <button class="btn btn-primary" (click)="saveMenuItem()" [disabled]="savingMenu || menuForm.invalid">
+        {{ savingMenu ? 'Saving...' : editingMenuId ? 'Update Item' : 'Add Item' }}
+      </button>
+    </footer>
+  </article>
+</div>

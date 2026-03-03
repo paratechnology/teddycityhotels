@@ -8,13 +8,16 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { firstValueFrom } from 'rxjs';
 import { RoomService } from '../../../services/room.service';
+import { AttachmentService } from '../../../services/attachment.service';
 import { Room, UpsertRoomDto } from '@teddy-city-hotels/shared-interfaces';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-room-edit',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './room-edit.component.html',
   styleUrls: ['./room-edit.component.scss'],
 })
@@ -23,10 +26,12 @@ export class RoomEditComponent implements OnInit {
   isEditMode = false;
   roomId: string | null = null;
   error = '';
+  uploadingImages = false;
 
   constructor(
     private fb: FormBuilder,
     private roomService: RoomService,
+    private attachmentService: AttachmentService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
@@ -51,7 +56,6 @@ export class RoomEditComponent implements OnInit {
 
     this.addBed();
     this.addAmenity();
-    this.addImage();
     this.addFeature();
 
     if (this.isEditMode && this.roomId) {
@@ -106,20 +110,56 @@ export class RoomEditComponent implements OnInit {
     this.amenities.removeAt(index);
   }
 
-  addImage(): void {
-    this.images.push(this.fb.control(''));
-  }
-
-  removeImage(index: number): void {
-    this.images.removeAt(index);
-  }
-
   addFeature(): void {
     this.features.push(this.fb.control(''));
   }
 
   removeFeature(index: number): void {
     this.features.removeAt(index);
+  }
+
+  removeImage(index: number): void {
+    this.images.removeAt(index);
+  }
+
+  async onImageFilesSelected(event: Event): Promise<void> {
+    const input = event.target as HTMLInputElement;
+    const files = Array.from(input.files || []);
+    if (!files.length) return;
+
+    this.uploadingImages = true;
+    this.error = '';
+
+    for (const file of files) {
+      try {
+        const signed = await firstValueFrom(
+          this.attachmentService.generateUploadUrl(file.name, file.type || 'application/octet-stream')
+        );
+        const uploadResponse = await fetch(signed.uploadUrl, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': file.type || 'application/octet-stream',
+          },
+          body: file,
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error(`Upload failed for ${file.name}`);
+        }
+
+        const published = await firstValueFrom(this.attachmentService.publishUpload(signed.filePath));
+        this.images.push(this.fb.control(published.publicUrl));
+      } catch (error) {
+        this.error =
+          error instanceof Error
+            ? error.message
+            : `Image upload failed for ${file.name}. Please retry.`;
+        break;
+      }
+    }
+
+    this.uploadingImages = false;
+    input.value = '';
   }
 
   onSubmit(): void {
@@ -172,28 +212,30 @@ export class RoomEditComponent implements OnInit {
       isAvailable: room.availability?.isAvailable !== false,
     });
 
-    this.setFormArray(this.beds, room.beds || [], (item: any) =>
+    this.setFormArray(this.beds, room.beds || [], (item: Room['beds'][number]) =>
       this.fb.group({
         type: [item.type || 'Queen', Validators.required],
         count: [item.count || 1, [Validators.required, Validators.min(1)]],
       })
     );
 
-    this.setFormArray(this.amenities, room.amenities || [], (item: any) =>
-      this.fb.group({
-        icon: [item.icon || 'star'],
-        name: [item.name || '', Validators.required],
-      })
+    this.setFormArray(
+      this.amenities,
+      room.amenities || [],
+      (item: { icon: string; name: string }) =>
+        this.fb.group({
+          icon: [item.icon || 'star'],
+          name: [item.name || '', Validators.required],
+        })
     );
 
     this.setFormArray(this.images, room.images || [], (item: string) => this.fb.control(item));
     this.setFormArray(this.features, room.features || [], (item: string) => this.fb.control(item));
 
-    if (!this.images.length) this.addImage();
     if (!this.features.length) this.addFeature();
   }
 
-  private setFormArray(formArray: FormArray, data: any[], factory: (item: any) => any) {
+  private setFormArray<T>(formArray: FormArray, data: T[], factory: (item: T) => unknown): void {
     while (formArray.length) {
       formArray.removeAt(0);
     }

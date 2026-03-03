@@ -1,3 +1,5 @@
+import { PaginatedResponse } from './legacy-compat.interface';
+
 export interface ISnookerPlayerRegistration {
   fullName: string;
   email: string;
@@ -10,13 +12,19 @@ export interface ISnookerPlayer extends ISnookerPlayerRegistration {
   id: string;
   registeredAt: string;
   isPaid: boolean;
+  groupId?: string;
+  groupName?: string;
   stats?: {
     played: number;
     won: number;
     lost: number;
     points: number;
+    frameDifference?: number;
   };
 }
+
+export type SnookerMatchStatus = 'Scheduled' | 'Live' | 'Completed' | 'Postponed';
+export type SnookerStageType = 'group' | 'knockout';
 
 export interface ISnookerMatch {
   id: string;
@@ -24,8 +32,13 @@ export interface ISnookerMatch {
   player2: { id: string; name: string };
   score?: { p1: number; p2: number };
   dateScheduled: string;
-  status: 'Scheduled' | 'Live' | 'Completed' | 'Postponed';
-  stage: string; // Group A, Semi-Final, etc.
+  status: SnookerMatchStatus;
+  stage: string;
+  stageType?: SnookerStageType;
+  groupId?: string;
+  round?: number;
+  order?: number;
+  winnerId?: string;
 }
 
 export interface ISnookerGroup {
@@ -39,3 +52,58 @@ export interface ISnookerLeagueData {
   groups: ISnookerGroup[];
   matches: ISnookerMatch[];
 }
+
+export type SnookerCompetitionStatus =
+  | 'registration'
+  | 'group_stage'
+  | 'knockout'
+  | 'completed';
+
+export interface ISnookerCompetition {
+  id: string;
+  name: string;
+  season: string;
+  status: SnookerCompetitionStatus;
+  groupSize: number;
+  knockoutSize: number;
+  groups: Array<{ id: string; name: string; playerIds: string[] }>;
+  winnerId?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ISnookerStandingRow {
+  playerId: string;
+  playerName: string;
+  groupId: string;
+  played: number;
+  won: number;
+  lost: number;
+  points: number;
+  frameDifference: number;
+}
+
+export interface ISnookerCompetitionState {
+  competition: ISnookerCompetition | null;
+  players: PaginatedResponse<ISnookerPlayer>;
+  groups: Array<{ id: string; name: string; playerIds: string[] }>;
+  standings: Record<string, ISnookerStandingRow[]>;
+  matches: PaginatedResponse<ISnookerMatch>;
+  knockoutRounds: Array<{ round: number; label: string; matches: ISnookerMatch[] }>;
+}
+
+export interface ICreateSnookerCompetitionDto {
+  name: string;
+  season?: string;
+  groupSize?: number;
+}
+
+export interface IGenerateSnookerGroupsDto {
+  groupSize?: number;
+}
+
+export interface IRecordSnookerResultDto {
+  p1: number;
+  p2: number;
+}
+

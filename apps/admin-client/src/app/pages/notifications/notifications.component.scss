@@ -1,43 +1,79 @@
-.page {
-  display: grid;
-  gap: 1rem;
+.panel {
+  padding: 0.85rem;
+}
+
+.section-tabs {
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.toolbar .field {
+  min-width: min(360px, 100%);
 }
 
 .list {
   display: grid;
-  gap: 0.75rem;
+  gap: 0.7rem;
 }
 
-article {
-  border: 1px solid #d9e1e8;
-  border-radius: 12px;
+.card {
   padding: 0.9rem;
-  background: #fff;
+  display: grid;
+  gap: 0.55rem;
 }
 
-article.read {
+.card.read {
   opacity: 0.72;
 }
 
 header {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.7rem;
 }
 
 h3 {
-  margin: 0;
   font-size: 1rem;
 }
 
-p {
-  margin: 0.5rem 0;
+span {
+  color: #6b8195;
+  font-size: 0.82rem;
 }
 
-button {
-  border: 0;
-  background: #1f5ea8;
-  color: #fff;
-  border-radius: 8px;
-  padding: 0.4rem 0.7rem;
+p {
+  margin: 0;
+  color: #2d4256;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.actions .btn {
+  min-width: 120px;
+}
+
+@media (max-width: 760px) {
+  .section-tabs .btn {
+    flex: 1 1 auto;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .actions .btn {
+    width: 100%;
+    text-align: center;
+  }
 }

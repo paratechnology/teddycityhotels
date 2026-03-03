@@ -1,6 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { inject, injectable } from 'tsyringe';
 import { FinancialsService } from '../services/financials.service';
+import {
+  ICreateRevenueRecordDto,
+  IUpdateRevenuePaymentStatusDto,
+  RevenuePaymentMethod,
+  RevenuePaymentStatus,
+  RevenueSourceType,
+} from '@teddy-city-hotels/shared-interfaces';
 
 @injectable()
 export class FinancialsController {
@@ -10,6 +17,52 @@ export class FinancialsController {
     try {
       const data = await this.financialsService.getOverview();
       res.status(200).json(data);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  listRevenue = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const page = Number(req.query['page'] || 1);
+      const pageSize = Number(req.query['pageSize'] || 12);
+      const sourceType = req.query['sourceType'] as RevenueSourceType | undefined;
+      const paymentStatus = req.query['paymentStatus'] as RevenuePaymentStatus | undefined;
+      const paymentMethod = req.query['paymentMethod'] as RevenuePaymentMethod | undefined;
+      const search = req.query['search'] as string | undefined;
+
+      const rows = await this.financialsService.getRevenueList({
+        page,
+        pageSize,
+        sourceType,
+        paymentStatus,
+        paymentMethod,
+        search,
+      });
+      res.status(200).json(rows);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  createRevenueRecord = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const payload = req.body as ICreateRevenueRecordDto;
+      const row = await this.financialsService.createRevenueRecord(payload);
+      res.status(201).json(row);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  updateRevenuePaymentStatus = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const payload = req.body as IUpdateRevenuePaymentStatusDto;
+      const row = await this.financialsService.updateRevenuePaymentStatus(
+        req.params['revenueId'],
+        payload.paymentStatus
+      );
+      res.status(200).json(row);
     } catch (error) {
       next(error);
     }

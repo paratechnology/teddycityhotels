@@ -131,7 +131,7 @@ export class AuthController {
       // Always send a generic success message to prevent attackers
       // from discovering which emails are registered.
       res.status(HttpStatusCodes.OK).json({
-        message: 'If an account with that email exists, a password reset link has been sent.',
+        message: 'If an account with that email exists, a password reset code has been sent.',
       }); 
     } catch (error) {
       console.log(error);

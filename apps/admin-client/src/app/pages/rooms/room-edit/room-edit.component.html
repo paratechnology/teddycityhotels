@@ -1,29 +1,89 @@
-<section class="page">
-  <h2>{{ isEditMode ? 'Edit Room' : 'Add Room' }}</h2>
-  <p class="error" *ngIf="error">{{ error }}</p>
-
-  <form [formGroup]="roomForm" (ngSubmit)="onSubmit()">
-    <div class="grid">
-      <label>Name <input formControlName="name" /></label>
-      <label>Room number <input formControlName="roomNumber" /></label>
-      <label>
-        Type
-        <select formControlName="type">
-          <option value="Single">Single</option>
-          <option value="Double">Double</option>
-          <option value="Suite">Suite</option>
-          <option value="Penthouse">Penthouse</option>
-        </select>
-      </label>
-      <label>Price <input type="number" formControlName="price" /></label>
-      <label>Max occupancy <input type="number" formControlName="maxOccupancy" /></label>
-      <label class="check"><input type="checkbox" formControlName="isAvailable" /> Available now</label>
+<section class="page-shell">
+  <div class="page-header">
+    <div>
+      <h2>{{ isEditMode ? 'Edit Room Profile' : 'Create Room' }}</h2>
+      <p>Craft an immersive room listing with structured amenities, media and rates.</p>
     </div>
+    <div class="toolbar">
+      <button class="btn btn-ghost" type="button" routerLink="/rooms">Back</button>
+    </div>
+  </div>
 
-    <label>Description <textarea formControlName="description"></textarea></label>
+  <p class="error-text" *ngIf="error">{{ error }}</p>
 
-    <section>
-      <h3>Beds</h3>
+  <form class="editor" [formGroup]="roomForm" (ngSubmit)="onSubmit()">
+    <article class="surface section">
+      <h3>Core Details</h3>
+      <div class="grid">
+        <div class="field">
+          <label>Room Name</label>
+          <input formControlName="name" />
+        </div>
+
+        <div class="field">
+          <label>Room Number</label>
+          <input formControlName="roomNumber" />
+        </div>
+
+        <div class="field">
+          <label>Type</label>
+          <select formControlName="type">
+            <option value="Single">Single</option>
+            <option value="Double">Double</option>
+            <option value="Suite">Suite</option>
+            <option value="Penthouse">Penthouse</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Price / Night (NGN)</label>
+          <input type="number" formControlName="price" />
+        </div>
+
+        <div class="field">
+          <label>Max Occupancy</label>
+          <input type="number" formControlName="maxOccupancy" />
+        </div>
+
+        <label class="field toggle">
+          <input type="checkbox" formControlName="isAvailable" />
+          <span>Mark as available immediately</span>
+        </label>
+      </div>
+
+      <div class="field">
+        <label>Description</label>
+        <textarea rows="4" formControlName="description"></textarea>
+      </div>
+    </article>
+
+    <article class="surface section">
+      <div class="section-header">
+        <h3>Images</h3>
+        <label class="btn btn-primary file-picker">
+          <input type="file" multiple accept="image/*" (change)="onImageFilesSelected($event)" />
+          {{ uploadingImages ? 'Uploading...' : 'Upload Images' }}
+        </label>
+      </div>
+
+      <p class="muted">Upload directly from your local machine. The system stores and publishes each image automatically.</p>
+
+      <div class="gallery" formArrayName="images">
+        <figure class="image-card" *ngFor="let image of images.controls; let i = index">
+          <img [src]="image.value" alt="Room image" />
+          <button type="button" class="btn btn-danger" (click)="removeImage(i)">Remove</button>
+        </figure>
+      </div>
+
+      <p class="muted" *ngIf="!images.length">No images uploaded yet.</p>
+    </article>
+
+    <article class="surface section">
+      <div class="section-header">
+        <h3>Beds</h3>
+        <button type="button" class="btn btn-ghost" (click)="addBed()">Add Bed</button>
+      </div>
+
       <div class="list" formArrayName="beds">
         <div class="row" *ngFor="let bed of beds.controls; let i = index" [formGroupName]="i">
           <select formControlName="type">
@@ -33,48 +93,46 @@
             <option value="Single">Single</option>
           </select>
           <input type="number" formControlName="count" />
-          <button type="button" (click)="removeBed(i)">Remove</button>
+          <button type="button" class="btn btn-danger" (click)="removeBed(i)">Remove</button>
         </div>
       </div>
-      <button type="button" (click)="addBed()">Add bed</button>
-    </section>
+    </article>
 
-    <section>
-      <h3>Amenities</h3>
+    <article class="surface section">
+      <div class="section-header">
+        <h3>Amenities</h3>
+        <button type="button" class="btn btn-ghost" (click)="addAmenity()">Add Amenity</button>
+      </div>
+
       <div class="list" formArrayName="amenities">
         <div class="row" *ngFor="let amenity of amenities.controls; let i = index" [formGroupName]="i">
-          <input formControlName="icon" placeholder="icon" />
-          <input formControlName="name" placeholder="name" />
-          <button type="button" (click)="removeAmenity(i)">Remove</button>
+          <input formControlName="icon" placeholder="Icon (e.g. wifi)" />
+          <input formControlName="name" placeholder="Amenity name" />
+          <button type="button" class="btn btn-danger" (click)="removeAmenity(i)">Remove</button>
         </div>
       </div>
-      <button type="button" (click)="addAmenity()">Add amenity</button>
-    </section>
+    </article>
 
-    <section>
-      <h3>Images</h3>
-      <div class="list" formArrayName="images">
-        <div class="row" *ngFor="let image of images.controls; let i = index">
-          <input [formControlName]="i" placeholder="https://..." />
-          <button type="button" (click)="removeImage(i)">Remove</button>
-        </div>
+    <article class="surface section">
+      <div class="section-header">
+        <h3>Premium Features</h3>
+        <button type="button" class="btn btn-ghost" (click)="addFeature()">Add Feature</button>
       </div>
-      <button type="button" (click)="addImage()">Add image</button>
-    </section>
 
-    <section>
-      <h3>Features</h3>
       <div class="list" formArrayName="features">
-        <div class="row" *ngFor="let feature of features.controls; let i = index">
-          <input [formControlName]="i" placeholder="Balcony" />
-          <button type="button" (click)="removeFeature(i)">Remove</button>
+        <div class="row feature" *ngFor="let feature of features.controls; let i = index">
+          <input [formControlName]="i" placeholder="Sea view balcony, smart controls, etc." />
+          <button type="button" class="btn btn-danger" (click)="removeFeature(i)">Remove</button>
         </div>
       </div>
-      <button type="button" (click)="addFeature()">Add feature</button>
-    </section>
+    </article>
 
-    <div class="actions">
-      <button type="submit" [disabled]="roomForm.invalid">{{ isEditMode ? 'Update' : 'Create' }}</button>
+    <div class="footer-actions">
+      <button type="button" class="btn btn-ghost" routerLink="/rooms">Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="roomForm.invalid || uploadingImages">
+        {{ isEditMode ? 'Save Changes' : 'Create Room' }}
+      </button>
     </div>
   </form>
 </section>
+

@@ -1,6 +1,19 @@
-<header>
-  <div>
-    <h1>Teddy City Hotels</h1>
-    <p>Admin Operations Panel</p>
+<header class="app-header">
+  <button class="sidebar-toggle" type="button" (click)="layout.toggleSidebar()" aria-label="Toggle sidebar">
+    {{ layout.collapsed ? 'Expand' : 'Collapse' }}
+  </button>
+
+  <div class="brand">
+    <p class="eyebrow">Teddy City Hotels</p>
+    <h1>Admin Command Center</h1>
+  </div>
+
+  <div class="profile" *ngIf="session.token">
+    <div class="avatar">{{ userInitials }}</div>
+    <div class="meta">
+      <strong>{{ userLabel }}</strong>
+      <small>{{ session.adminUser?.isSuperAdmin ? 'Super Admin' : 'Admin' }}</small>
+    </div>
+    <button type="button" (click)="logout()">Logout</button>
   </div>
 </header>

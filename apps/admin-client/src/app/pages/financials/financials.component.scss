@@ -1,33 +1,34 @@
-.page {
-  display: grid;
-  gap: 1rem;
-}
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-}
-
 .summary {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 0.7rem;
 }
 
-.summary article,
-.card {
-  border: 1px solid #d9e1e8;
-  border-radius: 12px;
-  padding: 1rem;
-  background: #fff;
+.tile {
+  padding: 0.9rem;
+
+  h3 {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #47657f;
+  }
+
+  p {
+    margin: 0.52rem 0 0;
+    font-size: 1.35rem;
+    font-family: 'Sora', 'Manrope', sans-serif;
+  }
 }
 
-.grid {
+.forms {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.8rem;
+}
+
+.panel {
+  padding: 0.9rem;
 }
 
 form {
@@ -35,39 +36,27 @@ form {
   gap: 0.65rem;
 }
 
-label {
+.section-tabs {
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.inline {
+  margin-top: 0.7rem;
+}
+
+.modal-form {
   display: grid;
-  gap: 0.35rem;
+  gap: 0.7rem;
 }
 
-input,
-select {
-  border: 1px solid #c3ccd5;
-  border-radius: 8px;
-  padding: 0.45rem 0.6rem;
-}
+@media (max-width: 760px) {
+  .tile p {
+    font-size: 1.1rem;
+  }
 
-button {
-  border: 0;
-  background: #0f4f8a;
-  color: #fff;
-  border-radius: 8px;
-  padding: 0.42rem 0.72rem;
-  cursor: pointer;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  text-align: left;
-  border-bottom: 1px solid #e7edf3;
-  padding: 0.55rem;
-}
-
-.error {
-  color: #b91c1c;
+  td .btn {
+    width: 100%;
+  }
 }

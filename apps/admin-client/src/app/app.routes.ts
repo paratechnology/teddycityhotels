@@ -50,6 +50,18 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/financials/financials.component').then((m) => m.FinancialsComponent),
   },
   {
+    path: 'revenue',
+    canActivate: [authGuard, moduleGuard],
+    data: { module: 'financials' },
+    loadComponent: () => import('./pages/revenue/revenue.component').then((m) => m.RevenueComponent),
+  },
+  {
+    path: 'kitchen',
+    canActivate: [authGuard, moduleGuard],
+    data: { module: 'kitchen' },
+    loadComponent: () => import('./pages/kitchen/kitchen.component').then((m) => m.KitchenComponent),
+  },
+  {
     path: 'admins',
     canActivate: [authGuard, moduleGuard],
     data: { module: 'admins' },

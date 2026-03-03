@@ -6,6 +6,9 @@ export enum NotificationType {
   FILE_TRANSFER_CANCELLED = 'file_transfer_cancelled',
   BOOKING_CREATED = 'booking_created',
   BOOKING_STATUS_CHANGED = 'booking_status_changed',
+  KITCHEN_ORDER_CREATED = 'kitchen_order_created',
+  KITCHEN_ORDER_STATUS_CHANGED = 'kitchen_order_status_changed',
+  KITCHEN_PAYMENT_STATUS_CHANGED = 'kitchen_payment_status_changed',
 }
 
 export interface INotification {
@@ -39,4 +42,5 @@ export interface IAdminNotification {
   read: boolean;
   createdAt: string;
   bookingId?: string;
+  relatedId?: string;
 }

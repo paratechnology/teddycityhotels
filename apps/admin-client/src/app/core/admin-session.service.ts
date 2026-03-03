@@ -5,6 +5,7 @@ import { AdminModuleKey, IAdminUser, baseURL } from '@teddy-city-hotels/shared-i
 
 @Injectable({ providedIn: 'root' })
 export class AdminSessionService {
+  private tokenKey = 'token';
   private storageKey = 'admin_profile';
   private adminUserSubject = new BehaviorSubject<IAdminUser | null>(this.readCachedUser());
 
@@ -13,7 +14,7 @@ export class AdminSessionService {
   constructor(private http: HttpClient) {}
 
   get token(): string | null {
-    return localStorage.getItem('token');
+    return localStorage.getItem(this.tokenKey);
   }
 
   get adminUser(): IAdminUser | null {
@@ -50,6 +51,7 @@ export class AdminSessionService {
   }
 
   clearSession() {
+    localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.storageKey);
     this.adminUserSubject.next(null);
   }

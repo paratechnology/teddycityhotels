@@ -1,6 +1,11 @@
 import { inject, injectable } from 'tsyringe';
 import { FirestoreService } from './firestore.service';
-import { IAdminNotification, INotification, NotificationType } from '@teddy-city-hotels/shared-interfaces';
+import {
+  IAdminNotification,
+  INotification,
+  NotificationType,
+  PaginatedResponse,
+} from '@teddy-city-hotels/shared-interfaces';
 import { PushNotificationService } from './push-notification.service';
 
 @injectable()
@@ -53,6 +58,7 @@ export class NotificationService {
     type: NotificationType;
     link: string;
     bookingId?: string;
+    relatedId?: string;
   }): Promise<IAdminNotification> {
     const ref = this.getAdminNotificationsCollection().doc();
     const notification: IAdminNotification = {
@@ -62,6 +68,7 @@ export class NotificationService {
       type: input.type,
       link: input.link,
       bookingId: input.bookingId,
+      relatedId: input.relatedId,
       read: false,
       createdAt: new Date().toISOString(),
     };
@@ -78,6 +85,44 @@ export class NotificationService {
       return [];
     }
     return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as IAdminNotification));
+  }
+
+  async getAdminNotificationsPaginated(params: {
+    page: number;
+    pageSize: number;
+    search?: string;
+    read?: 'read' | 'unread';
+  }): Promise<PaginatedResponse<IAdminNotification>> {
+    const page = Number.isFinite(params.page) ? Math.max(1, params.page) : 1;
+    const pageSize = Number.isFinite(params.pageSize)
+      ? Math.min(100, Math.max(1, params.pageSize))
+      : 12;
+
+    const rows = await this.getAdminNotifications();
+    const readFiltered = params.read
+      ? rows.filter((row) => (params.read === 'read' ? row.read : !row.read))
+      : rows;
+
+    const filtered = params.search?.trim()
+      ? readFiltered.filter((row) => {
+          const search = params.search?.trim().toLowerCase() || '';
+          return (
+            row.title.toLowerCase().includes(search) ||
+            row.body.toLowerCase().includes(search) ||
+            (row.bookingId || '').toLowerCase().includes(search) ||
+            (row.relatedId || '').toLowerCase().includes(search)
+          );
+        })
+      : readFiltered;
+
+    const total = filtered.length;
+    const start = (page - 1) * pageSize;
+    return {
+      data: filtered.slice(start, start + pageSize),
+      total,
+      page,
+      pageSize,
+    };
   }
 
   async markAdminNotificationAsRead(notificationId: string): Promise<void> {

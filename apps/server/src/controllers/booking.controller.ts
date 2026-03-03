@@ -32,6 +32,24 @@ export class BookingController {
     try {
       const status = req.query['status'] as BookingStatus | undefined;
       const roomId = req.query['roomId'] as string | undefined;
+      const pageQuery = req.query['page'];
+      const pageSizeQuery = req.query['pageSize'];
+      const search = req.query['search'] as string | undefined;
+
+      if (pageQuery !== undefined || pageSizeQuery !== undefined || search !== undefined) {
+        const page = Number(pageQuery || 1);
+        const pageSize = Number(pageSizeQuery || 12);
+        const bookings = await this.bookingService.getBookingsPaginated({
+          status,
+          roomId,
+          search,
+          page,
+          pageSize,
+        });
+        res.status(200).json(bookings);
+        return;
+      }
+
       const bookings = await this.bookingService.getAllBookings({ status, roomId });
       res.status(200).json(bookings);
     } catch (error) {

@@ -1,11 +1,19 @@
 import { inject, injectable } from 'tsyringe';
-import { Booking, BookingStatus, CreateBookingDto, Room, NotificationType } from '@teddy-city-hotels/shared-interfaces';
+import {
+  Booking,
+  BookingStatus,
+  CreateBookingDto,
+  NotificationType,
+  PaginatedResponse,
+  Room,
+} from '@teddy-city-hotels/shared-interfaces';
 import { FirestoreService } from './firestore.service';
 import { BadRequestError, NotFoundError } from '../errors/http-errors';
 import { Timestamp } from 'firebase-admin/firestore';
 import { PaystackService } from './paystack.service';
 import { RoomService } from './room.service';
 import { NotificationService } from './notification.service';
+import { FinancialsService } from './financials.service';
 
 @injectable()
 export class BookingService {
@@ -13,7 +21,8 @@ export class BookingService {
     @inject(FirestoreService) private firestore: FirestoreService,
     @inject(PaystackService) private paystackService: PaystackService,
     @inject(RoomService) private roomService: RoomService,
-    @inject(NotificationService) private notificationService: NotificationService
+    @inject(NotificationService) private notificationService: NotificationService,
+    @inject(FinancialsService) private financialsService: FinancialsService
   ) {}
 
   private getBookingsCollection() {
@@ -132,6 +141,52 @@ export class BookingService {
     return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Booking));
   }
 
+  async getBookingsPaginated(params: {
+    page: number;
+    pageSize: number;
+    status?: BookingStatus;
+    roomId?: string;
+    search?: string;
+  }): Promise<PaginatedResponse<Booking>> {
+    const page = Number.isFinite(params.page) ? Math.max(1, params.page) : 1;
+    const pageSize = Number.isFinite(params.pageSize)
+      ? Math.min(100, Math.max(1, params.pageSize))
+      : 12;
+
+    const records = await this.getAllBookings({
+      status: params.status,
+      roomId: params.roomId,
+    });
+
+    let filtered = records;
+    if (params.search?.trim()) {
+      const search = params.search.trim().toLowerCase();
+      filtered = records.filter((booking) => {
+        const guestName = (booking.guestName || '').toLowerCase();
+        const guestEmail = (booking.guestEmail || '').toLowerCase();
+        const guestPhone = (booking.guestPhone || '').toLowerCase();
+        const bookingId = booking.id.toLowerCase();
+        return (
+          guestName.includes(search) ||
+          guestEmail.includes(search) ||
+          guestPhone.includes(search) ||
+          bookingId.includes(search)
+        );
+      });
+    }
+
+    const total = filtered.length;
+    const start = (page - 1) * pageSize;
+    const data = filtered.slice(start, start + pageSize);
+
+    return {
+      data,
+      total,
+      page,
+      pageSize,
+    };
+  }
+
   async getBookingById(bookingId: string): Promise<Booking> {
     const doc = await this.getBookingsCollection().doc(bookingId).get();
     if (!doc.exists) {
@@ -162,6 +217,8 @@ export class BookingService {
       link: `/bookings/${bookingId}`,
       bookingId,
     });
+
+    await this.financialsService.upsertBookingRevenue(booking);
 
     return booking;
   }

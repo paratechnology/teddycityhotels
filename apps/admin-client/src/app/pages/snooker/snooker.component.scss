@@ -1,63 +1,238 @@
-.page {
-  display: grid;
-  gap: 1rem;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
-}
-
-.card {
-  border: 1px solid #d9e1e8;
-  border-radius: 12px;
+.panel {
   padding: 1rem;
-  background: #fff;
 }
 
-form {
-  display: grid;
-  gap: 0.65rem;
-}
-
-label {
-  display: grid;
-  gap: 0.35rem;
-}
-
-input,
-select {
-  border: 1px solid #c3ccd5;
-  border-radius: 8px;
-  padding: 0.45rem 0.6rem;
-}
-
-button {
-  border: 0;
-  background: #0f4f8a;
-  color: #fff;
-  border-radius: 8px;
-  padding: 0.42rem 0.7rem;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  border-bottom: 1px solid #e7edf3;
+.empty-state {
   text-align: left;
-  padding: 0.5rem;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.tile {
+  padding: 0.85rem;
+
+  h3 {
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #54728c;
+  }
+
+  p {
+    margin: 0.45rem 0 0;
+    font-family: 'Sora', 'Manrope', sans-serif;
+    font-size: 1.2rem;
+  }
+}
+
+.section-tabs {
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 0.8rem;
+}
+
+.stage-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-top: 0.75rem;
+
+  div {
+    border: 1px solid #dbe8f3;
+    border-radius: 12px;
+    padding: 0.68rem;
+    background: #f8fbff;
+  }
+
+  small {
+    display: block;
+    color: #57748f;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+
+  strong {
+    display: block;
+    margin-top: 0.35rem;
+    font-family: 'Sora', 'Manrope', sans-serif;
+  }
+}
+
+.compact {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+
+  label {
+    display: grid;
+    gap: 0.3rem;
+    color: #3a5570;
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  input {
+    width: 110px;
+  }
 }
 
 .actions {
-  display: grid;
-  gap: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
 }
 
-.error {
-  color: #b91c1c;
+.table-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.7rem;
+
+  input {
+    min-width: 230px;
+  }
+}
+
+.groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 0.75rem;
+}
+
+.group-card {
+  border: 1px solid #dbe8f3;
+  border-radius: 14px;
+  padding: 0.7rem;
+  background: linear-gradient(180deg, #f8fcff, #ffffff);
+
+  h4 {
+    margin-bottom: 0.6rem;
+  }
+}
+
+.result-inputs {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+
+  input {
+    width: 64px;
+  }
+}
+
+.knockout-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.round {
+  border: 1px solid #dbe8f3;
+  border-radius: 14px;
+  padding: 0.7rem;
+  background: #fbfdff;
+
+  h4 {
+    margin-bottom: 0.55rem;
+  }
+}
+
+.fixture {
+  border: 1px solid #e6eff7;
+  border-radius: 10px;
+  padding: 0.55rem;
+  margin-bottom: 0.45rem;
+  background: #fff;
+
+  p {
+    margin: 0;
+    font-weight: 600;
+    color: #20394f;
+  }
+
+  small {
+    color: #58738b;
+  }
+}
+
+.modal-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.check-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (max-width: 1100px) {
+  .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .overview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stage-list {
+    grid-template-columns: 1fr;
+  }
+
+  .table-head {
+    align-items: stretch;
+  }
+
+  .table-head input {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .result-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .result-inputs .btn {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .modal-form {
+    grid-template-columns: 1fr;
+  }
+
+  td .btn {
+    width: 100%;
+  }
 }

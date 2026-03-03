@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe';
-import { Room, UpsertRoomDto } from '@teddy-city-hotels/shared-interfaces';
+import { PaginatedResponse, Room, UpsertRoomDto } from '@teddy-city-hotels/shared-interfaces';
 import { FirestoreService } from './firestore.service';
 import { NotFoundError } from '../errors/http-errors';
 
@@ -32,6 +32,53 @@ export class RoomService {
     return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Room));
   }
 
+  async getAdminRoomsPaginated(params: {
+    page: number;
+    pageSize: number;
+    search?: string;
+    type?: Room['type'];
+    isAvailable?: boolean;
+  }): Promise<PaginatedResponse<Room>> {
+    const page = Number.isFinite(params.page) ? Math.max(1, params.page) : 1;
+    const pageSize = Number.isFinite(params.pageSize)
+      ? Math.min(50, Math.max(1, params.pageSize))
+      : 12;
+
+    let query: FirebaseFirestore.Query = this.getRoomsCollection().orderBy('price');
+    if (params.type) {
+      query = query.where('type', '==', params.type);
+    }
+    if (params.isAvailable !== undefined) {
+      query = query.where('availability.isAvailable', '==', params.isAvailable);
+    }
+
+    const snapshot = await query.get();
+    let rooms = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Room));
+
+    if (params.search?.trim()) {
+      const search = params.search.trim().toLowerCase();
+      rooms = rooms.filter((room) => {
+        return (
+          room.name.toLowerCase().includes(search) ||
+          (room.roomNumber || '').toLowerCase().includes(search) ||
+          room.type.toLowerCase().includes(search) ||
+          room.slug.toLowerCase().includes(search)
+        );
+      });
+    }
+
+    const total = rooms.length;
+    const start = (page - 1) * pageSize;
+    const data = rooms.slice(start, start + pageSize);
+
+    return {
+      data,
+      total,
+      page,
+      pageSize,
+    };
+  }
+
   async getRoomById(roomId: string): Promise<Room> {
     const doc = await this.getRoomsCollection().doc(roomId).get();
     if (!doc.exists) {
@@ -58,7 +105,12 @@ export class RoomService {
       features: payload.features || [],
     };
 
-    await ref.set(room);
+    await ref.set({
+      ...room,
+      nameLowercase: room.name.toLowerCase(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
     return room;
   }
 
@@ -77,7 +129,14 @@ export class RoomService {
       features: payload.features || existing.features || [],
     };
 
-    await this.getRoomsCollection().doc(roomId).set(next, { merge: true });
+    await this.getRoomsCollection().doc(roomId).set(
+      {
+        ...next,
+        nameLowercase: next.name.toLowerCase(),
+        updatedAt: new Date().toISOString(),
+      },
+      { merge: true }
+    );
     return next;
   }
 

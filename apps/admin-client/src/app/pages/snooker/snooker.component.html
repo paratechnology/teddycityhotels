@@ -1,95 +1,407 @@
-<section class="page">
-  <h2>Snooker Operations</h2>
-  <p class="error" *ngIf="error">{{ error }}</p>
+<section class="page-shell">
+  <div class="page-header">
+    <div>
+      <h2>Snooker Competition Control</h2>
+      <p>Run one tournament at a time with registration, group qualifiers, knockout rounds and final winner tracking.</p>
+    </div>
+    <div class="toolbar">
+      <span class="badge" [ngClass]="competition ? 'badge-success' : 'badge-warning'">{{ statusLabel }}</span>
+      <button class="btn btn-ghost" (click)="loadState()" [disabled]="loading">Refresh</button>
+      <button class="btn btn-primary" *ngIf="competition && canRegisterPlayers" (click)="openPlayerModal()">+ Register Player</button>
+      <button class="btn btn-primary" (click)="openCompetitionModal()">
+        {{ competition ? 'Start New Tournament' : 'Create Competition' }}
+      </button>
+    </div>
+  </div>
 
-  <div class="grid">
-    <article class="card">
-      <h3>Add Player</h3>
-      <form [formGroup]="playerForm" (ngSubmit)="createPlayer()">
-        <label>Full name <input formControlName="fullName" /></label>
-        <label>Email <input formControlName="email" type="email" /></label>
-        <label>Phone <input formControlName="phoneNumber" /></label>
-        <label>
-          Skill level
+  <p class="error-text" *ngIf="error">{{ error }}</p>
+  <p class="muted" *ngIf="info">{{ info }}</p>
+  <p class="muted" *ngIf="loading">Loading competition data...</p>
+
+  <article class="surface panel empty-state" *ngIf="!competition">
+    <h3>No Active Competition</h3>
+    <p class="muted">
+      Start a new snooker tournament to open registration. The system supports one active competition at a time.
+    </p>
+    <div class="actions">
+      <button class="btn btn-primary" (click)="openCompetitionModal()">Create Competition</button>
+    </div>
+  </article>
+
+  <ng-container *ngIf="competition">
+    <div class="summary-grid">
+      <article class="surface tile">
+        <h3>Total Players</h3>
+        <p>{{ playersTotal }}</p>
+      </article>
+      <article class="surface tile">
+        <h3>Total Fixtures</h3>
+        <p>{{ matchesTotal }}</p>
+      </article>
+      <article class="surface tile">
+        <h3>Current Stage</h3>
+        <p>{{ statusLabel }}</p>
+      </article>
+      <article class="surface tile">
+        <h3>Winner</h3>
+        <p>{{ resolvePlayerName(competition.winnerId) }}</p>
+      </article>
+    </div>
+
+    <article class="surface panel section-tabs">
+      <button class="btn" [ngClass]="activeTab === 'overview' ? 'btn-primary' : 'btn-ghost'" (click)="activeTab = 'overview'">
+        Overview
+      </button>
+      <button class="btn" [ngClass]="activeTab === 'players' ? 'btn-primary' : 'btn-ghost'" (click)="activeTab = 'players'">
+        Players
+      </button>
+      <button class="btn" [ngClass]="activeTab === 'fixtures' ? 'btn-primary' : 'btn-ghost'" (click)="activeTab = 'fixtures'">
+        Fixtures
+      </button>
+      <button class="btn" [ngClass]="activeTab === 'stages' ? 'btn-primary' : 'btn-ghost'" (click)="activeTab = 'stages'">
+        Groups and Knockout
+      </button>
+    </article>
+
+    <ng-container *ngIf="activeTab === 'overview'">
+      <div class="overview-grid">
+        <article class="surface panel">
+          <h3>{{ competition.name }}</h3>
+          <p class="muted">Season {{ competition.season }}. Group size {{ competition.groupSize }}.</p>
+          <div class="stage-list">
+            <div>
+              <small>Status</small>
+              <strong>{{ statusLabel }}</strong>
+            </div>
+            <div>
+              <small>Group Count</small>
+              <strong>{{ groupIds.length || 0 }}</strong>
+            </div>
+            <div>
+              <small>Knockout Rounds</small>
+              <strong>{{ knockoutRounds.length || 0 }}</strong>
+            </div>
+          </div>
+        </article>
+
+        <article class="surface panel">
+          <h3>Stage Actions</h3>
+
+          <form class="compact" [formGroup]="groupForm" (ngSubmit)="generateGroups()" *ngIf="competition.status === 'registration'">
+            <label>
+              Group Size
+              <input type="number" formControlName="groupSize" min="2" max="8" />
+            </label>
+            <button class="btn btn-primary" type="submit" [disabled]="competitionBusy || !canGenerateGroups">
+              {{ competitionBusy ? 'Generating...' : 'Generate Groups' }}
+            </button>
+          </form>
+
+          <div class="actions" *ngIf="competition.status !== 'registration'">
+            <button class="btn btn-primary" *ngIf="canStartKnockout" (click)="startKnockoutStage()" [disabled]="competitionBusy">
+              {{ competitionBusy ? 'Starting...' : 'Start Knockout Stage' }}
+            </button>
+            <p class="muted" *ngIf="competition.status === 'knockout'">Knockout in progress. Record match results in Fixtures.</p>
+            <p class="muted" *ngIf="competition.status === 'completed'">
+              Tournament completed. Start a new tournament from the header action.
+            </p>
+          </div>
+
+          <p class="muted" *ngIf="competition.status === 'registration'">
+            Register players first, then generate groups to begin qualifying fixtures.
+          </p>
+        </article>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="activeTab === 'players'">
+      <article class="surface panel">
+        <div class="table-head">
+          <h3>Registered Players</h3>
+          <div class="toolbar">
+            <input
+              [(ngModel)]="playersSearch"
+              [ngModelOptions]="{ standalone: true }"
+              placeholder="Search name, email, phone"
+            />
+            <button class="btn btn-primary" (click)="searchPlayers()">Search</button>
+            <button class="btn btn-ghost" (click)="clearPlayerSearch()">Clear</button>
+            <button class="btn btn-primary" *ngIf="canRegisterPlayers" (click)="openPlayerModal()">+ Register Player</button>
+          </div>
+        </div>
+
+        <div class="table-wrap" *ngIf="players.length">
+          <table class="mobile-table">
+            <thead>
+              <tr>
+                <th>Player</th>
+                <th>Contact</th>
+                <th>Skill</th>
+                <th>Group</th>
+                <th>Stats</th>
+                <th *ngIf="canRegisterPlayers">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let player of players">
+                <td data-label="Player">
+                  <strong>{{ player.fullName }}</strong>
+                  <div class="muted">{{ player.nickname || '-' }}</div>
+                </td>
+                <td data-label="Contact">
+                  <div>{{ player.email }}</div>
+                  <small class="muted">{{ player.phoneNumber }}</small>
+                </td>
+                <td data-label="Skill">{{ player.skillLevel }}</td>
+                <td data-label="Group">{{ player.groupName || '-' }}</td>
+                <td data-label="Stats">
+                  <span class="muted">P: {{ player.stats?.played || 0 }}</span>
+                  <span class="muted"> W: {{ player.stats?.won || 0 }}</span>
+                  <span class="muted"> L: {{ player.stats?.lost || 0 }}</span>
+                </td>
+                <td *ngIf="canRegisterPlayers" data-label="Action">
+                  <button class="btn btn-danger" (click)="deletePlayer(player.id)">Remove</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="muted" *ngIf="!players.length">No players found for the current filter.</p>
+
+        <div class="pagination" *ngIf="playersTotal > 0">
+          <span>Page {{ playersPage }} / {{ totalPlayersPages }} ({{ playersTotal }} players)</span>
+          <div class="controls">
+            <button class="btn btn-ghost" (click)="goToPlayersPage(playersPage - 1)" [disabled]="playersPage <= 1">Prev</button>
+            <button class="btn btn-ghost" (click)="goToPlayersPage(playersPage + 1)" [disabled]="playersPage >= totalPlayersPages">
+              Next
+            </button>
+          </div>
+        </div>
+      </article>
+    </ng-container>
+
+    <ng-container *ngIf="activeTab === 'fixtures'">
+      <article class="surface panel">
+        <h3>Fixtures and Results</h3>
+        <div class="table-wrap" *ngIf="matches.length">
+          <table class="mobile-table">
+            <thead>
+              <tr>
+                <th>Stage</th>
+                <th>Match</th>
+                <th>Status</th>
+                <th>Score</th>
+                <th>Update Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let match of matches">
+                <td data-label="Stage">
+                  <div>{{ match.stage }}</div>
+                  <small class="muted">{{ match.stageType || '-' }}</small>
+                </td>
+                <td data-label="Match">{{ match.player1.name }} vs {{ match.player2.name }}</td>
+                <td data-label="Status">
+                  <span
+                    class="badge"
+                    [ngClass]="{
+                      'badge-success': match.status === 'Completed',
+                      'badge-warning': match.status === 'Scheduled' || match.status === 'Live',
+                      'badge-danger': match.status === 'Postponed'
+                    }"
+                  >
+                    {{ match.status }}
+                  </span>
+                </td>
+                <td data-label="Score">{{ match.score?.p1 ?? '-' }} : {{ match.score?.p2 ?? '-' }}</td>
+                <td data-label="Update Result">
+                  <div class="result-inputs" *ngIf="match.status !== 'Completed'; else doneResult">
+                    <input
+                      type="number"
+                      min="0"
+                      [(ngModel)]="getDraft(match.id).p1"
+                      [ngModelOptions]="{ standalone: true }"
+                      placeholder="P1"
+                    />
+                    <input
+                      type="number"
+                      min="0"
+                      [(ngModel)]="getDraft(match.id).p2"
+                      [ngModelOptions]="{ standalone: true }"
+                      placeholder="P2"
+                    />
+                    <button class="btn btn-primary" (click)="submitResult(match)" [disabled]="resultBusy">
+                      Save
+                    </button>
+                  </div>
+                  <ng-template #doneResult>
+                    <span class="muted">Completed</span>
+                  </ng-template>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="muted" *ngIf="!matches.length">No fixtures available yet.</p>
+
+        <div class="pagination" *ngIf="matchesTotal > 0">
+          <span>Page {{ matchesPage }} / {{ totalMatchesPages }} ({{ matchesTotal }} fixtures)</span>
+          <div class="controls">
+            <button class="btn btn-ghost" (click)="goToMatchesPage(matchesPage - 1)" [disabled]="matchesPage <= 1">Prev</button>
+            <button class="btn btn-ghost" (click)="goToMatchesPage(matchesPage + 1)" [disabled]="matchesPage >= totalMatchesPages">
+              Next
+            </button>
+          </div>
+        </div>
+      </article>
+    </ng-container>
+
+    <ng-container *ngIf="activeTab === 'stages'">
+      <article class="surface panel" *ngIf="groupIds.length; else noGroups">
+        <h3>Group Standings</h3>
+        <div class="groups-grid">
+          <div class="group-card" *ngFor="let groupId of groupIds">
+            <h4>{{ getGroupName(groupId) }}</h4>
+            <table class="mobile-table" *ngIf="standings[groupId]?.length">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Player</th>
+                  <th>Pts</th>
+                  <th>W</th>
+                  <th>L</th>
+                  <th>FD</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of standings[groupId]; let idx = index">
+                  <td data-label="#">{{ idx + 1 }}</td>
+                  <td data-label="Player">{{ row.playerName }}</td>
+                  <td data-label="Pts">{{ row.points }}</td>
+                  <td data-label="W">{{ row.won }}</td>
+                  <td data-label="L">{{ row.lost }}</td>
+                  <td data-label="FD">{{ row.frameDifference }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="muted" *ngIf="!standings[groupId]?.length">No standings yet.</p>
+          </div>
+        </div>
+      </article>
+
+      <ng-template #noGroups>
+        <article class="surface panel">
+          <h3>Group Standings</h3>
+          <p class="muted">Groups will appear after you generate qualifiers from the Overview tab.</p>
+        </article>
+      </ng-template>
+
+      <article class="surface panel" *ngIf="knockoutRounds.length; else noKnockout">
+        <h3>Knockout Bracket</h3>
+        <div class="knockout-grid">
+          <div class="round" *ngFor="let round of knockoutRounds">
+            <h4>{{ round.label }}</h4>
+            <div class="fixture" *ngFor="let match of round.matches">
+              <p>{{ match.player1.name }} vs {{ match.player2.name }}</p>
+              <small>{{ match.score?.p1 ?? '-' }} : {{ match.score?.p2 ?? '-' }} | {{ match.status }}</small>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <ng-template #noKnockout>
+        <article class="surface panel">
+          <h3>Knockout Bracket</h3>
+          <p class="muted">Knockout bracket appears after qualifiers are completed and knockout stage starts.</p>
+        </article>
+      </ng-template>
+    </ng-container>
+  </ng-container>
+</section>
+
+<div class="modal-backdrop" *ngIf="showCompetitionModal">
+  <article class="modal">
+    <header class="modal-header">
+      <h3>{{ competition ? 'Start New Tournament' : 'Create Competition' }}</h3>
+      <p class="muted">
+        {{ competition ? 'This will replace the current snooker tournament and reset records.' : 'Start a new snooker tournament and open registration.' }}
+      </p>
+    </header>
+    <section class="modal-body">
+      <form class="modal-form" [formGroup]="competitionForm" (ngSubmit)="createCompetition()">
+        <div class="field">
+          <label>Competition Name</label>
+          <input formControlName="name" placeholder="Teddy City Snooker Masters" />
+        </div>
+
+        <div class="field">
+          <label>Season</label>
+          <input formControlName="season" placeholder="2026" />
+        </div>
+
+        <div class="field">
+          <label>Group Size</label>
+          <input type="number" formControlName="groupSize" min="2" max="8" />
+        </div>
+      </form>
+    </section>
+    <footer class="modal-footer">
+      <button class="btn btn-ghost" (click)="closeCompetitionModal()">Cancel</button>
+      <button class="btn btn-primary" (click)="createCompetition()" [disabled]="competitionBusy || competitionForm.invalid">
+        {{ competitionBusy ? 'Saving...' : competition ? 'Create and Reset' : 'Create Competition' }}
+      </button>
+    </footer>
+  </article>
+</div>
+
+<div class="modal-backdrop" *ngIf="showPlayerModal">
+  <article class="modal">
+    <header class="modal-header">
+      <h3>Register Player</h3>
+      <p class="muted">Add a player to the active tournament registration list.</p>
+    </header>
+    <section class="modal-body">
+      <form class="modal-form" [formGroup]="playerForm" (ngSubmit)="registerPlayer()">
+        <div class="field">
+          <label>Full Name</label>
+          <input formControlName="fullName" />
+        </div>
+
+        <div class="field">
+          <label>Email</label>
+          <input type="email" formControlName="email" />
+        </div>
+
+        <div class="field">
+          <label>Phone</label>
+          <input formControlName="phoneNumber" />
+        </div>
+
+        <div class="field">
+          <label>Nickname (optional)</label>
+          <input formControlName="nickname" />
+        </div>
+
+        <div class="field">
+          <label>Skill Level</label>
           <select formControlName="skillLevel">
             <option value="Beginner">Beginner</option>
             <option value="Intermediate">Intermediate</option>
             <option value="Pro">Pro</option>
           </select>
+        </div>
+
+        <label class="field check-line full">
+          <input type="checkbox" formControlName="isPaid" />
+          <span>Registration payment confirmed</span>
         </label>
-        <button type="submit">Add player</button>
       </form>
-    </article>
-
-    <article class="card">
-      <h3>Schedule Match</h3>
-      <form [formGroup]="matchForm" (ngSubmit)="createMatch()">
-        <label>
-          Player 1
-          <select formControlName="player1Id">
-            <option value="" disabled>Select</option>
-            <option *ngFor="let player of players" [value]="player.id">{{ player.fullName }}</option>
-          </select>
-        </label>
-        <label>
-          Player 2
-          <select formControlName="player2Id">
-            <option value="" disabled>Select</option>
-            <option *ngFor="let player of players" [value]="player.id">{{ player.fullName }}</option>
-          </select>
-        </label>
-        <label>Date <input type="datetime-local" formControlName="dateScheduled" /></label>
-        <label>Stage <input formControlName="stage" /></label>
-        <button type="submit">Schedule match</button>
-      </form>
-    </article>
-  </div>
-
-  <article class="card">
-    <h3>Players</h3>
-    <table *ngIf="players.length">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Skill</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let player of players">
-          <td>{{ player.fullName }}</td>
-          <td>{{ player.skillLevel }}</td>
-          <td><button (click)="deletePlayer(player.id)">Delete</button></td>
-        </tr>
-      </tbody>
-    </table>
-    <p *ngIf="!players.length">No players yet.</p>
+    </section>
+    <footer class="modal-footer">
+      <button class="btn btn-ghost" (click)="closePlayerModal()">Cancel</button>
+      <button class="btn btn-primary" (click)="registerPlayer()" [disabled]="registrationBusy || playerForm.invalid">
+        {{ registrationBusy ? 'Saving...' : 'Add Player' }}
+      </button>
+    </footer>
   </article>
-
-  <article class="card">
-    <h3>Matches</h3>
-    <table *ngIf="matches.length">
-      <thead>
-        <tr>
-          <th>Match</th>
-          <th>Date</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let match of matches">
-          <td>{{ match.player1.name }} vs {{ match.player2.name }}</td>
-          <td>{{ match.dateScheduled | date: 'short' }}</td>
-          <td>{{ match.status }}</td>
-          <td class="actions">
-            <button (click)="setMatchStatus(match, 'Live')">Live</button>
-            <button (click)="setMatchStatus(match, 'Completed')">Complete</button>
-            <button (click)="setMatchStatus(match, 'Postponed')">Postpone</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <p *ngIf="!matches.length">No matches yet.</p>
-  </article>
-</section>
+</div>

@@ -1,62 +1,172 @@
-<section class="page">
-  <h2>Bookings Management</h2>
-  <p class="error" *ngIf="error">{{ error }}</p>
+<section class="page-shell">
+  <div class="page-header">
+    <div>
+      <h2>Booking Management</h2>
+      <p>Track, filter and operate all reservations from a single queue.</p>
+    </div>
 
-  <article class="card">
-    <h3>Manual Booking</h3>
-    <form [formGroup]="bookingForm" (ngSubmit)="createManualBooking()" class="grid">
-      <label>
-        Room
-        <select formControlName="roomId">
-          <option value="" disabled>Select room</option>
+    <div class="toolbar">
+      <button class="btn btn-ghost" (click)="loadBookings()">Refresh</button>
+      <button class="btn btn-primary" (click)="openCreateBooking()">+ New Booking</button>
+    </div>
+  </div>
+
+  <article class="surface panel">
+    <div class="filters">
+      <div class="field">
+        <label>Search</label>
+        <input [(ngModel)]="search" placeholder="Booking ID, guest name, email, phone" />
+      </div>
+
+      <div class="field">
+        <label>Status</label>
+        <select [(ngModel)]="statusFilter">
+          <option *ngFor="let row of statuses" [value]="row.value">{{ row.label }}</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Room</label>
+        <select [(ngModel)]="roomFilter">
+          <option value="">All rooms</option>
           <option *ngFor="let room of rooms" [value]="room.id">{{ room.name }}</option>
         </select>
-      </label>
-      <label>Check-in <input type="date" formControlName="checkInDate" /></label>
-      <label>Check-out <input type="date" formControlName="checkOutDate" /></label>
-      <label>Guests <input type="number" formControlName="numberOfGuests" /></label>
-      <label>Guest name <input formControlName="guestName" /></label>
-      <label>Guest email <input formControlName="guestEmail" type="email" /></label>
-      <label>Guest phone <input formControlName="guestPhone" /></label>
-      <label class="full">Notes <textarea formControlName="notes"></textarea></label>
-      <button type="submit">Create booking</button>
-    </form>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" (click)="applyFilters()">Apply</button>
+        <button class="btn btn-ghost" (click)="clearFilters()">Clear</button>
+      </div>
+    </div>
   </article>
 
-  <article class="card">
-    <h3>All Bookings</h3>
-    <p *ngIf="loading">Loading bookings...</p>
+  <p class="error-text" *ngIf="error">{{ error }}</p>
 
-    <table *ngIf="!loading && bookings.length">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Room</th>
-          <th>Guest</th>
-          <th>Check-in</th>
-          <th>Check-out</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let booking of bookings">
-          <td>{{ booking.id }}</td>
-          <td>{{ booking.roomId }}</td>
-          <td>{{ booking.guestName || booking.userId }}</td>
-          <td>{{ formatDate(booking.checkInDate) }}</td>
-          <td>{{ formatDate(booking.checkOutDate) }}</td>
-          <td>{{ booking.status }}</td>
-          <td class="actions">
-            <button (click)="updateStatus(booking, 'confirmed')" [disabled]="booking.status === 'confirmed'">Confirm</button>
-            <button (click)="updateStatus(booking, 'checked_in')" [disabled]="booking.status === 'checked_in'">Check-in</button>
-            <button (click)="updateStatus(booking, 'checked_out')" [disabled]="booking.status === 'checked_out'">Check-out</button>
-            <button (click)="updateStatus(booking, 'cancelled')" [disabled]="booking.status === 'cancelled'">Cancel</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <article class="surface panel">
+    <p *ngIf="loading" class="muted">Loading booking records...</p>
 
-    <p *ngIf="!loading && !bookings.length">No bookings found.</p>
+    <div class="table-wrap" *ngIf="!loading && bookings.length">
+      <table class="mobile-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Guest</th>
+            <th>Room</th>
+            <th>Stay</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let booking of bookings">
+            <td data-label="Booking ID"><strong>{{ booking.id }}</strong></td>
+            <td data-label="Guest">
+              <div>{{ booking.guestName || 'Guest' }}</div>
+              <small class="muted">{{ booking.guestEmail || booking.userId }}</small>
+            </td>
+            <td data-label="Room">{{ roomName(booking.roomId) }}</td>
+            <td data-label="Stay">
+              <div>{{ formatDate(booking.checkInDate) }}</div>
+              <small class="muted">to {{ formatDate(booking.checkOutDate) }}</small>
+            </td>
+            <td data-label="Total">{{ booking.totalPrice | currency : 'NGN' }}</td>
+            <td data-label="Status">
+              <span
+                class="badge"
+                [ngClass]="{
+                  'badge-warning': booking.status === 'pending',
+                  'badge-success': booking.status === 'confirmed' || booking.status === 'checked_in',
+                  'badge-danger': booking.status === 'cancelled'
+                }"
+              >
+                {{ booking.status }}
+              </span>
+            </td>
+            <td data-label="Actions">
+              <div class="mini-actions">
+                <button class="btn btn-ghost" (click)="updateStatus(booking, 'confirmed')">Confirm</button>
+                <button class="btn btn-ghost" (click)="updateStatus(booking, 'checked_in')">Check-In</button>
+                <button class="btn btn-ghost" (click)="updateStatus(booking, 'checked_out')">Check-Out</button>
+                <button class="btn btn-danger" (click)="updateStatus(booking, 'cancelled')">Cancel</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p *ngIf="!loading && !bookings.length" class="muted">No bookings match your filters.</p>
+
+    <div class="pagination" *ngIf="!loading && total > 0">
+      <span>Showing page {{ page }} of {{ totalPages }} ({{ total }} total records)</span>
+      <div class="controls">
+        <button class="btn btn-ghost" (click)="goToPage(page - 1)" [disabled]="page <= 1">Prev</button>
+        <button class="btn btn-ghost" (click)="goToPage(page + 1)" [disabled]="page >= totalPages">Next</button>
+      </div>
+    </div>
   </article>
 </section>
+
+<div class="modal-backdrop" *ngIf="showCreateModal">
+  <article class="modal">
+    <header class="modal-header">
+      <h3>Create Booking</h3>
+      <p class="muted">Capture a walk-in or phone booking from the front desk.</p>
+    </header>
+
+    <section class="modal-body">
+      <form class="modal-grid" [formGroup]="bookingForm">
+        <div class="field">
+          <label>Room</label>
+          <select formControlName="roomId">
+            <option value="" disabled>Select room</option>
+            <option *ngFor="let room of rooms" [value]="room.id">{{ room.name }}</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Guest Name</label>
+          <input formControlName="guestName" />
+        </div>
+
+        <div class="field">
+          <label>Guest Email</label>
+          <input type="email" formControlName="guestEmail" />
+        </div>
+
+        <div class="field">
+          <label>Guest Phone</label>
+          <input formControlName="guestPhone" />
+        </div>
+
+        <div class="field">
+          <label>Check-In</label>
+          <input type="date" formControlName="checkInDate" />
+        </div>
+
+        <div class="field">
+          <label>Check-Out</label>
+          <input type="date" formControlName="checkOutDate" />
+        </div>
+
+        <div class="field">
+          <label>Guests</label>
+          <input type="number" formControlName="numberOfGuests" />
+        </div>
+
+        <div class="field notes">
+          <label>Notes</label>
+          <textarea rows="3" formControlName="notes"></textarea>
+        </div>
+      </form>
+    </section>
+
+    <footer class="modal-footer">
+      <button class="btn btn-ghost" (click)="closeCreateBooking()">Cancel</button>
+      <button class="btn btn-primary" [disabled]="submitting" (click)="createManualBooking()">
+        {{ submitting ? 'Creating...' : 'Create Booking' }}
+      </button>
+    </footer>
+  </article>
+</div>

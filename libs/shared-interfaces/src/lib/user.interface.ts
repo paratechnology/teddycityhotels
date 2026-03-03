@@ -4,6 +4,8 @@ export type AdminModuleKey =
   | 'bookings'
   | 'snooker'
   | 'financials'
+  | 'revenue'
+  | 'kitchen'
   | 'notifications'
   | 'admins';
 
@@ -15,6 +17,8 @@ export const defaultAdminModuleAccess: AdminModuleAccess = {
   bookings: false,
   snooker: false,
   financials: false,
+  revenue: false,
+  kitchen: false,
   notifications: false,
   admins: false,
 };

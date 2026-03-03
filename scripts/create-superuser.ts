@@ -39,6 +39,8 @@ async function run() {
     bookings: true,
     snooker: true,
     financials: true,
+    revenue: true,
+    kitchen: true,
     notifications: true,
     admins: true,
   };

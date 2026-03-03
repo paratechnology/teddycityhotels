@@ -5,6 +5,14 @@ import { FirestoreService } from './firestore.service';
 export class AttachmentService {
   constructor(@inject(FirestoreService) private firestore: FirestoreService) {}
 
+  private formatPublicUrl(filePath: string): string {
+    const encodedPath = filePath
+      .split('/')
+      .map((part) => encodeURIComponent(part))
+      .join('/');
+    return `https://storage.googleapis.com/${this.firestore.storage.bucket().name}/${encodedPath}`;
+  }
+
   async generateUploadUrl(
     firmId: string,
     taskId: string,
@@ -39,5 +47,15 @@ export class AttachmentService {
     });
 
     return { uploadUrl, filePath };
+  }
+
+  async publishAdminUpload(filePath: string): Promise<{ filePath: string; publicUrl: string }> {
+    const file = this.firestore.storage.bucket().file(filePath);
+    await file.makePublic();
+
+    return {
+      filePath,
+      publicUrl: this.formatPublicUrl(filePath),
+    };
   }
 }

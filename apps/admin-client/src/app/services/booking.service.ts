@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {
   Booking,
+  PaginatedResponse,
   BookingStatus,
   CreateBookingDto,
   baseURL,
@@ -16,9 +17,23 @@ export class BookingService {
 
   constructor(private http: HttpClient) {}
 
-  getBookings(status?: BookingStatus): Observable<Booking[]> {
-    const query = status ? `?status=${status}` : '';
-    return this.http.get<Booking[]>(`${this.bookingsUrl}${query}`);
+  getBookings(params: {
+    page: number;
+    pageSize: number;
+    status?: BookingStatus | '';
+    roomId?: string;
+    search?: string;
+  }): Observable<PaginatedResponse<Booking>> {
+    const query = new URLSearchParams({
+      page: String(params.page),
+      pageSize: String(params.pageSize),
+    });
+
+    if (params.status) query.set('status', params.status);
+    if (params.roomId) query.set('roomId', params.roomId);
+    if (params.search?.trim()) query.set('search', params.search.trim());
+
+    return this.http.get<PaginatedResponse<Booking>>(`${this.bookingsUrl}?${query.toString()}`);
   }
 
   getBooking(id: string): Observable<Booking> {

@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IFinancialOverview } from '@teddy-city-hotels/shared-interfaces';
+import { IFinancialExpense, IFinancialOverview, IPayrollEntry } from '@teddy-city-hotels/shared-interfaces';
 import { FinancialsService } from '../../services/financials.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-financials',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './financials.component.html',
   styleUrls: ['./financials.component.scss'],
 })
@@ -15,6 +16,9 @@ export class FinancialsComponent implements OnInit {
   overview: IFinancialOverview | null = null;
   loading = false;
   error = '';
+  activeTab: 'overview' | 'expenses' | 'payroll' = 'overview';
+  showExpenseModal = false;
+  showPayrollModal = false;
   expenseForm: FormGroup;
   payrollForm: FormGroup;
 
@@ -58,8 +62,17 @@ export class FinancialsComponent implements OnInit {
       return;
     }
 
-    this.financialsService.addExpense(this.expenseForm.getRawValue() as any).subscribe({
+    const value = this.expenseForm.getRawValue();
+    const payload: Omit<IFinancialExpense, 'id' | 'createdAt'> = {
+      category: value['category'],
+      description: value['description'],
+      amount: Number(value['amount']),
+      incurredOn: value['incurredOn'],
+    };
+
+    this.financialsService.addExpense(payload).subscribe({
       next: () => {
+        this.showExpenseModal = false;
         this.expenseForm.reset({
           category: 'utilities',
           amount: 0,
@@ -80,8 +93,17 @@ export class FinancialsComponent implements OnInit {
       return;
     }
 
-    this.financialsService.addPayroll(this.payrollForm.getRawValue() as any).subscribe({
+    const value = this.payrollForm.getRawValue();
+    const payload: Omit<IPayrollEntry, 'id' | 'createdAt' | 'status'> = {
+      staffName: value['staffName'],
+      role: value['role'],
+      amount: Number(value['amount']),
+      month: value['month'],
+    };
+
+    this.financialsService.addPayroll(payload).subscribe({
       next: () => {
+        this.showPayrollModal = false;
         this.payrollForm.reset({
           staffName: '',
           role: '',
@@ -118,5 +140,21 @@ export class FinancialsComponent implements OnInit {
         URL.revokeObjectURL(url);
       },
     });
+  }
+
+  openExpenseModal(): void {
+    this.showExpenseModal = true;
+  }
+
+  closeExpenseModal(): void {
+    this.showExpenseModal = false;
+  }
+
+  openPayrollModal(): void {
+    this.showPayrollModal = true;
+  }
+
+  closePayrollModal(): void {
+    this.showPayrollModal = false;
   }
 }

@@ -16,6 +16,13 @@ export class RoomRoutes {
 
   private initializeRoutes() {
     this.router.get('/', this.controller.getAllRooms);
+    this.router.get(
+      '/admin',
+      verifyUser,
+      adminOnly,
+      requireModuleAccess('rooms'),
+      this.controller.getAdminRoomsPaginated
+    );
     this.router.get('/:roomId', this.controller.getRoomById);
 
     this.router.post(

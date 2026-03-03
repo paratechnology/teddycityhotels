@@ -18,6 +18,9 @@ export class FinancialsRoutes {
     this.router.use(verifyUser, adminOnly, requireModuleAccess('financials'));
 
     this.router.get('/overview', this.controller.getOverview);
+    this.router.get('/revenue', this.controller.listRevenue);
+    this.router.post('/revenue', this.controller.createRevenueRecord);
+    this.router.patch('/revenue/:revenueId/payment-status', this.controller.updateRevenuePaymentStatus);
     this.router.get('/expenses', this.controller.listExpenses);
     this.router.post('/expenses', this.controller.createExpense);
     this.router.get('/payroll', this.controller.listPayroll);

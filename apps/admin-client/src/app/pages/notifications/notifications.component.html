@@ -1,19 +1,59 @@
-<section class="page">
-  <h2>Notifications</h2>
-  <p *ngIf="loading">Loading notifications...</p>
+<section class="page-shell">
+  <div class="page-header">
+    <div>
+      <h2>Notifications</h2>
+      <p>Monitor critical activity and keep the operations team synchronized.</p>
+    </div>
+    <button class="btn btn-ghost" (click)="load()">Refresh</button>
+  </div>
+
+  <article class="surface panel">
+    <div class="section-tabs">
+      <button class="btn" [ngClass]="activeTab === 'all' ? 'btn-primary' : 'btn-ghost'" (click)="switchTab('all')">All</button>
+      <button class="btn" [ngClass]="activeTab === 'unread' ? 'btn-primary' : 'btn-ghost'" (click)="switchTab('unread')">
+        Unread
+      </button>
+      <button class="btn" [ngClass]="activeTab === 'read' ? 'btn-primary' : 'btn-ghost'" (click)="switchTab('read')">Read</button>
+    </div>
+  </article>
+
+  <article class="surface panel">
+    <div class="toolbar">
+      <div class="field">
+        <label>Search</label>
+        <input [(ngModel)]="search" placeholder="Title, body, booking ID or order ID" />
+      </div>
+      <button class="btn btn-primary" (click)="applyFilters()">Apply</button>
+      <button class="btn btn-ghost" (click)="clearFilters()">Clear</button>
+    </div>
+  </article>
+
+  <p *ngIf="loading" class="muted">Loading notifications...</p>
+  <p *ngIf="error" class="error-text">{{ error }}</p>
 
   <div class="list" *ngIf="!loading">
-    <article *ngFor="let notification of notifications" [class.read]="notification.read">
+    <article class="surface card" *ngFor="let notification of notifications" [class.read]="notification.read">
       <header>
         <h3>{{ notification.title }}</h3>
         <span>{{ notification.createdAt | date: 'short' }}</span>
       </header>
       <p>{{ notification.body }}</p>
-      <button (click)="markRead(notification)" [disabled]="notification.read">
-        {{ notification.read ? 'Read' : 'Mark read' }}
-      </button>
+      <div class="actions">
+        <a [href]="notification.link" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Open</a>
+        <button class="btn btn-primary" (click)="markRead(notification)" [disabled]="notification.read">
+          {{ notification.read ? 'Read' : 'Mark Read' }}
+        </button>
+      </div>
     </article>
 
-    <p *ngIf="!notifications.length">No notifications yet.</p>
+    <p *ngIf="!notifications.length && !error" class="muted">No notifications found for the current filters.</p>
+  </div>
+
+  <div class="pagination" *ngIf="!loading && total > 0">
+    <span>Page {{ page }} / {{ totalPages }} ({{ total }} notifications)</span>
+    <div class="controls">
+      <button class="btn btn-ghost" (click)="goToPage(page - 1)" [disabled]="page <= 1">Prev</button>
+      <button class="btn btn-ghost" (click)="goToPage(page + 1)" [disabled]="page >= totalPages">Next</button>
+    </div>
   </div>
 </section>

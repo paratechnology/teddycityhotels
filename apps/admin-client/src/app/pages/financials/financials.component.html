@@ -1,33 +1,135 @@
-<section class="page">
-  <header>
-    <h2>Financials</h2>
-    <button (click)="exportMonth()">Export current month (CSV)</button>
-  </header>
+<section class="page-shell">
+  <div class="page-header">
+    <div>
+      <h2>Financial Management</h2>
+      <p>Capture expenses, payroll and profitability with structured workflows.</p>
+    </div>
+    <div class="toolbar">
+      <a class="btn btn-ghost" routerLink="/revenue">Open Revenue</a>
+      <button class="btn btn-primary" (click)="openExpenseModal()">+ Log Expense</button>
+      <button class="btn btn-primary" (click)="openPayrollModal()">+ Add Payroll</button>
+      <button class="btn btn-ghost" (click)="loadOverview()">Refresh</button>
+      <button class="btn btn-primary" (click)="exportMonth()">Export Month (CSV)</button>
+    </div>
+  </div>
 
-  <p class="error" *ngIf="error">{{ error }}</p>
-  <p *ngIf="loading">Loading financial data...</p>
+  <p class="error-text" *ngIf="error">{{ error }}</p>
+  <p *ngIf="loading" class="muted">Loading financial data...</p>
 
   <div class="summary" *ngIf="overview">
-    <article>
+    <article class="surface tile">
       <h3>Total Revenue</h3>
       <p>{{ overview.totalRevenue | currency : 'NGN' }}</p>
     </article>
-    <article>
+    <article class="surface tile">
       <h3>Total Expenses</h3>
       <p>{{ overview.totalExpenses | currency : 'NGN' }}</p>
     </article>
-    <article>
+    <article class="surface tile">
       <h3>Net Income</h3>
       <p>{{ overview.netIncome | currency : 'NGN' }}</p>
     </article>
   </div>
 
-  <div class="grid">
-    <article class="card">
+  <article class="surface panel section-tabs" *ngIf="overview">
+    <button class="btn" [ngClass]="activeTab === 'overview' ? 'btn-primary' : 'btn-ghost'" (click)="activeTab = 'overview'">
+      Overview
+    </button>
+    <button class="btn" [ngClass]="activeTab === 'expenses' ? 'btn-primary' : 'btn-ghost'" (click)="activeTab = 'expenses'">
+      Expense Records
+    </button>
+    <button class="btn" [ngClass]="activeTab === 'payroll' ? 'btn-primary' : 'btn-ghost'" (click)="activeTab = 'payroll'">
+      Payroll Records
+    </button>
+  </article>
+
+  <article class="surface panel" *ngIf="overview && activeTab === 'overview'">
+    <h3>Performance Snapshot</h3>
+    <div class="summary inline">
+      <article class="surface tile">
+        <h3>Revenue Streams</h3>
+        <p>{{ (overview.revenueBySource.booking || 0) + (overview.revenueBySource.food_and_beverage || 0) | currency : 'NGN' }}</p>
+      </article>
+      <article class="surface tile">
+        <h3>Recent Revenue Entries</h3>
+        <p>{{ overview.recentRevenue.length }}</p>
+      </article>
+      <article class="surface tile">
+        <h3>Payroll Entries</h3>
+        <p>{{ overview.payroll.length }}</p>
+      </article>
+    </div>
+  </article>
+
+  <article class="surface panel" *ngIf="overview && activeTab === 'expenses'">
+    <h3>Recent Expenses</h3>
+    <div class="table-wrap">
+      <table class="mobile-table" *ngIf="overview.recentExpenses.length">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let expense of overview.recentExpenses">
+            <td data-label="Date">{{ expense.incurredOn | date: 'mediumDate' }}</td>
+            <td data-label="Category">{{ expense.category }}</td>
+            <td data-label="Description">{{ expense.description }}</td>
+            <td data-label="Amount">{{ expense.amount | currency : 'NGN' }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="muted" *ngIf="!overview.recentExpenses.length">No expenses yet.</p>
+    </div>
+  </article>
+
+  <article class="surface panel" *ngIf="overview && activeTab === 'payroll'">
+    <h3>Payroll Items</h3>
+    <div class="table-wrap">
+      <table class="mobile-table" *ngIf="overview.payroll.length">
+        <thead>
+          <tr>
+            <th>Staff</th>
+            <th>Role</th>
+            <th>Month</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of overview.payroll">
+            <td data-label="Staff">{{ item.staffName }}</td>
+            <td data-label="Role">{{ item.role }}</td>
+            <td data-label="Month">{{ item.month }}</td>
+            <td data-label="Amount">{{ item.amount | currency : 'NGN' }}</td>
+            <td data-label="Status">{{ item.status }}</td>
+            <td data-label="Action">
+              <button class="btn btn-ghost" (click)="markPayrollPaid(item.id)" [disabled]="item.status === 'paid'">
+                Mark Paid
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="muted" *ngIf="!overview.payroll.length">No payroll entries yet.</p>
+    </div>
+  </article>
+</section>
+
+<div class="modal-backdrop" *ngIf="showExpenseModal">
+  <article class="modal">
+    <header class="modal-header">
       <h3>Log Expense</h3>
-      <form [formGroup]="expenseForm" (ngSubmit)="addExpense()">
-        <label>
-          Category
+      <p class="muted">Capture operating costs and expenses.</p>
+    </header>
+    <section class="modal-body">
+      <form [formGroup]="expenseForm" class="modal-form">
+        <div class="field">
+          <label>Category</label>
           <select formControlName="category">
             <option value="utilities">Utilities</option>
             <option value="maintenance">Maintenance</option>
@@ -35,73 +137,57 @@
             <option value="salary">Salary</option>
             <option value="other">Other</option>
           </select>
-        </label>
-        <label>Description <input formControlName="description" /></label>
-        <label>Amount <input type="number" formControlName="amount" /></label>
-        <label>Date <input type="date" formControlName="incurredOn" /></label>
-        <button type="submit">Save expense</button>
+        </div>
+        <div class="field">
+          <label>Description</label>
+          <input formControlName="description" />
+        </div>
+        <div class="field">
+          <label>Amount</label>
+          <input type="number" formControlName="amount" />
+        </div>
+        <div class="field">
+          <label>Date</label>
+          <input type="date" formControlName="incurredOn" />
+        </div>
       </form>
-    </article>
+    </section>
+    <footer class="modal-footer">
+      <button class="btn btn-ghost" (click)="closeExpenseModal()">Cancel</button>
+      <button class="btn btn-primary" (click)="addExpense()">Save Expense</button>
+    </footer>
+  </article>
+</div>
 
-    <article class="card">
-      <h3>Payroll Oversight</h3>
-      <form [formGroup]="payrollForm" (ngSubmit)="addPayroll()">
-        <label>Staff name <input formControlName="staffName" /></label>
-        <label>Role <input formControlName="role" /></label>
-        <label>Amount <input type="number" formControlName="amount" /></label>
-        <label>Month <input type="month" formControlName="month" /></label>
-        <button type="submit">Add payroll item</button>
+<div class="modal-backdrop" *ngIf="showPayrollModal">
+  <article class="modal">
+    <header class="modal-header">
+      <h3>Add Payroll Item</h3>
+      <p class="muted">Track staff payroll obligations.</p>
+    </header>
+    <section class="modal-body">
+      <form [formGroup]="payrollForm" class="modal-form">
+        <div class="field">
+          <label>Staff Name</label>
+          <input formControlName="staffName" />
+        </div>
+        <div class="field">
+          <label>Role</label>
+          <input formControlName="role" />
+        </div>
+        <div class="field">
+          <label>Amount</label>
+          <input type="number" formControlName="amount" />
+        </div>
+        <div class="field">
+          <label>Month</label>
+          <input type="month" formControlName="month" />
+        </div>
       </form>
-    </article>
-  </div>
-
-  <article class="card" *ngIf="overview">
-    <h3>Recent Expenses</h3>
-    <table *ngIf="overview.recentExpenses.length">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Category</th>
-          <th>Description</th>
-          <th>Amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let expense of overview.recentExpenses">
-          <td>{{ expense.incurredOn | date: 'mediumDate' }}</td>
-          <td>{{ expense.category }}</td>
-          <td>{{ expense.description }}</td>
-          <td>{{ expense.amount | currency : 'NGN' }}</td>
-        </tr>
-      </tbody>
-    </table>
+    </section>
+    <footer class="modal-footer">
+      <button class="btn btn-ghost" (click)="closePayrollModal()">Cancel</button>
+      <button class="btn btn-primary" (click)="addPayroll()">Save Payroll</button>
+    </footer>
   </article>
-
-  <article class="card" *ngIf="overview">
-    <h3>Payroll Items</h3>
-    <table *ngIf="overview.payroll.length">
-      <thead>
-        <tr>
-          <th>Staff</th>
-          <th>Role</th>
-          <th>Month</th>
-          <th>Amount</th>
-          <th>Status</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of overview.payroll">
-          <td>{{ item.staffName }}</td>
-          <td>{{ item.role }}</td>
-          <td>{{ item.month }}</td>
-          <td>{{ item.amount | currency : 'NGN' }}</td>
-          <td>{{ item.status }}</td>
-          <td>
-            <button (click)="markPayrollPaid(item.id)" [disabled]="item.status === 'paid'">Mark paid</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </article>
-</section>
+</div>

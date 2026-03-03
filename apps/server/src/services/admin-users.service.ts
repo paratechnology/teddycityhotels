@@ -6,6 +6,7 @@ import {
   IAdminUser,
   ICreateAdminUserDto,
   IUpdateAdminUserDto,
+  PaginatedResponse,
 } from '@teddy-city-hotels/shared-interfaces';
 import { FirestoreService } from './firestore.service';
 import { NotFoundError } from '../errors/http-errors';
@@ -34,6 +35,38 @@ export class AdminUsersService {
     }
 
     return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as IAdminUser));
+  }
+
+  async listAdminsPaginated(params: {
+    page: number;
+    pageSize: number;
+    search?: string;
+  }): Promise<PaginatedResponse<IAdminUser>> {
+    const page = Number.isFinite(params.page) ? Math.max(1, params.page) : 1;
+    const pageSize = Number.isFinite(params.pageSize)
+      ? Math.min(50, Math.max(1, params.pageSize))
+      : 12;
+
+    const rows = await this.listAdmins();
+    const filtered = params.search?.trim()
+      ? rows.filter((row) => {
+          const search = params.search?.trim().toLowerCase() || '';
+          return (
+            row.fullname.toLowerCase().includes(search) ||
+            row.email.toLowerCase().includes(search) ||
+            (row.phoneNumber || '').toLowerCase().includes(search)
+          );
+        })
+      : rows;
+
+    const total = filtered.length;
+    const start = (page - 1) * pageSize;
+    return {
+      data: filtered.slice(start, start + pageSize),
+      total,
+      page,
+      pageSize,
+    };
   }
 
   async getAdminById(adminId: string): Promise<IAdminUser> {
