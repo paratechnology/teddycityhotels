@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 import {
   IKitchenMenuItem,
   IKitchenOrder,
@@ -9,6 +10,7 @@ import {
   KitchenOrderStatus,
 } from '@teddy-city-hotels/shared-interfaces';
 import { KitchenService } from '../../services/kitchen.service';
+import { AttachmentService } from '../../services/attachment.service';
 
 @Component({
   selector: 'app-kitchen',
@@ -45,6 +47,7 @@ export class KitchenComponent implements OnInit {
   pendingKitchen = 0;
 
   savingMenu = false;
+  uploadingMenuImage = false;
   editingMenuId = '';
   error = '';
 
@@ -53,7 +56,11 @@ export class KitchenComponent implements OnInit {
   readonly orderStatuses: KitchenOrderStatus[] = ['new', 'preparing', 'ready', 'completed', 'cancelled'];
   readonly paymentStatuses: KitchenOrderPaymentStatus[] = ['pending', 'paid', 'failed', 'refunded'];
 
-  constructor(private kitchenService: KitchenService, private fb: FormBuilder) {
+  constructor(
+    private kitchenService: KitchenService,
+    private attachmentService: AttachmentService,
+    private fb: FormBuilder
+  ) {
     this.menuForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
@@ -170,6 +177,45 @@ export class KitchenComponent implements OnInit {
         this.error = error?.error?.message || 'Failed to save menu item.';
       },
     });
+  }
+
+  async onMenuImageSelected(event: Event): Promise<void> {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+
+    this.uploadingMenuImage = true;
+    this.error = '';
+
+    try {
+      const signed = await firstValueFrom(
+        this.attachmentService.generateUploadUrl(file.name, file.type || 'application/octet-stream')
+      );
+      const uploadResponse = await fetch(signed.uploadUrl, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': file.type || 'application/octet-stream',
+        },
+        body: file,
+      });
+
+      if (!uploadResponse.ok) {
+        throw new Error(`Image upload failed for ${file.name}.`);
+      }
+
+      const published = await firstValueFrom(this.attachmentService.publishUpload(signed.filePath));
+      this.menuForm.patchValue({ imageUrl: published.publicUrl });
+    } catch (error) {
+      this.error =
+        error instanceof Error ? error.message : 'Menu image upload failed. Please try again.';
+    } finally {
+      this.uploadingMenuImage = false;
+      input.value = '';
+    }
+  }
+
+  clearMenuImage(): void {
+    this.menuForm.patchValue({ imageUrl: '' });
   }
 
   editMenuItem(row: IKitchenMenuItem): void {

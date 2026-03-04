@@ -4,6 +4,7 @@ import { Application, Request, Response, NextFunction } from 'express';
 // Define the allowed origins
 const allowedOrigins = [
   'https://admin.teddycityhotels.com',
+  'https://admin-teddycityhotels.web.app',
   'https://www.teddycityhotels.com',
   'https://teddycityhotels.com',
   'http://localhost:4200',

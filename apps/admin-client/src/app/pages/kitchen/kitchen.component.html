@@ -81,6 +81,7 @@
         <table class="mobile-table">
           <thead>
             <tr>
+              <th>Image</th>
               <th>Name</th>
               <th>Category</th>
               <th>Price</th>
@@ -90,6 +91,10 @@
           </thead>
           <tbody>
             <tr *ngFor="let row of menuRows">
+              <td data-label="Image">
+                <img *ngIf="row.imageUrl" [src]="row.imageUrl" [alt]="row.name" class="menu-thumb" />
+                <span *ngIf="!row.imageUrl" class="muted">-</span>
+              </td>
               <td data-label="Name">
                 <strong>{{ row.name }}</strong>
                 <div class="muted">{{ row.description }}</div>
@@ -258,8 +263,24 @@
         </div>
 
         <div class="field">
-          <label>Image URL (optional)</label>
-          <input formControlName="imageUrl" />
+          <label>Image (optional)</label>
+          <input
+            type="file"
+            accept="image/*"
+            (change)="onMenuImageSelected($event)"
+            [disabled]="uploadingMenuImage || savingMenu"
+          />
+          <small class="muted" *ngIf="uploadingMenuImage">Uploading image...</small>
+        </div>
+
+        <div class="field full" *ngIf="menuForm.value.imageUrl">
+          <label>Selected Image</label>
+          <div class="image-preview-card">
+            <img [src]="menuForm.value.imageUrl" alt="Menu preview" class="menu-preview" />
+            <button type="button" class="btn btn-danger" (click)="clearMenuImage()" [disabled]="savingMenu">
+              Remove Image
+            </button>
+          </div>
         </div>
 
         <div class="field full">
@@ -275,7 +296,11 @@
     </section>
     <footer class="modal-footer">
       <button class="btn btn-ghost" (click)="closeMenuModal()">Cancel</button>
-      <button class="btn btn-primary" (click)="saveMenuItem()" [disabled]="savingMenu || menuForm.invalid">
+      <button
+        class="btn btn-primary"
+        (click)="saveMenuItem()"
+        [disabled]="savingMenu || uploadingMenuImage || menuForm.invalid"
+      >
         {{ savingMenu ? 'Saving...' : editingMenuId ? 'Update Item' : 'Add Item' }}
       </button>
     </footer>
