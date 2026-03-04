@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import { injectable, inject } from 'tsyringe';
 import { PushNotificationService } from '../services/push-notification.service';
 import { NotificationService } from '../services/notification.service';
-import { UnauthorizedError } from '../errors/http-errors';
 
 @injectable()
 export class NotificationController {

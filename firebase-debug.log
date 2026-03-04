@@ -1661,3 +1661,133 @@
 [debug] [2026-03-04T09:48:57.747Z] [hosting] release: {"name":"projects/207712314730/sites/admin-teddycityhotels/channels/live/releases/1772617736318000","version":{"name":"projects/207712314730/sites/admin-teddycityhotels/versions/75a5e714fb7893a7","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2026-03-04T09:48:48.853820Z","createUser":{"email":"parabolictechspace@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL_fBiR4RyaR6Qoi5MbbS-DMi8Wfh0GF9xOZ1iNdG9LnFW2iw=mo"},"finalizeTime":"2026-03-04T09:48:54.851274Z","finalizeUser":{"email":"parabolictechspace@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL_fBiR4RyaR6Qoi5MbbS-DMi8Wfh0GF9xOZ1iNdG9LnFW2iw=mo"}},"type":"DEPLOY","releaseTime":"2026-03-04T09:48:56.318Z","releaseUser":{"email":"parabolictechspace@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL_fBiR4RyaR6Qoi5MbbS-DMi8Wfh0GF9xOZ1iNdG9LnFW2iw=mo"}}
 [info] +  hosting[admin-teddycityhotels]: release complete 
 [debug] [2026-03-04T09:48:58.297Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/teddycityhotels1/channels/live/releases 200
+[debug] [2026-03-04T11:20:23.416Z] ----------------------------------------------------------------------
+[debug] [2026-03-04T11:20:23.428Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\sochi\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting:admin-teddycityhotels --project teddycityhotels1
+[debug] [2026-03-04T11:20:23.429Z] CLI Version:   15.5.1
+[debug] [2026-03-04T11:20:23.430Z] Platform:      win32
+[debug] [2026-03-04T11:20:23.430Z] Node Version:  v24.12.0
+[debug] [2026-03-04T11:20:23.432Z] Time:          Wed Mar 04 2026 12:20:23 GMT+0100 (West Africa Standard Time)
+[debug] [2026-03-04T11:20:23.433Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-04T11:20:23.444Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2026-03-04T11:20:31.100Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-04T11:20:31.101Z] > authorizing via signed-in user (parabolictechspace@gmail.com)
+[debug] [2026-03-04T11:20:31.102Z] [iam] checking project teddycityhotels1 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-03-04T11:20:31.107Z] Checked if tokens are valid: false, expires at: 1772621324158
+[debug] [2026-03-04T11:20:31.108Z] Checked if tokens are valid: false, expires at: 1772621324158
+[debug] [2026-03-04T11:20:31.110Z] > refreshing access token with scopes: []
+[debug] [2026-03-04T11:20:31.115Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-03-04T11:20:31.115Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-03-04T11:20:31.855Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2026-03-04T11:20:31.856Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-03-04T11:20:31.889Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/teddycityhotels1:testIamPermissions [none]
+[debug] [2026-03-04T11:20:31.890Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/teddycityhotels1:testIamPermissions  x-goog-user-project=teddycityhotels1
+[debug] [2026-03-04T11:20:31.891Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/teddycityhotels1:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-03-04T11:20:32.155Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2026-03-04T11:20:32.156Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2026-03-04T11:20:33.759Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/teddycityhotels1:testIamPermissions 200
+[debug] [2026-03-04T11:20:33.760Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/teddycityhotels1:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-03-04T11:20:33.763Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:33.764Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:33.766Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/teddycityhotels1 [none]
+[debug] [2026-03-04T11:20:34.678Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/teddycityhotels1 200
+[debug] [2026-03-04T11:20:34.679Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/teddycityhotels1 {"projectId":"teddycityhotels1","projectNumber":"207712314730","displayName":"teddycityhotels","name":"projects/teddycityhotels1","resources":{"hostingSite":"teddycityhotels1"},"state":"ACTIVE","etag":"1_552f2576-9fc1-4230-9561-798f539e5264"}
+[info] 
+[info] === Deploying to 'teddycityhotels1'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2026-03-04T11:20:34.701Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:34.702Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:34.703Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/admin-teddycityhotels/versions [none]
+[debug] [2026-03-04T11:20:34.704Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/admin-teddycityhotels/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2026-03-04T11:20:37.754Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/admin-teddycityhotels/versions 200
+[debug] [2026-03-04T11:20:37.755Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/admin-teddycityhotels/versions {"name":"projects/207712314730/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[admin-teddycityhotels]: beginning deploy... 
+[info] i  hosting[admin-teddycityhotels]: found 27 files in dist/apps/admin-client 
+[debug] [2026-03-04T11:20:37.850Z] [hosting] uploading with 200 concurrency
+[debug] [2026-03-04T11:20:38.009Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:38.009Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:38.016Z] [hosting] hash cache [ZGlzdFxhcHBzXGFkbWluLWNsaWVudA] stored for 27 files
+[debug] [2026-03-04T11:20:38.017Z] [hosting][hash queue][FINAL] {"max":137,"min":1,"avg":61.148148148148145,"active":0,"complete":27,"success":27,"errored":0,"retried":0,"total":27,"elapsed":153}
+[debug] [2026-03-04T11:20:38.021Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/207712314730/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3:populateFiles [none]
+[debug] [2026-03-04T11:20:38.024Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/207712314730/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3:populateFiles {"files":{"/manifest.webmanifest":"b75b5f9403648c3736ee3e191bf1e006b812d211d0a7099cee65a7a49e694b48","/admin-sw.js":"f38a59d7d0a5f555b5e7f1004e8975940fdeebcd3ccb8149f5bf3595128d2153","/icons/icon-96.webp":"0d0a8048a01cbc63d04c1ac52bac7f0c18c4674570ddfc650ed2b78a684b5789","/icons/icon-512.webp":"e1f4f1efc7ccc4793b78c02180694b050442747b13727529d826b5e0599ac71e","/icons/icon-192.webp":"4d95948d410b0643fd4f395db5922db91a5fc1922c1ddeb64c7581aef824bd06","/index.html":"8dfcc97cfa4a0a0fb8aac2e8b8228f84d49cc3f3b4eaeb899f938ed43337abab","/runtime.de3443fb733bf337.js":"7be00906a4622fbf4dc85914b6bb83e2f7375169a1963290366089f2bff022bf","/common.cf040bcef9139faf.js":"c4a91d8c94a87060e6303e8808681f8485265f7ea2ae6af2208f08f90894f6a6","/932.eae1625eb69f0aa1.js":"2ca753c444be71d025e48888627f79004b665dd97a546b9cfcaacf802f5086f1","/polyfills.d3703c4ed34ddcc9.js":"2084ea89bed0c15d81060c7ac5b97866a033ad2e03b67f0db17cf4681d454358","/986.b6542491dfa45eb9.js":"ff6302132378078e6480338e664967df705890f65f84f4ab5420d5919a2562da","/styles.34cb3f3901c9c620.css":"b0d9b8db49a7262c71f97a80b3bf4697be755b5b21b6fc17ddd554f2e8d9274e","/803.67f58cd88b8cf056.js":"b93f0b1392fad5f8468f6444a9d1f3c898fb972902a498e811300c7324e58dad","/834.53f6961a0ab240e0.js":"63872b3045482797812fbb6c70070ea1430bf5a6c70f1f9ed33054e0e507714d","/732.c15e9fecc56d87d3.js":"effbf22f47583a3304a2fb9a049b735ffabc8f9e8f487642a0c5c03710e86892","/671.d64583d248e409ef.js":"cbd7dba72ec4ee9eaa037a5aa49cb88498846664b28b267f0f3a7c9bb789fd53","/554.12704134766b74dc.js":"d507a708d1930bb7563809f36f2365e5fc3afb0144229d5df1c45684417147dd","/53.0e38c62a3f8d6c22.js":"a60fb023d493067b26a634c05293bea5a3297e695d55ec8f0fbe8e00466f6dda","/765.578dd54d3530a6a8.js":"6fcdcff0455fb300e8dae8251c0fcb41a4486aaa36df961b63a7c2c5a5ea33c4","/3rdpartylicenses.txt":"afade7d1cb98b3e5c65c707a9afead8360b3a2529e7eb8731c3ef881ef1fb8a2","/36.3aed3e6d3f182040.js":"221d15558652031b599b434614451a75833159044866619f7a7ec436731647f3","/108.0ef03dd60cdf7919.js":"6168bb047436a971ea3c2ef9bdda4e1b5bd02682bbeee01180c0782c9ea21d4c","/52.500edb181e4d30b3.js":"4184c33c36642188c6a220681ee324b5f7db846db0b6b7bf61412e20aef56a51","/105.79c069bbf665d1c9.js":"3a8204737654f14b38c11025d6c684802d4fe68a8e1b73cb0fc5da02bf0ed578","/341.4ecef87da0d70411.js":"2199b92c746d109e1856266a315742a1a9d6c5d9e4328b8a2abce89a488c2f53","/73.7450d8ebfc533af5.js":"a7a9c37faba0b1278917294df027b0ad2d067cd61b141c4d03be04f06e9a74dc","/main.406c8f8e21127395.js":"9d13722cfeb1bfc71b9e40f076154713c5983c13b2f877bb81ee67e85d562c42"}}
+[debug] [2026-03-04T11:20:39.080Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/207712314730/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3:populateFiles 200
+[debug] [2026-03-04T11:20:39.081Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/207712314730/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3:populateFiles {"uploadRequiredHashes":["7be00906a4622fbf4dc85914b6bb83e2f7375169a1963290366089f2bff022bf","6fcdcff0455fb300e8dae8251c0fcb41a4486aaa36df961b63a7c2c5a5ea33c4","b93f0b1392fad5f8468f6444a9d1f3c898fb972902a498e811300c7324e58dad","c4a91d8c94a87060e6303e8808681f8485265f7ea2ae6af2208f08f90894f6a6","9d13722cfeb1bfc71b9e40f076154713c5983c13b2f877bb81ee67e85d562c42","8dfcc97cfa4a0a0fb8aac2e8b8228f84d49cc3f3b4eaeb899f938ed43337abab"],"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files"}
+[debug] [2026-03-04T11:20:39.085Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:39.086Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:39.087Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:39.088Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:39.089Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:39.090Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:39.092Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:39.092Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:39.094Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:39.094Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:39.096Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:39.096Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:39.097Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/7be00906a4622fbf4dc85914b6bb83e2f7375169a1963290366089f2bff022bf [none]
+[debug] [2026-03-04T11:20:39.098Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/7be00906a4622fbf4dc85914b6bb83e2f7375169a1963290366089f2bff022bf [stream]
+[debug] [2026-03-04T11:20:39.106Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/6fcdcff0455fb300e8dae8251c0fcb41a4486aaa36df961b63a7c2c5a5ea33c4 [none]
+[debug] [2026-03-04T11:20:39.106Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/6fcdcff0455fb300e8dae8251c0fcb41a4486aaa36df961b63a7c2c5a5ea33c4 [stream]
+[debug] [2026-03-04T11:20:39.114Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/b93f0b1392fad5f8468f6444a9d1f3c898fb972902a498e811300c7324e58dad [none]
+[debug] [2026-03-04T11:20:39.114Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/b93f0b1392fad5f8468f6444a9d1f3c898fb972902a498e811300c7324e58dad [stream]
+[debug] [2026-03-04T11:20:39.121Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/c4a91d8c94a87060e6303e8808681f8485265f7ea2ae6af2208f08f90894f6a6 [none]
+[debug] [2026-03-04T11:20:39.122Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/c4a91d8c94a87060e6303e8808681f8485265f7ea2ae6af2208f08f90894f6a6 [stream]
+[debug] [2026-03-04T11:20:39.129Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/9d13722cfeb1bfc71b9e40f076154713c5983c13b2f877bb81ee67e85d562c42 [none]
+[debug] [2026-03-04T11:20:39.130Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/9d13722cfeb1bfc71b9e40f076154713c5983c13b2f877bb81ee67e85d562c42 [stream]
+[debug] [2026-03-04T11:20:39.138Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/8dfcc97cfa4a0a0fb8aac2e8b8228f84d49cc3f3b4eaeb899f938ed43337abab [none]
+[debug] [2026-03-04T11:20:39.139Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/8dfcc97cfa4a0a0fb8aac2e8b8228f84d49cc3f3b4eaeb899f938ed43337abab [stream]
+[debug] [2026-03-04T11:20:39.144Z] [hosting][populate queue][FINAL] {"max":1089,"min":1089,"avg":1089,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":1136}
+[debug] [2026-03-04T11:20:39.145Z] [hosting] uploads queued: 6
+[info] i  hosting: uploading new files [0/6] (0%) 
+[debug] [2026-03-04T11:20:40.819Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/8dfcc97cfa4a0a0fb8aac2e8b8228f84d49cc3f3b4eaeb899f938ed43337abab 200
+[debug] [2026-03-04T11:20:40.820Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/8dfcc97cfa4a0a0fb8aac2e8b8228f84d49cc3f3b4eaeb899f938ed43337abab [stream]
+[debug] [2026-03-04T11:20:40.826Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/6fcdcff0455fb300e8dae8251c0fcb41a4486aaa36df961b63a7c2c5a5ea33c4 200
+[debug] [2026-03-04T11:20:40.827Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/6fcdcff0455fb300e8dae8251c0fcb41a4486aaa36df961b63a7c2c5a5ea33c4 [stream]
+[debug] [2026-03-04T11:20:40.849Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/7be00906a4622fbf4dc85914b6bb83e2f7375169a1963290366089f2bff022bf 200
+[debug] [2026-03-04T11:20:40.850Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/7be00906a4622fbf4dc85914b6bb83e2f7375169a1963290366089f2bff022bf [stream]
+[debug] [2026-03-04T11:20:40.917Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/c4a91d8c94a87060e6303e8808681f8485265f7ea2ae6af2208f08f90894f6a6 200
+[debug] [2026-03-04T11:20:40.918Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/c4a91d8c94a87060e6303e8808681f8485265f7ea2ae6af2208f08f90894f6a6 [stream]
+[debug] [2026-03-04T11:20:41.318Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/b93f0b1392fad5f8468f6444a9d1f3c898fb972902a498e811300c7324e58dad 200
+[debug] [2026-03-04T11:20:41.319Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/b93f0b1392fad5f8468f6444a9d1f3c898fb972902a498e811300c7324e58dad [stream]
+[debug] [2026-03-04T11:20:41.640Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/9d13722cfeb1bfc71b9e40f076154713c5983c13b2f877bb81ee67e85d562c42 200
+[debug] [2026-03-04T11:20:41.641Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3/files/9d13722cfeb1bfc71b9e40f076154713c5983c13b2f877bb81ee67e85d562c42 [stream]
+[debug] [2026-03-04T11:20:41.642Z] [hosting][upload queue][FINAL] {"max":2548,"min":1726,"avg":1974,"active":0,"complete":6,"success":6,"errored":0,"retried":0,"total":6,"elapsed":2559}
+[info] i  hosting: upload complete 
+[info] +  hosting[admin-teddycityhotels]: file upload complete 
+[debug] [2026-03-04T11:20:41.644Z] [hosting] deploy completed after 3873ms
+[debug] [2026-03-04T11:20:41.645Z] [
+  {
+    "config": {
+      "site": "admin-teddycityhotels",
+      "public": "dist/apps/admin-client",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    "version": "projects/207712314730/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3"
+  }
+]
+[info] i  hosting[admin-teddycityhotels]: finalizing version... 
+[debug] [2026-03-04T11:20:41.655Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:41.656Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:41.660Z] >>> [apiv2][query] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3 updateMask=status%2Cconfig
+[debug] [2026-03-04T11:20:41.661Z] >>> [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3 {"status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]}}
+[debug] [2026-03-04T11:20:43.222Z] <<< [apiv2][status] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3 200
+[debug] [2026-03-04T11:20:43.223Z] <<< [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3 {"name":"projects/207712314730/sites/admin-teddycityhotels/versions/8151399c1c1fd3b3","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2026-03-04T11:20:36.752214Z","createUser":{"email":"parabolictechspace@gmail.com"},"finalizeTime":"2026-03-04T11:20:42.963479Z","finalizeUser":{"email":"parabolictechspace@gmail.com"}}
+[debug] [2026-03-04T11:20:43.224Z] [hosting] finalized version for admin-teddycityhotels:[object Object]
+[info] +  hosting[admin-teddycityhotels]: version finalized 
+[info] i  hosting[admin-teddycityhotels]: releasing new version... 
+[debug] [2026-03-04T11:20:43.226Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:43.227Z] Checked if tokens are valid: true, expires at: 1772626830857
+[debug] [2026-03-04T11:20:43.228Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/admin-teddycityhotels/channels/live/releases versionName=projects%2F207712314730%2Fsites%2Fadmin-teddycityhotels%2Fversions%2F8151399c1c1fd3b3
+[debug] [2026-03-04T11:20:43.228Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/admin-teddycityhotels/channels/live/releases {}
+[debug] [2026-03-04T11:20:45.305Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/admin-teddycityhotels/channels/live/releases 200

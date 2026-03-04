@@ -129,7 +129,7 @@ export class AdminsComponent implements OnInit {
       .create({
         fullname: value['fullname'] || '',
         email: value['email'] || '',
-        phoneNumber: value['phoneNumber'] || undefined,
+        phoneNumber: value['phoneNumber']?.trim() || undefined,
         temporaryPassword: value['temporaryPassword'] || '',
         isSuperAdmin: !!value['isSuperAdmin'],
         adminAccess,

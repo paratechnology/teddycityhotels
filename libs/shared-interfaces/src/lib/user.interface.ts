@@ -45,59 +45,6 @@ export interface IUserIndex {
   department?: string;
 }
 
-/**
- * Represents the full, detailed user profile stored within a firm's database.
- */
-export interface IFirmUser {
-  id: string;
-  firmId: string;
-  firstName: string;
-  lastName: string;
-  otherNames?: string;
-  fullname: string;
-  email: string;
-  phoneNumber?: string;
-  picture?: string;
-  signatureItemId?: string;
-  signatureUrl?: string;
-  signatureRefreshToken?: string;
-  signatureEmail?: string;
-  designation: string;
-  department?: string;
-  admin: boolean;
-  active?: boolean;
-  zid?: string;
-  isSuperAdmin?: boolean;
-  roles: {
-    canMatter: boolean;
-    canBill: boolean;
-    canSchedule: boolean;
-    fileManager: boolean;
-    librarian: boolean;
-    canAssign: boolean;
-  };
-  adminAccess?: Partial<AdminModuleAccess>;
-  fcmTokens: string[];
-  passwordResetToken: string;
-  createdAt: string;
-  passwordResetTokenExpires: string;
-  seenTours?: string[];
-}
-
-export type IFirmUserSubset = Pick<IFirmUser, 'id' | 'fullname'>;
-
-export interface IRegisterFirm {
-  firmName: string;
-  adminFirstName: string;
-  adminOtherName?: string;
-  adminLastName: string;
-  adminDesignation: string;
-  adminEmail: string;
-  adminPassword?: string;
-  isSuperAdmin?: boolean;
-  admin?: boolean;
-  roles?: IFirmUser['roles'];
-}
 
 export interface IAdminUser {
   id: string;

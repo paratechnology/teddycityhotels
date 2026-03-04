@@ -19,6 +19,15 @@ export class AdminUsersService {
     return this.firestore.db.collection('adminUsers');
   }
 
+  private normalizePhoneNumber(value?: string): string | undefined {
+    const trimmed = value?.trim();
+    return trimmed ? trimmed : undefined;
+  }
+
+  private isE164(value: string): boolean {
+    return /^\+[1-9]\d{7,14}$/.test(value);
+  }
+
   private resolveAccess(partial?: Partial<AdminModuleAccess>): AdminModuleAccess {
     return {
       ...defaultAdminModuleAccess,
@@ -87,12 +96,19 @@ export class AdminUsersService {
   }
 
   async createAdmin(payload: ICreateAdminUserDto): Promise<IAdminUser> {
-    const authUser = await admin.auth().createUser({
-      email: payload.email,
+    const normalizedPhone = this.normalizePhoneNumber(payload.phoneNumber);
+    const createRequest: admin.auth.CreateRequest = {
+      email: payload.email.trim(),
       password: payload.temporaryPassword,
-      displayName: payload.fullname,
-      phoneNumber: payload.phoneNumber,
-    });
+      displayName: payload.fullname.trim(),
+    };
+
+    // Firebase Auth accepts phoneNumber only in E.164 format.
+    if (normalizedPhone && this.isE164(normalizedPhone)) {
+      createRequest.phoneNumber = normalizedPhone;
+    }
+
+    const authUser = await admin.auth().createUser(createRequest);
 
     const adminAccess = this.resolveAccess(payload.adminAccess);
 
@@ -106,9 +122,8 @@ export class AdminUsersService {
     const now = new Date().toISOString();
     const adminUser: IAdminUser = {
       id: authUser.uid,
-      fullname: payload.fullname,
-      email: payload.email,
-      phoneNumber: payload.phoneNumber,
+      fullname: payload.fullname.trim(),
+      email: payload.email.trim(),
       admin: true,
       isSuperAdmin: Boolean(payload.isSuperAdmin),
       active: true,
@@ -117,6 +132,10 @@ export class AdminUsersService {
       createdAt: now,
       updatedAt: now,
     };
+
+    if (normalizedPhone) {
+      adminUser.phoneNumber = normalizedPhone;
+    }
 
     await this.getCollection().doc(authUser.uid).set(adminUser);
 
@@ -129,22 +148,26 @@ export class AdminUsersService {
       ? this.resolveAccess({ ...existing.adminAccess, ...payload.adminAccess })
       : existing.adminAccess;
 
-    const updates: Partial<IAdminUser> = {
-      fullname: payload.fullname ?? existing.fullname,
-      phoneNumber: payload.phoneNumber ?? existing.phoneNumber,
+    const updates: Record<string, unknown> = {
+      fullname: payload.fullname?.trim() || existing.fullname,
       active: payload.active ?? existing.active,
       isSuperAdmin: payload.isSuperAdmin ?? existing.isSuperAdmin,
       adminAccess,
       updatedAt: new Date().toISOString(),
     };
 
+    if (payload.phoneNumber !== undefined) {
+      const normalizedPhone = this.normalizePhoneNumber(payload.phoneNumber);
+      updates['phoneNumber'] = normalizedPhone ?? admin.firestore.FieldValue.delete();
+    }
+
     await this.getCollection().doc(adminId).set(updates, { merge: true });
 
     await admin.auth().setCustomUserClaims(adminId, {
       admin: true,
-      isSuperAdmin: updates.isSuperAdmin,
+      isSuperAdmin: Boolean(updates['isSuperAdmin']),
       adminAccess,
-      fullname: updates.fullname,
+      fullname: String(updates['fullname'] || existing.fullname),
     });
 
     return this.getAdminById(adminId);
