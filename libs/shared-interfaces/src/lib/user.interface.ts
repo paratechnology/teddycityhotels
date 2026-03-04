@@ -23,9 +23,17 @@ export const defaultAdminModuleAccess: AdminModuleAccess = {
   admins: false,
 };
 
+export interface IUserRoles {
+  canMatter: boolean;
+  canBill: boolean;
+  canSchedule: boolean;
+  canAssign: boolean;
+  fileManager: boolean;
+  librarian: boolean;
+}
+
 /**
- * Represents the minimal user data stored in the JWT and attached to `req.user`.
- * It is optimized for authentication and authorization checks.
+ * Minimal user model for auth/session claims and `req.user`.
  */
 export interface IUserIndex {
   fullname: string;
@@ -34,17 +42,55 @@ export interface IUserIndex {
   email: string;
   admin: boolean;
   isSuperAdmin: boolean;
-  roles: {
-    canBill: boolean;
-    canSchedule: boolean;
-    canAssign: boolean;
-    fileManager: boolean;
-    librarian: boolean;
-  };
+  roles: IUserRoles;
   adminAccess?: Partial<AdminModuleAccess>;
   department?: string;
 }
 
+/**
+ * Full user profile model used by existing server/client codepaths.
+ */
+export interface IFirmUser extends IUserIndex {
+  firstName: string;
+  lastName: string;
+  otherNames?: string;
+  phoneNumber?: string;
+  picture?: string;
+  signatureItemId?: string;
+  signatureUrl?: string;
+  signatureRefreshToken?: string;
+  signatureEmail?: string;
+  designation: string;
+  active?: boolean;
+  isTemporaryAccount?: boolean;
+  zid?: string;
+  salaryOverrides?: Record<string, unknown>;
+  tutorialProgress?: Record<string, unknown>;
+  fcmTokens: string[];
+  passwordResetToken: string;
+  passwordResetTokenExpires: string;
+  createdAt: string;
+  lastLoginAt?: string;
+  lastActiveAt?: string;
+  seenTours?: string[];
+  [key: string]: unknown;
+}
+
+export type IFirmUserSubset = Pick<IFirmUser, 'id' | 'fullname'> &
+  Partial<Pick<IFirmUser, 'email' | 'picture' | 'department' | 'designation'>>;
+
+export interface IRegisterFirm {
+  firmName: string;
+  adminFirstName: string;
+  adminOtherName?: string;
+  adminLastName: string;
+  adminDesignation: string;
+  adminEmail: string;
+  adminPassword?: string;
+  isSuperAdmin?: boolean;
+  admin?: boolean;
+  roles?: IUserRoles;
+}
 
 export interface IAdminUser {
   id: string;

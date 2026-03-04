@@ -12,14 +12,12 @@ import { FirestoreService } from './services/firestore.service';
 container.resolve(FirestoreService);
 
 import { AuthRoutes } from './routes/auth.routes';
-import { UserRoutes } from './routes/user.routes';
 import { AppRoutes } from './routes/app.routes';
 import { RoomRoutes } from './routes/room.routes';
 import { BookingRoutes } from './routes/booking.routes';
 import { PaymentRoutes } from './routes/payment.routes';
 import { NotificationRoutes } from './routes/notification.routes';
 import { AttachmentRoutes } from './routes/attachment.routes';
-import { TenantRoutes } from './routes/tenants.routes';
 import { SnookerRoutes } from './routes/snooker.routes';
 import { FinancialsRoutes } from './routes/financials.routes';
 import { AdminDashboardRoutes } from './routes/admin-dashboard.routes';
@@ -69,10 +67,8 @@ class App {
     apiRouter.use('/payments', new PaymentRoutes().router);
 
     // Protected/managed routes (guarded inside each route module)
-    apiRouter.use('/users', new UserRoutes().router);
     apiRouter.use('/notifications', new NotificationRoutes().router);
     apiRouter.use('/attachments', new AttachmentRoutes().router);
-    apiRouter.use('/tenants', new TenantRoutes().router);
     apiRouter.use('/financials', new FinancialsRoutes().router);
     apiRouter.use('/kitchen', new KitchenRoutes().router);
     apiRouter.use('/admin/dashboard', new AdminDashboardRoutes().router);
