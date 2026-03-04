@@ -3,19 +3,14 @@ import { Application, Request, Response, NextFunction } from 'express';
 
 // Define the allowed origins
 const allowedOrigins = [
-  'https://quickprolaw-cloud.web.app',
-  'https://app-quickprolaw--quickprolaw-cloud.us-central1.hosted.app',
-  'https://app.quickprolaw.com',
-  'https://www.quickprolaw.com',
-  'https://quickprolaw.com',
-  'https://app.saxumlegal.ng',
-  'https://saxumlegal.ng',
+  'https://admin.teddycityhotels.com',
+  'https://www.teddycityhotels.com',
+  'https://teddycityhotels.com',
   'http://localhost:4200',
   'http://localhost:8100',
   'https://localhost',
   'capacitor://localhost',
   'ionic://localhost',
-  'http://saxumlegal.ng',
 ];
 
 const corsOptions: cors.CorsOptions = {
