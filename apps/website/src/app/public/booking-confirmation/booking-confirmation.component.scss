@@ -1,14 +1,109 @@
+@use '../../../../theme/variables' as theme;
+
+:host {
+  display: block;
+  background-color: theme.$theme-background;
+  min-height: 100vh;
+}
+
 .booking-confirmation-page {
-  padding: 4rem 2rem;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 9rem 2rem 5rem;
   text-align: center;
 
+  .icon-wrap {
+    width: 72px;
+    height: 72px;
+    background: rgba(theme.$theme-secondary, 0.15);
+    border: 2px solid rgba(theme.$theme-secondary, 0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+
+    .material-icons {
+      font-size: 2.2rem;
+      color: theme.$theme-secondary;
+    }
+  }
+
   h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    font-family: theme.$font-family-serif;
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    color: theme.$theme-primary;
+    margin: 0 0 1rem;
+    line-height: 1.2;
+  }
+
+  .booking-id {
+    display: inline-block;
+    background: rgba(theme.$theme-secondary, 0.12);
+    border: 1px solid rgba(theme.$theme-secondary, 0.3);
+    border-radius: 8px;
+    padding: 0.6rem 1.4rem;
+    font-family: theme.$font-family-sans;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: theme.$theme-secondary;
+    margin-bottom: 1.5rem;
   }
 
   p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 1rem;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .actions {
+    margin-top: 2.5rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 0.85rem 2rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-primary {
+    background: theme.$theme-secondary;
+    color: #0d1b2a;
+    border: 2px solid theme.$theme-secondary;
+
+    &:hover {
+      background: #d4ae6e;
+      border-color: #d4ae6e;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(197, 160, 89, 0.35);
+    }
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.5);
+      color: #fff;
+    }
   }
 }

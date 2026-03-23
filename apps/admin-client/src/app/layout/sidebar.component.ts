@@ -7,6 +7,7 @@ import { LayoutStateService } from '../core/layout-state.service';
 
 type NavItem = {
   label: string;
+  icon: string;
   link: string;
   module: AdminModuleKey;
   superAdminOnly?: boolean;
@@ -21,16 +22,16 @@ type NavItem = {
 })
 export class SidebarComponent {
   items: NavItem[] = [
-    { label: 'Dashboard', link: '/dashboard', module: 'dashboard' },
-    { label: 'Bookings', link: '/bookings', module: 'bookings' },
-    { label: 'Rooms', link: '/rooms', module: 'rooms' },
-    { label: 'Snooker', link: '/snooker', module: 'snooker' },
-    { label: 'Financials', link: '/financials', module: 'financials' },
-    { label: 'Revenue', link: '/revenue', module: 'financials' },
-    { label: 'Swimming', link: '/swimming', module: 'financials' },
-    { label: 'Menu', link: '/kitchen', module: 'kitchen' },
-    { label: 'Notifications', link: '/notifications', module: 'notifications' },
-    { label: 'Admin Users', link: '/admins', module: 'admins', superAdminOnly: true },
+    { label: 'Dashboard',     icon: '📊', link: '/dashboard',     module: 'dashboard' },
+    { label: 'Bookings',      icon: '📅', link: '/bookings',      module: 'bookings' },
+    { label: 'Rooms',         icon: '🛏️', link: '/rooms',         module: 'rooms' },
+    { label: 'Snooker',       icon: '🎱', link: '/snooker',       module: 'snooker' },
+    { label: 'Financials',    icon: '💳', link: '/financials',    module: 'financials' },
+    { label: 'Revenue',       icon: '📈', link: '/revenue',       module: 'financials' },
+    { label: 'Swimming',      icon: '🏊', link: '/swimming',      module: 'financials' },
+    { label: 'Menu',          icon: '🍽️', link: '/kitchen',       module: 'kitchen' },
+    { label: 'Notifications', icon: '🔔', link: '/notifications', module: 'notifications' },
+    { label: 'Admin Users',   icon: '👥', link: '/admins',        module: 'admins', superAdminOnly: true },
   ];
 
   constructor(public session: AdminSessionService, public layout: LayoutStateService) {}

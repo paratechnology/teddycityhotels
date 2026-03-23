@@ -1,22 +1,28 @@
 <div class="rooms-page">
   <header class="rooms-header">
-    <h1>Our Rooms</h1>
-    <p>Find the perfect space for your stay.</p>
+    <span class="eyebrow">Accommodations</span>
+    <h1>Rooms &amp; Suites</h1>
+    <p>Thoughtfully appointed spaces crafted for rest, work, and celebration.</p>
   </header>
 
   <div class="rooms-list" *ngIf="rooms$ | async as rooms; else loading">
-    <div *ngFor="let room of rooms" class="room-card" [class.unavailable]="!room.availability.isAvailable">
+    <div *ngFor="let room of rooms"
+         class="room-card"
+         [class.unavailable]="!room.availability.isAvailable">
+
       <div class="room-image">
-        <img [src]="room.images[0]" [alt]="room.name">
+        <img [src]="room.images[0]" [alt]="room.name" loading="lazy">
+        <span class="room-badge">{{ room.type }}</span>
         <div class="room-price">
-          <span>${{ room.price }}</span> / night
+          <span>₦{{ room.price | number }}</span> / night
         </div>
       </div>
+
       <div class="room-details">
         <h3>{{ room.name }}</h3>
-        <p class="room-type">{{ room.type }} | Max Occupancy: {{ room.maxOccupancy }}</p>
+        <p class="room-type">Max occupancy: {{ room.maxOccupancy }} guest{{ room.maxOccupancy !== 1 ? 's' : '' }}</p>
         <p class="room-description">{{ room.description }}</p>
-        
+
         <div class="room-amenities">
           <span *ngFor="let amenity of room.amenities" class="amenity">
             <i class="material-icons">{{ amenity.icon }}</i> {{ amenity.name }}
@@ -24,11 +30,11 @@
         </div>
 
         <div class="room-actions">
-          <button class="btn btn-details">View Details</button>
-          <a [routerLink]="['/booking', room.id]">
-            <button class="btn btn-book" [disabled]="!room.availability.isAvailable">
-              {{ room.availability.isAvailable ? 'Book Now' : 'Unavailable' }}
-            </button>
+          <button class="btn btn-details">Details</button>
+          <a [routerLink]="room.availability.isAvailable ? ['/booking', room.id] : null"
+             class="btn btn-book"
+             [class.disabled]="!room.availability.isAvailable">
+            {{ room.availability.isAvailable ? 'Book Now' : 'Unavailable' }}
           </a>
         </div>
       </div>
@@ -38,6 +44,6 @@
 
 <ng-template #loading>
   <div class="loading-spinner">
-    <p>Loading rooms...</p>
+    <p>Loading rooms&hellip;</p>
   </div>
 </ng-template>

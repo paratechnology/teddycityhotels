@@ -11,29 +11,32 @@
   <p class="error-text" *ngIf="error">{{ error }}</p>
 
   <div class="cards" *ngIf="!loading && stats">
-    <article class="surface card metric">
+    <article class="surface card metric card-occupancy">
+      <div class="card-icon">🏨</div>
       <h3>Occupancy</h3>
-      <p>{{ stats.occupancyRate }}%</p>
+      <div class="metric-value">{{ stats.occupancyRate }}%</div>
       <small>{{ stats.occupiedRooms }} occupied / {{ stats.totalRooms }} total rooms</small>
     </article>
 
-    <article class="surface card metric">
+    <article class="surface card metric card-bookings">
+      <div class="card-icon">📋</div>
       <h3>Active Bookings</h3>
-      <p>{{ stats.activeBookings }}</p>
+      <div class="metric-value">{{ stats.activeBookings }}</div>
       <small>{{ stats.pendingBookings }} pending confirmation</small>
     </article>
 
-    <article class="surface card metric">
+    <article class="surface card metric card-revenue">
+      <div class="card-icon">💰</div>
       <h3>Revenue Today</h3>
-      <p>{{ stats.todayRevenue | currency : 'NGN' }}</p>
-      <small>Month to date: {{ stats.monthRevenue | currency : 'NGN' }}</small>
+      <div class="metric-value">{{ stats.todayRevenue | currency : 'NGN' : 'symbol-narrow' : '1.0-0' }}</div>
+      <small>Month to date: {{ stats.monthRevenue | currency : 'NGN' : 'symbol-narrow' : '1.0-0' }}</small>
     </article>
 
-    <article class="surface card metric">
+    <article class="surface card metric card-alerts">
+      <div class="card-icon">🔔</div>
       <h3>Pending Alerts</h3>
-      <p>{{ stats.pendingNotifications }}</p>
+      <div class="metric-value">{{ stats.pendingNotifications }}</div>
       <small>Unread admin notifications</small>
     </article>
   </div>
 </section>
-

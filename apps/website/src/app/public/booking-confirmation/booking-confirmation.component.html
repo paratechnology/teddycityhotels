@@ -1,6 +1,17 @@
 <div class="booking-confirmation-page" *ngIf="booking$ | async as booking">
-  <h2>Booking Confirmed!</h2>
-  <p>Thank you for your booking. Your booking ID is {{ booking.id }}.</p>
-  <p>We have sent a confirmation email to your registered email address.</p>
-  <a routerLink="/">Go back to the homepage</a>
+  <div class="icon-wrap">
+    <i class="material-icons">check</i>
+  </div>
+
+  <h2>Booking Confirmed</h2>
+
+  <div class="booking-id">Booking #{{ booking.id }}</div>
+
+  <p>Thank you for choosing Teddy City Hotel. Your reservation is confirmed.</p>
+  <p>A confirmation has been sent to your registered email address.</p>
+
+  <div class="actions">
+    <a routerLink="/" class="btn btn-primary">Back to Home</a>
+    <a routerLink="/rooms" class="btn btn-outline">Browse More Rooms</a>
+  </div>
 </div>

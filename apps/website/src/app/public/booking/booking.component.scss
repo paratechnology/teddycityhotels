@@ -1,93 +1,285 @@
 @use '../../../theme/variables' as theme;
 
+:host {
+  display: block;
+  background-color: theme.$theme-background;
+  min-height: 100vh;
+}
+
+// -------------------------------------------------------
+// Page shell
+// -------------------------------------------------------
 .booking-page {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  padding: 4rem 2rem;
-  max-width: 1200px;
+  max-width: 1180px;
   margin: 0 auto;
+  padding: 7.5rem 1.5rem 5rem; // top offset for fixed nav
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 2.5rem;
+  align-items: start;
 
-  .room-summary, .booking-form {
-    flex: 1 1 400px;
-    padding: 2rem;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    padding-top: 6.5rem;
+  }
+}
+
+// -------------------------------------------------------
+// Not-found state
+// -------------------------------------------------------
+.not-found {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 5rem 2rem;
+  color: rgba(255, 255, 255, 0.55);
+
+  h2 {
+    font-family: theme.$font-family-serif;
+    color: theme.$theme-primary;
+    margin-bottom: 1rem;
   }
 
-  .room-summary {
-    h2 {
-      font-family: theme.$font-family-serif;
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
+  a {
+    color: theme.$theme-secondary;
+    font-weight: 600;
 
-    p {
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-    }
+    &:hover { text-decoration: underline; }
+  }
+}
 
-    .price {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: theme.$theme-accent;
-    }
+// -------------------------------------------------------
+// Room summary panel (left column)
+// -------------------------------------------------------
+.room-summary {
+  position: sticky;
+  top: 7rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+
+  @media (max-width: 900px) {
+    position: static;
   }
 
-  .booking-form {
-    h3 {
-      font-family: theme.$font-family-serif;
-      font-size: 1.8rem;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
+  .room-image-wrap {
+    width: 100%;
+    padding-top: 60%;
+    position: relative;
+    overflow: hidden;
 
-    .form-field {
-      margin-bottom: 1.5rem;
-
-      label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
-        color: #495057;
-      }
-
-      input {
-        width: 100%;
-        padding: 0.75rem 1rem;
-        border: 1px solid #ced4da;
-        border-radius: 4px;
-        font-size: 1rem;
-        transition: border-color 0.3s ease;
-
-        &:focus {
-          outline: none;
-          border-color: theme.$theme-accent;
-        }
-      }
-    }
-
-    .btn-primary {
+    img {
+      position: absolute;
+      inset: 0;
       width: 100%;
-      padding: 1rem;
-      border: none;
-      border-radius: 4px;
-      background-color: theme.$theme-accent;
-      color: #fff;
-      font-size: 1.1rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-
-      &:hover {
-        background-color: darken(theme.$theme-accent, 8%);
-      }
-
-      &:disabled {
-        background-color: #e9ecef;
-        cursor: not-allowed;
-      }
+      height: 100%;
+      object-fit: cover;
     }
+
+    .image-fallback {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #0f2236, #1a3a56);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: theme.$font-family-serif;
+      font-size: 1.4rem;
+      color: rgba(255, 255, 255, 0.3);
+      letter-spacing: 2px;
+    }
+  }
+
+  .summary-body {
+    padding: 1.75rem 2rem;
+  }
+
+  .eyebrow {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: theme.$theme-secondary;
+    margin-bottom: 0.75rem;
+  }
+
+  h2 {
+    font-family: theme.$font-family-serif;
+    font-size: 2rem;
+    color: theme.$theme-primary;
+    margin: 0 0 0.75rem;
+    line-height: 1.2;
+  }
+
+  .room-desc {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 1.75rem;
+  }
+
+  .price-display {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    background: rgba(theme.$theme-secondary, 0.12);
+    border: 1px solid rgba(theme.$theme-secondary, 0.25);
+    border-radius: 10px;
+
+    .amount {
+      font-family: theme.$font-family-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: theme.$theme-secondary;
+    }
+
+    .per-night {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+}
+
+// -------------------------------------------------------
+// Booking form panel (right column)
+// -------------------------------------------------------
+.booking-form-panel {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 2rem 2.25rem;
+
+  @media (max-width: 480px) {
+    padding: 1.5rem 1.25rem;
+  }
+}
+
+.form-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  h3 {
+    font-family: theme.$font-family-serif;
+    font-size: 1.9rem;
+    color: theme.$theme-primary;
+    margin: 0 0 0.4rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+  }
+}
+
+// -------------------------------------------------------
+// Form fields
+// -------------------------------------------------------
+.booking-form {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field {
+  display: grid;
+  gap: 0.5rem;
+
+  label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 0.3px;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    font: inherit;
+    font-size: 0.95rem;
+    color: theme.$theme-primary;
+    outline: none;
+    transition: border-color 0.25s ease, background 0.25s ease;
+    box-sizing: border-box;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    &:focus {
+      border-color: rgba(theme.$theme-secondary, 0.7);
+      background: rgba(255, 255, 255, 0.09);
+    }
+  }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='rgba(255,255,255,0.4)' d='M0 0l6 8 6-8z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+
+    option {
+      background: #0d1b2a;
+      color: #fff;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+}
+
+.field--full {
+  grid-column: 1 / -1;
+}
+
+// -------------------------------------------------------
+// Submit button
+// -------------------------------------------------------
+.submit-btn {
+  width: 100%;
+  padding: 1rem 2rem;
+  margin-top: 0.5rem;
+  border: none;
+  border-radius: 50px;
+  background-color: theme.$theme-secondary;
+  color: #0d1b2a;
+  font-family: theme.$font-family-sans;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+
+  &:hover:not(:disabled) {
+    background-color: #d4ae6e;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(197, 160, 89, 0.4);
+  }
+
+  &:disabled {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.3);
+    cursor: not-allowed;
   }
 }

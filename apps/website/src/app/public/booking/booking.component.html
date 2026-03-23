@@ -1,42 +1,90 @@
-<div class="booking-page" *ngIf="room$ | async as room">
-  <div class="room-summary">
-    <h2>{{ room.name }}</h2>
-    <p>{{ room.description }}</p>
-    <div class="price">
-      <span>${{ room.price }}</span> / night
+<ng-container *ngIf="room$ | async as room; else notFound">
+  <div class="booking-page">
+
+    <!-- Left: Room summary -->
+    <aside class="room-summary">
+      <div class="room-image-wrap">
+        <img *ngIf="room.images?.length" [src]="room.images[0]" [alt]="room.name" loading="lazy">
+        <div *ngIf="!room.images?.length" class="image-fallback">No Image</div>
+      </div>
+      <div class="summary-body">
+        <span class="eyebrow">Your selection</span>
+        <h2>{{ room.name }}</h2>
+        <p class="room-desc">{{ room.description }}</p>
+        <div class="price-display">
+          <span class="amount">₦{{ room.price | number }}</span>
+          <span class="per-night">per night</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Right: Booking form -->
+    <section class="booking-form-panel">
+      <div class="form-header">
+        <h3>Complete Your Booking</h3>
+        <p>Fill in your details below to secure this room.</p>
+      </div>
+
+      <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()" class="booking-form">
+
+        <div class="field-row">
+          <div class="field">
+            <label for="checkInDate">Check-in Date</label>
+            <input type="date" id="checkInDate" formControlName="checkInDate" />
+          </div>
+          <div class="field">
+            <label for="checkOutDate">Check-out Date</label>
+            <input type="date" id="checkOutDate" formControlName="checkOutDate" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="numberOfGuests">Number of Guests</label>
+          <input type="number" id="numberOfGuests" formControlName="numberOfGuests"
+                 min="1" [max]="room.maxOccupancy" />
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="guestName">Full Name</label>
+            <input type="text" id="guestName" formControlName="guestName"
+                   placeholder="Your full name" />
+          </div>
+          <div class="field">
+            <label for="guestPhone">Phone Number</label>
+            <input type="tel" id="guestPhone" formControlName="guestPhone"
+                   placeholder="+234..." />
+          </div>
+        </div>
+
+        <div class="field field--full">
+          <label for="guestEmail">Email Address</label>
+          <input type="email" id="guestEmail" formControlName="guestEmail"
+                 placeholder="you@example.com" />
+        </div>
+
+        <div class="field field--full">
+          <label for="notes">Special Requests <span style="opacity:0.5; font-weight:400">(optional)</span></label>
+          <textarea id="notes" formControlName="notes"
+                    placeholder="Any preferences or requests for your stay…"></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn"
+                [disabled]="!bookingForm.valid">
+          Confirm &amp; Pay
+        </button>
+      </form>
+    </section>
+
+  </div>
+</ng-container>
+
+<ng-template #notFound>
+  <div class="booking-page">
+    <div class="not-found">
+      <h2>Room not found</h2>
+      <p>The room you selected is no longer available.</p>
+      <a routerLink="/rooms">Browse all rooms</a>
     </div>
   </div>
-
-  <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()" class="booking-form">
-    <h3>Book Your Stay</h3>
-    <div class="form-field">
-      <label for="checkInDate">Check-in Date</label>
-      <input type="date" id="checkInDate" formControlName="checkInDate" />
-    </div>
-    <div class="form-field">
-      <label for="checkOutDate">Check-out Date</label>
-      <input type="date" id="checkOutDate" formControlName="checkOutDate" />
-    </div>
-    <div class="form-field">
-      <label for="numberOfGuests">Number of Guests</label>
-      <input type="number" id="numberOfGuests" formControlName="numberOfGuests" />
-    </div>
-    <div class="form-field">
-      <label for="guestName">Guest Name</label>
-      <input type="text" id="guestName" formControlName="guestName" />
-    </div>
-    <div class="form-field">
-      <label for="guestEmail">Guest Email</label>
-      <input type="email" id="guestEmail" formControlName="guestEmail" />
-    </div>
-    <div class="form-field">
-      <label for="guestPhone">Guest Phone</label>
-      <input type="text" id="guestPhone" formControlName="guestPhone" />
-    </div>
-    <div class="form-field">
-      <label for="notes">Notes</label>
-      <textarea id="notes" formControlName="notes"></textarea>
-    </div>
-    <button type="submit" [disabled]="!bookingForm.valid" class="btn btn-primary">Book Now</button>
-  </form>
-</div>
+</ng-template>

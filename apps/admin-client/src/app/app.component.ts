@@ -46,7 +46,7 @@ import { PwaService } from './core/pwa.service';
       .main-container {
         display: grid;
         grid-template-columns: 250px 1fr;
-        min-height: calc(100vh - 64px);
+        min-height: calc(100vh - 74px);
         align-items: stretch;
         transition: grid-template-columns 0.2s ease;
       }

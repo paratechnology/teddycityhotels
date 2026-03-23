@@ -13,7 +13,8 @@
         [routerLinkActiveOptions]="{ exact: false }"
         [title]="item.label"
       >
-        {{ itemLabel(item) }}
+        <span class="nav-icon">{{ item.icon }}</span>
+        <span class="nav-label">{{ item.label }}</span>
       </a>
     </li>
   </ul>

@@ -2,7 +2,7 @@
   <article class="alert-card" *ngFor="let alert of alerts" (click)="open(alert)">
     <header>
       <strong>{{ alert.title }}</strong>
-      <button type="button" (click)="dismiss(alert.id, $event)">x</button>
+      <button type="button" (click)="dismiss(alert.id, $event)" aria-label="Dismiss">✕</button>
     </header>
     <p>{{ alert.message }}</p>
   </article>
