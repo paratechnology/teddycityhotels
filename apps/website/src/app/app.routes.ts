@@ -12,6 +12,7 @@ import { SwimmingComponent } from './public/swimming/swimming.component';
 import { BookingComponent } from './public/booking/booking.component';
 import { MenuComponent } from './public/menu/menu.component';
 import { ContactComponent } from './public/contact/contact.component';
+import { NotFoundComponent } from './public/not-found/not-found.component';
 
 export const routes: Routes = [
   {
@@ -53,10 +54,8 @@ export const routes: Routes = [
     component: SwimmingComponent
   },
   
- // Fallback route 
   {
     path: '**',
-    redirectTo: '',
-    pathMatch: 'full'
+    component: NotFoundComponent
   }
 ];

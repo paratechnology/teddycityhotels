@@ -43,7 +43,22 @@
 </div>
 
 <ng-template #loading>
-  <div class="loading-spinner">
-    <p>Loading rooms&hellip;</p>
+  <div class="skeleton-grid">
+    <div class="skeleton-card" *ngFor="let i of [1,2,3]">
+      <div class="skeleton-image shimmer"></div>
+      <div class="skeleton-body">
+        <div class="skeleton-line skeleton-title shimmer"></div>
+        <div class="skeleton-line skeleton-subtitle shimmer"></div>
+        <div class="skeleton-line skeleton-text shimmer"></div>
+        <div class="skeleton-line skeleton-text short shimmer"></div>
+        <div class="skeleton-amenities">
+          <div class="skeleton-pill shimmer" *ngFor="let j of [1,2,3]"></div>
+        </div>
+        <div class="skeleton-actions">
+          <div class="skeleton-btn shimmer"></div>
+          <div class="skeleton-btn shimmer"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </ng-template>

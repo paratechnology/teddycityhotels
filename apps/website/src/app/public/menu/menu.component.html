@@ -58,9 +58,19 @@
           </button>
         </div>
 
-        <div *ngIf="loading" class="empty-state">
-          <h3>Loading the kitchen menu</h3>
-          <p>Fresh items are on the way.</p>
+        <div *ngIf="loading" class="menu-skeleton-grid">
+          <div class="menu-skeleton-card" *ngFor="let i of [1,2,3,4,5,6]">
+            <div class="menu-skeleton-media shimmer"></div>
+            <div class="menu-skeleton-body">
+              <div class="menu-skeleton-line title shimmer"></div>
+              <div class="menu-skeleton-line text shimmer"></div>
+              <div class="menu-skeleton-line text short shimmer"></div>
+              <div class="menu-skeleton-row">
+                <div class="menu-skeleton-line price shimmer"></div>
+                <div class="menu-skeleton-btn shimmer"></div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div *ngIf="!loading && visibleMenuItems.length" class="menu-grid">
