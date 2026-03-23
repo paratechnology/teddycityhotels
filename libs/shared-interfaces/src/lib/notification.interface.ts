@@ -9,6 +9,10 @@ export enum NotificationType {
   KITCHEN_ORDER_CREATED = 'kitchen_order_created',
   KITCHEN_ORDER_STATUS_CHANGED = 'kitchen_order_status_changed',
   KITCHEN_PAYMENT_STATUS_CHANGED = 'kitchen_payment_status_changed',
+  CONTACT_INQUIRY_CREATED = 'contact_inquiry_created',
+  SWIMMING_BOOKING_CREATED = 'swimming_booking_created',
+  SWIMMING_BOOKING_STATUS_CHANGED = 'swimming_booking_status_changed',
+  SWIMMING_PAYMENT_STATUS_CHANGED = 'swimming_payment_status_changed',
 }
 
 export interface INotification {

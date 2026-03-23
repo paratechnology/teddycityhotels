@@ -47,6 +47,10 @@ export class BookingComponent implements OnInit {
             const bookingData = {
               ...this.bookingForm.value,
               roomId: room.id,
+              callbackUrl:
+                typeof window !== 'undefined'
+                  ? `${window.location.origin}/payment-verification`
+                  : undefined,
             };
             return this.bookingService.createBooking(bookingData);
           })

@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import {
   ICreateKitchenMenuItemDto,
+  IKitchenOrderCreateResponse,
   ICreateKitchenOrderDto,
   IKitchenMenuItem,
   IKitchenOrder,
@@ -17,11 +18,13 @@ import { BadRequestError, NotFoundError } from '../errors/http-errors';
 import { FinancialsService } from './financials.service';
 import { NotificationService } from './notification.service';
 import { NotificationType } from '@teddy-city-hotels/shared-interfaces';
+import { PaystackService } from './paystack.service';
 
 @injectable()
 export class KitchenService {
   constructor(
     @inject(FirestoreService) private firestore: FirestoreService,
+    @inject(PaystackService) private paystackService: PaystackService,
     @inject(FinancialsService) private financialsService: FinancialsService,
     @inject(NotificationService) private notificationService: NotificationService
   ) {}
@@ -163,7 +166,7 @@ export class KitchenService {
     await ref.delete();
   }
 
-  async createOrder(payload: ICreateKitchenOrderDto): Promise<IKitchenOrder> {
+  async createOrder(payload: ICreateKitchenOrderDto): Promise<IKitchenOrderCreateResponse> {
     if (!payload.customerName?.trim()) {
       throw new BadRequestError('Customer name is required.');
     }
@@ -201,7 +204,11 @@ export class KitchenService {
 
     const totalAmount = this.parseAmount(lines.reduce((sum, item) => sum + item.lineTotal, 0));
     const paymentMethod: KitchenOrderPaymentMethod = payload.paymentMethod;
-    const paymentStatus: KitchenOrderPaymentStatus = paymentMethod === 'online' ? 'paid' : 'pending';
+    if (paymentMethod === 'online' && !payload.customerEmail?.trim()) {
+      throw new BadRequestError('Customer email is required for online payment.');
+    }
+
+    const paymentStatus: KitchenOrderPaymentStatus = 'pending';
 
     const now = new Date().toISOString();
     const ref = this.getOrdersCollection().doc();
@@ -223,10 +230,6 @@ export class KitchenService {
 
     await ref.set(order);
 
-    if (order.paymentStatus === 'paid') {
-      await this.financialsService.upsertKitchenOrderRevenue(order);
-    }
-
     await this.notificationService.createAdminNotification({
       title: 'New Kitchen Order',
       body: `${order.customerName} placed order ${order.id}.`,
@@ -235,7 +238,35 @@ export class KitchenService {
       relatedId: order.id,
     });
 
-    return order;
+    if (paymentMethod === 'online') {
+      const paymentData = await this.paystackService.initializeTransaction({
+        email: String(payload.customerEmail || '').trim(),
+        amount: totalAmount,
+        callbackUrl: payload.callbackUrl,
+        metadata: {
+          type: 'kitchen_order',
+          orderId: order.id,
+        },
+      });
+
+      await ref.set(
+        {
+          paymentReference: paymentData.reference,
+          updatedAt: new Date().toISOString(),
+        },
+        { merge: true }
+      );
+
+      return {
+        order: {
+          ...order,
+          paymentReference: paymentData.reference,
+        },
+        paymentData,
+      };
+    }
+
+    return { order };
   }
 
   async listOrders(params: {
@@ -354,5 +385,14 @@ export class KitchenService {
     });
 
     return order;
+  }
+
+  async getOrderById(orderId: string): Promise<IKitchenOrder> {
+    const doc = await this.getOrdersCollection().doc(orderId).get();
+    if (!doc.exists) {
+      throw new NotFoundError('Order not found.');
+    }
+
+    return { id: doc.id, ...doc.data() } as IKitchenOrder;
   }
 }

@@ -4,7 +4,7 @@ steps:
       [
         "run",
         "deploy",
-        "quickprolaw-api",
+        "teddycityhotels-api",
         "--region=africa-south1",
         "--allow-unauthenticated",
         "--env-vars-file=apps/server/.env.yaml",

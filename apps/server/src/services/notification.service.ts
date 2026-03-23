@@ -98,7 +98,29 @@ export class NotificationService {
       ? Math.min(100, Math.max(1, params.pageSize))
       : 12;
 
-    const rows = await this.getAdminNotifications();
+    if (!params.search?.trim() && !params.read) {
+      const total = (await this.getAdminNotificationsCollection().count().get()).data().count;
+      const start = (page - 1) * pageSize;
+      const snapshot = await this.getAdminNotificationsCollection()
+        .orderBy('createdAt', 'desc')
+        .offset(start)
+        .limit(pageSize)
+        .get();
+
+      return {
+        data: snapshot.empty
+          ? []
+          : snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as IAdminNotification)),
+        total,
+        page,
+        pageSize,
+      };
+    }
+
+    const snapshot = await this.getAdminNotificationsCollection().orderBy('createdAt', 'desc').get();
+    const rows = snapshot.empty
+      ? []
+      : snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as IAdminNotification));
     const readFiltered = params.read
       ? rows.filter((row) => (params.read === 'read' ? row.read : !row.read))
       : rows;

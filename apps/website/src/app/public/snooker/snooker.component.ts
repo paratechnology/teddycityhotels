@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -11,7 +12,11 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ISnookerLeagueData, ISnookerPlayerRegistration } from '@teddy-city-hotels/shared-interfaces';
+import {
+  ICreatePublicSnookerRegistrationDto,
+  ISnookerLeagueData,
+} from '@teddy-city-hotels/shared-interfaces';
+import { PublicSnookerService } from './snooker.service';
 
 @Component({
   selector: 'app-snooker',
@@ -28,7 +33,7 @@ import { ISnookerLeagueData, ISnookerPlayerRegistration } from '@teddy-city-hote
     MatSnackBarModule,
     MatCardModule,
     MatTableModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
   templateUrl: './snooker.component.html',
   styleUrls: ['./snooker.component.scss'],
@@ -36,44 +41,21 @@ import { ISnookerLeagueData, ISnookerPlayerRegistration } from '@teddy-city-hote
 export class SnookerComponent implements OnInit {
   private fb = inject(FormBuilder);
   private snackBar = inject(MatSnackBar);
+  private snookerService = inject(PublicSnookerService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   registrationForm: FormGroup;
   isSubmitting = false;
-  
-  // Mock Data for UI development - this would come from a service in production
+  isLoadingLeague = false;
+
   leagueData: ISnookerLeagueData = {
-    seasonName: '2025 Winter Championship',
-    groups: [
-      {
-        id: 'g1',
-        name: 'Group A',
-        players: [
-          { id: 'p1', fullName: 'Chinedu O.', email: '', phoneNumber: '', skillLevel: 'Pro', registeredAt: '', isPaid: true, stats: { played: 5, won: 4, lost: 1, points: 12 } },
-          { id: 'p2', fullName: 'Sarah J.', email: '', phoneNumber: '', skillLevel: 'Intermediate', registeredAt: '', isPaid: true, stats: { played: 5, won: 3, lost: 2, points: 9 } },
-          { id: 'p3', fullName: 'Mike R.', email: '', phoneNumber: '', skillLevel: 'Pro', registeredAt: '', isPaid: true, stats: { played: 5, won: 2, lost: 3, points: 6 } },
-          { id: 'p4', fullName: 'David B.', email: '', phoneNumber: '', skillLevel: 'Intermediate', registeredAt: '', isPaid: true, stats: { played: 5, won: 1, lost: 4, points: 3 } },
-        ]
-      }
-    ],
-    matches: [
-      {
-        id: 'm1',
-        player1: { id: 'p1', name: 'Chinedu O.' },
-        player2: { id: 'p2', name: 'Sarah J.' },
-        dateScheduled: new Date(new Date().setDate(new Date().getDate() + 2)).toISOString(),
-        status: 'Scheduled',
-        stage: 'Group A'
-      },
-      {
-        id: 'm2',
-        player1: { id: 'p3', name: 'Mike R.' },
-        player2: { id: 'p4', name: 'David B.' },
-        score: { p1: 3, p2: 1 },
-        dateScheduled: new Date(new Date().setDate(new Date().getDate() - 1)).toISOString(),
-        status: 'Completed',
-        stage: 'Group A'
-      }
-    ]
+    seasonName: 'Teddy City Open',
+    groups: [],
+    matches: [],
+    competitionStatus: undefined,
+    registrationOpen: false,
+    registrationFee: 0,
   };
 
   displayedColumns: string[] = ['position', 'name', 'played', 'won', 'lost', 'points'];
@@ -84,12 +66,57 @@ export class SnookerComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9+\-\s]+$/)]],
       nickname: [''],
-      skillLevel: ['Beginner', Validators.required]
+      skillLevel: ['Beginner', Validators.required],
     });
   }
 
   ngOnInit() {
-    // In production, fetch this.leagueData from a service
+    this.loadLeagueData();
+    this.route.queryParamMap.subscribe((params) => {
+      const payment = params.get('payment');
+      if (!payment) return;
+
+      if (payment === 'success') {
+        this.snackBar.open('Registration payment confirmed. Welcome to the competition.', 'Close', {
+          duration: 5000,
+          panelClass: ['snackbar-success'],
+        });
+      } else {
+        this.snackBar.open('Payment was not completed. You can try the registration again.', 'Close', {
+          duration: 5000,
+        });
+      }
+
+      this.loadLeagueData();
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {},
+        replaceUrl: true,
+      });
+    });
+  }
+
+  loadLeagueData(): void {
+    this.isLoadingLeague = true;
+    this.snookerService.getLeagueData().subscribe({
+      next: (data) => {
+        this.leagueData = {
+          seasonName: data.seasonName,
+          groups: data.groups || [],
+          matches: data.matches || [],
+          competitionStatus: data.competitionStatus,
+          registrationOpen: data.registrationOpen ?? false,
+          registrationFee: data.registrationFee || 0,
+        };
+        this.isLoadingLeague = false;
+      },
+      error: () => {
+        this.isLoadingLeague = false;
+        this.snackBar.open('Unable to load snooker competition details right now.', 'Close', {
+          duration: 4000,
+        });
+      },
+    });
   }
 
   onSubmit() {
@@ -98,17 +125,43 @@ export class SnookerComponent implements OnInit {
       return;
     }
 
-    this.isSubmitting = true;
-    const formData: ISnookerPlayerRegistration = this.registrationForm.value;
-
-    // Simulate backend call
-    setTimeout(() => {
-      this.isSubmitting = false;
-      this.snackBar.open('Registration successful! Welcome to the league.', 'Close', {
-        duration: 5000,
-        panelClass: ['snackbar-success']
+    if (!this.leagueData.registrationOpen) {
+      this.snackBar.open('Registration is currently closed for this competition.', 'Close', {
+        duration: 4000,
       });
-      this.registrationForm.reset({ skillLevel: 'Beginner' });
-    }, 2000);
+      return;
+    }
+
+    this.isSubmitting = true;
+    const formData: ICreatePublicSnookerRegistrationDto = {
+      ...this.registrationForm.getRawValue(),
+      callbackUrl:
+        typeof window !== 'undefined'
+          ? `${window.location.origin}/payment-verification`
+          : undefined,
+    };
+
+    this.snookerService.register(formData).subscribe({
+      next: (response) => {
+        if (response.paymentData?.authorization_url) {
+          window.location.href = response.paymentData.authorization_url;
+          return;
+        }
+
+        this.isSubmitting = false;
+        this.snackBar.open('Registration successful. See you on the tables.', 'Close', {
+          duration: 5000,
+          panelClass: ['snackbar-success'],
+        });
+        this.registrationForm.reset({ skillLevel: 'Beginner' });
+        this.loadLeagueData();
+      },
+      error: (error) => {
+        this.isSubmitting = false;
+        this.snackBar.open(error?.error?.message || 'Registration could not be started.', 'Close', {
+          duration: 5000,
+        });
+      },
+    });
   }
 }

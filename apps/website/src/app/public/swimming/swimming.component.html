@@ -1,57 +1,142 @@
-<div class="swimming-container">
-  <section class="hero">
-    <h1>Dive into Luxury</h1>
-    <p>Experience our world-class swimming facilities at Teddy City Hotel.</p>
-    <button class="cta-button">Become a Member</button>
-  </section>
-
-  <section class="offerings">
-    <h2>Our Offerings</h2>
-    <div class="cards">
-      <div class="card">
-        <h3>Memberships</h3>
-        <p>Exclusive access for our valued members.</p>
-        <ul>
-          <li>Unlimited Pool Access</li>
-          <li>Gym Access</li>
-          <li>Sauna & Steam Room</li>
-        </ul>
-        <button class="card-btn">View Plans</button>
-      </div>
-      <div class="card">
-        <h3>Book a Swim</h3>
-        <p>Casual swimming for guests and visitors.</p>
-        <p>Enjoy a relaxing day by the pool.</p>
-        <button class="card-btn">Book Now</button>
-      </div>
-      <div class="card">
-        <h3>Swimming Lessons</h3>
-        <p>Professional coaching for all ages.</p>
-        <ul>
-          <li>Beginner to Advanced</li>
-          <li>Private & Group Sessions</li>
-          <li>Certified Instructors</li>
-        </ul>
-        <button class="card-btn">Learn More</button>
+<section class="swimming-page">
+  <div class="hero-shell">
+    <div class="hero-copy">
+      <span class="eyebrow">Teddy City Aquatics</span>
+      <h1>Plan pool access, lessons, or memberships without calling the front desk first.</h1>
+      <p>
+        Choose a package, reserve your visit, and pay online or in cash. The booking goes straight into
+        the admin operations queue for follow-up.
+      </p>
+      <div class="hero-metrics">
+        <div>
+          <strong>{{ offers.length }}</strong>
+          <span>active offers</span>
+        </div>
+        <div>
+          <strong>{{ selectedOffer?.unitLabel || 'pool access' }}</strong>
+          <span>current pricing basis</span>
+        </div>
       </div>
     </div>
-  </section>
 
-  <section class="pool-info">
-    <h2>Pool Information</h2>
-    <div class="info-grid">
-      <div class="info-item">
-        <strong>Hours:</strong> 6:00 AM - 10:00 PM Daily
+    <article class="hero-card">
+      <span class="eyebrow">Current estimate</span>
+      <h2>{{ estimatedAmount | currency : 'NGN' }}</h2>
+      <p *ngIf="selectedOffer">
+        {{ selectedOffer.name }} billed {{ selectedOffer.unitLabel }}.
+      </p>
+      <small *ngIf="latestBookingId">Latest booking: {{ latestBookingId }}</small>
+    </article>
+  </div>
+
+  <article *ngIf="statusBanner as banner" class="status-banner" [attr.data-tone]="banner.tone">
+    <h2>{{ banner.title }}</h2>
+    <p>{{ banner.message }}</p>
+  </article>
+
+  <div class="swimming-layout">
+    <section class="offers-panel">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Packages</span>
+          <h2>Choose your swimming experience</h2>
+        </div>
       </div>
-      <div class="info-item">
-        <strong>Temperature:</strong> Controlled for comfort
+
+      <div *ngIf="loading" class="empty-state">
+        <h3>Loading offers</h3>
+        <p>Please wait while we load the latest swimming packages.</p>
       </div>
-      <div class="info-item">
-        <strong>Length:</strong> 25m Lap Pool
+
+      <div *ngIf="!loading && offers.length" class="offer-grid">
+        <article *ngFor="let offer of offers; trackBy: trackOffer" class="offer-card" [class.selected]="selectedOffer?.type === offer.type">
+          <div class="offer-card__top">
+            <div>
+              <span class="chip" *ngIf="offer.featured">Recommended</span>
+              <h3>{{ offer.name }}</h3>
+              <p>{{ offer.description }}</p>
+            </div>
+            <strong>{{ offer.price | currency : 'NGN' }}</strong>
+          </div>
+
+          <ul>
+            <li *ngFor="let highlight of offer.highlights">{{ highlight }}</li>
+          </ul>
+
+          <button class="btn btn-dark" type="button" (click)="selectOffer(offer)">
+            {{ selectedOffer?.type === offer.type ? 'Selected' : 'Choose Offer' }}
+          </button>
+        </article>
       </div>
-      <div class="info-item">
-        <strong>Kids Area:</strong> Dedicated shallow pool
+    </section>
+
+    <section class="booking-panel">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Reservation</span>
+          <h2>Book your swim</h2>
+        </div>
       </div>
-    </div>
-  </section>
-</div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" class="booking-form">
+        <div class="field-grid">
+          <label class="field">
+            <span>Package</span>
+            <select formControlName="bookingType">
+              <option *ngFor="let offer of offers" [value]="offer.type">{{ offer.name }}</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Visit date</span>
+            <input type="date" formControlName="visitDate" [min]="minDate" />
+            <small *ngIf="form.controls.visitDate.touched && form.controls.visitDate.invalid">Visit date is required.</small>
+          </label>
+
+          <label class="field">
+            <span>Guests</span>
+            <input type="number" formControlName="attendees" min="1" />
+          </label>
+
+          <label class="field">
+            <span>Full name</span>
+            <input type="text" formControlName="customerName" placeholder="Your name" />
+            <small *ngIf="form.controls.customerName.touched && form.controls.customerName.invalid">Name is required.</small>
+          </label>
+
+          <label class="field">
+            <span>Email</span>
+            <input type="email" formControlName="customerEmail" placeholder="you@example.com" />
+            <small *ngIf="form.controls.customerEmail.touched && form.controls.customerEmail.hasError('required')">Email is required for online payment.</small>
+            <small *ngIf="form.controls.customerEmail.touched && form.controls.customerEmail.hasError('email')">Enter a valid email address.</small>
+          </label>
+
+          <label class="field">
+            <span>Phone</span>
+            <input type="tel" formControlName="customerPhone" placeholder="+234..." />
+          </label>
+
+          <label class="field field--full">
+            <span>Notes</span>
+            <textarea rows="4" formControlName="note" placeholder="Arrival timing, family details, or lesson preference"></textarea>
+          </label>
+        </div>
+
+        <div class="payment-switch">
+          <button type="button" class="payment-option" [class.active]="currentPaymentMethod === 'online'" (click)="setPaymentMethod('online')">
+            <span>Pay online</span>
+            <small>Secure payment redirect</small>
+          </button>
+          <button type="button" class="payment-option" [class.active]="currentPaymentMethod === 'cash'" (click)="setPaymentMethod('cash')">
+            <span>Pay cash</span>
+            <small>Admin confirms payment later</small>
+          </button>
+        </div>
+
+        <button class="btn btn-primary submit-btn" type="submit" [disabled]="submitting || loading">
+          {{ submitting ? 'Processing...' : currentPaymentMethod === 'online' ? 'Continue to Payment' : 'Reserve Swimming Slot' }}
+        </button>
+      </form>
+    </section>
+  </div>
+</section>

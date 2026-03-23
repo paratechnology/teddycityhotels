@@ -59,6 +59,7 @@ export class SnookerComponent implements OnInit {
       name: ['', Validators.required],
       season: [new Date().getFullYear().toString()],
       groupSize: [4, [Validators.required, Validators.min(2), Validators.max(8)]],
+      registrationFee: [0, [Validators.required, Validators.min(0)]],
     });
 
     this.playerForm = this.fb.group({
@@ -140,6 +141,7 @@ export class SnookerComponent implements OnInit {
       name: '',
       season: new Date().getFullYear().toString(),
       groupSize: this.competition?.groupSize || 4,
+      registrationFee: this.competition?.registrationFee || 0,
     });
   }
 
@@ -228,6 +230,7 @@ export class SnookerComponent implements OnInit {
       name: value['name'] || '',
       season: value['season'] || undefined,
       groupSize: Number(value['groupSize']) || 4,
+      registrationFee: Number(value['registrationFee']) || 0,
     };
 
     this.snookerService.createCompetition(payload).subscribe({

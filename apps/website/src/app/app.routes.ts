@@ -10,6 +10,8 @@ import { PaymentVerificationComponent } from './public/payment-verification/paym
 import { SnookerComponent } from './public/snooker/snooker.component';
 import { SwimmingComponent } from './public/swimming/swimming.component';
 import { BookingComponent } from './public/booking/booking.component';
+import { MenuComponent } from './public/menu/menu.component';
+import { ContactComponent } from './public/contact/contact.component';
 
 export const routes: Routes = [
   {
@@ -31,6 +33,14 @@ export const routes: Routes = [
   {
     path: 'payment-verification',
     component: PaymentVerificationComponent
+  },
+  {
+    path: 'menu',
+    component: MenuComponent
+  },
+  {
+    path: 'contact',
+    component: ContactComponent
   },
 
   // --- HOTEL ROUTES ---

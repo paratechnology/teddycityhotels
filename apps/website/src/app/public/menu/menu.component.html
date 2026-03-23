@@ -1,0 +1,234 @@
+<div class="menu-page">
+  <section class="menu-hero">
+    <div class="menu-hero__copy">
+      <span class="eyebrow">Teddy City Kitchen</span>
+      <h1>Restaurant ordering built for hotel guests, visitors, and quick pickup.</h1>
+      <p>
+        Browse the live menu, build an order in seconds, and choose either secure online payment or
+        cash payment handled at pickup or service time.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#checkout">Start Order</a>
+        <a class="btn btn-secondary" routerLink="/rooms">Book a Stay</a>
+      </div>
+    </div>
+
+    <div class="menu-hero__stats">
+      <div class="stat-card">
+        <span class="stat-value">{{ menuItems.length }}</span>
+        <span class="stat-label">live menu items</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">{{ getFilterCount('food') }}</span>
+        <span class="stat-label">kitchen plates</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">{{ getFilterCount('drink') }}</span>
+        <span class="stat-label">drinks and refreshers</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu-shell">
+    <article *ngIf="statusBanner as banner" class="status-banner" [attr.data-tone]="banner.tone">
+      <span class="status-banner__eyebrow">{{ banner.eyebrow }}</span>
+      <h2>{{ banner.title }}</h2>
+      <p>{{ banner.message }}</p>
+    </article>
+
+    <div class="menu-layout">
+      <section class="menu-browser">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Live categories</span>
+            <h2>Choose your favorites</h2>
+          </div>
+          <p>Every item below is coming from the active admin-managed kitchen menu.</p>
+        </div>
+
+        <div class="filter-bar">
+          <button
+            *ngFor="let filter of filters"
+            type="button"
+            class="filter-pill"
+            [class.active]="activeFilter === filter.value"
+            (click)="setActiveFilter(filter.value)">
+            <span>{{ filter.label }}</span>
+            <strong>{{ getFilterCount(filter.value) }}</strong>
+          </button>
+        </div>
+
+        <div *ngIf="loading" class="empty-state">
+          <h3>Loading the kitchen menu</h3>
+          <p>Fresh items are on the way.</p>
+        </div>
+
+        <div *ngIf="!loading && visibleMenuItems.length" class="menu-grid">
+          <article *ngFor="let item of visibleMenuItems; trackBy: trackMenuItem" class="dish-card">
+            <div class="dish-card__media" [class.has-image]="!!item.imageUrl">
+              <img *ngIf="item.imageUrl" [src]="item.imageUrl" [alt]="item.name" />
+              <div *ngIf="!item.imageUrl" class="media-placeholder">
+                <span>{{ item.category === 'food' ? 'Chef Plate' : 'Signature Pour' }}</span>
+              </div>
+              <span class="category-chip">{{ item.category === 'food' ? 'Food' : 'Drink' }}</span>
+            </div>
+
+            <div class="dish-card__body">
+              <div class="dish-card__header">
+                <div>
+                  <h3>{{ item.name }}</h3>
+                  <p>{{ item.description || 'Prepared fresh by Teddy City Kitchen.' }}</p>
+                </div>
+                <strong>{{ item.price | currency: 'NGN':'symbol':'1.2-2' }}</strong>
+              </div>
+
+              <div class="dish-card__actions">
+                <span *ngIf="getQuantity(item.id)" class="quantity-chip">
+                  {{ getQuantity(item.id) }} in order
+                </span>
+                <button type="button" class="btn btn-dark" (click)="addToCart(item)">
+                  {{ getQuantity(item.id) ? 'Add Another' : 'Add to Order' }}
+                </button>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div *ngIf="!loading && !visibleMenuItems.length" class="empty-state">
+          <h3>No items match this filter yet</h3>
+          <p>Switch categories or check back after the next kitchen update.</p>
+        </div>
+      </section>
+
+      <aside class="order-sidebar" id="checkout">
+        <section class="order-card">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Your order</span>
+              <h2>{{ cartCount }} item{{ cartCount === 1 ? '' : 's' }} selected</h2>
+            </div>
+            <p>Adjust quantities here before you check out.</p>
+          </div>
+
+          <div *ngIf="cart.length; else emptyCart" class="cart-list">
+            <div *ngFor="let entry of cart; trackBy: trackCartEntry" class="cart-line">
+              <div class="cart-line__copy">
+                <h3>{{ entry.item.name }}</h3>
+                <p>{{ entry.item.price | currency: 'NGN':'symbol':'1.2-2' }} each</p>
+              </div>
+
+              <div class="cart-line__actions">
+                <div class="stepper">
+                  <button type="button" (click)="decreaseQuantity(entry.item.id)">-</button>
+                  <span>{{ entry.quantity }}</span>
+                  <button type="button" (click)="increaseQuantity(entry.item.id)">+</button>
+                </div>
+                <strong>{{ entry.item.price * entry.quantity | currency: 'NGN':'symbol':'1.2-2' }}</strong>
+                <button type="button" class="link-button" (click)="removeFromCart(entry.item.id)">
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #emptyCart>
+            <div class="empty-state compact">
+              <h3>Your cart is empty</h3>
+              <p>Add dishes or drinks from the menu to begin checkout.</p>
+            </div>
+          </ng-template>
+
+          <div class="totals-card">
+            <div class="totals-row">
+              <span>Subtotal</span>
+              <strong>{{ subtotal | currency: 'NGN':'symbol':'1.2-2' }}</strong>
+            </div>
+            <p>Online orders redirect securely to Paystack. Cash orders remain pending until an admin confirms payment.</p>
+          </div>
+        </section>
+
+        <section class="order-card checkout-card">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Checkout</span>
+              <h2>Customer details</h2>
+            </div>
+            <p>Separate from the menu so ordering stays clear on both mobile and desktop.</p>
+          </div>
+
+          <form [formGroup]="checkoutForm" (ngSubmit)="submitOrder()" class="checkout-form">
+            <div class="field-grid">
+              <label class="field">
+                <span>Customer name</span>
+                <input type="text" formControlName="customerName" placeholder="Full name" />
+                <small *ngIf="checkoutForm.controls.customerName.touched && checkoutForm.controls.customerName.invalid">
+                  Customer name is required.
+                </small>
+              </label>
+
+              <label class="field">
+                <span>Email address</span>
+                <input type="email" formControlName="customerEmail" placeholder="you@example.com" />
+                <small *ngIf="checkoutForm.controls.customerEmail.touched && checkoutForm.controls.customerEmail.hasError('required')">
+                  Email is required for online payment.
+                </small>
+                <small *ngIf="checkoutForm.controls.customerEmail.touched && checkoutForm.controls.customerEmail.hasError('email')">
+                  Enter a valid email address.
+                </small>
+              </label>
+
+              <label class="field">
+                <span>Phone number</span>
+                <input type="tel" formControlName="customerPhone" placeholder="+234..." />
+              </label>
+
+              <label class="field field--full">
+                <span>Order note</span>
+                <textarea
+                  rows="4"
+                  formControlName="note"
+                  placeholder="Pickup timing, room number, or any preparation note"></textarea>
+              </label>
+            </div>
+
+            <div class="payment-switch">
+              <button
+                type="button"
+                class="payment-option"
+                [class.active]="currentPaymentMethod === 'online'"
+                (click)="setPaymentMethod('online')">
+                <span>Pay online</span>
+                <small>Secure redirect to Paystack</small>
+              </button>
+
+              <button
+                type="button"
+                class="payment-option"
+                [class.active]="currentPaymentMethod === 'cash'"
+                (click)="setPaymentMethod('cash')">
+                <span>Pay cash</span>
+                <small>Admin confirms payment later</small>
+              </button>
+            </div>
+
+            <button type="submit" class="btn btn-primary submit-button" [disabled]="submitting || !cart.length">
+              {{
+                submitting
+                  ? 'Processing...'
+                  : currentPaymentMethod === 'online'
+                    ? 'Continue to Secure Payment'
+                    : 'Place Cash Order'
+              }}
+            </button>
+          </form>
+
+          <div *ngIf="latestOrderId" class="post-order-note">
+            <span class="eyebrow">Latest order</span>
+            <h3>{{ latestOrderId }}</h3>
+            <p>Keep this reference handy if you need to follow up with the kitchen or reception.</p>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </section>
+</div>

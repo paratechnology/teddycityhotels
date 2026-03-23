@@ -35,7 +35,15 @@
 
           <div class="season-info" *ngIf="leagueData">
             <h2>{{ leagueData.seasonName }}</h2>
-            <p>The current season is underway. Check the standings to see who is leading the pack.</p>
+            <p *ngIf="leagueData.registrationOpen">
+              Registration is open.
+              <span *ngIf="(leagueData.registrationFee || 0) > 0">
+                Entry fee: {{ leagueData.registrationFee | currency : 'NGN' : 'symbol-narrow' : '1.0-0' }}.
+              </span>
+            </p>
+            <p *ngIf="!leagueData.registrationOpen">
+              Registration is currently closed. Check the standings to see who is leading the pack.
+            </p>
           </div>
         </div>
       </mat-tab>
@@ -43,6 +51,9 @@
       <!-- Standings Tab -->
       <mat-tab label="Standings">
         <div class="tab-content">
+          <div class="empty-state" *ngIf="!leagueData.groups.length && !isLoadingLeague">
+            Standings will appear once paid registrations are grouped.
+          </div>
           <div *ngFor="let group of leagueData.groups" class="group-table-container">
             <h3>{{ group.name }}</h3>
             <table mat-table [dataSource]="group.players" class="mat-elevation-z0">
@@ -80,6 +91,9 @@
       <!-- Fixtures Tab -->
       <mat-tab label="Fixtures & Results">
         <div class="tab-content">
+          <div class="empty-state" *ngIf="!leagueData.matches.length && !isLoadingLeague">
+            Fixtures will be published after registration closes and groups are generated.
+          </div>
           <div class="matches-list">
             <div *ngFor="let match of leagueData.matches" class="match-card">
               <div class="match-header">
@@ -110,7 +124,16 @@
         <div class="tab-content registration-container" id="register">
           <div class="form-wrapper">
             <h2>Join the League</h2>
-            <p>Fill out the form below to register for the next season.</p>
+            <p *ngIf="leagueData.registrationOpen">
+              Fill out the form below to register for the next season.
+              <span *ngIf="(leagueData.registrationFee || 0) > 0">
+                Entry fee:
+                {{ leagueData.registrationFee | currency : 'NGN' : 'symbol-narrow' : '1.0-0' }}.
+              </span>
+            </p>
+            <p *ngIf="!leagueData.registrationOpen">
+              Registration is currently closed for this competition.
+            </p>
             
             <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
               <div class="form-row">
@@ -151,12 +174,23 @@
               </mat-form-field>
 
               <div class="form-actions">
-                <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting || registrationForm.invalid">
+                <button
+                  mat-raised-button
+                  color="primary"
+                  type="submit"
+                  [disabled]="isSubmitting || registrationForm.invalid || !leagueData.registrationOpen"
+                >
                   <mat-spinner diameter="20" *ngIf="isSubmitting"></mat-spinner>
-                  <span *ngIf="!isSubmitting">Submit Registration</span>
+                  <span *ngIf="!isSubmitting">
+                    {{
+                      (leagueData.registrationFee || 0) > 0
+                        ? 'Continue to Payment'
+                        : 'Submit Registration'
+                    }}
+                  </span>
                 </button>
               </div>
-            </form>w
+            </form>
           </div>
         </div>
       </mat-tab>

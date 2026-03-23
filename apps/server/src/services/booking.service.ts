@@ -53,7 +53,17 @@ export class BookingService {
   }
 
   async createBooking(bookingData: CreateBookingDto, user?: { email?: string; id?: string }): Promise<any> {
-    const { roomId, checkInDate, checkOutDate, numberOfGuests, guestName, guestEmail, guestPhone, notes } = bookingData;
+    const {
+      roomId,
+      checkInDate,
+      checkOutDate,
+      numberOfGuests,
+      guestName,
+      guestEmail,
+      guestPhone,
+      notes,
+      callbackUrl,
+    } = bookingData;
 
     const roomRef = this.getRoomsCollection().doc(roomId);
     const roomDoc = await roomRef.get();
@@ -109,7 +119,15 @@ export class BookingService {
 
     const payerEmail = guestEmail || user?.email;
     if (payerEmail) {
-      const paymentData = await this.paystackService.initializePayment(payerEmail, totalPrice, newBooking.id);
+      const paymentData = await this.paystackService.initializeTransaction({
+        email: payerEmail,
+        amount: totalPrice,
+        callbackUrl,
+        metadata: {
+          type: 'booking',
+          bookingId: newBooking.id,
+        },
+      });
       return { booking: newBooking, paymentData };
     }
 
@@ -152,6 +170,22 @@ export class BookingService {
     const pageSize = Number.isFinite(params.pageSize)
       ? Math.min(100, Math.max(1, params.pageSize))
       : 12;
+
+    if (!params.search?.trim() && !params.status && !params.roomId) {
+      const baseQuery = this.getBookingsCollection().orderBy('createdAt', 'desc');
+      const total = (await this.getBookingsCollection().count().get()).data().count;
+      const start = (page - 1) * pageSize;
+      const snapshot = await baseQuery.offset(start).limit(pageSize).get();
+
+      return {
+        data: snapshot.empty
+          ? []
+          : snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Booking)),
+        total,
+        page,
+        pageSize,
+      };
+    }
 
     const records = await this.getAllBookings({
       status: params.status,

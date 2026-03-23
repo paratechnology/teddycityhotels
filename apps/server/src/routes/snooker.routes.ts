@@ -16,6 +16,7 @@ export class SnookerRoutes {
 
   private initializeRoutes() {
     this.router.get('/', this.controller.getLeagueData);
+    this.router.post('/register', this.controller.registerPublicPlayer);
     this.router.get('/players', this.controller.getPlayers);
     this.router.get('/players/:playerId', this.controller.getPlayerById);
     this.router.get('/matches', this.controller.getMatches);

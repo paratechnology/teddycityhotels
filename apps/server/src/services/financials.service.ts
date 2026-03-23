@@ -10,6 +10,8 @@ import {
   IRevenueListResponse,
   IRevenuePoint,
   IRevenueRecord,
+  ISnookerPlayer,
+  ISwimmingBooking,
   RevenuePaymentMethod,
   RevenuePaymentStatus,
   RevenueSourceType,
@@ -334,6 +336,100 @@ export class FinancialsService {
         id: ref.id,
         sourceType: 'food_and_beverage',
         relatedId: order.id,
+        description: String(payload.description),
+        amount: Number(payload.amount || 0),
+        paymentMethod: (payload.paymentMethod as RevenuePaymentMethod) || 'cash',
+        paymentStatus,
+        createdAt: now,
+        updatedAt: now,
+        receivedAt: now,
+      };
+      await ref.set(next);
+      return;
+    }
+
+    const doc = snapshot.docs[0];
+    await doc.ref.set(payload, { merge: true });
+  }
+
+  async upsertSnookerRegistrationRevenue(player: ISnookerPlayer, amount: number): Promise<void> {
+    if (!Number.isFinite(Number(amount)) || Number(amount) <= 0) {
+      return;
+    }
+
+    const snapshot = await this.getRevenueCollection()
+      .where('sourceType', '==', 'snooker_registration')
+      .where('relatedId', '==', player.id)
+      .limit(1)
+      .get();
+
+    const now = new Date().toISOString();
+    const paymentStatus: RevenuePaymentStatus = player.isPaid ? 'paid' : player.paymentStatus || 'pending';
+
+    const payload: Partial<IRevenueRecord> = {
+      sourceType: 'snooker_registration',
+      relatedId: player.id,
+      description: `Snooker registration (${player.fullName})`,
+      amount: Number(amount || 0),
+      paymentMethod: 'online',
+      paymentStatus,
+      updatedAt: now,
+      receivedAt: paymentStatus === 'paid' ? now : undefined,
+    };
+
+    if (snapshot.empty) {
+      if (paymentStatus !== 'paid') return;
+
+      const ref = this.getRevenueCollection().doc();
+      const next: IRevenueRecord = {
+        id: ref.id,
+        sourceType: 'snooker_registration',
+        relatedId: player.id,
+        description: String(payload.description),
+        amount: Number(payload.amount || 0),
+        paymentMethod: 'online',
+        paymentStatus,
+        createdAt: now,
+        updatedAt: now,
+        receivedAt: now,
+      };
+      await ref.set(next);
+      return;
+    }
+
+    const doc = snapshot.docs[0];
+    await doc.ref.set(payload, { merge: true });
+  }
+
+  async upsertSwimmingBookingRevenue(booking: ISwimmingBooking): Promise<void> {
+    const snapshot = await this.getRevenueCollection()
+      .where('sourceType', '==', 'swimming')
+      .where('relatedId', '==', booking.id)
+      .limit(1)
+      .get();
+
+    const now = new Date().toISOString();
+    const paymentStatus: RevenuePaymentStatus = booking.paymentStatus;
+
+    const payload: Partial<IRevenueRecord> = {
+      sourceType: 'swimming',
+      relatedId: booking.id,
+      description: `Swimming ${booking.bookingType.replace(/_/g, ' ')} (${booking.customerName})`,
+      amount: Number(booking.amount || 0),
+      paymentMethod: booking.paymentMethod,
+      paymentStatus,
+      updatedAt: now,
+      receivedAt: paymentStatus === 'paid' ? now : undefined,
+    };
+
+    if (snapshot.empty) {
+      if (paymentStatus !== 'paid') return;
+
+      const ref = this.getRevenueCollection().doc();
+      const next: IRevenueRecord = {
+        id: ref.id,
+        sourceType: 'swimming',
+        relatedId: booking.id,
         description: String(payload.description),
         amount: Number(payload.amount || 0),
         paymentMethod: (payload.paymentMethod as RevenuePaymentMethod) || 'cash',

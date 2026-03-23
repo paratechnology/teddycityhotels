@@ -9,6 +9,8 @@ const allowedOrigins = [
   'https://www.admin-teddycityhotels.web.app',
   'https://www.teddycityhotels.com',
   'https://teddycityhotels.com',
+  'https://teddycityhotels1.web.app',
+  'https://www.teddycityhotels1.web.app',
   'http://localhost:4200',
   'http://localhost:8100',
   'https://localhost',

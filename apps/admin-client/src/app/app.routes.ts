@@ -56,6 +56,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/revenue/revenue.component').then((m) => m.RevenueComponent),
   },
   {
+    path: 'swimming',
+    canActivate: [authGuard, moduleGuard],
+    data: { module: 'financials' },
+    loadComponent: () => import('./pages/swimming/swimming.component').then((m) => m.SwimmingAdminComponent),
+  },
+  {
     path: 'kitchen',
     canActivate: [authGuard, moduleGuard],
     data: { module: 'kitchen' },

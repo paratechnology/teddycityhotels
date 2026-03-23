@@ -1,0 +1,424 @@
+
+> nx run website:serve:development --host=0.0.0.0 --port=4200
+
+[1m[33m[39m[22m
+[1m[33mWarning: This is a simple server for use in testing or debugging Angular applications[39m[22m
+[1m[33mlocally. It hasn't been reviewed for security issues.[39m[22m
+[1m[33m[39m[22m
+[1m[33mBinding this server to an open connection can result in compromising your application or[39m[22m
+[1m[33mcomputer. Using a different host than the one passed to the "--host" flag might result in[39m[22m
+[1m[33mwebsocket connection issues. You might need to use "--disable-host-check" if that's the[39m[22m
+[1m[33mcase.[39m[22m
+[1m[33m    [39m[22m
+- Generating browser application bundles (phase: setup)...
+[32m√[39m Browser application bundle generation complete.
+[37m[0m[0m[39m
+[37m[0m[1mInitial chunk files[22m                                    [2m | [22m[1mNames[22m                     [2m | [22m [1mRaw size[22m[0m[39m
+[37m[0m[32mvendor.js[39m[37m                                              [2m | [22m[2mvendor[22m                    [2m | [22m  [36m7.33 MB[39m[37m[2m | [22m[0m[39m
+[37m[0m[32mmain.js[39m[37m                                                [2m | [22m[2mmain[22m                      [2m | [22m[36m505.55 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[32mpolyfills.js[39m[37m                                           [2m | [22m[2mpolyfills[22m                 [2m | [22m[36m238.74 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[32mstyles.css, styles.js[39m[37m                                  [2m | [22m[2mstyles[22m                    [2m | [22m[36m219.09 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[32mruntime.js[39m[37m                                             [2m | [22m[2mruntime[22m                   [2m | [22m [36m13.13 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[0m[39m
+[37m[0m[1m [22m                                                      [2m | [22m[1mInitial total[22m             [2m | [22m  [1m8.30 MB[22m[0m[39m
+[37m[0m[0m[39m
+[37m[0m[1mLazy chunk files[22m                                       [2m | [22m[1mNames[22m                     [2m | [22m [1mRaw size[22m[0m[39m
+[37m[0m[32mnode_modules_angular_animations_fesm2022_browser_mjs.js[39m[37m[2m | [22m[2mangular-animations-browser[22m[2m | [22m[36m236.12 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[0m[39m
+[37m[0mBuild at: [1m[37m2026-03-22T23:30:43.011Z[39m[37m[22m - Hash: [1m[37m5071c51dbfac7644[39m[37m[22m - Time: [1m[37m92545[39m[37m[22mms[0m[39m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/styles.scss[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 28, column 8 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/theme.scss:28:8:[39m[22m
+[1m[33mGlobal built-in functions are deprecated and will be removed in Dart Sass 3.0.0.[39m[22m
+[1m[33mUse color.adjust instead.[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info and automated migrator: https://sass-lang.com/d/import[39m[22m
+[1m[33m[39m[22m
+[1m[33m28 |     50: lighten(theme-vars.$theme-primary, 40%),[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\theme.scss 29:9  @use[39m[22m
+[1m[33mapps\website\src\styles.scss 4:1  root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/styles.scss[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 28, column 8 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/theme.scss:28:8:[39m[22m
+[1m[33mlighten() is deprecated. Suggestions:[39m[22m
+[1m[33m[39m[22m
+[1m[33mcolor.scale($color, $lightness: 100%)[39m[22m
+[1m[33mcolor.adjust($color, $lightness: 40%)[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info: https://sass-lang.com/d/color-functions[39m[22m
+[1m[33m[39m[22m
+[1m[33m28 |     50: lighten(theme-vars.$theme-primary, 40%),[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\theme.scss 29:9  @use[39m[22m
+[1m[33mapps\website\src\styles.scss 4:1  root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/styles.scss[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 29, column 9 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/theme.scss:29:9:[39m[22m
+[1m[33mGlobal built-in functions are deprecated and will be removed in Dart Sass 3.0.0.[39m[22m
+[1m[33mUse color.adjust instead.[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info and automated migrator: https://sass-lang.com/d/import[39m[22m
+[1m[33m[39m[22m
+[1m[33m29 |     100: lighten(theme-vars.$theme-primary, 30%),[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\theme.scss 30:10  @use[39m[22m
+[1m[33mapps\website\src\styles.scss 4:1   root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/styles.scss[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 29, column 9 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/theme[39m[22m[1m[33m.scss:29:9:[39m[22m
+[1m[33mlighten() is deprecated. Suggestions:[39m[22m
+[1m[33m[39m[22m
+[1m[33mcolor.scale($color, $lightness: 100%)[39m[22m
+[1m[33mcolor.adjust($color, $lightness: 30%)[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info: https://sass-lang.com/d/color-functions[39m[22m
+[1m[33m[39m[22m
+[1m[33m29 |     100: lighten(theme-vars.$theme-primary, 30%),[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\theme.scss 30:10  @use[39m[22m
+[1m[33mapps\website\src\styles.scss 4:1   root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/styles.scss[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 30, column 9 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/theme.scss:30:9:[39m[22m
+[1m[33mGlobal built-in functions are deprecated and will be removed in Dart Sass 3.0.0.[39m[22m
+[1m[33mUse color.adjust instead.[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info and automated migrator: https://sass-lang.com/d/import[39m[22m
+[1m[33m[39m[22m
+[1m[33m30 |     200: lighten(theme-vars.$theme-primary, 20%),[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\theme.scss 31:10  @use[39m[22m
+[1m[33mapps\website\src\styles.scss 4:1   root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/styles.scss[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 30, column 9 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/theme.scss:30:9:[39m[22m
+[1m[33mlighten() is deprecated. Suggestions:[39m[22m
+[1m[33m[39m[22m
+[1m[33mcolor.scale($color, $lightness: 100%)[39m[22m
+[1m[33mcolor.adjust($color, $lightness: 20%)[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info: https://sass-lang.com/d/color-functions[39m[22m
+[1m[33m[39m[22m
+[1m[33m30 |     200: lighten(theme-vars.$theme-primary, 20%),[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\theme.scss 31:10  @use[39m[22m
+[1m[33mapps\website\src\styles.scss 4:1   root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/styles.scss[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 31, column 9 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/theme.scss:31:9:[39m[22m
+[1m[33mGlobal built-in functions are deprecated and will be removed in Dart Sass 3.0.0.[39m[22m
+[1m[33mUse color.adjust instead.[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info and automated migrator: https://sass-lang.com/d/import[39m[22m
+[1m[33m[39m[22m
+[1m[33m31 |     300: lighten(theme-vars.$theme-primary, 10%),[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\we[39m[22m[1m[33mbsite\src\theme.scss 32:10  @use[39m[22m
+[1m[33mapps\website\src\styles.scss 4:1   root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/styles.scss[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 31, column 9 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/theme.scss:31:9:[39m[22m
+[1m[33mlighten() is deprecated. Suggestions:[39m[22m
+[1m[33m[39m[22m
+[1m[33mcolor.scale($color, $lightness: 100%)[39m[22m
+[1m[33mcolor.adjust($color, $lightness: 10%)[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info: https://sass-lang.com/d/color-functions[39m[22m
+[1m[33m[39m[22m
+[1m[33m31 |     300: lighten(theme-vars.$theme-primary, 10%),[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\theme.scss 32:10  @use[39m[22m
+[1m[33mapps\website\src\styles.scss 4:1   root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/styles.scss[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 34, column 9 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/theme.scss:34:9:[39m[22m
+[1m[33mGlobal built-in functions are deprecated and will be removed in Dart Sass 3.0.0.[39m[22m
+[1m[33mUse color.adjust instead.[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info and automated migrator: https://sass-lang.com/d/import[39m[22m
+[1m[33m[39m[22m
+[1m[33m34 |     600: darken(theme-vars.$theme-primary, 5%),[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\theme.scss 35:10  @use[39m[22m
+[1m[33mapps\website\src\styles.scss 4:1   root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/styles.scss[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 34, column 9 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/theme.scss:34:9:[39m[22m
+[1m[33mdarken() is deprecated. Suggestions:[39m[22m
+[1m[33m[39m[22m
+[1m[33mcolor.scale($color, $lightness: -5%)[39m[22m
+[1m[33mcolor.adjust($color, $lightness: -5%)[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info: https://sass-lang.com/d/color-functions[39m[22m
+[1m[33m[39m[22m
+[1m[33m34 |     600: darken(theme-vars.$theme-primary, 5%),[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\theme.scss 35:10  @use[39m[22m
+[1m[33mapps\website\src\styles.scss 4:1   root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/styles.scss[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33m38 repetitive deprecation warni[39m[22m[1m[33mngs omitted.[39m[22m
+[1m[33mRun in verbose mode to see all warnings.[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/app/public/about-summary/about-summary.component.scss?ngResource[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 134, column 15 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/app/public/about-summary/about-summary.component.scss:134:15:[39m[22m
+[1m[33mGlobal built-in functions are deprecated and will be removed in Dart Sass 3.0.0.[39m[22m
+[1m[33mUse color.adjust instead.[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info and automated migrator: https://sass-lang.com/d/import[39m[22m
+[1m[33m[39m[22m
+[1m[33m134 |         color: lighten(theme.$theme-secondary, 10%);[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\app\public\about-summary\about-summary.component.scss 135:16  root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/app/public/about-summary/about-summary.component.scss?ngResource[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 134, column 15 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/app/public/about-summary/about-summary.component.scss:134:15:[39m[22m
+[1m[33mlighten() is deprecated. Suggestions:[39m[22m
+[1m[33m[39m[22m
+[1m[33mcolor.scale($color, $lightness: 22.7678571429%)[39m[22m
+[1m[33mcolor.adjust($color, $lightness: 10%)[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info: https://sass-lang.com/d/color-functions[39m[22m
+[1m[33m[39m[22m
+[1m[33m134 |         color: lighten(theme.$theme-secondary, 10%);[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\app\public\about-summary\about-summary.component.scss 135:16  root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/app/public/booking/booking.component.scss?ngResource[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 83, column 26 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/app/public/booking/booking.component.scss:83:26:[39m[22m
+[1m[33mGlobal built-in functions are deprecated and will be removed in Dart Sass 3.0.0.[39m[22m
+[1m[33mUse color.adjust instead.[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info and automated migrator: https://sass-lang.com/d/import[39m[22m
+[1m[33m[39m[22m
+[1m[33m83 |         background-color: darken(the[39m[22m[1m[33mme.$theme-accent, 8%);[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\app\public\booking\booking.component.scss 84:27  root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/app/public/booking/booking.component.scss?ngResource[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 83, column 26 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/app/public/booking/booking.component.scss:83:26:[39m[22m
+[1m[33mdarken() is deprecated. Suggestions:[39m[22m
+[1m[33m[39m[22m
+[1m[33mcolor.scale($color, $lightness: -14.2657342657%)[39m[22m
+[1m[33mcolor.adjust($color, $lightness: -8%)[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info: https://sass-lang.com/d/color-functions[39m[22m
+[1m[33m[39m[22m
+[1m[33m83 |         background-color: darken(theme.$theme-accent, 8%);[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\app\public\booking\booking.component.scss 84:27  root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/app/public/footer/footer.component.scss?ngResource[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 114, column 11 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/app/public/footer/footer.component.scss:114:11:[39m[22m
+[1m[33mGlobal built-in functions are deprecated and will be removed in Dart Sass 3.0.0.[39m[22m
+[1m[33mUse color.adjust instead.[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info and automated migrator: https://sass-lang.com/d/import[39m[22m
+[1m[33m[39m[22m
+[1m[33m114 |     color: darken(theme.$theme-text-dark, 25%); // Darker ivory for copyright[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\app\public\footer\footer.component.scss 115:12  root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/app/public/footer/footer.component.scss?ngResource[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 114, column 11 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/app/public/footer/footer.component.scss:114:11:[39m[22m
+[1m[33mdarken() is deprecated. Suggestions:[39m[22m
+[1m[33m[39m[22m
+[1m[33mcolor.scale($color, $lightness: -28.5874439462%)[39m[22m
+[1m[33mcolor.adjust($color, $lightness: -25%)[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info: https://sass-lang.com/d/color-functions[39m[22m
+[1m[33m[39m[22m
+[1m[33m114 |     color: darken(theme.$the[39m[22m[1m[33mme-text-dark, 25%); // Darker ivory for copyright[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\app\public\footer\footer.component.scss 115:12  root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/app/public/hero/hero.component.scss?ngResource[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 110, column 30 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/app/public/hero/hero.component.scss:110:30:[39m[22m
+[1m[33mGlobal built-in functions are deprecated and will be removed in Dart Sass 3.0.0.[39m[22m
+[1m[33mUse color.adjust instead.[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info and automated migrator: https://sass-lang.com/d/import[39m[22m
+[1m[33m[39m[22m
+[1m[33m110 |             background-color: darken(theme.$theme-accent, 8%);[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\app\public\hero\hero.component.scss 111:31  root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/app/public/hero/hero.component.scss?ngResource[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 110, column 30 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/app/public/hero/hero.component.scss:110:30:[39m[22m
+[1m[33mdarken() is deprecated. Suggestions:[39m[22m
+[1m[33m[39m[22m
+[1m[33mcolor.scale($color, $lightness: -14.2657342657%)[39m[22m
+[1m[33mcolor.adjust($color, $lightness: -8%)[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info: https://sass-lang.com/d/color-functions[39m[22m
+[1m[33m[39m[22m
+[1m[33m110 |             background-color: darken(theme.$theme-accent, 8%);[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\app\public\hero\hero.component.scss 111:31  root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/app/public/hero/hero.component.scss?ngResource[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 188, column 28 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/app/public/hero/hero.component.scss:188:28:[39m[22m
+[1m[33mGlobal built-in functions are deprecated and will be removed in Dart Sass 3.0.0.[39m[22m
+[1m[33mUse color.adjust instead.[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info and automated migrator: https://sass-lang.com/d/import[39m[22m
+[1m[33m[39m[22m
+[1m[33m188 |           background-color: darken(theme.$theme-acce[39m[22m
+[37m[39m
+[37m** Angular Live Development Server is listening on 0.0.0.0:4200, open your browser on http://localhost:4200/ **[39m
+[37m[39m
+[37m[39m
+[37m[92m√[39m[37m Compiled successfully.[39m
+[1m[33mnt, 8%);[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\app\public\hero\hero.component.scss 189:29  root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/app/public/hero/hero.component.scss?ngResource[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 188, column 28 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/app/public/hero/hero.component.scss:188:28:[39m[22m
+[1m[33mdarken() is deprecated. Suggestions:[39m[22m
+[1m[33m[39m[22m
+[1m[33mcolor.scale($color, $lightness: -14.2657342657%)[39m[22m
+[1m[33mcolor.adjust($color, $lightness: -8%)[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info: https://sass-lang.com/d/color-functions[39m[22m
+[1m[33m[39m[22m
+[1m[33m188 |           background-color: darken(theme.$theme-accent, 8%);[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\app\public\hero\hero.component.scss 189:29  root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/app/public/rooms/rooms.component.scss?ngResource[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 158, column 32 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/app/public/rooms/rooms.component.scss:158:32:[39m[22m
+[1m[33mGlobal built-in functions are deprecated and will be removed in Dart Sass 3.0.0.[39m[22m
+[1m[33mUse color.adjust instead.[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info and automated migrator: https://sass-lang.com/d/import[39m[22m
+[1m[33m[39m[22m
+[1m[33m158 |               background-color: darken(theme.$theme-accent, 8%);[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\app\public\rooms\rooms.component.scss 159:33  root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/app/public/rooms/rooms.component.scss?ngResource[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 158, column 32 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/app/public/rooms/rooms.component.scss:158:32:[39m[22m
+[1m[33mdarken() is deprecated. Suggestions:[39m[22m
+[1m[33m[39m[22m
+[1m[33mcolor.scale($color, $lightness: -14.2657342657%)[39m[22m
+[1m[33mcolor.adjust($color, $lightness: -8%)[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info: https://sass-lang.com/d/color-functions[39m[22m
+[1m[33m[39m[22m
+[1m[33m158 |               background-color: darken(theme.$theme-accent, 8%);[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\sr[39m[22m[1m[33mc\app\public\rooms\rooms.component.scss 159:33  root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/app/public/rooms/rooms.component.scss?ngResource[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 159, column 28 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/app/public/rooms/rooms.component.scss:159:28:[39m[22m
+[1m[33mGlobal built-in functions are deprecated and will be removed in Dart Sass 3.0.0.[39m[22m
+[1m[33mUse color.adjust instead.[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info and automated migrator: https://sass-lang.com/d/import[39m[22m
+[1m[33m[39m[22m
+[1m[33m159 |               border-color: darken(theme.$theme-accent, 8%);[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\app\public\rooms\rooms.component.scss 160:29  root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/app/public/rooms/rooms.component.scss?ngResource[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 159, column 28 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/app/public/rooms/rooms.component.scss:159:28:[39m[22m
+[1m[33mdarken() is deprecated. Suggestions:[39m[22m
+[1m[33m[39m[22m
+[1m[33mcolor.scale($color, $lightness: -14.2657342657%)[39m[22m
+[1m[33mcolor.adjust($color, $lightness: -8%)[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info: https://sass-lang.com/d/color-functions[39m[22m
+[1m[33m[39m[22m
+[1m[33m159 |               border-color: darken(theme.$theme-accent, 8%);[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\app\public\rooms\rooms.component.scss 160:29  root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/app/public/snooker/snooker.component.scss?ngResource[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 352, column 28 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/app/public/snooker/snooker.component.scss:352:28:[39m[22m
+[1m[33mGlobal built-in functions are deprecated and will be removed in Dart Sass 3.0.0.[39m[22m
+[1m[33mUse color.adjust instead.[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info and automated migrator: https://sass-lang.com/d/import[39m[22m
+[1m[33m[39m[22m
+[1m[33m352 |           background-color: darken(theme.$theme-secondary, 10%);[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\app\public\snooke[39m[22m[1m[33mr\snooker.component.scss 353:29  root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[0m[36m./apps/website/src/app/public/snooker/snooker.component.scss?ngResource[39m[33m[0m - [0m[33mWarning: [39m[33m[0mModule Warning (from ./node_modules/sass-loader/dist/cjs.js):[39m[22m
+[1m[33mDeprecation Warning on line 352, column 28 of file:///C:/Users/sochi/apps/teddycityhotels/apps/website/src/app/public/snooker/snooker.component.scss:352:28:[39m[22m
+[1m[33mdarken() is deprecated. Suggestions:[39m[22m
+[1m[33m[39m[22m
+[1m[33mcolor.scale($color, $lightness: -17.8321678322%)[39m[22m
+[1m[33mcolor.adjust($color, $lightness: -10%)[39m[22m
+[1m[33m[39m[22m
+[1m[33mMore info: https://sass-lang.com/d/color-functions[39m[22m
+[1m[33m[39m[22m
+[1m[33m352 |           background-color: darken(theme.$theme-secondary, 10%);[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33mapps\website\src\app\public\snooker\snooker.component.scss 353:29  root stylesheet[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[1m[33m[39m[22m
+[32m√[39m Browser application bundle generation complete.
+[37m[0m[0m[39m
+[37m[0m[1mInitial chunk files[22m[2m | [22m[1mNames[22m  [2m | [22m[1mRaw size[22m[0m[39m
+[37m[0m[32mruntime.js[39m[37m         [2m | [22m[2mruntime[22m[2m | [22m[36m13.13 kB[39m[37m[2m | [22m[0m[39m
+[37m[0m[0m[39m
+[37m[0m5 unchanged chunks[0m[39m
+[37m[0m[0m[39m
+[37m[0mBuild at: [1m[37m2026-03-22T23:30:56.117Z[39m[37m[22m - Hash: [1m[37mf4ff548bf4e566a1[39m[37m[22m - Time: [1m[37m7740[39m[37m[22mms[0m[39m
+[37m[39m
+[37m[92m√[39m[37m Compiled successfully.[39m

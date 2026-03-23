@@ -27,6 +27,7 @@ export class SidebarComponent {
     { label: 'Snooker', link: '/snooker', module: 'snooker' },
     { label: 'Financials', link: '/financials', module: 'financials' },
     { label: 'Revenue', link: '/revenue', module: 'financials' },
+    { label: 'Swimming', link: '/swimming', module: 'financials' },
     { label: 'Menu', link: '/kitchen', module: 'kitchen' },
     { label: 'Notifications', link: '/notifications', module: 'notifications' },
     { label: 'Admin Users', link: '/admins', module: 'admins', superAdminOnly: true },

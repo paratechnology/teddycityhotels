@@ -1,0 +1,95 @@
+<section class="contact-page">
+  <div class="contact-hero">
+    <div>
+      <span class="eyebrow">Contact Teddy City</span>
+      <h1>Talk to the hotel team about stays, dining, swimming, or events.</h1>
+      <p>
+        Use this form for anything that needs a real response from operations. We route it into the
+        admin system so the right team can pick it up quickly.
+      </p>
+    </div>
+    <div class="hero-card">
+      <h2>Direct channels</h2>
+      <ul>
+        <li><strong>Email:</strong> info&#64;teddycityhotel.com</li>
+        <li><strong>Phone:</strong> +234 800 000 0000</li>
+        <li><strong>Location:</strong> Teddy City, Hotel District, Enugu</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="contact-layout">
+    <article class="surface info-panel">
+      <h2>What we can help with</h2>
+      <div class="info-grid">
+        <div>
+          <h3>Room bookings</h3>
+          <p>Stay changes, corporate stays, or arrival planning.</p>
+        </div>
+        <div>
+          <h3>Kitchen orders</h3>
+          <p>Private dining, menu questions, or bulk food requests.</p>
+        </div>
+        <div>
+          <h3>Swimming and leisure</h3>
+          <p>Lessons, memberships, day access, or group use.</p>
+        </div>
+        <div>
+          <h3>Events</h3>
+          <p>Meeting rooms, celebrations, and hospitality support.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="surface form-panel">
+      <div class="status success" *ngIf="successMessage">{{ successMessage }}</div>
+      <div class="status error" *ngIf="error">{{ error }}</div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" class="contact-form">
+        <div class="field-grid">
+          <label class="field">
+            <span>Full name</span>
+            <input type="text" formControlName="name" placeholder="Your name" />
+            <small *ngIf="form.controls.name.touched && form.controls.name.invalid">Name is required.</small>
+          </label>
+
+          <label class="field">
+            <span>Email</span>
+            <input type="email" formControlName="email" placeholder="you@example.com" />
+            <small *ngIf="form.controls.email.touched && form.controls.email.hasError('required')">Email is required.</small>
+            <small *ngIf="form.controls.email.touched && form.controls.email.hasError('email')">Enter a valid email address.</small>
+          </label>
+
+          <label class="field">
+            <span>Phone</span>
+            <input type="tel" formControlName="phone" placeholder="+234..." />
+          </label>
+
+          <label class="field">
+            <span>Category</span>
+            <select formControlName="category">
+              <option *ngFor="let category of categories" [value]="category.value">{{ category.label }}</option>
+            </select>
+          </label>
+
+          <label class="field field--full">
+            <span>Subject</span>
+            <input type="text" formControlName="subject" placeholder="What do you need help with?" />
+            <small *ngIf="form.controls.subject.touched && form.controls.subject.invalid">Subject is required.</small>
+          </label>
+
+          <label class="field field--full">
+            <span>Message</span>
+            <textarea rows="6" formControlName="message" placeholder="Share the details so our team can respond properly."></textarea>
+            <small *ngIf="form.controls.message.touched && form.controls.message.hasError('required')">Message is required.</small>
+            <small *ngIf="form.controls.message.touched && form.controls.message.hasError('minlength')">Please add a bit more detail.</small>
+          </label>
+        </div>
+
+        <button class="btn btn-primary" type="submit" [disabled]="submitting">
+          {{ submitting ? 'Sending...' : 'Send Inquiry' }}
+        </button>
+      </form>
+    </article>
+  </div>
+</section>

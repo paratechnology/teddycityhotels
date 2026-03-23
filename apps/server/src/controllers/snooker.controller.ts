@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { injectable, inject } from 'tsyringe';
 import { SnookerService } from '../services/snooker.service';
 import {
+  ICreatePublicSnookerRegistrationDto,
   ICreateSnookerCompetitionDto,
   IGenerateSnookerGroupsDto,
   IRecordSnookerResultDto,
@@ -103,6 +104,17 @@ export class SnookerController {
   public createPlayer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const player = await this.snookerService.createPlayer(req.body);
+      res.status(201).json(player);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public registerPublicPlayer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const player = await this.snookerService.initializePublicRegistration(
+        req.body as ICreatePublicSnookerRegistrationDto
+      );
       res.status(201).json(player);
     } catch (error) {
       next(error);

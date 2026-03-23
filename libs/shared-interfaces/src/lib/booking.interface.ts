@@ -32,6 +32,7 @@ export interface CreateBookingDto {
   guestPhone?: string;
   notes?: string;
   source?: BookingSource;
+  callbackUrl?: string;
 }
 
 export interface UpdateBookingStatusDto {

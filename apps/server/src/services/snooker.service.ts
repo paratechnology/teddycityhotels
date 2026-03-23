@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import {
+  ICreatePublicSnookerRegistrationDto,
   ICreateSnookerCompetitionDto,
   IGenerateSnookerGroupsDto,
   IRecordSnookerResultDto,
@@ -8,17 +9,24 @@ import {
   ISnookerLeagueData,
   ISnookerMatch,
   ISnookerPlayer,
+  ISnookerRegistrationResponse,
   ISnookerStandingRow,
   PaginatedResponse,
 } from '@teddy-city-hotels/shared-interfaces';
 import { BadRequestError, NotFoundError } from '../errors/http-errors';
 import { FirestoreService } from './firestore.service';
+import { PaystackService } from './paystack.service';
+import { FinancialsService } from './financials.service';
 
 type PagingParams = { page: number; pageSize: number; search?: string };
 
 @injectable()
 export class SnookerService {
-  constructor(@inject(FirestoreService) private firestore: FirestoreService) {}
+  constructor(
+    @inject(FirestoreService) private firestore: FirestoreService,
+    @inject(PaystackService) private paystackService: PaystackService,
+    @inject(FinancialsService) private financialsService: FinancialsService
+  ) {}
 
   private getCompetitionRef() {
     return this.firestore.db.collection('snookerCompetition').doc('current');
@@ -74,6 +82,53 @@ export class SnookerService {
       [copy[idx], copy[swapWith]] = [copy[swapWith], copy[idx]];
     }
     return copy;
+  }
+
+  private normalizeRegistrationFee(value?: number): number {
+    const amount = Number(value || 0);
+    if (!Number.isFinite(amount) || amount < 0) {
+      throw new BadRequestError('Registration fee must be a non-negative number.');
+    }
+    return Math.round(amount * 100) / 100;
+  }
+
+  private normalizePlayerRegistration(
+    player: Partial<ISnookerPlayer>
+  ): Pick<ISnookerPlayer, 'fullName' | 'email' | 'phoneNumber' | 'nickname' | 'skillLevel'> {
+    const fullName = String(player.fullName || '').trim();
+    const email = String(player.email || '').trim().toLowerCase();
+    const phoneNumber = String(player.phoneNumber || '').trim();
+
+    if (!fullName) {
+      throw new BadRequestError('Full name is required.');
+    }
+    if (!email) {
+      throw new BadRequestError('Email is required.');
+    }
+    if (!phoneNumber) {
+      throw new BadRequestError('Phone number is required.');
+    }
+
+    const skillLevel = (player.skillLevel || 'Beginner') as ISnookerPlayer['skillLevel'];
+    return {
+      fullName,
+      email,
+      phoneNumber,
+      nickname: String(player.nickname || '').trim() || undefined,
+      skillLevel,
+    };
+  }
+
+  private async findExistingPlayerByContact(email: string, phoneNumber: string): Promise<ISnookerPlayer | null> {
+    const players = await this.getAllPlayers();
+    return (
+      players.find((player) => {
+        return (
+          player.email.trim().toLowerCase() === email.trim().toLowerCase() ||
+          player.phoneNumber.trim() === phoneNumber.trim()
+        );
+      }) || null
+    );
   }
 
   private async clearCollection(collection: FirebaseFirestore.CollectionReference): Promise<void> {
@@ -332,6 +387,7 @@ export class SnookerService {
       status: 'registration',
       groupSize,
       knockoutSize: 0,
+      registrationFee: this.normalizeRegistrationFee(dto.registrationFee),
       groups: [],
       createdAt: now,
       updatedAt: now,
@@ -350,9 +406,9 @@ export class SnookerService {
       throw new BadRequestError('Group generation is only allowed during registration.');
     }
 
-    const players = await this.getAllPlayers();
+    const players = (await this.getAllPlayers()).filter((player) => player.isPaid);
     if (players.length < 4) {
-      throw new BadRequestError('At least 4 registered players are required.');
+      throw new BadRequestError('At least 4 paid registered players are required.');
     }
 
     const groupSize = this.clampGroupSize(dto.groupSize || competition.groupSize);
@@ -627,6 +683,9 @@ export class SnookerService {
       seasonName: state.competition?.name || `Teddy City Open ${new Date().getFullYear()}`,
       groups,
       matches: state.matches.data,
+      competitionStatus: state.competition?.status,
+      registrationOpen: state.competition?.status === 'registration',
+      registrationFee: state.competition?.registrationFee || 0,
     };
   }
 
@@ -659,23 +718,105 @@ export class SnookerService {
     return { id: doc.id, ...doc.data() } as ISnookerPlayer;
   }
 
+  async initializePublicRegistration(
+    dto: ICreatePublicSnookerRegistrationDto
+  ): Promise<ISnookerRegistrationResponse> {
+    const competition = await this.requireCompetition();
+    if (competition.status !== 'registration') {
+      throw new BadRequestError('Snooker registration is currently closed.');
+    }
+
+    const registration = this.normalizePlayerRegistration(dto);
+    const existingPlayer = await this.findExistingPlayerByContact(registration.email, registration.phoneNumber);
+
+    if (existingPlayer?.isPaid) {
+      throw new BadRequestError('This player is already registered for the current competition.');
+    }
+
+    const now = new Date().toISOString();
+    const playerRef = existingPlayer
+      ? this.getPlayersCollection().doc(existingPlayer.id)
+      : this.getPlayersCollection().doc();
+
+    const player: ISnookerPlayer = {
+      ...(existingPlayer || {}),
+      ...registration,
+      id: playerRef.id,
+      registeredAt: existingPlayer?.registeredAt || now,
+      isPaid: false,
+      paymentStatus: 'pending',
+      paymentReference: existingPlayer?.paymentReference,
+      stats: existingPlayer?.stats || { played: 0, won: 0, lost: 0, points: 0, frameDifference: 0 },
+      groupId: '',
+      groupName: '',
+    };
+
+    await playerRef.set(
+      {
+        ...player,
+        updatedAt: now,
+      },
+      { merge: true }
+    );
+
+    if (competition.registrationFee <= 0) {
+      const paidPlayer = await this.markPlayerPaid(player.id);
+      return { player: paidPlayer };
+    }
+
+    const paymentData = await this.paystackService.initializeTransaction({
+      email: player.email,
+      amount: competition.registrationFee,
+      callbackUrl: dto.callbackUrl,
+      metadata: {
+        type: 'snooker_registration',
+        playerId: player.id,
+        competitionId: competition.id,
+      },
+    });
+
+    await playerRef.set(
+      {
+        paymentReference: paymentData.reference,
+        paymentStatus: 'pending',
+        updatedAt: new Date().toISOString(),
+      },
+      { merge: true }
+    );
+
+    return {
+      player: {
+        ...player,
+        paymentReference: paymentData.reference,
+        paymentStatus: 'pending',
+      },
+      paymentData,
+    };
+  }
+
   async createPlayer(player: ISnookerPlayer): Promise<ISnookerPlayer> {
     const competition = await this.requireCompetition();
     if (competition.status !== 'registration') {
       throw new BadRequestError('Player registration is only open during registration stage.');
     }
 
+    const registration = this.normalizePlayerRegistration(player);
     const ref = this.getPlayersCollection().doc();
     const payload: ISnookerPlayer = {
-      ...player,
+      ...registration,
       id: ref.id,
       registeredAt: player.registeredAt || new Date().toISOString(),
       isPaid: player.isPaid ?? false,
+      paymentStatus: player.isPaid ? 'paid' : player.paymentStatus || 'pending',
+      paymentReference: player.paymentReference,
       stats: player.stats || { played: 0, won: 0, lost: 0, points: 0, frameDifference: 0 },
       groupId: '',
       groupName: '',
     };
     await ref.set(payload);
+    if (payload.isPaid) {
+      await this.financialsService.upsertSnookerRegistrationRevenue(payload, competition.registrationFee || 0);
+    }
     return payload;
   }
 
@@ -686,7 +827,11 @@ export class SnookerService {
     }
     await this.getPlayerById(playerId);
     await this.getPlayersCollection().doc(playerId).set(player, { merge: true });
-    return this.getPlayerById(playerId);
+    const updated = await this.getPlayerById(playerId);
+    if (updated.isPaid) {
+      await this.financialsService.upsertSnookerRegistrationRevenue(updated, competition.registrationFee || 0);
+    }
+    return updated;
   }
 
   async deletePlayer(playerId: string): Promise<void> {
@@ -697,6 +842,37 @@ export class SnookerService {
 
     await this.getPlayerById(playerId);
     await this.getPlayersCollection().doc(playerId).delete();
+  }
+
+  async markPlayerPaid(playerId: string, paymentReference?: string): Promise<ISnookerPlayer> {
+    const player = await this.getPlayerById(playerId);
+    const competition = await this.requireCompetition();
+    const now = new Date().toISOString();
+
+    if (!player.isPaid || player.paymentStatus !== 'paid' || (paymentReference && player.paymentReference !== paymentReference)) {
+      await this.getPlayersCollection().doc(playerId).set(
+        {
+          isPaid: true,
+          paymentStatus: 'paid',
+          paymentReference: paymentReference || player.paymentReference,
+          updatedAt: now,
+        },
+        { merge: true }
+      );
+    }
+
+    const paidPlayer = await this.getPlayerById(playerId);
+    await this.financialsService.upsertSnookerRegistrationRevenue(
+      {
+        ...paidPlayer,
+        isPaid: true,
+        paymentStatus: 'paid',
+        paymentReference: paymentReference || paidPlayer.paymentReference,
+      },
+      competition.registrationFee || 0
+    );
+
+    return paidPlayer;
   }
 
   async getMatches(): Promise<ISnookerMatch[]> {
@@ -737,4 +913,3 @@ export class SnookerService {
     await this.getMatchesCollection().doc(matchId).delete();
   }
 }
-

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Booking } from '@teddy-city-hotels/shared-interfaces';
+import { Booking, baseURL } from '@teddy-city-hotels/shared-interfaces';
 import { Observable } from 'rxjs';
 import { BookingResponse } from './booking.response.interface';
 
@@ -9,7 +9,7 @@ import { BookingResponse } from './booking.response.interface';
 })
 export class BookingService {
   private http = inject(HttpClient);
-  private baseUrl = '/api/bookings'; // Assuming the server is running on the same host
+  private baseUrl = `${baseURL}bookings`;
 
   createBooking(bookingData: any): Observable<BookingResponse> {
     return this.http.post<BookingResponse>(this.baseUrl, bookingData);

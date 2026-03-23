@@ -1,0 +1,168 @@
+<section class="page-shell">
+  <div class="page-header">
+    <div>
+      <h2>Swimming Operations</h2>
+      <p>Track public swimming bookings, payment confirmations, and package activity.</p>
+    </div>
+    <div class="toolbar">
+      <button class="btn btn-ghost" (click)="load()">Refresh</button>
+    </div>
+  </div>
+
+  <p class="error-text" *ngIf="error">{{ error }}</p>
+
+  <div class="summary-grid">
+    <article class="surface tile">
+      <h3>Total Bookings</h3>
+      <p>{{ totalBookings }}</p>
+    </article>
+    <article class="surface tile">
+      <h3>Pending Payments</h3>
+      <p>{{ pendingPayments }}</p>
+    </article>
+    <article class="surface tile">
+      <h3>Active Access</h3>
+      <p>{{ activeBookings }}</p>
+    </article>
+    <article class="surface tile">
+      <h3>Paid Revenue</h3>
+      <p>{{ totalPaidRevenue | currency : 'NGN' }}</p>
+    </article>
+  </div>
+
+  <article class="surface panel offers-panel" *ngIf="offers.length">
+    <div class="page-header compact">
+      <div>
+        <h3>Public Packages</h3>
+        <p>These are the swimming offers currently exposed on the website.</p>
+      </div>
+    </div>
+
+    <div class="offer-grid">
+      <article class="offer-card" *ngFor="let offer of offers">
+        <div class="offer-top">
+          <div>
+            <span class="badge badge-info" *ngIf="offer.featured">Featured</span>
+            <strong>{{ offer.name }}</strong>
+          </div>
+          <span>{{ offer.price | currency : 'NGN' }}</span>
+        </div>
+        <p>{{ offer.description }}</p>
+        <small>{{ offer.unitLabel }}</small>
+      </article>
+    </div>
+  </article>
+
+  <article class="surface panel">
+    <div class="filter-grid">
+      <div class="field">
+        <label>Search</label>
+        <input [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" placeholder="Customer, booking or type" />
+      </div>
+      <div class="field">
+        <label>Package</label>
+        <select [(ngModel)]="bookingTypeFilter" [ngModelOptions]="{ standalone: true }">
+          <option value="">All</option>
+          <option *ngFor="let type of bookingTypes" [value]="type">{{ prettyLabel(type) }}</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Status</label>
+        <select [(ngModel)]="statusFilter" [ngModelOptions]="{ standalone: true }">
+          <option value="">All</option>
+          <option *ngFor="let status of statuses" [value]="status">{{ prettyLabel(status) }}</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Payment Status</label>
+        <select [(ngModel)]="paymentStatusFilter" [ngModelOptions]="{ standalone: true }">
+          <option value="">All</option>
+          <option *ngFor="let status of paymentStatuses" [value]="status">{{ prettyLabel(status) }}</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Payment Method</label>
+        <select [(ngModel)]="paymentMethodFilter" [ngModelOptions]="{ standalone: true }">
+          <option value="">All</option>
+          <option value="online">Online</option>
+          <option value="cash">Cash</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" (click)="applyFilters()">Apply</button>
+      <button class="btn btn-ghost" (click)="clearFilters()">Clear</button>
+    </div>
+
+    <p *ngIf="loading" class="muted">Loading swimming bookings...</p>
+
+    <div class="table-wrap" *ngIf="!loading && rows.length">
+      <table class="mobile-table">
+        <thead>
+          <tr>
+            <th>Booking</th>
+            <th>Customer</th>
+            <th>Package</th>
+            <th>Visit</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Payment</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of rows">
+            <td data-label="Booking">
+              <strong>{{ row.id }}</strong>
+              <div class="muted">{{ row.createdAt | date : 'short' }}</div>
+            </td>
+            <td data-label="Customer">
+              <div>{{ row.customerName }}</div>
+              <small class="muted">{{ row.customerEmail || row.customerPhone || '-' }}</small>
+            </td>
+            <td data-label="Package">
+              <div>{{ prettyLabel(row.bookingType) }}</div>
+              <small class="muted">{{ row.attendees }} guest(s)</small>
+            </td>
+            <td data-label="Visit">{{ row.visitDate | date : 'mediumDate' }}</td>
+            <td data-label="Amount">{{ row.amount | currency : 'NGN' }}</td>
+            <td data-label="Status">
+              <span class="badge" [ngClass]="row.status === 'completed' ? 'badge-success' : 'badge-warning'">
+                {{ prettyLabel(row.status) }}
+              </span>
+            </td>
+            <td data-label="Payment">
+              <span
+                class="badge"
+                [ngClass]="{
+                  'badge-success': row.paymentStatus === 'paid',
+                  'badge-warning': row.paymentStatus === 'pending',
+                  'badge-danger': row.paymentStatus === 'failed' || row.paymentStatus === 'refunded'
+                }"
+              >
+                {{ row.paymentMethod }} / {{ prettyLabel(row.paymentStatus) }}
+              </span>
+            </td>
+            <td data-label="Actions" class="row-actions">
+              <button class="btn btn-ghost" (click)="updateStatus(row, 'confirmed')">Confirm</button>
+              <button class="btn btn-ghost" (click)="updateStatus(row, 'checked_in')">Check In</button>
+              <button class="btn btn-ghost" (click)="updateStatus(row, 'completed')">Complete</button>
+              <button class="btn btn-primary" (click)="updatePaymentStatus(row, 'paid')">Mark Paid</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p *ngIf="!loading && !rows.length" class="muted">No swimming bookings found.</p>
+
+    <div class="pagination" *ngIf="!loading && total > 0">
+      <span>Page {{ page }} / {{ totalPages }} ({{ total }} bookings)</span>
+      <div class="controls">
+        <button class="btn btn-ghost" (click)="goToPage(page - 1)" [disabled]="page <= 1">Prev</button>
+        <button class="btn btn-ghost" (click)="goToPage(page + 1)" [disabled]="page >= totalPages">Next</button>
+      </div>
+    </div>
+  </article>
+</section>

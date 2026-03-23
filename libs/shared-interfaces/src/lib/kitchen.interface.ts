@@ -1,4 +1,5 @@
 import { PaginatedResponse } from './legacy-compat.interface';
+import { IPaymentInitializationData } from './response';
 
 export type KitchenMenuCategory = 'food' | 'drink';
 export type KitchenOrderPaymentMethod = 'online' | 'cash';
@@ -55,6 +56,7 @@ export interface IKitchenOrder {
   orderStatus: KitchenOrderStatus;
   source: 'website' | 'admin';
   note?: string;
+  paymentReference?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -72,6 +74,7 @@ export interface ICreateKitchenOrderDto {
   paymentMethod: KitchenOrderPaymentMethod;
   source?: 'website' | 'admin';
   note?: string;
+  callbackUrl?: string;
 }
 
 export interface IUpdateKitchenOrderStatusDto {
@@ -89,4 +92,9 @@ export interface IKitchenOrdersResponse {
     pendingPayments: number;
     pendingKitchen: number;
   };
+}
+
+export interface IKitchenOrderCreateResponse {
+  order: IKitchenOrder;
+  paymentData?: IPaymentInitializationData;
 }

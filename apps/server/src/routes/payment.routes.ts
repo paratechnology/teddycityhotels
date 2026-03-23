@@ -14,6 +14,8 @@ export class PaymentRoutes {
 
   private initializeRoutes() {
     this.router.post('/initialize', this.controller.initializePayment);
+    this.router.post('/webhook', this.controller.handleWebhook);
+    this.router.get('/verify', this.controller.verifyPayment);
     this.router.get('/verify/:reference', this.controller.verifyPayment);
   }
 }

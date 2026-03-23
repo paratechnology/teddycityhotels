@@ -3,3 +3,9 @@ export interface SResponse<T> {
   message: string;
   data: T;
 }
+
+export interface IPaymentInitializationData {
+  authorization_url: string;
+  access_code: string;
+  reference: string;
+}

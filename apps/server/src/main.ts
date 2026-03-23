@@ -23,6 +23,8 @@ import { FinancialsRoutes } from './routes/financials.routes';
 import { AdminDashboardRoutes } from './routes/admin-dashboard.routes';
 import { AdminUsersRoutes } from './routes/admin-users.routes';
 import { KitchenRoutes } from './routes/kitchen.routes';
+import { ContactRoutes } from './routes/contact.routes';
+import { SwimmingRoutes } from './routes/swimming.routes';
 
 class App {
   public app: Application;
@@ -35,11 +37,24 @@ class App {
   }
 
   private config(): void {
+    const jsonParser = express.json();
+    const urlencodedParser = express.urlencoded({ extended: true });
+
     this.app.use(helmet());
     this.app.set('trust proxy', 1);
     applyCorsMiddleware(this.app);
-    this.app.use(express.json());
-    this.app.use(express.urlencoded({ extended: true }));
+    this.app.use((req, res, next) => {
+      if (req.path === '/api/payments/webhook') {
+        return express.raw({ type: 'application/json' })(req, res, next);
+      }
+      return jsonParser(req, res, next);
+    });
+    this.app.use((req, res, next) => {
+      if (req.path === '/api/payments/webhook') {
+        return next();
+      }
+      return urlencodedParser(req, res, next);
+    });
 
     if (process.env['NODE_ENV'] === 'development') {
       this.app.use(morgan('dev'));
@@ -65,6 +80,8 @@ class App {
     apiRouter.use('/snooker', new SnookerRoutes().router);
     apiRouter.use('/bookings', new BookingRoutes().router);
     apiRouter.use('/payments', new PaymentRoutes().router);
+    apiRouter.use('/contact', new ContactRoutes().router);
+    apiRouter.use('/swimming', new SwimmingRoutes().router);
 
     // Protected/managed routes (guarded inside each route module)
     apiRouter.use('/notifications', new NotificationRoutes().router);

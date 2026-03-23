@@ -1,0 +1,153 @@
+
+ NX   Running target serve for project server and 2 tasks it depends on:
+
+
+
+> nx run shared-interfaces:build
+
+Compiling TypeScript files for project "shared-interfaces"...
+Done compiling TypeScript files for project "shared-interfaces".
+
+[2m..\..\dist\libs\shared-interfaces\README.md[22m
+
+> nx run server:build
+
+> webpack-cli build --node-env=production
+
+chunk (runtime: main) [1m[32mmain.js[39m[22m (main) 258 KiB [1m[33m[entry][39m[22m [1m[32m[rendered][39m[22m
+webpack compiled [1m[32msuccessfully[39m[22m (10b3cca78231f883)
+
+> nx run server:serve:development
+
+[0m[7m[1m[36m NX [39m[22m[27m[0m  [36mRunning target [1mbuild[22m for project server and [1m1[22m task it depends on:[39m
+[2m> [22m[2mnx run[22m shared-interfaces:build  [2m[existing outputs match the cache, left as is][22m
+[2m> [22m[2mnx run[22m server:build  [2m[existing outputs match the cache, left as is][22m
+> webpack-cli build --node-env=production
+chunk (runtime: main) [1m[32mmain.js[39m[22m (main) 258 KiB [1m[33m[entry][39m[22m [1m[32m[rendered][39m[22m
+webpack compiled [1m[32msuccessfully[39m[22m (10b3cca78231f883)
+[0m[7m[1m[32m NX [39m[22m[27m[0m  [32mSuccessfully ran target [1mbuild[22m for project server and [1m1[22m task it depends on[39m
+[2mNx read the output from the cache instead of running the command for 2 out of 2 tasks.[22m
+[1m[31mDebugger listening on ws://localhost:9229/25538a59-3893-4aa1-b1ee-d5959d04d59e[39m[22m
+[1m[31m[39m[22m
+[1m[31mDebugger listening on ws://localhost:9229/25538a59-3893-4aa1-b1ee-d5959d04d59e[39m[22m
+[1m[31mFor help, see: https://nodejs.org/en/docs/inspector[39m[22m
+[1m[31m[39m[22m
+[dotenv@17.3.1] injecting env (0) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+✅ Firebase Admin SDK initialized successfully by FirestoreService.
+Server running on http://localhost:8080
+[0mGET /api/app [33m404[0m 47.466 ms - 146[0m
+[0mGET /api/rooms [0m-[0m - ms - -[0m
+[0mGET /api/kitchen/menu [31m500[0m 281.919 ms - 383[0m
+[0mGET /api/rooms [32m200[0m 196.300 ms - 1331[0m
+[0mGET /api/swimming/offers [32m200[0m 1.312 ms - 948[0m
+[0mGET /api/contact [33m404[0m 1.583 ms - 150[0m
+[0mGET /api/snooker [32m200[0m 1594.421 ms - 497[0m
+[0mPOST /api/snooker/register [33m400[0m 617.580 ms - 92[0m
+[0mPOST /api/snooker/register [31m500[0m 664.435 ms - 245[0m
+[0mGET /api/swimming/offers [32m200[0m 0.909 ms - 948[0m
+[0mGET /api/rooms [32m200[0m 509.524 ms - 1331[0m
+[0mGET /api/rooms/8IFEZtBBtgyyjjt9fIln [32m200[0m 500.727 ms - 695[0m
+[0mGET /api/rooms/8IFEZtBBtgyyjjt9fIln [36m304[0m 260.323 ms - -[0m
+[0mGET /api/rooms/8IFEZtBBtgyyjjt9fIln [36m304[0m 157.646 ms - -[0m
+[0mGET /api/rooms/8IFEZtBBtgyyjjt9fIln [36m304[0m 190.672 ms - -[0m
+[0mPOST /api/bookings [31m500[0m 3488.876 ms - 246[0m
+[0mPOST /api/bookings [31m500[0m 3001.783 ms - 246[0m
+[0mPOST /api/bookings [31m500[0m 1424.148 ms - 246[0m
+[0mGET /api/rooms/8IFEZtBBtgyyjjt9fIln [32m200[0m 470.622 ms - 696[0m
+[0mPOST /api/bookings [31m500[0m 925.926 ms - 246[0m
+result {
+  token: [32m'eyJhbGciOiJSUzI1NiIsImtpZCI6IjczMmNhOTY3MTNiMWRkMTcyMzg1MDg0Y2U5ZjQzODFhZDAwY2VjZTQiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiUGFyYWJvbGljIENhcCIsImFkbWluIjp0cnVlLCJpc1N1cGVyQWRtaW4iOnRydWUsImFkbWluQWNjZXNzIjp7ImRhc2hib2FyZCI6dHJ1ZSwicm9vbXMiOnRydWUsImJvb2tpbmdzIjp0cnVlLCJzbm9va2VyIjp0cnVlLCJmaW5hbmNpYWxzIjp0cnVlLCJub3RpZmljYXRpb25zIjp0cnVlLCJhZG1pbnMiOnRydWV9LCJmdWxsbmFtZSI6IlBhcmFib2xpYyBDYXAiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdGVkZHljaXR5aG90ZWxzMSIsImF1ZCI6InRlZGR5Y2l0eWhvdGVsczEiLCJhdXRoX3RpbWUiOjE3NzQyMjI1NTksInVzZXJfaWQiOiJQQ1E2eUZja0VGUjBwYmg2VWFaNXFRVWZURTcyIiwic3ViIjoiUENRNnlGY2tFRlIwcGJoNlVhWjVxUVVmVEU3MiIsImlhdCI6MTc3NDIyMjU1OSwiZXhwIjoxNzc0MjI2MTU5LCJlbWFpbCI6InBhcmFib2xpY3RlY2hzcGFjZUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJwYXJhYm9saWN0ZWNoc3BhY2VAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.TmWNE18vOwM8xP3zYgWTS8bVVYc8IeXhCv5fAph2RnX4A-6mS0SizzK1M0Trqm9YXPoHbP7er9UMoqeofMc0il6V8h3NRTIm4NaGMaR0J3WXTMUQ65LjVomt8hOUfhE4Bs38J_eza5-nziKDjUTD6UlUInCAZ61YhGIfBlDPDgCeQ2ggZPKhi2dY-jDJHx1m6ZGCh71CSkv1jej6J3AJ0nLB_UprLnbQjy-OxiPWEKqBTutrVbgNwJ6HH33-DV8LYzUTO8wPhTrOfH5AQPt3vsKZsjzICQVgPyYPaksn5--rD9dzqgu_o2bvgx65D9AcI-xEJN3MyHopKySSjOWeiw'[39m,
+  user: {
+    createdAt: [32m'2026-02-23T20:54:56.929Z'[39m,
+    adminAccess: {
+      financials: [33mtrue[39m,
+      rooms: [33mtrue[39m,
+      bookings: [33mtrue[39m,
+      snooker: [33mtrue[39m,
+      admins: [33mtrue[39m,
+      dashboard: [33mtrue[39m,
+      notifications: [33mtrue[39m
+    },
+    active: [33mtrue[39m,
+    admin: [33mtrue[39m,
+    isSuperAdmin: [33mtrue[39m,
+    fullname: [32m'Parabolic Cap'[39m,
+    id: [32m'PCQ6yFckEFR0pbh6UaZ5qQUfTE72'[39m,
+    email: [32m'parabolictechspace@gmail.com'[39m,
+    fcmTokens: [],
+    passwordResetToken: [32m'70461b342d8c5adc72d0d336e91fc6659d3bd8458459bdf4709eebb8dbd017e9'[39m,
+    passwordResetTokenExpires: [32m'2026-03-04T12:08:31.246Z'[39m,
+    updatedAt: [32m'2026-03-04T11:53:31.246Z'[39m
+  }
+}
+[0mPOST /api/auth/admin-login [32m200[0m 2210.559 ms - 1769[0m
+[0mGET /api/admin/users/me [32m200[0m 663.579 ms - 516[0m
+[0mGET /api/admin/dashboard [32m200[0m 451.857 ms - 188[0m
+[0mGET /api/notifications?page=1&pageSize=20 [32m200[0m 1302.115 ms - 44[0m
+[0mGET /api/admin/users/me [32m200[0m 235.444 ms - 516[0m
+[0mGET /api/notifications?page=1&pageSize=20 [32m200[0m 445.712 ms - 44[0m
+[0mGET /api/admin/dashboard [32m200[0m 486.729 ms - 188[0m
+[0mGET /api/rooms [32m200[0m 342.515 ms - 1332[0m
+[0mGET /api/bookings?page=1&pageSize=10 [32m200[0m 744.825 ms - 2026[0m
+[0mGET /api/notifications?page=1&pageSize=20 [32m200[0m 477.273 ms - 44[0m
+[0mGET /api/rooms/admin?page=1&pageSize=10 [32m200[0m 168.830 ms - 1374[0m
+[0mGET /api/snooker/competition?playersPage=1&playersPageSize=12&matchesPage=1&matchesPageSize=12 [32m200[0m 836.691 ms - 691[0m
+[0mGET /api/financials/overview [32m200[0m 1268.861 ms - 243[0m
+[0mGET /api/financials/revenue?page=1&pageSize=12 [32m200[0m 968.134 ms - 205[0m
+[0mGET /api/swimming/bookings?page=1&pageSize=12 [32m200[0m 150.120 ms - 1100[0m
+[0mGET /api/notifications?page=1&pageSize=20 [32m200[0m 899.434 ms - 44[0m
+[0mGET /api/kitchen/menu/admin?page=1&pageSize=10 [32m200[0m 170.954 ms - 44[0m
+[0mGET /api/kitchen/orders?page=1&pageSize=12 [32m200[0m 151.422 ms - 119[0m
+[0mGET /api/notifications?page=1&pageSize=10 [32m200[0m 316.987 ms - 44[0m
+[0mGET /api/admin/users?page=1&pageSize=10 [32m200[0m 348.079 ms - 992[0m
+[0mGET /api/rooms [36m304[0m 393.142 ms - -[0m
+[0mGET /api/bookings?page=1&pageSize=10 [36m304[0m 541.536 ms - -[0m
+[0mGET /api/notifications?page=1&pageSize=20 [36m304[0m 431.642 ms - -[0m
+[0mGET /api/rooms/admin?page=1&pageSize=10 [36m304[0m 136.420 ms - -[0m
+[0mGET /api/notifications?page=1&pageSize=20 [36m304[0m 591.535 ms - -[0m
+[0mGET /api/snooker/competition?playersPage=1&playersPageSize=12&matchesPage=1&matchesPageSize=12 [36m304[0m 477.578 ms - -[0m
+[0mGET /api/financials/overview [36m304[0m 598.816 ms - -[0m
+[0mGET /api/financials/revenue?page=1&pageSize=12 [36m304[0m 479.015 ms - -[0m
+[0mGET /api/swimming/bookings?page=1&pageSize=12 [36m304[0m 144.279 ms - -[0m
+[0mGET /api/kitchen/menu/admin?page=1&pageSize=10 [36m304[0m 148.877 ms - -[0m
+[0mGET /api/kitchen/orders?page=1&pageSize=12 [36m304[0m 153.881 ms - -[0m
+[0mGET /api/notifications?page=1&pageSize=20 [36m304[0m 521.793 ms - -[0m
+[0mGET /api/notifications?page=1&pageSize=10 [36m304[0m 621.121 ms - -[0m
+[0mGET /api/swimming/bookings?page=1&pageSize=12 [36m304[0m 466.859 ms - -[0m
+[0mGET /api/financials/revenue?page=1&pageSize=12 [36m304[0m 771.794 ms - -[0m
+[0mGET /api/financials/overview [36m304[0m 261.468 ms - -[0m
+[0mGET /api/snooker/competition?playersPage=1&playersPageSize=12&matchesPage=1&matchesPageSize=12 [36m304[0m 937.462 ms - -[0m
+[0mGET /api/rooms/admin?page=1&pageSize=10 [36m304[0m 183.565 ms - -[0m
+[0mGET /api/snooker/competition?playersPage=1&playersPageSize=12&matchesPage=1&matchesPageSize=12 [36m304[0m 281.984 ms - -[0m
+[0mGET /api/notifications?page=1&pageSize=20 [36m304[0m 439.338 ms - -[0m
+[0mGET /api/rooms/admin?page=1&pageSize=10 [36m304[0m 171.822 ms - -[0m
+[0mGET /api/snooker/competition?playersPage=1&playersPageSize=12&matchesPage=1&matchesPageSize=12 [36m304[0m 276.072 ms - -[0m
+[0mGET /api/financials/overview [36m304[0m 333.312 ms - -[0m
+[0mGET /api/swimming/bookings?page=1&pageSize=12 [36m304[0m 200.411 ms - -[0m
+[0mGET /api/financials/revenue?page=1&pageSize=12 [36m304[0m 690.286 ms - -[0m
+[0mGET /api/notifications?page=1&pageSize=10 [36m304[0m 291.231 ms - -[0m
+[0mGET /api/kitchen/menu/admin?page=1&pageSize=10 [36m304[0m 184.877 ms - -[0m
+[0mGET /api/kitchen/orders?page=1&pageSize=12 [36m304[0m 203.143 ms - -[0m
+[0mGET /api/notifications?page=1&pageSize=20 [36m304[0m 424.949 ms - -[0m
+[0mGET /api/rooms/admin?page=1&pageSize=10 [36m304[0m 129.077 ms - -[0m
+[0mGET /api/snooker/competition?playersPage=1&playersPageSize=12&matchesPage=1&matchesPageSize=12 [36m304[0m 630.021 ms - -[0m
+[0mGET /api/rooms [36m304[0m 172.234 ms - -[0m
+[0mGET /api/bookings?page=1&pageSize=10 [36m304[0m 320.228 ms - -[0m
+[0mGET /api/financials/revenue?page=1&pageSize=12 [36m304[0m 617.894 ms - -[0m
+[0mGET /api/financials/overview [36m304[0m 299.886 ms - -[0m
+[0mGET /api/financials/revenue?page=1&pageSize=12 [36m304[0m 254.975 ms - -[0m
+[0mGET /api/notifications?page=1&pageSize=10 [36m304[0m 276.325 ms - -[0m
+[0mGET /api/kitchen/menu/admin?page=1&pageSize=10 [36m304[0m 238.450 ms - -[0m
+[0mGET /api/kitchen/orders?page=1&pageSize=12 [36m304[0m 237.372 ms - -[0m
+[0mGET /api/admin/dashboard [36m304[0m 153.379 ms - -[0m
+[0mGET /api/rooms [36m304[0m 380.989 ms - -[0m
+[0mGET /api/bookings?page=1&pageSize=10 [36m304[0m 534.360 ms - -[0m
+[0mGET /api/financials/overview [36m304[0m 387.301 ms - -[0m
+[0mGET /api/swimming/bookings?page=1&pageSize=12 [36m304[0m 122.741 ms - -[0m
+[0mGET /api/kitchen/menu/admin?page=1&pageSize=10 [36m304[0m 134.364 ms - -[0m
+[0mGET /api/kitchen/orders?page=1&pageSize=12 [36m304[0m 131.353 ms - -[0m
+[0mGET /api/notifications?page=1&pageSize=10 [36m304[0m 467.660 ms - -[0m
+[0mGET /api/notifications?page=1&pageSize=20 [36m304[0m 299.169 ms - -[0m
+[0mGET /api/admin/users?page=1&pageSize=10 [36m304[0m 155.587 ms - -[0m
+[7m[1m[36m NX [39m[22m[27m [1mProcess exited with code 3221225786, waiting for changes to restart...[22m
+[1m[31mWatch error: Daemon closed the connection[39m[22m

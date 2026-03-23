@@ -1,4 +1,5 @@
 import { PaginatedResponse } from './legacy-compat.interface';
+import { IPaymentInitializationData } from './response';
 
 export interface ISnookerPlayerRegistration {
   fullName: string;
@@ -12,6 +13,8 @@ export interface ISnookerPlayer extends ISnookerPlayerRegistration {
   id: string;
   registeredAt: string;
   isPaid: boolean;
+  paymentStatus?: 'pending' | 'paid' | 'failed' | 'refunded';
+  paymentReference?: string;
   groupId?: string;
   groupName?: string;
   stats?: {
@@ -51,6 +54,9 @@ export interface ISnookerLeagueData {
   seasonName: string;
   groups: ISnookerGroup[];
   matches: ISnookerMatch[];
+  competitionStatus?: SnookerCompetitionStatus;
+  registrationOpen?: boolean;
+  registrationFee?: number;
 }
 
 export type SnookerCompetitionStatus =
@@ -66,6 +72,7 @@ export interface ISnookerCompetition {
   status: SnookerCompetitionStatus;
   groupSize: number;
   knockoutSize: number;
+  registrationFee: number;
   groups: Array<{ id: string; name: string; playerIds: string[] }>;
   winnerId?: string;
   createdAt: string;
@@ -96,6 +103,7 @@ export interface ICreateSnookerCompetitionDto {
   name: string;
   season?: string;
   groupSize?: number;
+  registrationFee?: number;
 }
 
 export interface IGenerateSnookerGroupsDto {
@@ -107,3 +115,11 @@ export interface IRecordSnookerResultDto {
   p2: number;
 }
 
+export interface ICreatePublicSnookerRegistrationDto extends ISnookerPlayerRegistration {
+  callbackUrl?: string;
+}
+
+export interface ISnookerRegistrationResponse {
+  player: ISnookerPlayer;
+  paymentData?: IPaymentInitializationData;
+}

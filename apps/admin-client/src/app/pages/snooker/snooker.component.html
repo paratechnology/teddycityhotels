@@ -67,7 +67,10 @@
       <div class="overview-grid">
         <article class="surface panel">
           <h3>{{ competition.name }}</h3>
-          <p class="muted">Season {{ competition.season }}. Group size {{ competition.groupSize }}.</p>
+          <p class="muted">
+            Season {{ competition.season }}. Group size {{ competition.groupSize }}.
+            Registration fee {{ competition.registrationFee | currency : 'NGN' }}.
+          </p>
           <div class="stage-list">
             <div>
               <small>Status</small>
@@ -342,6 +345,10 @@
         <div class="field">
           <label>Group Size</label>
           <input type="number" formControlName="groupSize" min="2" max="8" />
+        </div>
+        <div class="field">
+          <label>Registration Fee (NGN)</label>
+          <input type="number" formControlName="registrationFee" min="0" />
         </div>
       </form>
     </section>

@@ -1,0 +1,44 @@
+.page-shell {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.offers-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.offer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.offer-card {
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(16, 35, 52, 0.08);
+  background: #f8fafb;
+
+  p {
+    margin: 0.75rem 0 0.5rem;
+    color: #5f6d79;
+    line-height: 1.6;
+  }
+
+  small {
+    color: #71808d;
+  }
+}
+
+.offer-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: start;
+}
+
+.badge-info {
+  background: #eef6ff;
+  color: #1d5fbf;
+}

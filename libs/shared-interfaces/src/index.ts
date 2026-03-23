@@ -18,6 +18,8 @@ export * from './lib/tenant.interface';
 export * from './lib/response';
 export * from './lib/revenue.interface';
 export * from './lib/kitchen.interface';
+export * from './lib/contact.interface';
+export * from './lib/swimming.interface';
 
 export * from './lib/legacy-compat.interface';
 
