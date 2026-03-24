@@ -9,7 +9,7 @@
   "description": "Admin command center for Teddy City Hotels.",
   "icons": [
     {
-      "src": "/icons/icon-96.webp",
+      "src": "/icons/icon-96.png",
       "sizes": "96x96",
       "type": "image/webp"
     },

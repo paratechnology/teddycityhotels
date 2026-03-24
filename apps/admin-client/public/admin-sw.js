@@ -66,7 +66,7 @@ if (isConfigured) {
       body,
       icon: '/icons/icon-192.webp',
       data: { link },
-      badge: '/icons/icon-96.webp',
+      badge: '/icons/icon-96.png',
     });
   });
 }
