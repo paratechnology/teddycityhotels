@@ -8,6 +8,8 @@ export type KitchenOrderStatus = 'new' | 'preparing' | 'ready' | 'completed' | '
 
 export interface IKitchenMenuItem {
   id: string;
+  /** Property this menu item belongs to. Optional during migration. */
+  propertyId?: string;
   name: string;
   description: string;
   category: KitchenMenuCategory;
@@ -19,6 +21,7 @@ export interface IKitchenMenuItem {
 }
 
 export interface ICreateKitchenMenuItemDto {
+  propertyId?: string;
   name: string;
   description: string;
   category: KitchenMenuCategory;
@@ -46,6 +49,8 @@ export interface IKitchenOrderLine {
 
 export interface IKitchenOrder {
   id: string;
+  /** Property the order was placed at. Optional during migration. */
+  propertyId?: string;
   customerName: string;
   customerEmail?: string;
   customerPhone?: string;

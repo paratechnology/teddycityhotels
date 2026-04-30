@@ -5,12 +5,14 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
   ICreateSwimmingBookingDto,
+  IProperty,
   ISwimmingOffer,
   SwimmingBookingType,
   SwimmingPaymentMethod,
 } from '@teddy-city-hotels/shared-interfaces';
 import { finalize, startWith } from 'rxjs';
 import { PublicSwimmingService } from './swimming.service';
+import { PropertyContextService } from '../properties/property-context.service';
 
 type StatusBanner = {
   tone: 'success' | 'error' | 'info';
@@ -30,6 +32,9 @@ export class SwimmingComponent implements OnInit {
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private swimmingService = inject(PublicSwimmingService);
+  private propertyContext = inject(PropertyContextService);
+
+  property: IProperty | null = null;
 
   readonly form = this.fb.group({
     bookingType: this.fb.nonNullable.control<SwimmingBookingType>('day_pass', {
@@ -55,6 +60,11 @@ export class SwimmingComponent implements OnInit {
   readonly minDate = new Date().toISOString().slice(0, 10);
 
   ngOnInit(): void {
+    this.propertyContext.active$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((property) => {
+        this.property = property;
+      });
     this.setupPaymentMethodValidation();
     this.handleQueryState();
     this.loadOffers();

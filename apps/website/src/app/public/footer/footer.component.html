@@ -1,12 +1,12 @@
 <footer class="main-footer">
   <div class="footer-container">
     <div class="footer-grid">
-      <!-- Column 1: About -->
+      <!-- Column 1: About the group -->
       <div class="footer-column about">
-        <h4 class="logo">Teddy City Hotel<span>.</span></h4>
+        <h4 class="logo">Teddy City Hotels<span>.</span></h4>
         <p>
-          World class hospitality. Experience luxury, comfort, and entertainment
-          at its finest.
+          A hospitality group that owns, operates, and manages hotels and shortlets.
+          One standard. Many stays.
         </p>
         <div class="social-links">
           <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
@@ -21,54 +21,55 @@
         </div>
       </div>
 
-      <!-- Column 2: Quick Links -->
+      <!-- Column 2: Properties -->
+      <div class="footer-column" *ngIf="properties.length">
+        <h4>Our Properties</h4>
+        <ul class="footer-links">
+          <li *ngFor="let property of properties">
+            <a [routerLink]="['/properties', property.slug]">
+              {{ property.branding?.displayName || property.name }}
+            </a>
+          </li>
+          <li><a routerLink="/properties">All properties</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Group -->
       <div class="footer-column">
-        <h4>Quick Links</h4>
+        <h4>Group</h4>
         <ul class="footer-links">
           <li><a routerLink="/">Home</a></li>
-          <li><a routerLink="/snooker">Snooker League</a></li>
-          <li><a routerLink="/swimming">Swimming</a></li>
-          <li><a routerLink="/menu">Kitchen</a></li>
-          <li><a routerLink="/rooms">Book Now</a></li>
+          <li><a routerLink="/about">About</a></li>
+          <li><a routerLink="/management">Hotel Management</a></li>
+          <li><a routerLink="/contact">Contact</a></li>
         </ul>
       </div>
 
-      <!-- Column 3: Legal -->
+      <!-- Column 4: Get in touch -->
       <div class="footer-column">
-        <h4>Legal</h4>
-        <ul class="footer-links">
-          <li><a routerLink="/privacy-policy">Privacy Policy</a></li>
-          <li><a routerLink="/terms-of-service">Terms of Service</a></li>
-          <li><a routerLink="/faq">FAQ</a></li>
-        </ul>
-      </div>
-
-      <!-- Column 4: Contact -->
-      <div class="footer-column">
-        <h4>Get in Touch</h4>
+        <h4>Get in touch</h4>
         <ul class="footer-links contact-info">
           <li>
-            <mat-icon>location_on</mat-icon>
-            <span>Teddy City, Hotel District</span>
-          </li>
-          <li>
             <mat-icon>email</mat-icon>
-            <a href="mailto:info@teddycityhotel.com">info&#64;teddycityhotel.com</a>
-          </li>
-          <li>
-            <mat-icon>call</mat-icon>
-            <a href="tel:+2348000000000">+234 800 000 0000</a>
+            <a href="mailto:hello@teddycityhotels.com">hello&#64;teddycityhotels.com</a>
           </li>
           <li>
             <mat-icon>chat</mat-icon>
             <a routerLink="/contact">Send an inquiry</a>
           </li>
         </ul>
+        <p class="legal-links">
+          <a routerLink="/privacy-policy">Privacy</a>
+          <span>·</span>
+          <a routerLink="/terms-of-service">Terms</a>
+          <span>·</span>
+          <a routerLink="/faq">FAQ</a>
+        </p>
       </div>
     </div>
 
     <div class="footer-copyright">
-      &copy; {{ currentYear }} Teddy City Hotel. All Rights Reserved.
+      &copy; {{ currentYear }} Teddy City Hotels. All Rights Reserved.
     </div>
   </div>
 </footer>

@@ -10,6 +10,7 @@ export * from './lib/attachment.interface';
 export * from './lib/snooker-league.interface';
 export * from './lib/accept-invitation.interface';
 export * from './lib/auth-response.interface';
+export * from './lib/property.interface';
 export * from './lib/room.interface';
 export * from './lib/booking.interface';
 export * from './lib/invoice.interface';

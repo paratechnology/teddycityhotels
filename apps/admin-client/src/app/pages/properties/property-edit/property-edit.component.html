@@ -1,0 +1,192 @@
+<section class="page-shell">
+  <div class="page-header">
+    <div>
+      <h2>{{ isEditMode ? 'Edit Property' : 'Create Property' }}</h2>
+      <p>Configure the location, branding and feature flags that power the property micro-site.</p>
+    </div>
+    <div class="toolbar">
+      <button class="btn btn-ghost" type="button" routerLink="/properties">Back</button>
+    </div>
+  </div>
+
+  <p class="error-text" *ngIf="error">{{ error }}</p>
+
+  <form class="editor" [formGroup]="propertyForm" (ngSubmit)="onSubmit()">
+    <article class="surface section">
+      <h3>Core Details</h3>
+      <div class="grid">
+        <div class="field">
+          <label>Name</label>
+          <input formControlName="name" placeholder="Teddy City Hotel" />
+        </div>
+
+        <div class="field">
+          <label>Slug</label>
+          <input formControlName="slug" placeholder="auto-generated from name if blank" />
+        </div>
+
+        <div class="field">
+          <label>Kind</label>
+          <select formControlName="kind">
+            <option value="hotel">Hotel</option>
+            <option value="shortlet">Shortlet</option>
+            <option value="lodge">Lodge</option>
+            <option value="resort">Resort</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Status</label>
+          <select formControlName="status">
+            <option value="active">Active</option>
+            <option value="draft">Draft</option>
+            <option value="archived">Archived</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Display Order</label>
+          <input type="number" formControlName="displayOrder" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Short Description</label>
+        <input formControlName="shortDescription" placeholder="One-line description for cards & listings" />
+      </div>
+
+      <div class="field">
+        <label>Long Description</label>
+        <textarea rows="4" formControlName="description"></textarea>
+      </div>
+    </article>
+
+    <article class="surface section" formGroupName="branding">
+      <h3>Branding</h3>
+      <div class="grid">
+        <div class="field">
+          <label>Display Name</label>
+          <input formControlName="displayName" />
+        </div>
+
+        <div class="field">
+          <label>Tagline</label>
+          <input formControlName="tagline" />
+        </div>
+
+        <div class="field">
+          <label>Accent Color</label>
+          <input type="color" formControlName="accentColor" />
+        </div>
+
+        <div class="field">
+          <label>Logo URL</label>
+          <input formControlName="logoUrl" placeholder="https://..." />
+        </div>
+
+        <div class="field full">
+          <label>Hero Image URL</label>
+          <input formControlName="heroImageUrl" placeholder="https://..." />
+        </div>
+      </div>
+    </article>
+
+    <article class="surface section" formGroupName="address">
+      <h3>Address</h3>
+      <div class="grid">
+        <div class="field full">
+          <label>Address Line 1</label>
+          <input formControlName="line1" />
+        </div>
+
+        <div class="field full">
+          <label>Address Line 2</label>
+          <input formControlName="line2" />
+        </div>
+
+        <div class="field">
+          <label>City</label>
+          <input formControlName="city" />
+        </div>
+
+        <div class="field">
+          <label>State</label>
+          <input formControlName="state" />
+        </div>
+
+        <div class="field">
+          <label>Country</label>
+          <input formControlName="country" />
+        </div>
+
+        <div class="field">
+          <label>Postal Code</label>
+          <input formControlName="postalCode" />
+        </div>
+      </div>
+    </article>
+
+    <article class="surface section" formGroupName="contact">
+      <h3>Contact</h3>
+      <div class="grid">
+        <div class="field">
+          <label>Phone</label>
+          <input formControlName="phone" />
+        </div>
+
+        <div class="field">
+          <label>Email</label>
+          <input type="email" formControlName="email" />
+        </div>
+
+        <div class="field">
+          <label>WhatsApp</label>
+          <input formControlName="whatsapp" />
+        </div>
+      </div>
+    </article>
+
+    <article class="surface section" formGroupName="geo">
+      <h3>Geo (optional)</h3>
+      <div class="grid">
+        <div class="field">
+          <label>Latitude</label>
+          <input type="number" step="0.000001" formControlName="lat" />
+        </div>
+
+        <div class="field">
+          <label>Longitude</label>
+          <input type="number" step="0.000001" formControlName="lng" />
+        </div>
+      </div>
+    </article>
+
+    <article class="surface section" formGroupName="features">
+      <h3>Feature Pages</h3>
+      <p class="muted">Toggle which feature pages appear on this property's micro-site.</p>
+      <div class="checks">
+        <label class="check"><input type="checkbox" formControlName="rooms" /> <span>Rooms</span></label>
+        <label class="check"><input type="checkbox" formControlName="kitchen" /> <span>Kitchen</span></label>
+        <label class="check"><input type="checkbox" formControlName="swimming" /> <span>Swimming</span></label>
+        <label class="check"><input type="checkbox" formControlName="snooker" /> <span>Snooker</span></label>
+        <label class="check"><input type="checkbox" formControlName="nightclub" /> <span>Nightclub</span></label>
+        <label class="check"><input type="checkbox" formControlName="conference" /> <span>Conference</span></label>
+      </div>
+    </article>
+
+    <article class="surface section">
+      <h3>Gallery</h3>
+      <p class="muted">One image URL per line. Used on the property page hero gallery.</p>
+      <div class="field">
+        <textarea rows="6" formControlName="galleryText" placeholder="https://example.com/img-1.jpg&#10;https://example.com/img-2.jpg"></textarea>
+      </div>
+    </article>
+
+    <div class="footer-actions">
+      <button type="button" class="btn btn-ghost" routerLink="/properties">Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="propertyForm.invalid || saving">
+        {{ saving ? 'Saving...' : (isEditMode ? 'Save Changes' : 'Create Property') }}
+      </button>
+    </div>
+  </form>
+</section>

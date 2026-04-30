@@ -7,10 +7,12 @@ import { finalize, startWith } from 'rxjs';
 import {
   ICreateKitchenOrderDto,
   IKitchenMenuItem,
+  IProperty,
   KitchenMenuCategory,
   KitchenOrderPaymentMethod,
 } from '@teddy-city-hotels/shared-interfaces';
 import { PublicKitchenService } from './menu.service';
+import { PropertyContextService } from '../properties/property-context.service';
 
 type MenuFilter = 'all' | KitchenMenuCategory;
 
@@ -38,6 +40,9 @@ export class MenuComponent implements OnInit {
   private kitchenService = inject(PublicKitchenService);
   private route = inject(ActivatedRoute);
   private fb = inject(FormBuilder);
+  private propertyContext = inject(PropertyContextService);
+
+  property: IProperty | null = null;
 
   readonly filters: Array<{ value: MenuFilter; label: string }> = [
     { value: 'all', label: 'All menu' },
@@ -64,6 +69,11 @@ export class MenuComponent implements OnInit {
   latestOrderId: string | null = null;
 
   ngOnInit(): void {
+    this.propertyContext.active$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((property) => {
+        this.property = property;
+      });
     this.setupPaymentMethodValidation();
     this.handleQueryState();
     this.loadMenu();
@@ -192,7 +202,7 @@ export class MenuComponent implements OnInit {
     this.statusBanner = {
       tone: 'info',
       eyebrow: 'Submitting order',
-      title: 'Sending your order to Teddy City Kitchen',
+      title: `Sending your order to ${this.property?.branding?.displayName || this.property?.name || 'this property'} Kitchen`,
       message:
         payload.paymentMethod === 'online'
           ? 'We are preparing your secure payment redirect.'
@@ -226,7 +236,7 @@ export class MenuComponent implements OnInit {
             tone: 'success',
             eyebrow: 'Order placed',
             title: 'Cash order received',
-            message: `Order ${response.order.id} has been sent to Teddy City Kitchen. An admin can mark it paid once cash is collected.`,
+            message: `Order ${response.order.id} has been sent to ${this.property?.branding?.displayName || this.property?.name || 'this property'} Kitchen. An admin can mark it paid once cash is collected.`,
           };
         },
         error: (error) => {
@@ -296,7 +306,7 @@ export class MenuComponent implements OnInit {
           eyebrow: 'Payment confirmed',
           title: 'Online order paid successfully',
           message: orderId
-            ? `Payment for order ${orderId} has been confirmed. Teddy City Kitchen can start processing it now.`
+            ? `Payment for order ${orderId} has been confirmed. ${this.property?.branding?.displayName || this.property?.name || 'This property'} Kitchen can start processing it now.`
             : 'Your payment has been confirmed and the kitchen has the order.',
         };
         return;

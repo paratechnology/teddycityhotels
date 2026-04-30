@@ -1,0 +1,113 @@
+@use '../../../theme/variables' as theme;
+
+:host { display: block; background: theme.$theme-background; color: rgba(255, 255, 255, 0.85); }
+
+.btn {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+.btn-primary { background: theme.$theme-primary; color: #071522; &:hover { filter: brightness(1.05); } }
+.btn-ghost { background: transparent; color: #fff; border-color: rgba(255, 255, 255, 0.5); &:hover { border-color: #fff; } }
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  letter-spacing: 0.25em;
+  color: theme.$theme-primary;
+  text-transform: uppercase;
+}
+
+.hero {
+  position: relative;
+  min-height: 55vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, #15172a, #0a0c1c);
+}
+.hero-overlay { position: absolute; inset: 0; background: radial-gradient(circle at 70% 30%, rgba(theme.$theme-primary, 0.18), transparent 60%); }
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 760px; padding: 80px 24px 60px;
+  h1 { font-family: theme.$font-family-serif; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.08; margin: 0.6rem 0 1.2rem; }
+  p { color: rgba(255, 255, 255, 0.82); font-size: 1.05rem; line-height: 1.6; max-width: 600px; margin: 0 auto 1.75rem; }
+}
+.hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+.what-you-get, .how-it-works, .cta {
+  padding: 80px 24px;
+  .container { max-width: 1100px; margin: 0 auto; }
+  h2 { font-family: theme.$font-family-serif; font-size: 2.1rem; color: #fff; margin: 0.5rem 0 1rem; }
+  .lede { color: rgba(255, 255, 255, 0.78); line-height: 1.7; max-width: 720px; margin: 0 0 2rem; }
+}
+
+.capability-grid {
+  list-style: none; padding: 0; margin: 1.5rem 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+
+  li {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 22px;
+    h3 { margin: 0 0 8px; color: #fff; font-family: theme.$font-family-serif; font-size: 1.15rem; }
+    p { margin: 0; color: rgba(255, 255, 255, 0.78); line-height: 1.6; }
+  }
+}
+
+.how-it-works { background: linear-gradient(180deg, #050d18, #071522); }
+.steps {
+  list-style: none; padding: 0; margin: 1.5rem 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+  counter-reset: step;
+
+  li {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 24px;
+    position: relative;
+
+    .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px; height: 32px;
+      background: theme.$theme-primary;
+      color: #071522;
+      border-radius: 999px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+
+    h3 { margin: 0 0 8px; color: #fff; font-family: theme.$font-family-serif; font-size: 1.15rem; }
+    p { margin: 0; color: rgba(255, 255, 255, 0.78); line-height: 1.6; }
+  }
+}
+
+.cta {
+  text-align: center;
+  background: theme.$theme-background;
+  p { color: rgba(255, 255, 255, 0.7); margin: 0.5rem 0 1.5rem; }
+}
+.cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }

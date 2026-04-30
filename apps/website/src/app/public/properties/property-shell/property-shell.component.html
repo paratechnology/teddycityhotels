@@ -1,0 +1,34 @@
+<div class="property-shell" *ngIf="property">
+  <nav class="property-subnav">
+    <div class="property-subnav__inner">
+      <div class="property-identity">
+        <a [routerLink]="['/properties', property.slug]" class="property-name">
+          {{ property.branding?.displayName || property.name }}
+        </a>
+        <span class="property-meta" *ngIf="property.address?.city">{{ property.address.city }}</span>
+      </div>
+
+      <ul class="property-links">
+        <li *ngFor="let item of navItems">
+          <ng-container *ngIf="isVisible(item)">
+            <a *ngIf="item.path === '.'"
+               [routerLink]="['/properties', property.slug]"
+               routerLinkActive="active"
+               [routerLinkActiveOptions]="{ exact: true }">
+              {{ item.label }}
+            </a>
+            <a *ngIf="item.path !== '.'"
+               [routerLink]="['/properties', property.slug, item.path]"
+               routerLinkActive="active">
+              {{ item.label }}
+            </a>
+          </ng-container>
+        </li>
+      </ul>
+
+      <a *ngIf="property.features?.rooms" [routerLink]="bookHref()" class="property-cta">Book</a>
+    </div>
+  </nav>
+
+  <router-outlet></router-outlet>
+</div>

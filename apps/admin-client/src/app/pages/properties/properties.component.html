@@ -1,0 +1,48 @@
+<section class="page-shell">
+  <div class="page-header">
+    <div>
+      <h2>Property Management</h2>
+      <p>Manage hotels, shortlets and lodges across the Teddy City portfolio.</p>
+    </div>
+    <div class="toolbar">
+      <button class="btn btn-ghost" (click)="loadProperties()">Refresh</button>
+      <a routerLink="/properties/new" class="btn btn-primary">+ Add Property</a>
+    </div>
+  </div>
+
+  <p class="error-text" *ngIf="error">{{ error }}</p>
+
+  <article class="surface panel">
+    <p *ngIf="loading" class="muted">Loading properties...</p>
+
+    <div class="grid" *ngIf="!loading && properties.length">
+      <article class="property-card surface" *ngFor="let property of properties">
+        <header class="card-header">
+          <div class="hero" [style.background-image]="property.branding.heroImageUrl ? 'url(' + property.branding.heroImageUrl + ')' : null">
+            <span class="badges">
+              <span class="badge badge-info">{{ property.kind }}</span>
+              <span class="badge" [ngClass]="statusClass(property.status)">{{ property.status }}</span>
+            </span>
+          </div>
+        </header>
+
+        <div class="card-body">
+          <h3>{{ property.name }}</h3>
+          <p class="display-name muted" *ngIf="property.branding.displayName && property.branding.displayName !== property.name">
+            {{ property.branding.displayName }}
+          </p>
+          <p class="city">{{ property.address.city }}<span *ngIf="property.address.state">, {{ property.address.state }}</span></p>
+          <p class="short" *ngIf="property.shortDescription">{{ property.shortDescription }}</p>
+        </div>
+
+        <footer class="card-actions">
+          <a [routerLink]="['/properties/edit', property.id]" class="btn btn-ghost">Edit</a>
+          <a *ngIf="property.status === 'active'" [href]="'/properties/' + property.slug" target="_blank" rel="noopener" class="btn btn-ghost">View on site</a>
+          <button class="btn btn-danger" (click)="deleteProperty(property)">Delete</button>
+        </footer>
+      </article>
+    </div>
+
+    <p *ngIf="!loading && !properties.length" class="muted">No properties yet. Click "+ Add Property" to create the first one.</p>
+  </article>
+</section>

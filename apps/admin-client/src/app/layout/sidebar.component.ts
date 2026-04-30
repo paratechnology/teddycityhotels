@@ -23,6 +23,7 @@ type NavItem = {
 export class SidebarComponent {
   items: NavItem[] = [
     { label: 'Dashboard',     icon: '📊', link: '/dashboard',     module: 'dashboard' },
+    { label: 'Properties',    icon: '🏨', link: '/properties',    module: 'properties' },
     { label: 'Bookings',      icon: '📅', link: '/bookings',      module: 'bookings' },
     { label: 'Rooms',         icon: '🛏️', link: '/rooms',         module: 'rooms' },
     { label: 'Snooker',       icon: '🎱', link: '/snooker',       module: 'snooker' },

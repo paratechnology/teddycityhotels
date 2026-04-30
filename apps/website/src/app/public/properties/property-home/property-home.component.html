@@ -1,0 +1,118 @@
+<main class="property-home" *ngIf="property">
+  <!-- Hero -->
+  <section class="hero">
+    <div
+      class="hero-bg"
+      [style.background-image]="'url(' + (property.branding?.heroImageUrl || fallbackHero()) + ')'"
+    ></div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <span class="eyebrow" *ngIf="property.kind">{{ property.kind | uppercase }}</span>
+      <h1>{{ property.branding?.displayName || property.name }}</h1>
+      <p *ngIf="property.branding?.tagline">{{ property.branding?.tagline }}</p>
+      <p class="short" *ngIf="!property.branding?.tagline && property.shortDescription">
+        {{ property.shortDescription }}
+      </p>
+
+      <div class="hero-actions">
+        <a *ngIf="property.features?.rooms"
+           [routerLink]="['/properties', property.slug, 'rooms']"
+           class="btn btn-primary">Book a Stay</a>
+        <a [routerLink]="['/properties', property.slug, 'contact']" class="btn btn-ghost">Contact</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about" *ngIf="property.description">
+    <div class="container">
+      <span class="eyebrow">About this property</span>
+      <h2>{{ property.branding?.displayName || property.name }}</h2>
+      <p>{{ property.description }}</p>
+    </div>
+  </section>
+
+  <!-- Amenities (feature-flagged) -->
+  <section class="amenities" *ngIf="property.features?.kitchen || property.features?.swimming || property.features?.snooker || property.features?.conference">
+    <div class="container">
+      <div class="section-header">
+        <h2>What's here</h2>
+        <p>Everything available at this property.</p>
+      </div>
+
+      <div class="amenities-grid">
+        <a *ngIf="property.features?.kitchen"
+           class="amenity-card kitchen"
+           [routerLink]="['/properties', property.slug, 'menu']">
+          <div class="overlay"></div>
+          <div class="content">
+            <h3>Kitchen</h3>
+            <p>Local and international flavours, in-house dining and takeaway.</p>
+          </div>
+        </a>
+
+        <a *ngIf="property.features?.swimming"
+           class="amenity-card pool"
+           [routerLink]="['/properties', property.slug, 'swimming']">
+          <div class="overlay"></div>
+          <div class="content">
+            <h3>Pool</h3>
+            <p>Swim, lounge, and unwind.</p>
+          </div>
+        </a>
+
+        <a *ngIf="property.features?.snooker"
+           class="amenity-card snooker"
+           [routerLink]="['/properties', property.slug, 'snooker']">
+          <div class="overlay"></div>
+          <div class="content">
+            <h3>Snooker League</h3>
+            <p>Compete in our professionally organised league.</p>
+          </div>
+        </a>
+
+        <div *ngIf="property.features?.conference" class="amenity-card conference">
+          <div class="overlay"></div>
+          <div class="content">
+            <h3>Conference</h3>
+            <p>Fully equipped spaces for meetings and events.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nightclub band (only when enabled) -->
+  <section class="nightclub" *ngIf="property.features?.nightclub">
+    <div class="container">
+      <div class="club-content">
+        <div class="club-logo">0421 CLUB</div>
+        <h2>The City's Pulse</h2>
+        <p>Exclusive vibes, premium drinks, and world-class DJs.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Location -->
+  <section class="location">
+    <div class="container">
+      <h2>Find us</h2>
+      <div class="map-and-info">
+        <iframe *ngIf="mapEmbedSrc() as src" [src]="src" width="100%" height="380" style="border:0;" loading="lazy"></iframe>
+        <div class="info-card">
+          <h3>{{ property.branding?.displayName || property.name }}</h3>
+          <p *ngIf="property.address">
+            {{ property.address.line1 }}<br *ngIf="property.address.line2"/>
+            <span *ngIf="property.address.line2">{{ property.address.line2 }}<br/></span>
+            {{ property.address.city }}<span *ngIf="property.address.state">, {{ property.address.state }}</span><br/>
+            {{ property.address.country }}
+          </p>
+          <p *ngIf="property.contact?.phone"><strong>Phone:</strong> {{ property.contact.phone }}</p>
+          <p *ngIf="property.contact?.email"><strong>Email:</strong> {{ property.contact.email }}</p>
+          <a *ngIf="directionsHref() as href" [href]="href" target="_blank" rel="noopener" class="btn btn-primary">Get Directions</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

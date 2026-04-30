@@ -1,0 +1,4 @@
+# Claude Code worktrees live inside the working tree but contain their own
+# checkouts of every project. Without this ignore, `nx` scans them and reports
+# "projects defined in multiple locations" errors during graph construction.
+.claude/worktrees/**

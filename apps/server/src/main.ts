@@ -2,18 +2,20 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 import 'reflect-metadata';
 import express, { Application, Request, Response, NextFunction } from 'express';
-import { container } from 'tsyringe';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { applyCorsMiddleware } from './config/cors';
 
+// container.ts performs all DI registrations (FirestoreService, PropertySource, ...).
+import { container } from './container';
 import { FirestoreService } from './services/firestore.service';
 container.resolve(FirestoreService);
 
 import { AuthRoutes } from './routes/auth.routes';
 import { AppRoutes } from './routes/app.routes';
 import { RoomRoutes } from './routes/room.routes';
+import { PropertyRoutes } from './routes/property.routes';
 import { BookingRoutes } from './routes/booking.routes';
 import { PaymentRoutes } from './routes/payment.routes';
 import { NotificationRoutes } from './routes/notification.routes';
@@ -76,6 +78,7 @@ class App {
     // Public routes
     apiRouter.use('/auth', new AuthRoutes().router);
     apiRouter.use('/app', new AppRoutes().router);
+    apiRouter.use('/properties', new PropertyRoutes().router);
     apiRouter.use('/rooms', new RoomRoutes().router);
     apiRouter.use('/snooker', new SnookerRoutes().router);
     apiRouter.use('/bookings', new BookingRoutes().router);

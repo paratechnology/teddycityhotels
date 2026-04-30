@@ -46,3 +46,6 @@ apps/server/.env.yaml
 .angular
 .firebase
 android
+
+# Claude Code worktrees (transient, per-task)
+.claude/worktrees/

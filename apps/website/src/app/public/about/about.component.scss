@@ -1,0 +1,105 @@
+@use '../../../theme/variables' as theme;
+
+:host { display: block; background: theme.$theme-background; color: rgba(255, 255, 255, 0.85); }
+
+.btn {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+.btn-primary { background: theme.$theme-primary; color: #071522; &:hover { filter: brightness(1.05); } }
+.btn-ghost { background: transparent; color: #fff; border-color: rgba(255, 255, 255, 0.5); &:hover { border-color: #fff; } }
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  letter-spacing: 0.25em;
+  color: theme.$theme-primary;
+  text-transform: uppercase;
+}
+
+.hero {
+  position: relative;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background-image: url('/assets/img/hero-poster.webp');
+  background-size: cover; background-position: center;
+  filter: brightness(0.5);
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(7, 21, 34, 0.5) 0%, rgba(7, 21, 34, 0.85) 100%);
+}
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 720px; padding: 80px 24px 60px;
+  h1 { font-family: theme.$font-family-serif; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.1; margin: 0.6rem 0 1rem; }
+  p { color: rgba(255, 255, 255, 0.82); font-size: 1.05rem; line-height: 1.6; max-width: 580px; margin: 0 auto; }
+}
+
+.story, .portfolio, .cta {
+  padding: 80px 24px;
+  .container { max-width: 1100px; margin: 0 auto; }
+  h2 { font-family: theme.$font-family-serif; font-size: 2rem; color: #fff; margin: 0.5rem 0 1rem; }
+}
+
+.story .block { margin-bottom: 56px; max-width: 720px; }
+.story p { line-height: 1.7; color: rgba(255, 255, 255, 0.78); }
+
+.three-up {
+  list-style: none; padding: 0; margin: 1.5rem 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 22px;
+
+  li {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 22px;
+    h3 { margin: 0 0 8px; color: theme.$theme-primary; font-family: theme.$font-family-serif; font-size: 1.15rem; }
+    p { margin: 0; color: rgba(255, 255, 255, 0.78); line-height: 1.6; }
+  }
+}
+
+.portfolio { background: linear-gradient(180deg, #050d18, #071522); }
+.property-list {
+  list-style: none; padding: 0; margin: 1.5rem 0 0;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;
+
+  a {
+    display: flex; flex-direction: column; gap: 4px;
+    padding: 18px 20px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    text-decoration: none; color: inherit;
+    transition: border-color 0.2s ease;
+    &:hover { border-color: theme.$theme-primary; }
+    strong { color: #fff; font-size: 1.05rem; }
+    span { font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
+  }
+}
+
+.cta {
+  text-align: center;
+  background: theme.$theme-background;
+  p { color: rgba(255, 255, 255, 0.7); margin-bottom: 1.5rem; }
+}
+.cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }

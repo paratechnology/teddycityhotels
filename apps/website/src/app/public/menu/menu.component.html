@@ -1,7 +1,7 @@
 <div class="menu-page">
   <section class="menu-hero">
     <div class="menu-hero__copy">
-      <span class="eyebrow">Teddy City Kitchen</span>
+      <span class="eyebrow">{{ (property?.branding?.displayName || property?.name) || 'this property' }} Kitchen</span>
       <h1>Restaurant ordering built for hotel guests, visitors, and quick pickup.</h1>
       <p>
         Browse the live menu, build an order in seconds, and choose either secure online payment or
@@ -87,7 +87,7 @@
               <div class="dish-card__header">
                 <div>
                   <h3>{{ item.name }}</h3>
-                  <p>{{ item.description || 'Prepared fresh by Teddy City Kitchen.' }}</p>
+                  <p>{{ item.description || 'Prepared fresh by ' + ((property?.branding?.displayName || property?.name) || 'this property') + ' Kitchen.' }}</p>
                 </div>
                 <strong>{{ item.price | currency: 'NGN':'symbol':'1.2-2' }}</strong>
               </div>

@@ -5,6 +5,11 @@ export type DateLike = string | Date | { toDate: () => Date };
 
 export interface Booking {
   id: string;
+  /**
+   * The property this booking is against. Optional during migration; missing
+   * values default to the Teddy City Enugu property.
+   */
+  propertyId?: string;
   roomId: string;
   userId: string;
   guestName?: string;
@@ -23,6 +28,7 @@ export interface Booking {
 }
 
 export interface CreateBookingDto {
+  propertyId?: string;
   roomId: string;
   checkInDate: string;
   checkOutDate: string;

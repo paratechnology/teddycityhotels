@@ -5,6 +5,12 @@ export interface Amenity {
 
 export interface Room {
   id: string;
+  /**
+   * The property this room belongs to. Optional during the migration to a
+   * multi-property model — existing rooms without this field are treated as
+   * belonging to the default Teddy City Enugu property.
+   */
+  propertyId?: string;
   name: string;
   slug: string;
   roomNumber?: string;
@@ -25,6 +31,7 @@ export interface Room {
 }
 
 export interface UpsertRoomDto {
+  propertyId?: string;
   name: string;
   slug?: string;
   roomNumber?: string;

@@ -1,150 +1,101 @@
-<main class="landing-page">
-  <!-- Hero Section -->
-  <app-hero></app-hero>
+<main class="corporate-home">
+  <!-- Group hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
 
-  <!-- About Us Summary -->
-  <app-about-summary></app-about-summary>
-
-  <!-- Amenities Preview -->
-  <section class="section amenities-section">
-    <div class="container">
-      <div class="section-header text-center">
-        <h2>Curated Amenities</h2>
-        <p>Everything you need for a perfect stay.</p>
-      </div>
-      
-      <div class="amenities-horizontal-container">
-        <!-- Outdoor Pool & Lounge -->
-        <div class="amenity-card-horizontal pool-bg">
-          <div class="overlay"></div>
-          <div class="content">
-            <h3>Outdoor Pool & Lounge</h3>
-            <p>Swim, relax, and unwind in the sun-kissed surroundings.</p>
-          </div>
-        </div>
-
-        <!-- Teddy City Restaurant -->
-        <div class="amenity-card-horizontal restaurant-bg">
-          <div class="overlay"></div>
-          <div class="content">
-            <h3>Teddy City Restaurant</h3>
-            <p>Savor exquisite local and international flavors crafted by top chefs.</p>
-            <a mat-stroked-button color="primary" routerLink="/menu">Browse Menu</a>
-          </div>
-        </div>
-
-        <!-- Snooker Bar -->
-        <div class="amenity-card-horizontal snooker-bg">
-          <div class="overlay"></div>
-          <div class="content">
-            <h3>Snooker Bar</h3>
-            <p>The Gentlemen's Game in a premium setting.</p>
-          </div>
-        </div>
-
-        <!-- Conference Rooms -->
-        <div class="amenity-card-horizontal conference-bg">
-          <div class="overlay"></div>
-          <div class="content">
-            <h3>Conference Rooms</h3>
-            <p>Fully equipped spaces for productive meetings and memorable events.</p>
-          </div>
-        </div>
-
-        <!-- Workspace -->
-        <div class="amenity-card-horizontal workspace-bg">
-          <div class="overlay"></div>
-          <div class="content">
-            <h3>Workspace</h3>
-            <p>Quiet and comfortable spaces to stay productive.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="center-action">
-        <a mat-stroked-button color="primary" routerLink="/menu">Explore Teddy City Kitchen</a>
+    <div class="hero-content">
+      <span class="eyebrow">Teddy City Hotels</span>
+      <h1>Hospitality, thoughtfully managed.</h1>
+      <p>
+        We own and operate hotels and shortlets across Nigeria — from city stays to
+        quieter retreats — under one standard of service.
+      </p>
+      <div class="hero-actions">
+        <a routerLink="/properties" class="btn btn-primary">Explore our properties</a>
+        <a routerLink="/management" class="btn btn-ghost">For hotel owners</a>
       </div>
     </div>
   </section>
 
-  <!-- Leisure Section (Snooker & Swimming) — full-bleed, no container -->
-  <section class="leisure-section">
-    <div class="leisure-grid">
-      <div class="leisure-card snooker-card">
-        <div class="card-content">
-          <h3>The Snooker League</h3>
-          <p>Compete in our professionally organised league. Group stages, knockouts, and grand finales.</p>
-          <a mat-raised-button color="accent" routerLink="/snooker">Join the League</a>
-        </div>
+  <!-- Our Properties -->
+  <section class="our-properties">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow">Our Portfolio</span>
+        <h2>Where you'll find us</h2>
+        <p>Each property runs to a shared standard. Each has its own personality.</p>
       </div>
-      <div class="leisure-card pool-card">
-        <div class="card-content">
-          <h3>The Oasis Pool</h3>
-          <p>Escape to our pristine aquatic centre. Relax, swim, and unwind in serenity.</p>
-          <a mat-raised-button color="accent" routerLink="/swimming">Explore the Pool</a>
-        </div>
+
+      <p class="status muted" *ngIf="loading">Loading properties&hellip;</p>
+
+      <div class="properties-grid" *ngIf="!loading && properties.length">
+        <a *ngFor="let property of properties"
+           [routerLink]="['/properties', property.slug]"
+           class="property-card">
+          <div class="cover"
+               [style.background-image]="property.branding?.heroImageUrl ? 'url(' + property.branding.heroImageUrl + ')' : null">
+            <span class="kind">{{ property.kind }}</span>
+          </div>
+          <div class="body">
+            <h3>{{ property.branding?.displayName || property.name }}</h3>
+            <p class="city" *ngIf="property.address?.city">
+              {{ property.address.city }}<span *ngIf="property.address.state">, {{ property.address.state }}</span>
+            </p>
+            <p class="short">{{ property.shortDescription }}</p>
+            <span class="cta">Visit property &rarr;</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="see-all" *ngIf="properties.length">
+        <a routerLink="/properties">See all properties &rarr;</a>
       </div>
     </div>
   </section>
 
-  <!-- Night Club Section -->
-  <section class="section nightclub-section">
-    <div class="nightclub-overlay"></div>
+  <!-- About the group -->
+  <section class="about-group">
     <div class="container">
-      <div class="club-content">
-        <div class="club-logo">0421 CLUB</div>
-        <h2>The City's Pulse</h2>
-        <p>Experience nightlife like never before. Exclusive vibes, premium drinks, and world-class DJs.</p>
-        <div class="club-gallery-placeholder">
-          <!-- Placeholder for slides/pictures -->
-          <span>Gallery Coming Soon</span>
-        </div>
+      <div class="text">
+        <span class="eyebrow">About the group</span>
+        <h2>One standard. Many stays.</h2>
+        <p>
+          Teddy City Hotels is a hospitality group that owns, operates, and manages
+          hotels and shortlets. Whether you're booking a city stay or planning an
+          event, the room you check into is run by people who care about the same
+          things at every property: clean lines, attentive service, and food worth
+          coming back for.
+        </p>
+        <a routerLink="/about" class="btn btn-ghost-dark">Read our story</a>
       </div>
     </div>
   </section>
 
-  <!-- Testimonials Section -->
-  <section class="section testimonials-section">
+  <!-- For hotel owners -->
+  <section class="for-owners">
     <div class="container">
-      <h2 class="section-title">Guest Stories</h2>
-      <div class="testimonial-slider">
-        <div class="testimonial-slide">
-          <p class="quote">"An absolutely unforgettable experience. The attention to detail and the level of service were second to none."</p>
-          <div class="author">- Sarah L.</div>
-        </div>
-        <!-- More slides can be added here -->
+      <div class="content">
+        <span class="eyebrow">Hotel Management</span>
+        <h2>Have us run your hotel.</h2>
+        <p>
+          We bring the same systems, marketing, and operational discipline we use
+          across our own portfolio to other independent hotels. If you own a property
+          and want a partner who'll treat it like one of ours, let's talk.
+        </p>
+        <a routerLink="/management" class="btn btn-primary">Learn about partnership</a>
       </div>
     </div>
   </section>
 
-  <!-- Location Section -->
-  <section class="section location-section">
+  <!-- Newsletter -->
+  <section class="newsletter">
     <div class="container">
-      <h2>Find Us</h2>
-      <div class="map-container">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.728928666286!2d7.500000!3d6.450000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMjcnMDAuMCJOIDfCsDMwJzAwLjAiRQ!5e0!3m2!1sen!2sng!4v1600000000000!5m2!1sen!2sng" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-        <div class="location-card">
-          <h3>Contact Info</h3>
-          <p><mat-icon>phone</mat-icon> +234 800 123 4567</p>
-          <p><mat-icon>location_on</mat-icon> 123 Teddy City Avenue, Enugu</p>
-          <p><mat-icon>email</mat-icon> info&#64;teddycityhotels.com</p>
-          <a mat-raised-button color="primary" href="https://maps.google.com" target="_blank">Get Directions</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Newsletter Section -->
-  <section class="section newsletter-section">
-    <div class="container">
-      <h2>Stay in the Know</h2>
-      <p>Join our mailing list to receive VIP event invitations and the latest news.</p>
-      <form class="newsletter-form">
-        <mat-form-field appearance="outline" class="email-input">
-          <mat-label>Email Address</mat-label>
-          <input matInput placeholder="your@email.com">
-        </mat-form-field>
-        <button mat-flat-button color="primary">Subscribe</button>
+      <h2>Stay in the loop</h2>
+      <p>Occasional notes from across the portfolio — new properties, group offers, events.</p>
+      <form class="newsletter-form" (submit)="$event.preventDefault()">
+        <input type="email" placeholder="your@email.com" aria-label="Email address" />
+        <button type="submit">Subscribe</button>
       </form>
     </div>
   </section>

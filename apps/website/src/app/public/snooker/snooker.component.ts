@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -12,11 +12,14 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Subscription } from 'rxjs';
 import {
   ICreatePublicSnookerRegistrationDto,
+  IProperty,
   ISnookerLeagueData,
 } from '@teddy-city-hotels/shared-interfaces';
 import { PublicSnookerService } from './snooker.service';
+import { PropertyContextService } from '../properties/property-context.service';
 
 @Component({
   selector: 'app-snooker',
@@ -38,19 +41,22 @@ import { PublicSnookerService } from './snooker.service';
   templateUrl: './snooker.component.html',
   styleUrls: ['./snooker.component.scss'],
 })
-export class SnookerComponent implements OnInit {
+export class SnookerComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private snackBar = inject(MatSnackBar);
   private snookerService = inject(PublicSnookerService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private propertyContext = inject(PropertyContextService);
 
   registrationForm: FormGroup;
   isSubmitting = false;
   isLoadingLeague = false;
+  property: IProperty | null = null;
+  private propertySubscription?: Subscription;
 
   leagueData: ISnookerLeagueData = {
-    seasonName: 'Teddy City Open',
+    seasonName: '',
     groups: [],
     matches: [],
     competitionStatus: undefined,
@@ -71,6 +77,9 @@ export class SnookerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.propertySubscription = this.propertyContext.active$.subscribe((property) => {
+      this.property = property;
+    });
     this.loadLeagueData();
     this.route.queryParamMap.subscribe((params) => {
       const payment = params.get('payment');
@@ -94,6 +103,10 @@ export class SnookerComponent implements OnInit {
         replaceUrl: true,
       });
     });
+  }
+
+  ngOnDestroy(): void {
+    this.propertySubscription?.unsubscribe();
   }
 
   loadLeagueData(): void {

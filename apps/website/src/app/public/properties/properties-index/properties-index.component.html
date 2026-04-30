@@ -1,0 +1,37 @@
+<main class="properties-index">
+  <header class="hero">
+    <span class="eyebrow">Our Properties</span>
+    <h1>Hospitality across the portfolio</h1>
+    <p>Explore the hotels and shortlets operated by Teddy City Hotels.</p>
+  </header>
+
+  <section class="grid-wrap">
+    <p class="status muted" *ngIf="loading">Loading properties&hellip;</p>
+    <p class="status error" *ngIf="error">{{ error }}</p>
+
+    <div class="properties-grid" *ngIf="!loading && properties.length">
+      <a *ngFor="let property of properties"
+         [routerLink]="['/properties', property.slug]"
+         class="property-card">
+        <div
+          class="property-cover"
+          [style.background-image]="property.branding?.heroImageUrl ? 'url(' + property.branding.heroImageUrl + ')' : null"
+        >
+          <span class="property-kind">{{ property.kind }}</span>
+        </div>
+        <div class="property-body">
+          <h2>{{ property.branding?.displayName || property.name }}</h2>
+          <p class="city" *ngIf="property.address?.city">
+            {{ property.address.city }}<span *ngIf="property.address.state">, {{ property.address.state }}</span>
+          </p>
+          <p class="short">{{ property.shortDescription }}</p>
+          <span class="cta">Explore &rarr;</span>
+        </div>
+      </a>
+    </div>
+
+    <p class="status muted" *ngIf="!loading && !properties.length && !error">
+      No properties to show yet.
+    </p>
+  </section>
+</main>

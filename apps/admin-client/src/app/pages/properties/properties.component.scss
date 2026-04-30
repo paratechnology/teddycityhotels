@@ -1,0 +1,98 @@
+.panel {
+  padding: 0.9rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.9rem;
+}
+
+.property-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+}
+
+.card-header .hero {
+  height: 140px;
+  background-color: #e7eef6;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.badges {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.badge-info {
+  background: #2563eb;
+  color: #fff;
+}
+
+.badge-warning {
+  background: #d97706;
+  color: #fff;
+}
+
+.card-body {
+  padding: 0.85rem 0.9rem 0.6rem;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.card-body h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.display-name {
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.city {
+  font-size: 0.85rem;
+  color: #4b5b6b;
+  margin: 0;
+}
+
+.short {
+  font-size: 0.85rem;
+  color: #4b5b6b;
+  margin: 0.2rem 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.4rem;
+  padding: 0.6rem 0.9rem 0.9rem;
+  flex-wrap: wrap;
+}
+
+.card-actions .btn {
+  flex: 1 1 auto;
+  min-width: 80px;
+}
+
+@media (max-width: 760px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-actions .btn {
+    width: 100%;
+    flex: 1 1 100%;
+  }
+}

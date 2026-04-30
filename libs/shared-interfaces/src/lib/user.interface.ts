@@ -1,5 +1,6 @@
 export type AdminModuleKey =
   | 'dashboard'
+  | 'properties'
   | 'rooms'
   | 'bookings'
   | 'snooker'
@@ -13,6 +14,7 @@ export type AdminModuleAccess = Record<AdminModuleKey, boolean>;
 
 export const defaultAdminModuleAccess: AdminModuleAccess = {
   dashboard: false,
+  properties: false,
   rooms: false,
   bookings: false,
   snooker: false,

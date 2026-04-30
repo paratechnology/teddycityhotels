@@ -32,6 +32,24 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/rooms/room-edit/room-edit.component').then((m) => m.RoomEditComponent),
   },
   {
+    path: 'properties',
+    canActivate: [authGuard, moduleGuard],
+    data: { module: 'properties' },
+    loadComponent: () => import('./pages/properties/properties.component').then((m) => m.PropertiesComponent),
+  },
+  {
+    path: 'properties/new',
+    canActivate: [authGuard, moduleGuard],
+    data: { module: 'properties' },
+    loadComponent: () => import('./pages/properties/property-edit/property-edit.component').then((m) => m.PropertyEditComponent),
+  },
+  {
+    path: 'properties/edit/:id',
+    canActivate: [authGuard, moduleGuard],
+    data: { module: 'properties' },
+    loadComponent: () => import('./pages/properties/property-edit/property-edit.component').then((m) => m.PropertyEditComponent),
+  },
+  {
     path: 'bookings',
     canActivate: [authGuard, moduleGuard],
     data: { module: 'bookings' },

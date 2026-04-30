@@ -1,25 +1,33 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { HeroComponent } from './hero/hero.component';
-import { AboutSummaryComponent } from "./about-summary/about-summary.component";
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { IProperty } from '@teddy-city-hotels/shared-interfaces';
+import { PropertyService } from './properties/property.service';
 
 @Component({
   selector: 'app-public-container',
   standalone: true,
-  imports: [
-    RouterModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
-    MatFormFieldModule,
-    HeroComponent,
-    AboutSummaryComponent
-  ],
+  imports: [CommonModule, RouterLink],
   templateUrl: './public-container.component.html',
-  styleUrls: ['./public-container.component.scss']
+  styleUrls: ['./public-container.component.scss'],
 })
-export class PublicContainerComponent {}
+export class PublicContainerComponent implements OnInit {
+  properties: IProperty[] = [];
+  loading = false;
+  error = '';
+
+  constructor(private propertyService: PropertyService) {}
+
+  ngOnInit(): void {
+    this.loading = true;
+    this.propertyService.list().subscribe({
+      next: (properties) => {
+        this.properties = properties;
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+      },
+    });
+  }
+}

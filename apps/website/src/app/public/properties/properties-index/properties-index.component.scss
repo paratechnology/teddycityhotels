@@ -1,0 +1,114 @@
+@use '../../../../theme/variables' as theme;
+
+:host { display: block; background: theme.$theme-background; }
+
+.properties-index {
+  padding: 0 0 80px;
+}
+
+.hero {
+  padding: 100px 24px 60px;
+  text-align: center;
+  background: linear-gradient(180deg, #050d18 0%, #071522 100%);
+  color: #fff;
+
+  .eyebrow {
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    color: theme.$theme-primary;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-family: theme.$font-family-serif;
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    margin: 0.6rem 0 0.5rem;
+  }
+  p { color: rgba(255, 255, 255, 0.65); margin: 0; }
+}
+
+.grid-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 24px 0;
+}
+
+.properties-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.property-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: theme.$theme-primary;
+  }
+}
+
+.property-cover {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background-color: #0d2030;
+  background-size: cover;
+  background-position: center;
+
+  .property-kind {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+}
+
+.property-body {
+  padding: 22px;
+  color: rgba(255, 255, 255, 0.85);
+
+  h2 {
+    margin: 0 0 6px;
+    font-family: theme.$font-family-serif;
+    font-size: 1.4rem;
+    color: #fff;
+  }
+
+  .city {
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    margin: 0 0 12px;
+  }
+
+  .short {
+    margin: 0 0 16px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .cta {
+    color: theme.$theme-primary;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+}
+
+.status { text-align: center; padding: 40px 0; color: rgba(255, 255, 255, 0.6); }
+.status.error { color: #ff8b80; }

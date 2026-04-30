@@ -1,0 +1,209 @@
+@use '../../../../theme/variables' as theme;
+
+:host {
+  display: block;
+  background: theme.$theme-background;
+}
+
+.hero {
+  position: relative;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.7);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(7, 21, 34, 0.35) 0%, rgba(7, 21, 34, 0.75) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+  padding: 32px 24px;
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    color: theme.$theme-primary;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-family: theme.$font-family-serif;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    margin: 0 0 1rem;
+    line-height: 1.1;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 1.5rem;
+  }
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: theme.$theme-primary;
+  color: #071522;
+  &:hover { filter: brightness(1.05); }
+}
+
+.btn-ghost {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.5);
+  &:hover { border-color: #fff; }
+}
+
+.about, .amenities, .nightclub, .location {
+  padding: 80px 24px;
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  h2 {
+    font-family: theme.$font-family-serif;
+    font-size: 2.2rem;
+    color: theme.$theme-primary;
+    margin: 0.5rem 0 1.25rem;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+  }
+}
+
+.about {
+  text-align: center;
+  p { max-width: 720px; margin: 0 auto; line-height: 1.7; color: rgba(255, 255, 255, 0.78); }
+}
+
+.amenities {
+  background: #071522;
+  .section-header { text-align: center; margin-bottom: 2.5rem; p { color: rgba(255, 255, 255, 0.6); } }
+}
+
+.amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.amenity-card {
+  position: relative;
+  min-height: 240px;
+  border-radius: 14px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #fff;
+  display: flex;
+  align-items: flex-end;
+  padding: 24px;
+  background-size: cover;
+  background-position: center;
+
+  &.kitchen { background-image: url('/assets/img/restaurant-bg.webp'), linear-gradient(135deg, #5a3a22, #3a2515); }
+  &.pool { background-image: url('/assets/img/pool-bg.webp'), linear-gradient(135deg, #1a4a6b, #0d2a3f); }
+  &.snooker { background-image: url('/assets/img/snooker-bg.webp'), linear-gradient(135deg, #2a3f1a, #15240d); }
+  &.conference { background: linear-gradient(135deg, #2a2f3a, #15171c); }
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.78) 100%);
+  }
+
+  .content {
+    position: relative;
+    z-index: 2;
+    h3 { margin: 0 0 6px; font-family: theme.$font-family-serif; font-size: 1.4rem; }
+    p { margin: 0; font-size: 0.9rem; color: rgba(255, 255, 255, 0.85); }
+  }
+}
+
+.nightclub {
+  background: linear-gradient(135deg, #1a0d2b, #0a0414);
+  text-align: center;
+
+  .club-logo {
+    display: inline-block;
+    font-family: theme.$font-family-serif;
+    font-size: 1.4rem;
+    color: theme.$theme-primary;
+    border: 1px solid theme.$theme-primary;
+    padding: 6px 18px;
+    border-radius: 6px;
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+  }
+}
+
+.location {
+  background: #050d18;
+
+  .map-and-info {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 24px;
+    align-items: stretch;
+
+    iframe { border-radius: 12px; min-height: 380px; }
+  }
+
+  .info-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 24px;
+    color: rgba(255, 255, 255, 0.85);
+
+    h3 { margin: 0 0 12px; color: theme.$theme-primary; font-family: theme.$font-family-serif; }
+    p { margin: 0 0 12px; line-height: 1.6; }
+  }
+}
+
+@media (max-width: 760px) {
+  .location .map-and-info { grid-template-columns: 1fr; }
+}

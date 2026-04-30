@@ -1,21 +1,30 @@
 <section class="contact-page">
   <div class="contact-hero">
     <div>
-      <span class="eyebrow">Contact Teddy City</span>
+      <span class="eyebrow">Contact {{ (property?.branding?.displayName || property?.name) || 'this property' }}</span>
       <h1>Talk to the hotel team about stays, dining, swimming, or events.</h1>
       <p>
         Use this form for anything that needs a real response from operations. We route it into the
         admin system so the right team can pick it up quickly.
       </p>
     </div>
-    <div class="hero-card">
+    <div class="hero-card" *ngIf="property; else fallbackChannels">
       <h2>Direct channels</h2>
       <ul>
-        <li><strong>Email:</strong> info&#64;teddycityhotel.com</li>
-        <li><strong>Phone:</strong> +234 800 000 0000</li>
-        <li><strong>Location:</strong> Teddy City, Hotel District, Enugu</li>
+        <li *ngIf="property?.contact?.email"><strong>Email:</strong> {{ property?.contact?.email }}</li>
+        <li *ngIf="property?.contact?.phone"><strong>Phone:</strong> {{ property?.contact?.phone }}</li>
+        <li>
+          <strong>Location:</strong>
+          {{ property?.address?.line1 }}<ng-container *ngIf="property?.address?.line1 && (property?.address?.city || property?.address?.state || property?.address?.country)">, </ng-container>{{ property?.address?.city }}<ng-container *ngIf="property?.address?.city && (property?.address?.state || property?.address?.country)">, </ng-container>{{ property?.address?.state }}<ng-container *ngIf="property?.address?.state && property?.address?.country">, </ng-container>{{ property?.address?.country }}
+        </li>
       </ul>
     </div>
+    <ng-template #fallbackChannels>
+      <div class="hero-card">
+        <h2>Direct channels</h2>
+        <p>Property contact details will appear here shortly.</p>
+      </div>
+    </ng-template>
   </div>
 
   <div class="contact-layout">

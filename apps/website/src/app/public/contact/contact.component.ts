@@ -1,11 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   ContactInquiryCategory,
   ICreateContactInquiryDto,
+  IProperty,
 } from '@teddy-city-hotels/shared-interfaces';
 import { ContactService } from '../../core/services/contact.service';
+import { PropertyContextService } from '../properties/property-context.service';
 
 @Component({
   selector: 'app-contact',
@@ -14,9 +17,21 @@ import { ContactService } from '../../core/services/contact.service';
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',
 })
-export class ContactComponent {
+export class ContactComponent implements OnInit {
   private fb = inject(FormBuilder);
   private contactService = inject(ContactService);
+  private propertyContext = inject(PropertyContextService);
+  private destroyRef = inject(DestroyRef);
+
+  property: IProperty | null = null;
+
+  ngOnInit(): void {
+    this.propertyContext.active$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((property) => {
+        this.property = property;
+      });
+  }
 
   readonly categories: Array<{ value: ContactInquiryCategory; label: string }> = [
     { value: 'general', label: 'General inquiry' },
@@ -65,7 +80,7 @@ export class ContactComponent {
     this.contactService.sendMessage(payload).subscribe({
       next: () => {
         this.submitting = false;
-        this.successMessage = 'Your message has been sent to Teddy City. Our team will follow up shortly.';
+        this.successMessage = `Your message has been sent to ${this.property?.branding?.displayName || this.property?.name || 'this property'}. Our team will follow up shortly.`;
         this.form.reset({
           name: '',
           email: '',

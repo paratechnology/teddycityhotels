@@ -1,0 +1,75 @@
+<main class="about-page">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="eyebrow">About the group</span>
+      <h1>One standard. Many stays.</h1>
+      <p>
+        Teddy City Hotels is a hospitality group that owns, operates, and manages hotels
+        and shortlets — built on the idea that hospitality is a craft.
+      </p>
+    </div>
+  </section>
+
+  <section class="story">
+    <div class="container">
+      <div class="block">
+        <span class="eyebrow">Our story</span>
+        <h2>Built around the guest.</h2>
+        <p>
+          We started with a single hotel and a clear conviction: the small things — the
+          temperature of the lobby, the quality of breakfast, the response time to a
+          request — are what make a stay memorable. As we've grown, the conviction
+          hasn't changed. Our properties differ in scale and personality, but they all
+          run to one standard.
+        </p>
+      </div>
+
+      <div class="block">
+        <span class="eyebrow">What we do</span>
+        <h2>Three businesses, one lens.</h2>
+        <ul class="three-up">
+          <li>
+            <h3>We own hotels.</h3>
+            <p>Properties under the Teddy City Hotels umbrella, run end-to-end by us.</p>
+          </li>
+          <li>
+            <h3>We operate stays.</h3>
+            <p>Day-to-day hospitality, F&amp;B, and guest experience across the portfolio.</p>
+          </li>
+          <li>
+            <h3>We manage for owners.</h3>
+            <p>The same systems and discipline, applied to other independent hotels.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="portfolio" *ngIf="properties.length">
+    <div class="container">
+      <span class="eyebrow">Portfolio</span>
+      <h2>Where you'll find us</h2>
+      <ul class="property-list">
+        <li *ngFor="let property of properties">
+          <a [routerLink]="['/properties', property.slug]">
+            <strong>{{ property.branding?.displayName || property.name }}</strong>
+            <span *ngIf="property.address?.city">{{ property.address.city }}<span *ngIf="property.address.state">, {{ property.address.state }}</span></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container">
+      <h2>Stay with us, or partner with us.</h2>
+      <p>Two ways to work with Teddy City Hotels.</p>
+      <div class="cta-actions">
+        <a routerLink="/properties" class="btn btn-primary">Book a stay</a>
+        <a routerLink="/management" class="btn btn-ghost">Have us run your hotel</a>
+      </div>
+    </div>
+  </section>
+</main>
