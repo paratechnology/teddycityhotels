@@ -1,34 +1,67 @@
-// Teddy City Hotel - Midnight Sapphire & Gold Theme
+// Teddy City Hotels — Editorial Hospitality Theme
+//
+// A light, paper-led palette inspired by premium hospitality groups
+// (BON, Aman, Habitas). Cream surfaces, near-black text, restrained
+// warm-gold accent. Designed for photography to do the heavy lifting.
 
 // 1. COLOR PALETTE
-$midnight-sapphire: #0D1B2A; // Deep blue, primary background
-$luxury-gold: #C5A059;       // Rich gold for accents and CTAs
-$soft-ivory: #E0E1DD;        // Main body text, for readability
-$pure-white: #FFFFFF;        // Headings and strong highlights
-$shadow-gray: #333333;       // For subtle borders or dividers on dark bg
+$paper:        #FAF8F3;  // primary background — warm off-white, paper-like
+$paper-deep:   #F2EDE3;  // section background contrast
+$ink:          #1A1A1A;  // primary text — near black, never pure black
+$ink-muted:    #5A5852;  // secondary text, captions
+$ink-subtle:   #8C887F;  // tertiary text, labels, eyebrows
+$line:         #E8E2D5;  // hairline borders, dividers
+$gold:         #A8956B;  // restrained warm-gold accent
+$gold-deep:    #8A7A56;  // accent hover
+$ivory:        #FFFFFF;  // surface for cards on cream
+$midnight:     #14161A;  // for inverted sections (footer, dark hero overlays)
+$midnight-soft:#262830;  // surfaces inside dark sections
 
 // 2. THEME ASSIGNMENT
-$theme-primary: $pure-white;         // Primary content color (headings)
-$theme-secondary: $luxury-gold;      // Secondary highlight color
-$theme-accent: $luxury-gold;         // Main accent and CTA color
-$theme-background: $midnight-sapphire; // Main page background
-$theme-text-dark: $soft-ivory;         // "Dark" text is now the main light body text
-$theme-text-light: $pure-white;        // "Light" text for use on gold backgrounds
-$theme-border: $shadow-gray;           // Subtle borders
+$theme-primary:    $ink;
+$theme-secondary:  $gold;
+$theme-accent:     $gold;
+$theme-background: $paper;
+$theme-surface:    $ivory;
+$theme-text-dark:  $ink;          // body text on light surfaces
+$theme-text-muted: $ink-muted;
+$theme-text-light: $ivory;        // text on dark surfaces
+$theme-border:     $line;
+$theme-dark-bg:    $midnight;     // for inverted sections
 
 // 3. TYPOGRAPHY
-$font-family-serif: 'Cormorant Garamond', serif; // Headings
-$font-family-sans: 'Inter', sans-serif; // Body text, UI elements
+$font-family-serif: 'Cormorant Garamond', 'Cormorant', Georgia, serif;
+$font-family-sans:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
 
-// 4. IONIC CSS VARIABLES
-// Provides theme colors to Ionic components if they are used.
+// Type scale
+$type-display:  clamp(3rem, 6vw, 5.5rem);
+$type-h1:       clamp(2.4rem, 4.5vw, 3.8rem);
+$type-h2:       clamp(1.8rem, 3vw, 2.6rem);
+$type-h3:       1.4rem;
+$type-body:     1rem;
+$type-small:    0.875rem;
+$type-eyebrow:  0.72rem;
+
+// Spacing
+$space-xs:  8px;
+$space-sm:  16px;
+$space-md:  32px;
+$space-lg:  64px;
+$space-xl:  96px;
+$space-xxl: 144px;
+
+// Motion
+$ease:       cubic-bezier(0.4, 0, 0.2, 1);
+$ease-slow:  cubic-bezier(0.16, 1, 0.3, 1);
+$dur-fast:   180ms;
+$dur:        320ms;
+$dur-slow:   620ms;
+
+// 4. IONIC CSS VARIABLES (legacy compat)
 :root {
-  --ion-color-primary: #{$theme-primary};
-  --ion-color-secondary: #{$theme-secondary};
-  --ion-color-tertiary: #{$theme-accent};
-
+  --ion-color-primary:    #{$theme-primary};
+  --ion-color-secondary:  #{$theme-secondary};
+  --ion-color-tertiary:   #{$theme-accent};
   --ion-background-color: #{$theme-background};
-  --ion-text-color: #{$theme-text-dark};
-
-  // Other Ionic variables can be added here as needed
+  --ion-text-color:       #{$theme-text-dark};
 }

@@ -1,222 +1,393 @@
-@use '../../theme/variables' as theme;
+@use '../../theme/variables' as v;
 
 :host {
   display: block;
-  background-color: theme.$theme-background;
-  color: rgba(255, 255, 255, 0.85);
+  background: v.$theme-background;
+  color: v.$theme-text-dark;
 }
 
-.btn {
-  display: inline-block;
-  padding: 12px 28px;
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: 0.85rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-decoration: none;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: all 0.2s ease;
-}
-.btn-primary { background: theme.$theme-primary; color: #071522; &:hover { filter: brightness(1.05); } }
-.btn-ghost { background: transparent; color: #fff; border-color: rgba(255, 255, 255, 0.5); &:hover { border-color: #fff; } }
-.btn-ghost-dark { background: transparent; color: theme.$theme-primary; border-color: theme.$theme-primary; &:hover { background: rgba(theme.$theme-primary, 0.08); } }
-
-.eyebrow {
-  display: inline-block;
-  font-size: 0.78rem;
-  letter-spacing: 0.25em;
-  color: theme.$theme-primary;
-  text-transform: uppercase;
-  margin-bottom: 0.75rem;
-}
-
-// ----------------------------------------------------------- Hero
+// ──────────────────────────────────────────────────────────────────
+// Hero — photography-led, generous, almost no chrome
+// ──────────────────────────────────────────────────────────────────
 .hero {
   position: relative;
-  min-height: 78vh;
+  min-height: 92vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #fff;
+  align-items: flex-end;
   overflow: hidden;
+  isolation: isolate;
+  color: v.$ivory;
 }
-.hero-bg {
+
+.hero__media {
   position: absolute;
   inset: 0;
-  background-image: url('/assets/img/hero-poster.webp');
-  background-size: cover;
-  background-position: center;
-  filter: brightness(0.55);
+  background: url('/assets/img/hero-poster.webp') center/cover no-repeat;
+  transform: scale(1.04);
+  z-index: -2;
 }
-.hero-overlay {
+
+.hero__veil {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(7, 21, 34, 0.4) 0%, rgba(7, 21, 34, 0.85) 100%);
+  background:
+    linear-gradient(180deg, rgba(20, 22, 26, 0) 35%, rgba(20, 22, 26, 0.78) 100%),
+    linear-gradient(90deg, rgba(20, 22, 26, 0.45) 0%, rgba(20, 22, 26, 0.05) 60%);
+  z-index: -1;
 }
-.hero-content {
-  position: relative;
-  z-index: 2;
+
+.hero__inner {
+  padding-block: clamp(64px, 12vh, 140px);
   max-width: 760px;
-  padding: 32px 24px;
+  margin-inline: 0 auto;
+}
 
-  h1 {
-    font-family: theme.$font-family-serif;
-    font-size: clamp(2.4rem, 5vw, 4rem);
-    line-height: 1.05;
-    margin: 0 0 1.25rem;
+.hero__eyebrow {
+  display: inline-block;
+  font-family: v.$font-family-sans;
+  font-size: v.$type-eyebrow;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 1.5rem;
+}
+
+.hero__title {
+  font-family: v.$font-family-serif;
+  font-weight: 500;
+  font-size: clamp(3rem, 7vw, 6.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  color: v.$ivory;
+  margin: 0 0 1.5rem;
+}
+
+.hero__lede {
+  font-family: v.$font-family-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.86);
+  max-width: 52ch;
+  margin: 0 0 2.25rem;
+}
+
+.hero__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hero__scroll {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.4);
+  z-index: 2;
+
+  span {
+    position: absolute;
+    top: 0;
+    left: -1px;
+    width: 1px;
+    height: 16px;
+    background: v.$ivory;
+    animation: scroll-line 2.4s v.$ease-slow infinite;
   }
-  p {
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.82);
-    margin: 0 auto 2rem;
-    max-width: 580px;
-    line-height: 1.6;
-  }
-}
-.hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-
-// ----------------------------------------------------------- Sections
-.our-properties, .about-group, .for-owners, .newsletter {
-  padding: 90px 24px;
-
-  .container { max-width: 1200px; margin: 0 auto; }
-  h2 {
-    font-family: theme.$font-family-serif;
-    font-size: 2.4rem;
-    color: #fff;
-    margin: 0.5rem 0 0.75rem;
-  }
 }
 
-.our-properties {
-  background: theme.$theme-background;
-  .section-header { text-align: center; margin-bottom: 3rem; p { color: rgba(255, 255, 255, 0.6); margin: 0; } }
+@keyframes scroll-line {
+  0%   { transform: translateY(0); opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translateY(40px); opacity: 0; }
 }
 
-.properties-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
+// ──────────────────────────────────────────────────────────────────
+// Statement
+// ──────────────────────────────────────────────────────────────────
+.statement {
+  background: v.$theme-background;
+  text-align: center;
 }
 
-.property-card {
+.statement__inner {
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  overflow: hidden;
+  align-items: center;
+  gap: 28px;
+}
+
+.statement__copy {
+  font-family: v.$font-family-serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+  line-height: 1.5;
+  color: v.$ink;
+  max-width: 36ch;
+  margin: 0;
+}
+
+.statement__signoff {
+  font-family: v.$font-family-sans;
+  font-size: v.$type-small;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: v.$ink-subtle;
+  margin: 0;
+}
+
+// ──────────────────────────────────────────────────────────────────
+// Hotels
+// ──────────────────────────────────────────────────────────────────
+.hotels {
+  background: v.$paper-deep;
+}
+
+.hotels__header {
+  text-align: center;
+  margin-bottom: clamp(48px, 7vw, 96px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  h2 {
+    font-size: v.$type-h1;
+    margin: 0;
+  }
+}
+
+.hotels__grid {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(56px, 8vw, 120px);
+}
+
+.hotel-card {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  align-items: center;
+  gap: clamp(32px, 5vw, 72px);
   text-decoration: none;
   color: inherit;
-  transition: transform 0.25s ease, border-color 0.25s ease;
 
-  &:hover { transform: translateY(-3px); border-color: theme.$theme-primary; }
+  &--reverse {
+    grid-template-columns: 1fr 1.15fr;
+    .hotel-card__body { order: -1; padding-right: 2vw; padding-left: 0; }
+  }
 
-  .cover {
-    position: relative;
-    aspect-ratio: 16 / 9;
-    background-color: #0d2030;
+  &__image {
+    aspect-ratio: 4 / 5;
+    background-color: v.$ink-muted;
     background-size: cover;
     background-position: center;
-
-    .kind {
-      position: absolute;
-      top: 14px;
-      left: 14px;
-      background: rgba(0, 0, 0, 0.55);
-      color: #fff;
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 0.7rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
+    transition: transform v.$dur-slow v.$ease-slow;
   }
 
-  .body {
-    padding: 22px;
-    h3 { margin: 0 0 6px; font-family: theme.$font-family-serif; font-size: 1.4rem; color: #fff; }
-    .city {
-      font-size: 0.78rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.55);
-      margin: 0 0 12px;
-    }
-    .short { margin: 0 0 16px; line-height: 1.6; color: rgba(255, 255, 255, 0.78); }
-    .cta { color: theme.$theme-primary; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+  &:hover &__image { transform: scale(1.02); }
+
+  &__body {
+    padding-left: 2vw;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
-}
 
-.see-all { text-align: center; margin-top: 32px; a { color: theme.$theme-primary; text-decoration: none; font-weight: 600; letter-spacing: 0.05em; } }
-.status { text-align: center; padding: 40px 0; color: rgba(255, 255, 255, 0.6); }
-
-// ----------------------------------------------------------- About group
-.about-group {
-  background: linear-gradient(180deg, #050d18, #071522);
-  .container { display: grid; grid-template-columns: 1fr; gap: 24px; }
-  .text {
-    max-width: 760px;
-    margin: 0 auto;
-    text-align: center;
-    p { color: rgba(255, 255, 255, 0.78); line-height: 1.7; margin: 0 auto 1.75rem; max-width: 640px; }
+  &__name {
+    font-family: v.$font-family-serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 3.4vw, 2.8rem);
+    line-height: 1.1;
+    color: v.$ink;
+    margin: 0;
   }
-}
 
-// ----------------------------------------------------------- For owners
-.for-owners {
-  background: linear-gradient(135deg, #15172a, #0a0c1c);
-
-  .content {
-    max-width: 760px;
-    margin: 0 auto;
-    text-align: center;
-    p { color: rgba(255, 255, 255, 0.78); line-height: 1.7; margin: 0 auto 1.75rem; max-width: 640px; }
+  &__copy {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: v.$ink-muted;
+    max-width: 48ch;
+    margin: 0;
   }
+
+  .link-discover { margin-top: 12px; align-self: flex-start; }
 }
 
-// ----------------------------------------------------------- Newsletter
-.newsletter {
-  background: theme.$theme-background;
-  .container { max-width: 640px; text-align: center; }
-  h2 { font-size: 1.8rem; }
-  p { color: rgba(255, 255, 255, 0.65); margin-bottom: 1.75rem; }
+@media (max-width: 720px) {
+  .hotel-card,
+  .hotel-card--reverse {
+    grid-template-columns: 1fr;
+  }
+  .hotel-card--reverse .hotel-card__body { order: 0; padding: 0; }
+  .hotel-card__body { padding: 0; }
+  .hotel-card__image { aspect-ratio: 4 / 3; }
 }
 
-.newsletter-form {
+.hotels__see-all {
+  margin-top: clamp(56px, 7vw, 96px);
+  text-align: center;
+}
+
+// ──────────────────────────────────────────────────────────────────
+// Trio
+// ──────────────────────────────────────────────────────────────────
+.trio {
+  background: v.$theme-background;
+}
+
+.trio__header {
+  text-align: center;
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: clamp(48px, 7vw, 88px);
+
+  h2 { font-size: v.$type-h1; margin: 0; }
+}
+
+.trio__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+
+.trio__item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid v.$line;
+  padding-top: 22px;
+
+  &__num,
+  .trio__num {
+    font-family: v.$font-family-sans;
+    font-size: v.$type-eyebrow;
+    letter-spacing: 0.28em;
+    color: v.$gold-deep;
+    font-weight: 500;
+  }
+
+  h3 {
+    font-family: v.$font-family-serif;
+    font-weight: 500;
+    font-size: 1.65rem;
+    color: v.$ink;
+    margin: 4px 0 6px;
+  }
+
+  p {
+    color: v.$ink-muted;
+    font-size: 1rem;
+    line-height: 1.65;
+    margin: 0;
+    max-width: 36ch;
+  }
+}
+
+// ──────────────────────────────────────────────────────────────────
+// Owners (dark band)
+// ──────────────────────────────────────────────────────────────────
+.owners {
+  background: v.$theme-dark-bg;
+  color: v.$ivory;
+}
+
+.owners__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 96px);
+  align-items: center;
+}
+
+.owners__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  h2 {
+    color: v.$ivory;
+    font-size: v.$type-h1;
+    margin: 0;
+  }
+
+  p {
+    color: rgba(255, 255, 255, 0.78);
+    line-height: 1.7;
+    max-width: 52ch;
+    margin: 0;
+  }
+
+  .btn { align-self: flex-start; margin-top: 16px; }
+}
+
+.owners__media {
+  aspect-ratio: 4 / 5;
+  background:
+    linear-gradient(135deg, rgba(168, 149, 107, 0.18), transparent 60%),
+    url('/assets/img/hero-poster.webp') center/cover no-repeat;
+  filter: brightness(0.92);
+}
+
+@media (max-width: 860px) {
+  .owners__inner { grid-template-columns: 1fr; }
+  .owners__media { aspect-ratio: 16 / 10; order: -1; }
+}
+
+// ──────────────────────────────────────────────────────────────────
+// Signup
+// ──────────────────────────────────────────────────────────────────
+.signup {
+  background: v.$paper-deep;
+}
+
+.signup__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+
+  h2 { font-size: v.$type-h1; margin: 0; }
+  p { color: v.$ink-muted; max-width: 48ch; margin: 0; }
+}
+
+.signup__form {
+  display: flex;
+  gap: 12px;
   flex-wrap: wrap;
   justify-content: center;
+  margin-top: 14px;
+  width: 100%;
+  max-width: 520px;
 
   input {
-    flex: 1 1 260px;
+    flex: 1 1 240px;
     min-width: 0;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    color: #fff;
-    padding: 12px 18px;
-    border-radius: 999px;
+    padding: 14px 18px;
+    font-family: v.$font-family-sans;
     font-size: 0.95rem;
+    color: v.$ink;
+    background: v.$ivory;
+    border: 1px solid v.$line;
+    border-radius: 0;
     outline: none;
+    transition: border-color v.$dur v.$ease;
 
-    &:focus { border-color: theme.$theme-primary; }
+    &:focus { border-color: v.$gold; }
   }
+}
 
-  button {
-    background: theme.$theme-primary;
-    color: #071522;
-    border: none;
-    padding: 12px 26px;
-    border-radius: 999px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    cursor: pointer;
-
-    &:hover { filter: brightness(1.05); }
-  }
+.status {
+  text-align: center;
+  color: v.$ink-muted;
+  padding: 40px 0;
 }

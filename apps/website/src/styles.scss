@@ -1,130 +1,217 @@
-// Teddy City Hotel - Global Stylesheet
-// 2. THEME IMPORTS
+// Teddy City Hotels — Global stylesheet
+//
+// Editorial light theme. Photography is the protagonist; type and
+// restraint do the rest.
+
 @use '@angular/material' as mat;
 @use 'theme';
-@use 'theme/variables' as theme-vars;
+@use 'theme/variables' as v;
 
-
-// 1. FONT IMPORTS
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap');
-
-
-
-// 3. ANGULAR MATERIAL CORE
-// Include the core styles for Angular Material components.
+// Angular Material core (kept for legacy components)
 @include mat.core();
 
-// 4. GLOBAL RESETS & DEFAULTS
+// ──────────────────────────────────────────────────────────────────
+// Resets & defaults
+// ──────────────────────────────────────────────────────────────────
+*, *::before, *::after { box-sizing: border-box; }
+
 html {
   scroll-behavior: smooth;
   height: 100%;
-  scroll-padding-top: 100px;
+  scroll-padding-top: 96px;
 }
 
 body {
-  font-family: theme-vars.$font-family-sans;
-  background-color: theme-vars.$theme-background;
-  color: theme-vars.$theme-text-dark;
+  font-family: v.$font-family-sans;
+  font-size: v.$type-body;
+  font-weight: 400;
+  line-height: 1.65;
+  background-color: v.$theme-background;
+  color: v.$theme-text-dark;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  font-feature-settings: 'kern' 1, 'liga' 1;
 }
 
-// 5. TYPOGRAPHY & HEADINGS
+img { display: block; max-width: 100%; height: auto; }
+
+// ──────────────────────────────────────────────────────────────────
+// Typography
+// ──────────────────────────────────────────────────────────────────
 h1, h2, h3, h4, h5, h6 {
-  font-family: theme-vars.$font-family-serif;
-  font-weight: 700; // Bolder for luxury feel
-  color: theme-vars.$theme-primary;
-  margin-block-start: 1.5em;
-  margin-block-end: 0.8em;
+  font-family: v.$font-family-serif;
+  font-weight: 500;
+  color: v.$theme-primary;
+  letter-spacing: -0.005em;
+  line-height: 1.12;
+  margin: 0 0 0.6em;
 }
 
-h1 { font-size: 4.0rem; line-height: 1.2; }
-h2 { font-size: 2.8rem; line-height: 1.25; }
-h3 { font-size: 2.0rem; line-height: 1.3; }
-h4 { font-size: 1.6rem; line-height: 1.35; }
-h5 { font-size: 1.3rem; line-height: 1.4; }
-h6 { font-size: 1.1rem; line-height: 1.4; }
+h1 { font-size: v.$type-display; }
+h2 { font-size: v.$type-h1; }
+h3 { font-size: v.$type-h2; }
+h4 { font-size: v.$type-h3; }
 
-p {
-  line-height: 1.7;
-  font-size: 1rem;
-  margin-bottom: 1rem;
+p { margin: 0 0 1em; }
+
+.eyebrow {
+  display: inline-block;
+  font-family: v.$font-family-sans;
+  font-size: v.$type-eyebrow;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: v.$ink-subtle;
 }
 
-// 6. LINKS & BUTTONS
+.lede {
+  font-family: v.$font-family-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.4rem;
+  line-height: 1.5;
+  color: v.$ink-muted;
+  max-width: 56ch;
+}
+
+// ──────────────────────────────────────────────────────────────────
+// Links
+// ──────────────────────────────────────────────────────────────────
 a {
-  color: theme-vars.$theme-accent;
+  color: inherit;
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color v.$dur v.$ease;
+}
+
+// Editorial "discover" link — text + thin underline + arrow
+.link-discover {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: v.$font-family-sans;
+  font-size: v.$type-small;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: v.$ink;
+  padding-bottom: 4px;
+  border-bottom: 1px solid v.$ink;
+  transition: color v.$dur v.$ease, border-color v.$dur v.$ease, gap v.$dur v.$ease;
 
   &:hover {
-    color: darken(theme-vars.$theme-accent, 10%);
+    color: v.$gold-deep;
+    border-color: v.$gold;
+    gap: 14px;
+  }
+
+  &::after {
+    content: '→';
+    font-family: v.$font-family-sans;
   }
 }
 
+// ──────────────────────────────────────────────────────────────────
+// Buttons (override pill defaults — editorial sites use thin rectangles)
+// ──────────────────────────────────────────────────────────────────
 .btn {
-  display: inline-block;
-  padding: 12px 30px;
-  font-family: theme-vars.$font-family-sans;
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  font-family: v.$font-family-sans;
+  font-weight: 500;
+  font-size: v.$type-small;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  border-radius: 50px; // Pill shape for modern look
   cursor: pointer;
-  border: 2px solid transparent;
-  transition: all 0.3s ease-in-out;
+  border: 1px solid transparent;
+  border-radius: 0;
+  transition: all v.$dur v.$ease;
   text-align: center;
+  background: transparent;
+  color: v.$ink;
 }
 
 .btn-primary {
-  background-color: theme-vars.$theme-accent;
-  color: #fff;
+  background: v.$ink;
+  color: v.$ivory;
+  border-color: v.$ink;
 
   &:hover {
-    background-color: darken(theme-vars.$theme-accent, 8%);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    background: v.$gold-deep;
+    border-color: v.$gold-deep;
   }
 }
 
-.btn-secondary {
-  background-color: transparent;
-  color: theme-vars.$theme-accent;
-  border-color: theme-vars.$theme-accent;
+.btn-ghost {
+  background: transparent;
+  color: v.$ink;
+  border-color: v.$ink;
 
   &:hover {
-    background-color: theme-vars.$theme-accent;
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    background: v.$ink;
+    color: v.$ivory;
   }
 }
 
-// 7. UTILITY CLASSES
+.btn-light {
+  background: v.$ivory;
+  color: v.$ink;
+  border-color: v.$ivory;
+
+  &:hover {
+    background: transparent;
+    color: v.$ivory;
+    border-color: v.$ivory;
+  }
+}
+
+.btn-light-ghost {
+  background: transparent;
+  color: v.$ivory;
+  border-color: rgba(255, 255, 255, 0.7);
+
+  &:hover {
+    background: v.$ivory;
+    color: v.$ink;
+    border-color: v.$ivory;
+  }
+}
+
+// ──────────────────────────────────────────────────────────────────
+// Layout helpers
+// ──────────────────────────────────────────────────────────────────
 .container {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+
+.container-narrow {
+  max-width: 880px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
 }
 
 .section {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-block: clamp(72px, 12vw, v.$space-xxl);
 }
 
-.text-center {
-  text-align: center;
+.section-dark {
+  background: v.$theme-dark-bg;
+  color: v.$ivory;
+
+  h1, h2, h3, h4, h5, h6 { color: v.$ivory; }
+  .eyebrow { color: rgba(255, 255, 255, 0.6); }
+  .lede { color: rgba(255, 255, 255, 0.78); }
 }
 
-// Override Angular Material components if necessary
-// Example:
-/*
-.mat-mdc-button {
-  border-radius: 50px !important;
+.divider {
+  width: 48px;
+  height: 1px;
+  background: v.$gold;
+  border: 0;
+  margin: 0;
 }
-*/

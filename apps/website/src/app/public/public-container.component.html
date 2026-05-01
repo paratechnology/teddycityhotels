@@ -1,101 +1,143 @@
-<main class="corporate-home">
-  <!-- Group hero -->
+<main class="home">
+  <!-- ─── Hero ─────────────────────────────────────────────────── -->
   <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-overlay"></div>
+    <div class="hero__media" aria-hidden="true"></div>
+    <div class="hero__veil" aria-hidden="true"></div>
 
-    <div class="hero-content">
-      <span class="eyebrow">Teddy City Hotels</span>
-      <h1>Hospitality, thoughtfully managed.</h1>
-      <p>
-        We own and operate hotels and shortlets across Nigeria — from city stays to
-        quieter retreats — under one standard of service.
+    <div class="hero__inner container">
+      <span class="hero__eyebrow">Teddy City Hotels</span>
+      <h1 class="hero__title">
+        Hospitality,<br/>
+        thoughtfully<br/>
+        composed.
+      </h1>
+      <p class="hero__lede">
+        A small, growing family of hotels across Nigeria — owned, operated and
+        cared for by people who believe a stay should feel considered.
       </p>
-      <div class="hero-actions">
-        <a routerLink="/properties" class="btn btn-primary">Explore our properties</a>
-        <a routerLink="/management" class="btn btn-ghost">For hotel owners</a>
+      <div class="hero__actions">
+        <a routerLink="/hotels" class="btn btn-light">Discover our hotels</a>
+        <a routerLink="/become-a-teddy-city-hotel" class="btn btn-light-ghost">For hotel owners</a>
       </div>
+    </div>
+
+    <a href="#statement" class="hero__scroll" aria-label="Scroll to next section">
+      <span></span>
+    </a>
+  </section>
+
+  <!-- ─── Statement ────────────────────────────────────────────── -->
+  <section id="statement" class="statement section">
+    <div class="container-narrow statement__inner">
+      <span class="eyebrow">A few words</span>
+      <hr class="divider"/>
+      <p class="statement__copy">
+        We aren't trying to be the biggest hospitality group in Nigeria.
+        We are trying, every day, to be the most cared-for. Our standard is
+        simple — clean lines, generous service, and food worth coming back for —
+        and we hold every hotel under our care to it.
+      </p>
+      <p class="statement__signoff">— The Teddy City Hotels family</p>
     </div>
   </section>
 
-  <!-- Our Properties -->
-  <section class="our-properties">
+  <!-- ─── Our Hotels ───────────────────────────────────────────── -->
+  <section class="hotels section">
     <div class="container">
-      <div class="section-header">
-        <span class="eyebrow">Our Portfolio</span>
-        <h2>Where you'll find us</h2>
-        <p>Each property runs to a shared standard. Each has its own personality.</p>
-      </div>
+      <header class="hotels__header">
+        <span class="eyebrow">Our Hotels</span>
+        <h2>Where you'll find us.</h2>
+        <hr class="divider"/>
+      </header>
 
-      <p class="status muted" *ngIf="loading">Loading properties&hellip;</p>
+      <p *ngIf="loading" class="status">Loading…</p>
 
-      <div class="properties-grid" *ngIf="!loading && properties.length">
-        <a *ngFor="let property of properties"
-           [routerLink]="['/properties', property.slug]"
-           class="property-card">
-          <div class="cover"
-               [style.background-image]="property.branding?.heroImageUrl ? 'url(' + property.branding.heroImageUrl + ')' : null">
-            <span class="kind">{{ property.kind }}</span>
+      <div class="hotels__grid" *ngIf="!loading && properties.length">
+        <a *ngFor="let hotel of properties; let i = index"
+           [routerLink]="['/hotels', hotel.slug]"
+           class="hotel-card"
+           [class.hotel-card--reverse]="i % 2 === 1">
+          <div class="hotel-card__image"
+               [style.background-image]="hotel.branding?.heroImageUrl ? 'url(' + hotel.branding.heroImageUrl + ')' : null">
           </div>
-          <div class="body">
-            <h3>{{ property.branding?.displayName || property.name }}</h3>
-            <p class="city" *ngIf="property.address?.city">
-              {{ property.address.city }}<span *ngIf="property.address.state">, {{ property.address.state }}</span>
-            </p>
-            <p class="short">{{ property.shortDescription }}</p>
-            <span class="cta">Visit property &rarr;</span>
+          <div class="hotel-card__body">
+            <span class="eyebrow">
+              {{ hotel.address?.city }}<span *ngIf="hotel.address?.state">, {{ hotel.address.state }}</span>
+            </span>
+            <h3 class="hotel-card__name">{{ hotel.branding?.displayName || hotel.name }}</h3>
+            <p class="hotel-card__copy">{{ hotel.shortDescription }}</p>
+            <span class="link-discover">Discover the hotel</span>
           </div>
         </a>
       </div>
 
-      <div class="see-all" *ngIf="properties.length">
-        <a routerLink="/properties">See all properties &rarr;</a>
+      <div class="hotels__see-all" *ngIf="properties.length">
+        <a routerLink="/hotels" class="link-discover">See all hotels</a>
       </div>
     </div>
   </section>
 
-  <!-- About the group -->
-  <section class="about-group">
+  <!-- ─── What We Do ───────────────────────────────────────────── -->
+  <section class="trio section">
     <div class="container">
-      <div class="text">
-        <span class="eyebrow">About the group</span>
-        <h2>One standard. Many stays.</h2>
+      <header class="trio__header">
+        <span class="eyebrow">What we do</span>
+        <h2>Three businesses, one lens.</h2>
+        <hr class="divider"/>
+      </header>
+
+      <div class="trio__grid">
+        <article class="trio__item">
+          <span class="trio__num">01</span>
+          <h3>We own.</h3>
+          <p>Hotels under the Teddy City Hotels umbrella, run end-to-end by us.</p>
+        </article>
+        <article class="trio__item">
+          <span class="trio__num">02</span>
+          <h3>We operate.</h3>
+          <p>Day-to-day hospitality, kitchens, and guest experience across the family.</p>
+        </article>
+        <article class="trio__item">
+          <span class="trio__num">03</span>
+          <h3>We manage.</h3>
+          <p>The same systems and discipline, applied to other independent hotels.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Become a Teddy City Hotel ────────────────────────────── -->
+  <section class="owners section section-dark">
+    <div class="container owners__inner">
+      <div class="owners__copy">
+        <span class="eyebrow">For hotel owners</span>
+        <h2>Become a Teddy City Hotel.</h2>
+        <hr class="divider"/>
         <p>
-          Teddy City Hotels is a hospitality group that owns, operates, and manages
-          hotels and shortlets. Whether you're booking a city stay or planning an
-          event, the room you check into is run by people who care about the same
-          things at every property: clean lines, attentive service, and food worth
-          coming back for.
+          We bring the systems, marketing, and operational discipline we use
+          across our own family to other independent hotels. If you own a
+          hotel and want a partner who'll treat it like one of ours,
+          let's talk.
         </p>
-        <a routerLink="/about" class="btn btn-ghost-dark">Read our story</a>
+        <a routerLink="/become-a-teddy-city-hotel" class="btn btn-light">Learn about partnership</a>
       </div>
+      <div class="owners__media" aria-hidden="true"></div>
     </div>
   </section>
 
-  <!-- For hotel owners -->
-  <section class="for-owners">
-    <div class="container">
-      <div class="content">
-        <span class="eyebrow">Hotel Management</span>
-        <h2>Have us run your hotel.</h2>
-        <p>
-          We bring the same systems, marketing, and operational discipline we use
-          across our own portfolio to other independent hotels. If you own a property
-          and want a partner who'll treat it like one of ours, let's talk.
-        </p>
-        <a routerLink="/management" class="btn btn-primary">Learn about partnership</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Newsletter -->
-  <section class="newsletter">
-    <div class="container">
-      <h2>Stay in the loop</h2>
-      <p>Occasional notes from across the portfolio — new properties, group offers, events.</p>
-      <form class="newsletter-form" (submit)="$event.preventDefault()">
-        <input type="email" placeholder="your@email.com" aria-label="Email address" />
-        <button type="submit">Subscribe</button>
+  <!-- ─── Stay in touch ────────────────────────────────────────── -->
+  <section class="signup section">
+    <div class="container-narrow signup__inner">
+      <span class="eyebrow">Stay in touch</span>
+      <h2>Slow letters from the hotels.</h2>
+      <hr class="divider"/>
+      <p>
+        A handful of times a year. New hotels, group offers, the food we're
+        cooking, the people we're hiring. Nothing more.
+      </p>
+      <form class="signup__form" (submit)="$event.preventDefault()">
+        <input type="email" placeholder="your@email.com" aria-label="Email address" required />
+        <button type="submit" class="btn btn-primary">Subscribe</button>
       </form>
     </div>
   </section>

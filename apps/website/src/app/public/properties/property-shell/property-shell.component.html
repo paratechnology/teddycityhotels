@@ -1,32 +1,32 @@
-<div class="property-shell" *ngIf="property">
-  <nav class="property-subnav">
-    <div class="property-subnav__inner">
-      <div class="property-identity">
-        <a [routerLink]="['/properties', property.slug]" class="property-name">
+<div class="hotel-shell" *ngIf="property">
+  <nav class="hotel-subnav" aria-label="Hotel sections">
+    <div class="hotel-subnav__inner">
+      <div class="hotel-identity">
+        <a [routerLink]="['/hotels', property.slug]" class="hotel-name">
           {{ property.branding?.displayName || property.name }}
         </a>
-        <span class="property-meta" *ngIf="property.address?.city">{{ property.address.city }}</span>
+        <span class="hotel-meta" *ngIf="property.address?.city">{{ property.address.city }}</span>
       </div>
 
-      <ul class="property-links">
-        <li *ngFor="let item of navItems">
-          <ng-container *ngIf="isVisible(item)">
+      <ul class="hotel-links">
+        <ng-container *ngFor="let item of navItems">
+          <li *ngIf="isVisible(item)">
             <a *ngIf="item.path === '.'"
-               [routerLink]="['/properties', property.slug]"
-               routerLinkActive="active"
+               [routerLink]="['/hotels', property.slug]"
+               routerLinkActive="is-active"
                [routerLinkActiveOptions]="{ exact: true }">
               {{ item.label }}
             </a>
             <a *ngIf="item.path !== '.'"
-               [routerLink]="['/properties', property.slug, item.path]"
-               routerLinkActive="active">
+               [routerLink]="['/hotels', property.slug, item.path]"
+               routerLinkActive="is-active">
               {{ item.label }}
             </a>
-          </ng-container>
-        </li>
+          </li>
+        </ng-container>
       </ul>
 
-      <a *ngIf="property.features?.rooms" [routerLink]="bookHref()" class="property-cta">Book</a>
+      <a *ngIf="property.features?.rooms" [routerLink]="bookHref()" class="hotel-cta">Reserve</a>
     </div>
   </nav>
 

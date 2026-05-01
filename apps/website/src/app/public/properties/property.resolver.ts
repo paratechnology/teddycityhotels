@@ -6,7 +6,7 @@ import { PropertyService } from './property.service';
 import { PropertyContextService } from './property-context.service';
 
 /**
- * Resolves the active property for any route under `/properties/:slug`. On
+ * Resolves the active property for any route under `/hotels/:slug`. On
  * success the property is pushed into PropertyContextService so child pages
  * can read it without prop drilling. On failure (unknown slug, network) the
  * user is redirected to the properties index.
@@ -18,7 +18,7 @@ export const propertyResolver: ResolveFn<IProperty | null> = (route) => {
   const router = inject(Router);
 
   if (!slug) {
-    router.navigate(['/properties']);
+    router.navigate(['/hotels']);
     return of(null);
   }
 
@@ -27,7 +27,7 @@ export const propertyResolver: ResolveFn<IProperty | null> = (route) => {
     map((property) => property),
     catchError(() => {
       context.setActive(null);
-      router.navigate(['/properties']);
+      router.navigate(['/hotels']);
       return of(null);
     })
   );

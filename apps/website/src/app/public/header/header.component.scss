@@ -1,233 +1,318 @@
-@use '../../../theme/variables' as theme;
+@use '../../../theme/variables' as v;
 
-.main-header {
+// ──────────────────────────────────────────────────────────────────
+// Site header — thin, refined, transparent over hero, cream when scrolled
+// ──────────────────────────────────────────────────────────────────
+.site-header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-  height: 100px; // Increased height for a more spacious feel
-  color: theme.$theme-text-light; // White text by default
-  background-color: transparent;
-  transition: background-color 0.4s ease,
-              border-color 0.4s ease,
-              color 0.4s ease,
-              height 0.4s ease;
+  height: 92px;
+  color: v.$ivory;
+  transition: height v.$dur v.$ease,
+              background-color v.$dur v.$ease,
+              color v.$dur v.$ease,
+              border-color v.$dur v.$ease;
   border-bottom: 1px solid transparent;
 
-  // Styles when the page is scrolled
-  &.scrolled {
-    height: 80px; // Slightly smaller on scroll
-    background-color: rgba(theme.$theme-background, 0.85); // Dark blue glassmorphism
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(theme.$theme-secondary, 0.3); // Subtle gold border
-    color: theme.$theme-text-light; // White text on scrolled header
+  &.is-scrolled {
+    height: 72px;
+    background: rgba(250, 248, 243, 0.96); // paper, semi-transparent
+    backdrop-filter: saturate(160%) blur(8px);
+    -webkit-backdrop-filter: saturate(160%) blur(8px);
+    color: v.$ink;
+    border-bottom-color: v.$line;
+  }
+}
 
-    .logo a,
-    .desktop-nav a {
-      color: theme.$theme-text-light; // Ensure text is white
-    }
+.site-header__inner {
+  height: 100%;
+  max-width: 1400px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 3vw, 40px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
 
-    .desktop-nav a:hover,
-    .desktop-nav a.active-link {
-      color: theme.$theme-secondary; // Gold for active/hover
-    }
+// ─── Brand ───────────────────────────────────────────────────────
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  text-decoration: none;
+  color: inherit;
+  font-family: v.$font-family-serif;
+  white-space: nowrap;
+
+  &__mark {
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: 0.005em;
   }
 
-  .header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
+  &__suffix {
+    font-size: 0.85rem;
+    font-style: italic;
+    font-weight: 400;
+    opacity: 0.8;
+    letter-spacing: 0.04em;
   }
 
-  .logo a {
-    font-family: theme.$font-family-serif;
-    font-size: 2rem; // Larger logo text
-    font-weight: 700; // Bolder
+  @media (max-width: 720px) {
+    &__mark { font-size: 1.15rem; }
+    &__suffix { display: none; }
+  }
+}
+
+// ─── Nav (desktop) ───────────────────────────────────────────────
+.nav { display: flex; align-items: center; }
+
+.nav__list {
+  list-style: none;
+  display: flex;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+
+  @media (max-width: 960px) { display: none; }
+}
+
+.nav__item {
+  position: relative;
+
+  > a,
+  .nav__trigger {
+    font-family: v.$font-family-sans;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: inherit;
     text-decoration: none;
-    color: inherit;
-    transition: color 0.3s ease;
-  }
-
-  .desktop-nav {
-    display: flex;
-    gap: 3rem; // Increased gap
-    align-items: center; // Centers items vertically to fix "lower" dropdowns
-
-    a {
-      font-family: theme.$font-family-sans;
-      font-size: 1rem;
-      font-weight: 500;
-      letter-spacing: 1px;
-      text-decoration: none;
-      color: inherit;
-      position: relative;
-      padding: 0.5rem 0;
-      transition: color 0.3s ease;
-
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 1px; // Thinner line
-        background-color: theme.$theme-secondary;
-        transform: scaleX(0);
-        transform-origin: left; // Animate from the left
-        transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-      }
-
-      &:hover::after,
-      &.active-link::after {
-        transform: scaleX(1);
-      }
-
-      &:hover,
-      &.active-link {
-         color: theme.$theme-secondary; // Gold on hover/active
-      }
-    }
-
-    .nav-item {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-
-    .dropdown {
-      cursor: pointer;
-
-      a {
-        display: flex;
-        align-items: center;
-      }
-
-      .dropdown-menu {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        background-color: rgba(theme.$theme-background, 0.9);
-        backdrop-filter: blur(10px);
-        border-radius: 5px;
-        padding: 0.5rem 0;
-        min-width: 200px;
-        display: none;
-        flex-direction: column;
-        gap: 0.5rem;
-        z-index: 1001;
-        border: 1px solid rgba(theme.$theme-secondary, 0.3);
-
-        a {
-          padding: 0.5rem 1rem;
-          white-space: nowrap;
-
-          &::after {
-            display: none;
-          }
-        }
-      }
-
-      &.open .dropdown-menu {
-        display: flex;
-      }
-    }
-  }
-
-  .header-actions {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .mobile-nav-item {
-    text-align: center;
-  }
-  .mobile-dropdown {
-    a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
-  .mobile-dropdown-menu {
-    display: none;
-    flex-direction: column;
-    gap: 1rem;
-    padding-top: 1rem;
-
-    &.open {
-      display: flex;
-    }
-
-    a {
-      font-size: 1.5rem;
-    }
-  }
-
-  .mobile-menu-btn {
-    display: none; // Hidden by default
     background: none;
-    border: none;
-    color: inherit;
+    border: 0;
+    padding: 6px 0;
     cursor: pointer;
-
-    .material-icons {
-      font-size: 2rem;
-    }
-  }
-
-  .mobile-nav-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(theme.$theme-background, 0.98);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    z-index: 999;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: inline-flex;
     align-items: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
+    gap: 8px;
+    transition: color v.$dur v.$ease, opacity v.$dur v.$ease;
 
-    &.open {
-      opacity: 1;
-      visibility: visible;
+    &:hover { opacity: 0.7; }
+
+    &.is-active {
+      color: v.$gold;
+      .site-header.is-scrolled & { color: v.$gold-deep; }
     }
+  }
+}
 
-    .mobile-nav {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      text-align: center;
+.nav__chev {
+  width: 6px; height: 6px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform v.$dur v.$ease;
+}
 
-      a {
-        font-family: theme.$font-family-serif;
-        font-size: 2.5rem;
-        color: theme.$theme-text-light;
-        text-decoration: none;
-        transition: color 0.3s ease;
+.nav__panel {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  min-width: 240px;
+  background: v.$ivory;
+  border: 1px solid v.$line;
+  padding: 10px 0;
+  box-shadow: 0 24px 48px -24px rgba(20, 22, 26, 0.18);
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity v.$dur v.$ease, transform v.$dur v.$ease, visibility v.$dur v.$ease;
 
-        &:hover, &.active-link {
-          color: theme.$theme-secondary;
-        }
-      }
+  a {
+    display: block;
+    padding: 10px 22px;
+    font-family: v.$font-family-sans;
+    font-size: 0.82rem;
+    color: v.$ink;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: background v.$dur v.$ease, color v.$dur v.$ease;
+
+    &:hover { background: v.$paper-deep; color: v.$gold-deep; }
+    &.is-active { color: v.$gold-deep; }
+  }
+}
+
+.nav__item:hover .nav__panel,
+.nav__item.has-dropdown:focus-within .nav__panel {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.nav__item:hover .nav__chev { transform: rotate(225deg) translateX(2px); }
+
+// ─── Right actions ───────────────────────────────────────────────
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.actions__cta {
+  font-family: v.$font-family-sans;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: inherit;
+  padding: 12px 22px;
+  border: 1px solid currentColor;
+  border-radius: 0;
+  transition: background v.$dur v.$ease, color v.$dur v.$ease, border-color v.$dur v.$ease;
+
+  &:hover {
+    background: v.$ivory;
+    color: v.$ink;
+    border-color: v.$ivory;
+  }
+
+  .site-header.is-scrolled & {
+    border-color: v.$ink;
+    &:hover { background: v.$ink; color: v.$ivory; border-color: v.$ink; }
+  }
+
+  @media (max-width: 540px) { display: none; }
+}
+
+// Burger
+.burger {
+  display: none;
+  width: 32px; height: 32px;
+  background: none; border: 0; cursor: pointer;
+  position: relative;
+
+  &__line {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 22px; height: 1px;
+    background: currentColor;
+    transform: translate(-50%, -50%);
+    transition: transform v.$dur v.$ease, width v.$dur v.$ease;
+
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      left: 0; width: 100%; height: 1px;
+      background: currentColor;
+      transition: transform v.$dur v.$ease, top v.$dur v.$ease;
+    }
+    &::before { top: -6px; }
+    &::after  { top: 6px; }
+
+    &.is-open {
+      background: transparent;
+      &::before { top: 0; transform: rotate(45deg); }
+      &::after  { top: 0; transform: rotate(-45deg); }
     }
   }
 
-  @media (max-width: 992px) {
-    .desktop-nav, .header-actions .btn {
-      display: none;
-    }
+  @media (max-width: 960px) { display: inline-block; }
+}
 
-    .mobile-menu-btn {
-      display: block;
-    }
+// ─── Mobile drawer ───────────────────────────────────────────────
+.mobile-drawer {
+  position: fixed;
+  inset: 92px 0 0;
+  background: v.$paper;
+  color: v.$ink;
+  transform: translateY(-12px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity v.$dur v.$ease, transform v.$dur v.$ease;
+  overflow-y: auto;
+  border-top: 1px solid v.$line;
+
+  &.is-open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
   }
+
+  .site-header.is-scrolled & { inset: 72px 0 0; }
+}
+
+.mobile-nav ul {
+  list-style: none; padding: 0; margin: 0;
+}
+
+.mobile-nav li {
+  border-bottom: 1px solid v.$line;
+}
+
+.mobile-nav a,
+.mobile-nav__trigger {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px clamp(20px, 5vw, 40px);
+  font-family: v.$font-family-serif;
+  font-size: 1.6rem;
+  color: v.$ink;
+  text-decoration: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+
+  &.is-active { color: v.$gold-deep; }
+}
+
+.mobile-nav__chev {
+  font-family: v.$font-family-sans;
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: v.$ink-subtle;
+  width: 24px;
+  text-align: center;
+}
+
+.mobile-nav__panel {
+  max-height: 0;
+  overflow: hidden;
+  background: v.$paper-deep;
+  transition: max-height v.$dur v.$ease;
+
+  &.is-open { max-height: 500px; }
+
+  a {
+    font-family: v.$font-family-sans;
+    font-size: 0.95rem;
+    padding: 14px clamp(28px, 6vw, 56px);
+    color: v.$ink-muted;
+    border-bottom: none;
+
+    &.is-active { color: v.$gold-deep; }
+  }
+}
+
+.mobile-cta {
+  background: v.$ink;
+  color: v.$ivory !important;
+  font-family: v.$font-family-sans !important;
+  font-size: 0.85rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  justify-content: center !important;
+  padding: 22px clamp(20px, 5vw, 40px) !important;
 }

@@ -1,76 +1,75 @@
-<!-- Urban Oasis Header -->
-<header class="main-header" [class.scrolled]="isScrolled">
-  <div class="header-content container">
+<header class="site-header" [class.is-scrolled]="isScrolled">
+  <div class="site-header__inner">
+    <!-- Brand -->
+    <a routerLink="/" class="brand" aria-label="Teddy City Hotels — home">
+      <span class="brand__mark">Teddy City</span>
+      <span class="brand__suffix">Hotels</span>
+    </a>
 
-    <!-- Logo -->
-    <div class="logo">
-      <a routerLink="/">Teddy City Hotels</a>
-    </div>
-
-    <!-- Desktop Navigation -->
-    <nav class="desktop-nav">
-      <div *ngFor="let link of navLinks" class="nav-item">
-        <a *ngIf="!link.dropdown"
-           [routerLink]="link.href"
-           routerLinkActive="active-link"
-           [routerLinkActiveOptions]="{exact: true}">
-          {{ link.label }}
-        </a>
-        <div *ngIf="link.dropdown" class="dropdown">
-          <a (click)="toggleDropdown($event)"
-             [class.active-link]="isDropdownActive(link.dropdown)">
+    <!-- Desktop nav -->
+    <nav class="nav" aria-label="Primary">
+      <ul class="nav__list">
+        <li *ngFor="let link of navLinks" class="nav__item" [class.has-dropdown]="link.dropdown">
+          <a *ngIf="!link.dropdown"
+             [routerLink]="link.href"
+             routerLinkActive="is-active"
+             [routerLinkActiveOptions]="{ exact: false }">
             {{ link.label }}
-            <i class="material-icons">arrow_drop_down</i>
           </a>
-          <div class="dropdown-menu">
-            <a *ngFor="let item of link.dropdown"
-               [routerLink]="item.href"
-               routerLinkActive="active-link"
-               [routerLinkActiveOptions]="{exact: true}">
-              {{ item.label }}
-            </a>
-          </div>
-        </div>
-      </div>
+
+          <ng-container *ngIf="link.dropdown">
+            <button type="button" class="nav__trigger" (click)="toggleDropdown($event)">
+              {{ link.label }}
+              <span class="nav__chev" aria-hidden="true"></span>
+            </button>
+            <div class="nav__panel" role="menu">
+              <a *ngFor="let item of link.dropdown"
+                 [routerLink]="item.href"
+                 routerLinkActive="is-active">
+                {{ item.label }}
+              </a>
+            </div>
+          </ng-container>
+        </li>
+      </ul>
     </nav>
 
-    <!-- Header Actions -->
-    <div class="header-actions">
-      <a routerLink="/properties" class="btn btn-primary">Book a Stay</a>
-      <!-- Mobile Menu Button -->
-      <button class="mobile-menu-btn" (click)="toggleMobileMenu()">
-        <i class="material-icons">{{ isMobileMenuOpen ? 'close' : 'menu' }}</i>
+    <!-- Right cluster -->
+    <div class="actions">
+      <a routerLink="/hotels" class="actions__cta">Reserve</a>
+      <button class="burger" (click)="toggleMobileMenu()" [attr.aria-expanded]="isMobileMenuOpen" aria-label="Menu">
+        <span class="burger__line" [class.is-open]="isMobileMenuOpen"></span>
       </button>
     </div>
   </div>
 
-  <!-- Mobile Navigation Overlay -->
-  <div class="mobile-nav-overlay" [class.open]="isMobileMenuOpen">
-    <nav class="mobile-nav">
-      <div *ngFor="let link of navLinks" class="mobile-nav-item">
-        <a *ngIf="!link.dropdown"
-           [routerLink]="link.href"
-           routerLinkActive="active-link"
-           [routerLinkActiveOptions]="{exact: true}"
-           (click)="closeMobileMenu()">
-          {{ link.label }}
-        </a>
-        <div *ngIf="link.dropdown" class="mobile-dropdown">
-          <a (click)="toggleMobileDropdown($event)">
-            {{ link.label }}
-            <i class="material-icons">{{ getMobileDropdownIcon(link) }}</i>
-          </a>
-          <div class="mobile-dropdown-menu" [class.open]="isMobileDropdownOpen(link)">
-            <a *ngFor="let item of link.dropdown"
-               [routerLink]="item.href"
-               routerLinkActive="active-link"
-               [routerLinkActiveOptions]="{exact: true}"
-               (click)="closeMobileMenu()">
-              {{ item.label }}
-            </a>
-          </div>
-        </div>
-      </div>
+  <!-- Mobile drawer -->
+  <div class="mobile-drawer" [class.is-open]="isMobileMenuOpen">
+    <nav class="mobile-nav" aria-label="Primary mobile">
+      <ul>
+        <li *ngFor="let link of navLinks" [class.has-dropdown]="link.dropdown">
+          <a *ngIf="!link.dropdown"
+             [routerLink]="link.href"
+             routerLinkActive="is-active"
+             (click)="closeMobileMenu()">{{ link.label }}</a>
+
+          <ng-container *ngIf="link.dropdown">
+            <button type="button" class="mobile-nav__trigger" (click)="toggleMobileDropdown($event)">
+              {{ link.label }}
+              <span class="mobile-nav__chev">{{ getMobileDropdownIcon(link) === 'arrow_drop_up' ? '−' : '+' }}</span>
+            </button>
+            <div class="mobile-nav__panel" [class.is-open]="isMobileDropdownOpen(link)">
+              <a *ngFor="let item of link.dropdown"
+                 [routerLink]="item.href"
+                 routerLinkActive="is-active"
+                 (click)="closeMobileMenu()">{{ item.label }}</a>
+            </div>
+          </ng-container>
+        </li>
+        <li>
+          <a routerLink="/hotels" class="mobile-cta" (click)="closeMobileMenu()">Reserve a stay</a>
+        </li>
+      </ul>
     </nav>
   </div>
 </header>

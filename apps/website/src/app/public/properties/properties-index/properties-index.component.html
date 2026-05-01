@@ -1,37 +1,47 @@
-<main class="properties-index">
-  <header class="hero">
-    <span class="eyebrow">Our Properties</span>
-    <h1>Hospitality across the portfolio</h1>
-    <p>Explore the hotels and shortlets operated by Teddy City Hotels.</p>
+<main class="hotels-page">
+  <!-- Page header -->
+  <header class="page-hero">
+    <div class="container-narrow page-hero__inner">
+      <span class="eyebrow">Our Hotels</span>
+      <h1>Where you'll find us.</h1>
+      <hr class="divider"/>
+      <p class="lede">
+        A small, considered family of stays — each with its own personality,
+        all run to the same standard of care.
+      </p>
+    </div>
   </header>
 
-  <section class="grid-wrap">
-    <p class="status muted" *ngIf="loading">Loading properties&hellip;</p>
-    <p class="status error" *ngIf="error">{{ error }}</p>
+  <section class="hotels-list section">
+    <div class="container">
+      <p *ngIf="loading" class="status">Loading…</p>
+      <p *ngIf="error" class="status status--error">{{ error }}</p>
 
-    <div class="properties-grid" *ngIf="!loading && properties.length">
-      <a *ngFor="let property of properties"
-         [routerLink]="['/properties', property.slug]"
-         class="property-card">
-        <div
-          class="property-cover"
-          [style.background-image]="property.branding?.heroImageUrl ? 'url(' + property.branding.heroImageUrl + ')' : null"
-        >
-          <span class="property-kind">{{ property.kind }}</span>
-        </div>
-        <div class="property-body">
-          <h2>{{ property.branding?.displayName || property.name }}</h2>
-          <p class="city" *ngIf="property.address?.city">
-            {{ property.address.city }}<span *ngIf="property.address.state">, {{ property.address.state }}</span>
-          </p>
-          <p class="short">{{ property.shortDescription }}</p>
-          <span class="cta">Explore &rarr;</span>
-        </div>
-      </a>
+      <div class="hotels-grid" *ngIf="!loading && properties.length">
+        <a *ngFor="let hotel of properties; let i = index"
+           [routerLink]="['/hotels', hotel.slug]"
+           class="hotel-card"
+           [class.hotel-card--reverse]="i % 2 === 1">
+          <div class="hotel-card__image"
+               [style.background-image]="hotel.branding?.heroImageUrl ? 'url(' + hotel.branding.heroImageUrl + ')' : null"
+               aria-hidden="true">
+            <span class="hotel-card__index">{{ i + 1 < 10 ? '0' + (i + 1) : (i + 1) }}</span>
+          </div>
+
+          <div class="hotel-card__body">
+            <span class="eyebrow">
+              {{ hotel.address?.city }}<span *ngIf="hotel.address?.country">, {{ hotel.address.country }}</span>
+            </span>
+            <h2 class="hotel-card__name">{{ hotel.branding?.displayName || hotel.name }}</h2>
+            <p class="hotel-card__copy">{{ hotel.shortDescription }}</p>
+            <span class="link-discover">Discover the hotel</span>
+          </div>
+        </a>
+      </div>
+
+      <p *ngIf="!loading && !properties.length && !error" class="status">
+        No hotels to show yet.
+      </p>
     </div>
-
-    <p class="status muted" *ngIf="!loading && !properties.length && !error">
-      No properties to show yet.
-    </p>
   </section>
 </main>

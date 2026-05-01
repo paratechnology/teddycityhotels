@@ -1,100 +1,113 @@
-@use '../../../../theme/variables' as theme;
+@use '../../../../theme/variables' as v;
 
-.property-shell {
-  display: block;
-}
+.hotel-shell { display: block; }
 
-.property-subnav {
+// ─── Sub-nav ─────────────────────────────────────────────────────
+.hotel-subnav {
   position: sticky;
-  top: 80px;
+  top: 72px;
   z-index: 50;
-  background: rgba(7, 21, 34, 0.92);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  color: #fff;
-
-  &__inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 12px 24px;
-    display: flex;
-    align-items: center;
-    gap: 32px;
-    flex-wrap: wrap;
-  }
+  background: rgba(250, 248, 243, 0.96);
+  backdrop-filter: saturate(160%) blur(8px);
+  -webkit-backdrop-filter: saturate(160%) blur(8px);
+  border-top: 1px solid v.$line;
+  border-bottom: 1px solid v.$line;
+  color: v.$ink;
 }
 
-.property-identity {
+.hotel-subnav__inner {
+  max-width: 1240px;
+  margin-inline: auto;
+  padding: 14px clamp(20px, 4vw, 40px);
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.hotel-identity {
   display: flex;
   flex-direction: column;
   line-height: 1.1;
+  flex-shrink: 0;
 
-  .property-name {
-    font-family: theme.$font-family-serif;
+  .hotel-name {
+    font-family: v.$font-family-serif;
     font-size: 1.05rem;
-    color: #fff;
+    font-weight: 500;
+    color: v.$ink;
     text-decoration: none;
-    font-weight: 600;
   }
 
-  .property-meta {
+  .hotel-meta {
+    font-family: v.$font-family-sans;
     font-size: 0.7rem;
-    color: rgba(255, 255, 255, 0.55);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    margin-top: 2px;
+    color: v.$ink-subtle;
+    margin-top: 4px;
   }
 }
 
-.property-links {
+.hotel-links {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
-  gap: 22px;
+  gap: 24px;
   flex: 1;
 
   a {
-    color: rgba(255, 255, 255, 0.65);
-    text-decoration: none;
-    font-size: 0.85rem;
-    letter-spacing: 0.05em;
+    font-family: v.$font-family-sans;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    padding: 6px 0;
-    border-bottom: 2px solid transparent;
-    transition: color 0.2s ease, border-color 0.2s ease;
+    color: v.$ink-muted;
+    text-decoration: none;
+    padding: 4px 0;
+    border-bottom: 1px solid transparent;
+    transition: color v.$dur v.$ease, border-color v.$dur v.$ease;
 
-    &:hover { color: #fff; }
-    &.active {
-      color: #fff;
-      border-bottom-color: theme.$theme-primary;
+    &:hover { color: v.$ink; }
+    &.is-active {
+      color: v.$ink;
+      border-bottom-color: v.$gold;
     }
   }
 }
 
-.property-cta {
-  background: theme.$theme-primary;
-  color: #071522;
-  padding: 8px 18px;
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: 0.8rem;
-  text-decoration: none;
-  letter-spacing: 0.06em;
+.hotel-cta {
+  font-family: v.$font-family-sans;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
+  color: v.$ink;
+  padding: 11px 22px;
+  border: 1px solid v.$ink;
+  text-decoration: none;
+  transition: background v.$dur v.$ease, color v.$dur v.$ease;
+  flex-shrink: 0;
 
-  &:hover { filter: brightness(1.05); }
+  &:hover { background: v.$ink; color: v.$ivory; }
 }
 
-@media (max-width: 720px) {
-  .property-subnav__inner {
-    gap: 12px;
-  }
-  .property-links {
+@media (max-width: 760px) {
+  .hotel-subnav__inner { gap: 14px; padding: 12px clamp(16px, 4vw, 24px); }
+
+  .hotel-links {
     order: 3;
     flex-basis: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    gap: 16px;
+    gap: 18px;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar { display: none; }
+    a { white-space: nowrap; }
   }
+
+  .hotel-cta { padding: 9px 18px; font-size: 0.72rem; }
 }

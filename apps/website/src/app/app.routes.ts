@@ -19,16 +19,16 @@ import { AboutComponent } from './public/about/about.component';
 import { ManagementComponent } from './public/management/management.component';
 
 /**
- * Route shape:
- *   /                          → corporate (group) home
- *   /properties                → portfolio index
- *   /properties/:slug          → property home (re-uses existing single-hotel sections,
- *                                feature-flagged from IProperty)
- *   /properties/:slug/rooms    → rooms / booking / menu / snooker / swimming / contact
+ * Public route shape:
+ *   /                                 corporate (group) home
+ *   /hotels                           portfolio index
+ *   /hotels/:slug                     hotel home (feature-flagged from IProperty)
+ *   /hotels/:slug/{rooms,booking,menu,snooker,swimming,contact}
+ *   /about                            group story
+ *   /become-a-teddy-city-hotel        owner pitch (formerly /management)
  *
- * Old top-level paths (/rooms, /menu, /snooker, ...) redirect to the default property
- * (Teddy City Enugu) so existing inbound links keep working. Once external links are
- * updated they can be retired.
+ * Internal code keeps the IProperty entity name; only the user-facing URL
+ * vocabulary uses "hotel". Old paths redirect.
  */
 export const routes: Routes = [
   {
@@ -40,15 +40,15 @@ export const routes: Routes = [
     component: AboutComponent,
   },
   {
-    path: 'management',
+    path: 'become-a-teddy-city-hotel',
     component: ManagementComponent,
   },
   {
-    path: 'properties',
+    path: 'hotels',
     component: PropertiesIndexComponent,
   },
   {
-    path: 'properties/:slug',
+    path: 'hotels/:slug',
     component: PropertyShellComponent,
     resolve: { property: propertyResolver },
     children: [
@@ -62,17 +62,22 @@ export const routes: Routes = [
     ],
   },
 
-  // Booking confirmation / payment verification stay top-level (not property-scoped).
+  // Top-level (not hotel-scoped)
   { path: 'booking-confirmation/:bookingId', component: BookingConfirmationComponent },
   { path: 'payment-verification', component: PaymentVerificationComponent },
 
-  // Legacy single-hotel paths → redirect to the default property.
-  { path: 'rooms', redirectTo: `properties/${DEFAULT_PROPERTY_SLUG}/rooms`, pathMatch: 'full' },
-  { path: 'booking/:roomId', redirectTo: `properties/${DEFAULT_PROPERTY_SLUG}/booking/:roomId`, pathMatch: 'full' },
-  { path: 'menu', redirectTo: `properties/${DEFAULT_PROPERTY_SLUG}/menu`, pathMatch: 'full' },
-  { path: 'snooker', redirectTo: `properties/${DEFAULT_PROPERTY_SLUG}/snooker`, pathMatch: 'full' },
-  { path: 'swimming', redirectTo: `properties/${DEFAULT_PROPERTY_SLUG}/swimming`, pathMatch: 'full' },
-  { path: 'contact', redirectTo: `properties/${DEFAULT_PROPERTY_SLUG}/contact`, pathMatch: 'full' },
+  // Legacy URL redirects → the new vocabulary / default hotel
+  { path: 'management', redirectTo: 'become-a-teddy-city-hotel', pathMatch: 'full' },
+  { path: 'properties', redirectTo: 'hotels', pathMatch: 'full' },
+  { path: 'properties/:slug', redirectTo: 'hotels/:slug', pathMatch: 'full' },
+
+  // Old single-hotel flat paths → default hotel under the new scope
+  { path: 'rooms', redirectTo: `hotels/${DEFAULT_PROPERTY_SLUG}/rooms`, pathMatch: 'full' },
+  { path: 'booking/:roomId', redirectTo: `hotels/${DEFAULT_PROPERTY_SLUG}/booking/:roomId`, pathMatch: 'full' },
+  { path: 'menu', redirectTo: `hotels/${DEFAULT_PROPERTY_SLUG}/menu`, pathMatch: 'full' },
+  { path: 'snooker', redirectTo: `hotels/${DEFAULT_PROPERTY_SLUG}/snooker`, pathMatch: 'full' },
+  { path: 'swimming', redirectTo: `hotels/${DEFAULT_PROPERTY_SLUG}/swimming`, pathMatch: 'full' },
+  { path: 'contact', redirectTo: `hotels/${DEFAULT_PROPERTY_SLUG}/contact`, pathMatch: 'full' },
 
   { path: '**', component: NotFoundComponent },
 ];

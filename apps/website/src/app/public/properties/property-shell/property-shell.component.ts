@@ -56,6 +56,6 @@ export class PropertyShellComponent implements OnInit, OnDestroy {
   }
 
   bookHref(): string[] {
-    return this.property ? ['/properties', this.property.slug, 'rooms'] : ['/properties'];
+    return this.property ? ['/hotels', this.property.slug, 'rooms'] : ['/hotels'];
   }
 }

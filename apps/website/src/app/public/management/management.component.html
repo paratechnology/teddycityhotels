@@ -1,88 +1,123 @@
-<main class="management-page">
+<main class="owners-page">
+  <!-- ─── Hero ─────────────────────────────────────────────────── -->
   <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <span class="eyebrow">Hotel Management</span>
-      <h1>Have us run your hotel.</h1>
-      <p>
-        We take the systems, marketing, and operational discipline we use across the
-        Teddy City Hotels portfolio and bring them to other independent properties.
+    <div class="hero__media" aria-hidden="true"></div>
+    <div class="hero__veil" aria-hidden="true"></div>
+
+    <div class="hero__inner container">
+      <span class="hero__eyebrow">For Hotel Owners</span>
+      <h1 class="hero__title">Become a<br/>Teddy City Hotel.</h1>
+      <p class="hero__lede">
+        We bring the systems, the people, and the operational discipline of
+        our own hotels — to yours. Quietly, end-to-end, and with the same
+        care we give every hotel in our family.
       </p>
-      <div class="hero-actions">
-        <a routerLink="/contact" class="btn btn-primary">Talk to us</a>
+      <div class="hero__actions">
+        <a routerLink="/contact" class="btn btn-light">Start a conversation</a>
       </div>
     </div>
   </section>
 
-  <section class="what-you-get">
-    <div class="container">
-      <span class="eyebrow">What we cover</span>
-      <h2>Full-service hotel management.</h2>
-      <p class="lede">
-        Whether you're an absentee owner, a developer with a finished asset, or an
-        operator looking for a turnaround, we plug into the property and run it like
-        one of our own.
+  <!-- ─── Statement ────────────────────────────────────────────── -->
+  <section class="statement section">
+    <div class="container-narrow statement__inner">
+      <span class="eyebrow">A short note</span>
+      <hr class="divider"/>
+      <p class="statement__copy">
+        Hospitality is a craft. Most hotels falter not because of the building,
+        but because of the thousand small decisions made every day inside it.
+        We exist to make those decisions well — for our hotels and for yours.
       </p>
-
-      <ul class="capability-grid">
-        <li>
-          <h3>Operations</h3>
-          <p>Front office, housekeeping, F&amp;B, maintenance, security — staffed and managed.</p>
-        </li>
-        <li>
-          <h3>Revenue management</h3>
-          <p>Pricing, distribution, OTA mix, direct-booking funnels. Tracked weekly.</p>
-        </li>
-        <li>
-          <h3>Marketing &amp; brand</h3>
-          <p>Photography, listings, social, email — under your brand or co-branded with ours.</p>
-        </li>
-        <li>
-          <h3>Finance &amp; reporting</h3>
-          <p>Daily revenue reporting, monthly P&amp;L, owner statements, budget oversight.</p>
-        </li>
-        <li>
-          <h3>Procurement</h3>
-          <p>Group buying for amenities, linens, F&amp;B inputs — your costs follow our scale.</p>
-        </li>
-        <li>
-          <h3>Tech &amp; systems</h3>
-          <p>PMS, channel manager, point-of-sale — chosen, set up, and supported.</p>
-        </li>
-      </ul>
     </div>
   </section>
 
-  <section class="how-it-works">
+  <!-- ─── What we cover ────────────────────────────────────────── -->
+  <section class="what section">
     <div class="container">
-      <span class="eyebrow">How it works</span>
-      <h2>Three steps to get started.</h2>
-      <ol class="steps">
+      <header class="what__header">
+        <span class="eyebrow">What we cover</span>
+        <h2>Full-service hotel management.</h2>
+        <hr class="divider"/>
+      </header>
+
+      <div class="what__grid">
+        <article class="what__item">
+          <span class="what__num">01</span>
+          <h3>Operations</h3>
+          <p>Front office, housekeeping, F&amp;B, maintenance, security — staffed and managed.</p>
+        </article>
+        <article class="what__item">
+          <span class="what__num">02</span>
+          <h3>Revenue management</h3>
+          <p>Pricing, distribution, OTA mix, direct-booking funnels. Tracked weekly.</p>
+        </article>
+        <article class="what__item">
+          <span class="what__num">03</span>
+          <h3>Marketing &amp; brand</h3>
+          <p>Photography, listings, social, email — under your brand or co-branded with ours.</p>
+        </article>
+        <article class="what__item">
+          <span class="what__num">04</span>
+          <h3>Finance &amp; reporting</h3>
+          <p>Daily revenue reporting, monthly P&amp;L, owner statements, budget oversight.</p>
+        </article>
+        <article class="what__item">
+          <span class="what__num">05</span>
+          <h3>Procurement</h3>
+          <p>Group buying for amenities, linens, F&amp;B inputs — your costs follow our scale.</p>
+        </article>
+        <article class="what__item">
+          <span class="what__num">06</span>
+          <h3>Tech &amp; systems</h3>
+          <p>PMS, channel manager, point-of-sale — chosen, set up, and supported.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── How it works ─────────────────────────────────────────── -->
+  <section class="how section section-dark">
+    <div class="container how__inner">
+      <header class="how__header">
+        <span class="eyebrow">How it works</span>
+        <h2>Three steps to get started.</h2>
+        <hr class="divider"/>
+      </header>
+
+      <ol class="how__steps">
         <li>
-          <span class="num">1</span>
-          <h3>Site visit &amp; assessment</h3>
-          <p>We walk the property, review the books, and map what's working from what isn't.</p>
+          <span class="how__num">01</span>
+          <div>
+            <h3>Site visit &amp; assessment</h3>
+            <p>We walk the hotel, review the books, and map what's working from what isn't.</p>
+          </div>
         </li>
         <li>
-          <span class="num">2</span>
-          <h3>Proposal &amp; agreement</h3>
-          <p>A clear management agreement: scope, fees, performance targets, term length.</p>
+          <span class="how__num">02</span>
+          <div>
+            <h3>Proposal &amp; agreement</h3>
+            <p>A clear management agreement — scope, fees, performance targets, term length.</p>
+          </div>
         </li>
         <li>
-          <span class="num">3</span>
-          <h3>Transition &amp; run</h3>
-          <p>We onboard staff, switch systems, and take over operations. You see weekly reports from day one.</p>
+          <span class="how__num">03</span>
+          <div>
+            <h3>Transition &amp; run</h3>
+            <p>We onboard staff, switch systems, and take over operations. You see weekly reports from day one.</p>
+          </div>
         </li>
       </ol>
     </div>
   </section>
 
-  <section class="cta">
-    <div class="container">
-      <h2>Ready to talk?</h2>
-      <p>Send us a note about your property and we'll come back within two business days.</p>
-      <div class="cta-actions">
+  <!-- ─── Closing ──────────────────────────────────────────────── -->
+  <section class="closing section">
+    <div class="container-narrow closing__inner">
+      <span class="eyebrow">Ready to talk?</span>
+      <h2>Send us a note about your hotel.</h2>
+      <hr class="divider"/>
+      <p>We come back within two business days, every time.</p>
+      <div class="closing__actions">
         <a routerLink="/contact" class="btn btn-primary">Start a conversation</a>
         <a routerLink="/about" class="btn btn-ghost">Read more about us</a>
       </div>

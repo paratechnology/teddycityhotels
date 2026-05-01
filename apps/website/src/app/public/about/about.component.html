@@ -1,74 +1,106 @@
 <main class="about-page">
-  <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <span class="eyebrow">About the group</span>
-      <h1>One standard. Many stays.</h1>
-      <p>
-        Teddy City Hotels is a hospitality group that owns, operates, and manages hotels
-        and shortlets — built on the idea that hospitality is a craft.
+  <!-- ─── Page hero ────────────────────────────────────────────── -->
+  <header class="page-hero">
+    <div class="container-narrow page-hero__inner">
+      <span class="eyebrow">About</span>
+      <h1>One standard.<br/>Many stays.</h1>
+      <hr class="divider"/>
+      <p class="lede">
+        Teddy City Hotels is a small hospitality group from Nigeria. We own,
+        operate and manage hotels — and care, perhaps to a fault, about how
+        a stay feels.
       </p>
     </div>
-  </section>
+  </header>
 
-  <section class="story">
-    <div class="container">
-      <div class="block">
+  <!-- ─── Story ────────────────────────────────────────────────── -->
+  <section class="story section">
+    <div class="container story__inner">
+      <div class="story__intro">
         <span class="eyebrow">Our story</span>
+        <hr class="divider"/>
         <h2>Built around the guest.</h2>
-        <p>
-          We started with a single hotel and a clear conviction: the small things — the
-          temperature of the lobby, the quality of breakfast, the response time to a
-          request — are what make a stay memorable. As we've grown, the conviction
-          hasn't changed. Our properties differ in scale and personality, but they all
-          run to one standard.
-        </p>
       </div>
-
-      <div class="block">
-        <span class="eyebrow">What we do</span>
-        <h2>Three businesses, one lens.</h2>
-        <ul class="three-up">
-          <li>
-            <h3>We own hotels.</h3>
-            <p>Properties under the Teddy City Hotels umbrella, run end-to-end by us.</p>
-          </li>
-          <li>
-            <h3>We operate stays.</h3>
-            <p>Day-to-day hospitality, F&amp;B, and guest experience across the portfolio.</p>
-          </li>
-          <li>
-            <h3>We manage for owners.</h3>
-            <p>The same systems and discipline, applied to other independent hotels.</p>
-          </li>
-        </ul>
+      <div class="story__body">
+        <p>
+          We started with a single hotel and a clear conviction: the small
+          things — the temperature of the lobby, the quality of breakfast,
+          the response time to a request — are what make a stay memorable.
+          As we've grown, the conviction hasn't changed.
+        </p>
+        <p>
+          Our hotels differ in scale and personality, but they all run to
+          one standard. We choose people who care. We pay attention to what
+          most operators ignore. We keep the front desk close to the guest
+          and the kitchen close to the food.
+        </p>
       </div>
     </div>
   </section>
 
-  <section class="portfolio" *ngIf="properties.length">
+  <!-- ─── Three businesses ─────────────────────────────────────── -->
+  <section class="trio section">
     <div class="container">
-      <span class="eyebrow">Portfolio</span>
-      <h2>Where you'll find us</h2>
-      <ul class="property-list">
-        <li *ngFor="let property of properties">
-          <a [routerLink]="['/properties', property.slug]">
-            <strong>{{ property.branding?.displayName || property.name }}</strong>
-            <span *ngIf="property.address?.city">{{ property.address.city }}<span *ngIf="property.address.state">, {{ property.address.state }}</span></span>
+      <header class="trio__header">
+        <span class="eyebrow">What we do</span>
+        <h2>Three businesses, one lens.</h2>
+        <hr class="divider"/>
+      </header>
+
+      <div class="trio__grid">
+        <article class="trio__item">
+          <span class="trio__num">01</span>
+          <h3>We own.</h3>
+          <p>Hotels under the Teddy City Hotels umbrella, run end-to-end by us.</p>
+        </article>
+        <article class="trio__item">
+          <span class="trio__num">02</span>
+          <h3>We operate.</h3>
+          <p>Day-to-day hospitality, kitchens, and guest experience across the family.</p>
+        </article>
+        <article class="trio__item">
+          <span class="trio__num">03</span>
+          <h3>We manage.</h3>
+          <p>The same systems and discipline, applied to other independent hotels.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Portfolio strip ──────────────────────────────────────── -->
+  <section class="portfolio section section-dark" *ngIf="properties.length">
+    <div class="container">
+      <header class="portfolio__header">
+        <span class="eyebrow">The family</span>
+        <h2>Where you'll find us.</h2>
+        <hr class="divider"/>
+      </header>
+
+      <ul class="portfolio__list">
+        <li *ngFor="let hotel of properties">
+          <a [routerLink]="['/hotels', hotel.slug]">
+            <div class="portfolio__copy">
+              <span class="eyebrow">
+                {{ hotel.address?.city }}<span *ngIf="hotel.address?.country">, {{ hotel.address.country }}</span>
+              </span>
+              <h3>{{ hotel.branding?.displayName || hotel.name }}</h3>
+            </div>
+            <span class="link-discover link-discover--light">Discover</span>
           </a>
         </li>
       </ul>
     </div>
   </section>
 
-  <section class="cta">
-    <div class="container">
+  <!-- ─── Closing CTA ──────────────────────────────────────────── -->
+  <section class="closing section">
+    <div class="container-narrow closing__inner">
       <h2>Stay with us, or partner with us.</h2>
+      <hr class="divider"/>
       <p>Two ways to work with Teddy City Hotels.</p>
-      <div class="cta-actions">
-        <a routerLink="/properties" class="btn btn-primary">Book a stay</a>
-        <a routerLink="/management" class="btn btn-ghost">Have us run your hotel</a>
+      <div class="closing__actions">
+        <a routerLink="/hotels" class="btn btn-primary">Explore our hotels</a>
+        <a routerLink="/become-a-teddy-city-hotel" class="btn btn-ghost">Become a Teddy City Hotel</a>
       </div>
     </div>
   </section>

@@ -26,20 +26,20 @@ interface NavLink {
     RouterOutlet,
     HeaderComponent,
     FooterComponent,
-],
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
   title = 'Teddy City Hotels';
 
   navLinks: NavLink[] = [
     {
-      label: 'Our Properties',
-      dropdown: [{ label: 'All properties', href: '/properties' }],
+      label: 'Our Hotels',
+      dropdown: [{ label: 'All hotels', href: '/hotels' }],
     },
     { label: 'About', href: '/about' },
-    { label: 'Hotel Management', href: '/management' },
+    { label: 'Become a Teddy City Hotel', href: '/become-a-teddy-city-hotel' },
     { label: 'Contact', href: '/contact' },
   ];
 
@@ -47,20 +47,20 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.propertyService.list().subscribe({
-      next: (properties) => this.populatePropertiesDropdown(properties),
-      error: () => { /* dropdown falls back to "All properties" only */ },
+      next: (hotels) => this.populateHotelsDropdown(hotels),
+      error: () => { /* dropdown falls back to "All hotels" only */ },
     });
   }
 
-  private populatePropertiesDropdown(properties: IProperty[]): void {
-    const dropdown: NavDropdownItem[] = properties.map((p) => ({
-      label: p.branding?.displayName || p.name,
-      href: `/properties/${p.slug}`,
+  private populateHotelsDropdown(hotels: IProperty[]): void {
+    const dropdown: NavDropdownItem[] = hotels.map((h) => ({
+      label: h.branding?.displayName || h.name,
+      href: `/hotels/${h.slug}`,
     }));
-    dropdown.push({ label: 'All properties', href: '/properties' });
+    dropdown.push({ label: 'All hotels', href: '/hotels' });
 
     this.navLinks = this.navLinks.map((link) =>
-      link.label === 'Our Properties' ? { ...link, dropdown } : link
+      link.label === 'Our Hotels' ? { ...link, dropdown } : link
     );
   }
 }

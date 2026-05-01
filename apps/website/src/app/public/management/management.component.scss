@@ -1,113 +1,153 @@
-@use '../../../theme/variables' as theme;
+@use '../../../theme/variables' as v;
 
-:host { display: block; background: theme.$theme-background; color: rgba(255, 255, 255, 0.85); }
-
-.btn {
-  display: inline-block;
-  padding: 12px 28px;
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: 0.85rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-decoration: none;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: all 0.2s ease;
-}
-.btn-primary { background: theme.$theme-primary; color: #071522; &:hover { filter: brightness(1.05); } }
-.btn-ghost { background: transparent; color: #fff; border-color: rgba(255, 255, 255, 0.5); &:hover { border-color: #fff; } }
-
-.eyebrow {
-  display: inline-block;
-  font-size: 0.78rem;
-  letter-spacing: 0.25em;
-  color: theme.$theme-primary;
-  text-transform: uppercase;
+:host {
+  display: block;
+  background: v.$theme-background;
+  color: v.$theme-text-dark;
 }
 
+// Hero
 .hero {
   position: relative;
-  min-height: 55vh;
+  min-height: 78vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #fff;
+  align-items: flex-end;
   overflow: hidden;
+  isolation: isolate;
+  color: v.$ivory;
 }
-.hero-bg {
+.hero__media {
   position: absolute; inset: 0;
-  background: linear-gradient(135deg, #15172a, #0a0c1c);
+  background:
+    linear-gradient(135deg, rgba(168, 149, 107, 0.18), transparent 60%),
+    url('/assets/img/hero-poster.webp') center/cover no-repeat;
+  filter: brightness(0.7);
+  transform: scale(1.04);
+  z-index: -2;
 }
-.hero-overlay { position: absolute; inset: 0; background: radial-gradient(circle at 70% 30%, rgba(theme.$theme-primary, 0.18), transparent 60%); }
-.hero-content {
-  position: relative; z-index: 2;
-  max-width: 760px; padding: 80px 24px 60px;
-  h1 { font-family: theme.$font-family-serif; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.08; margin: 0.6rem 0 1.2rem; }
-  p { color: rgba(255, 255, 255, 0.82); font-size: 1.05rem; line-height: 1.6; max-width: 600px; margin: 0 auto 1.75rem; }
+.hero__veil {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, rgba(20, 22, 26, 0) 30%, rgba(20, 22, 26, 0.78) 100%),
+    linear-gradient(90deg, rgba(20, 22, 26, 0.5) 0%, rgba(20, 22, 26, 0.05) 60%);
+  z-index: -1;
 }
-.hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.hero__inner {
+  padding-block: clamp(64px, 12vh, 132px);
+  max-width: 760px; margin-inline: 0 auto;
+}
+.hero__eyebrow {
+  display: inline-block;
+  font-family: v.$font-family-sans;
+  font-size: v.$type-eyebrow; font-weight: 500;
+  letter-spacing: 0.32em; text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78); margin-bottom: 1.5rem;
+}
+.hero__title {
+  font-family: v.$font-family-serif; font-weight: 500;
+  font-size: clamp(2.6rem, 6vw, 5.4rem);
+  line-height: 1.04; letter-spacing: -0.01em;
+  color: v.$ivory; margin: 0 0 1.25rem;
+}
+.hero__lede {
+  font-family: v.$font-family-serif; font-style: italic;
+  font-size: clamp(1.1rem, 1.6vw, 1.35rem); line-height: 1.55;
+  color: rgba(255, 255, 255, 0.86); max-width: 56ch;
+  margin: 0 0 2rem;
+}
+.hero__actions { display: flex; gap: 12px; flex-wrap: wrap; }
 
-.what-you-get, .how-it-works, .cta {
-  padding: 80px 24px;
-  .container { max-width: 1100px; margin: 0 auto; }
-  h2 { font-family: theme.$font-family-serif; font-size: 2.1rem; color: #fff; margin: 0.5rem 0 1rem; }
-  .lede { color: rgba(255, 255, 255, 0.78); line-height: 1.7; max-width: 720px; margin: 0 0 2rem; }
+// Statement
+.statement { background: v.$theme-background; text-align: center; }
+.statement__inner {
+  display: flex; flex-direction: column; align-items: center; gap: 24px;
+}
+.statement__copy {
+  font-family: v.$font-family-serif; font-style: italic;
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem); line-height: 1.5;
+  color: v.$ink; max-width: 56ch; margin: 0;
 }
 
-.capability-grid {
-  list-style: none; padding: 0; margin: 1.5rem 0 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 18px;
+// What we cover
+.what { background: v.$paper-deep; }
+.what__header {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: 18px;
+  margin-bottom: clamp(48px, 7vw, 88px);
 
-  li {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
-    padding: 22px;
-    h3 { margin: 0 0 8px; color: #fff; font-family: theme.$font-family-serif; font-size: 1.15rem; }
-    p { margin: 0; color: rgba(255, 255, 255, 0.78); line-height: 1.6; }
+  h2 {
+    font-family: v.$font-family-serif; font-weight: 500;
+    font-size: clamp(1.8rem, 3.2vw, 2.6rem); margin: 0;
   }
 }
-
-.how-it-works { background: linear-gradient(180deg, #050d18, #071522); }
-.steps {
-  list-style: none; padding: 0; margin: 1.5rem 0 0;
+.what__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 22px;
-  counter-reset: step;
+  gap: 1px;
+  background: v.$line;
+  border: 1px solid v.$line;
+}
+.what__item {
+  background: v.$ivory;
+  padding: 36px 32px 32px;
+  display: flex; flex-direction: column; gap: 10px;
+
+  .what__num {
+    font-family: v.$font-family-sans;
+    font-size: v.$type-eyebrow; letter-spacing: 0.28em;
+    color: v.$gold-deep; font-weight: 500;
+  }
+  h3 {
+    font-family: v.$font-family-serif; font-weight: 500;
+    font-size: 1.55rem; color: v.$ink; margin: 4px 0 6px;
+  }
+  p { color: v.$ink-muted; font-size: 0.98rem; line-height: 1.65; margin: 0; }
+}
+
+// How it works (dark)
+.how { background: v.$theme-dark-bg; color: v.$ivory; }
+.how__inner { display: flex; flex-direction: column; gap: clamp(40px, 6vw, 72px); }
+.how__header {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: 18px;
+
+  h2 {
+    color: v.$ivory; font-family: v.$font-family-serif;
+    font-weight: 500; font-size: clamp(1.8rem, 3vw, 2.6rem); margin: 0;
+  }
+}
+.how__steps {
+  list-style: none; padding: 0; margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(28px, 4vw, 56px);
 
   li {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
-    padding: 24px;
-    position: relative;
+    display: flex; gap: 20px; align-items: flex-start;
+    border-top: 1px solid rgba(255, 255, 255, 0.16); padding-top: 22px;
 
-    .num {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px; height: 32px;
-      background: theme.$theme-primary;
-      color: #071522;
-      border-radius: 999px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      font-size: 0.95rem;
+    h3 {
+      font-family: v.$font-family-serif; font-weight: 500;
+      font-size: 1.55rem; color: v.$ivory; margin: 0 0 8px;
     }
-
-    h3 { margin: 0 0 8px; color: #fff; font-family: theme.$font-family-serif; font-size: 1.15rem; }
-    p { margin: 0; color: rgba(255, 255, 255, 0.78); line-height: 1.6; }
+    p { color: rgba(255, 255, 255, 0.78); font-size: 1rem; line-height: 1.65; margin: 0; max-width: 36ch; }
   }
 }
-
-.cta {
-  text-align: center;
-  background: theme.$theme-background;
-  p { color: rgba(255, 255, 255, 0.7); margin: 0.5rem 0 1.5rem; }
+.how__num {
+  font-family: v.$font-family-serif; font-style: italic;
+  font-size: 1.6rem; color: v.$gold;
+  letter-spacing: 0.02em; line-height: 1; flex-shrink: 0;
 }
-.cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+// Closing
+.closing { background: v.$theme-background; }
+.closing__inner {
+  display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center;
+
+  h2 {
+    font-family: v.$font-family-serif; font-weight: 500;
+    font-size: clamp(1.8rem, 3.2vw, 2.6rem); color: v.$ink; margin: 0;
+  }
+  p { color: v.$ink-muted; max-width: 48ch; margin: 0; }
+}
+.closing__actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 14px; }

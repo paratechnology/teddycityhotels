@@ -1,75 +1,75 @@
-<footer class="main-footer">
-  <div class="footer-container">
-    <div class="footer-grid">
-      <!-- Column 1: About the group -->
-      <div class="footer-column about">
-        <h4 class="logo">Teddy City Hotels<span>.</span></h4>
-        <p>
-          A hospitality group that owns, operates, and manages hotels and shortlets.
-          One standard. Many stays.
+<footer class="site-footer">
+  <div class="site-footer__inner">
+
+    <!-- Top: brand + columns -->
+    <div class="site-footer__top">
+      <div class="brand-block">
+        <a routerLink="/" class="brand">
+          <span class="brand__mark">Teddy City</span>
+          <span class="brand__suffix">Hotels</span>
+        </a>
+        <p class="brand-block__tagline">
+          A small, considered family of hotels in Nigeria.
         </p>
-        <div class="social-links">
-          <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-            <mat-icon svgIcon="twitter"></mat-icon>
-          </a>
-          <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-            <mat-icon svgIcon="facebook"></mat-icon>
-          </a>
-          <a href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-            <mat-icon svgIcon="linkedin"></mat-icon>
-          </a>
+      </div>
+
+      <nav class="footer-cols" aria-label="Footer">
+        <!-- Hotels -->
+        <div class="footer-col" *ngIf="properties.length">
+          <h4>Our Hotels</h4>
+          <ul>
+            <li *ngFor="let hotel of properties">
+              <a [routerLink]="['/hotels', hotel.slug]">
+                {{ hotel.branding?.displayName || hotel.name }}
+              </a>
+            </li>
+            <li><a routerLink="/hotels">All hotels</a></li>
+          </ul>
         </div>
-      </div>
 
-      <!-- Column 2: Properties -->
-      <div class="footer-column" *ngIf="properties.length">
-        <h4>Our Properties</h4>
-        <ul class="footer-links">
-          <li *ngFor="let property of properties">
-            <a [routerLink]="['/properties', property.slug]">
-              {{ property.branding?.displayName || property.name }}
-            </a>
-          </li>
-          <li><a routerLink="/properties">All properties</a></li>
-        </ul>
-      </div>
+        <!-- Group -->
+        <div class="footer-col">
+          <h4>The Group</h4>
+          <ul>
+            <li><a routerLink="/about">About</a></li>
+            <li><a routerLink="/become-a-teddy-city-hotel">Become a Teddy City Hotel</a></li>
+            <li><a routerLink="/contact">Contact</a></li>
+          </ul>
+        </div>
 
-      <!-- Column 3: Group -->
-      <div class="footer-column">
-        <h4>Group</h4>
-        <ul class="footer-links">
-          <li><a routerLink="/">Home</a></li>
-          <li><a routerLink="/about">About</a></li>
-          <li><a routerLink="/management">Hotel Management</a></li>
-          <li><a routerLink="/contact">Contact</a></li>
-        </ul>
-      </div>
-
-      <!-- Column 4: Get in touch -->
-      <div class="footer-column">
-        <h4>Get in touch</h4>
-        <ul class="footer-links contact-info">
-          <li>
-            <mat-icon>email</mat-icon>
-            <a href="mailto:hello@teddycityhotels.com">hello&#64;teddycityhotels.com</a>
-          </li>
-          <li>
-            <mat-icon>chat</mat-icon>
-            <a routerLink="/contact">Send an inquiry</a>
-          </li>
-        </ul>
-        <p class="legal-links">
-          <a routerLink="/privacy-policy">Privacy</a>
-          <span>·</span>
-          <a routerLink="/terms-of-service">Terms</a>
-          <span>·</span>
-          <a routerLink="/faq">FAQ</a>
-        </p>
-      </div>
+        <!-- Reach us -->
+        <div class="footer-col">
+          <h4>Reach Us</h4>
+          <ul class="contact-list">
+            <li>
+              <span class="footer-col__label">Email</span>
+              <a href="mailto:hello@teddycityhotels.com">hello&#64;teddycityhotels.com</a>
+            </li>
+            <li>
+              <span class="footer-col__label">Inquiries</span>
+              <a routerLink="/contact">Send a message</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
     </div>
 
-    <div class="footer-copyright">
-      &copy; {{ currentYear }} Teddy City Hotels. All Rights Reserved.
+    <!-- Bottom -->
+    <div class="site-footer__base">
+      <p class="copyright">&copy; {{ currentYear }} Teddy City Hotels. All rights reserved.</p>
+      <div class="legal-links">
+        <a routerLink="/privacy-policy">Privacy</a>
+        <span aria-hidden="true">·</span>
+        <a routerLink="/terms-of-service">Terms</a>
+        <span aria-hidden="true">·</span>
+        <a routerLink="/faq">FAQ</a>
+      </div>
+      <div class="social">
+        <a href="#" aria-label="Twitter" target="_blank" rel="noopener">Tw</a>
+        <a href="#" aria-label="Facebook" target="_blank" rel="noopener">Fb</a>
+        <a href="#" aria-label="Instagram" target="_blank" rel="noopener">Ig</a>
+        <a href="#" aria-label="LinkedIn" target="_blank" rel="noopener">In</a>
+      </div>
     </div>
   </div>
 </footer>

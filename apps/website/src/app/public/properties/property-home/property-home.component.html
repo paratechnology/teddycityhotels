@@ -1,116 +1,136 @@
-<main class="property-home" *ngIf="property">
-  <!-- Hero -->
+<main class="hotel-home" *ngIf="property">
+  <!-- ─── Hero ─────────────────────────────────────────────────── -->
   <section class="hero">
-    <div
-      class="hero-bg"
-      [style.background-image]="'url(' + (property.branding?.heroImageUrl || fallbackHero()) + ')'"
-    ></div>
-    <div class="hero-overlay"></div>
+    <div class="hero__media"
+         [style.background-image]="'url(' + (property.branding?.heroImageUrl || fallbackHero()) + ')'"
+         aria-hidden="true"></div>
+    <div class="hero__veil" aria-hidden="true"></div>
 
-    <div class="hero-content">
-      <span class="eyebrow" *ngIf="property.kind">{{ property.kind | uppercase }}</span>
-      <h1>{{ property.branding?.displayName || property.name }}</h1>
-      <p *ngIf="property.branding?.tagline">{{ property.branding?.tagline }}</p>
-      <p class="short" *ngIf="!property.branding?.tagline && property.shortDescription">
+    <div class="hero__inner container">
+      <span class="hero__eyebrow">
+        {{ property.address?.city }}<span *ngIf="property.address?.country">, {{ property.address.country }}</span>
+      </span>
+      <h1 class="hero__title">{{ property.branding?.displayName || property.name }}</h1>
+      <p class="hero__lede" *ngIf="property.branding?.tagline">{{ property.branding.tagline }}</p>
+      <p class="hero__lede" *ngIf="!property.branding?.tagline && property.shortDescription">
         {{ property.shortDescription }}
       </p>
 
-      <div class="hero-actions">
+      <div class="hero__actions">
         <a *ngIf="property.features?.rooms"
-           [routerLink]="['/properties', property.slug, 'rooms']"
-           class="btn btn-primary">Book a Stay</a>
-        <a [routerLink]="['/properties', property.slug, 'contact']" class="btn btn-ghost">Contact</a>
+           [routerLink]="['/hotels', property.slug, 'rooms']"
+           class="btn btn-light">Reserve a stay</a>
+        <a [routerLink]="['/hotels', property.slug, 'contact']" class="btn btn-light-ghost">Contact this hotel</a>
       </div>
     </div>
   </section>
 
-  <!-- About -->
-  <section class="about" *ngIf="property.description">
-    <div class="container">
-      <span class="eyebrow">About this property</span>
-      <h2>{{ property.branding?.displayName || property.name }}</h2>
-      <p>{{ property.description }}</p>
+  <!-- ─── Welcome / About this hotel ───────────────────────────── -->
+  <section class="welcome section" *ngIf="property.description">
+    <div class="container welcome__inner">
+      <div class="welcome__intro">
+        <span class="eyebrow">Welcome</span>
+        <hr class="divider"/>
+        <h2>A few words about this hotel.</h2>
+      </div>
+      <div class="welcome__body">
+        <p>{{ property.description }}</p>
+      </div>
     </div>
   </section>
 
-  <!-- Amenities (feature-flagged) -->
-  <section class="amenities" *ngIf="property.features?.kitchen || property.features?.swimming || property.features?.snooker || property.features?.conference">
+  <!-- ─── What's here ──────────────────────────────────────────── -->
+  <section
+    class="amenities section"
+    *ngIf="property.features?.kitchen || property.features?.swimming || property.features?.snooker || property.features?.conference || property.features?.nightclub"
+  >
     <div class="container">
-      <div class="section-header">
-        <h2>What's here</h2>
-        <p>Everything available at this property.</p>
+      <header class="amenities__header">
+        <span class="eyebrow">What's here</span>
+        <h2>The shape of a stay.</h2>
+        <hr class="divider"/>
+      </header>
+
+      <div class="amenities__grid">
+        <article *ngIf="property.features?.kitchen" class="amenity-tile">
+          <div class="amenity-tile__num">01</div>
+          <h3>The Kitchen</h3>
+          <p>Local and international flavours, served from morning until late.</p>
+          <a [routerLink]="['/hotels', property.slug, 'menu']" class="link-discover">Browse the menu</a>
+        </article>
+
+        <article *ngIf="property.features?.swimming" class="amenity-tile">
+          <div class="amenity-tile__num">02</div>
+          <h3>The Pool</h3>
+          <p>An outdoor pool for swimming, lounging and quiet hours.</p>
+          <a [routerLink]="['/hotels', property.slug, 'swimming']" class="link-discover">Pool & access</a>
+        </article>
+
+        <article *ngIf="property.features?.snooker" class="amenity-tile">
+          <div class="amenity-tile__num">03</div>
+          <h3>The Snooker League</h3>
+          <p>A professionally organised league for the gentleman's game.</p>
+          <a [routerLink]="['/hotels', property.slug, 'snooker']" class="link-discover">Join the league</a>
+        </article>
+
+        <article *ngIf="property.features?.conference" class="amenity-tile">
+          <div class="amenity-tile__num">04</div>
+          <h3>Meetings & Events</h3>
+          <p>Fully equipped rooms for productive meetings and private gatherings.</p>
+          <a [routerLink]="['/hotels', property.slug, 'contact']" class="link-discover">Plan an event</a>
+        </article>
+
+        <article *ngIf="property.features?.nightclub" class="amenity-tile">
+          <div class="amenity-tile__num">05</div>
+          <h3>0421 Club</h3>
+          <p>The city's pulse — vibes, drinks, and resident DJs after dark.</p>
+        </article>
       </div>
+    </div>
+  </section>
 
-      <div class="amenities-grid">
-        <a *ngIf="property.features?.kitchen"
-           class="amenity-card kitchen"
-           [routerLink]="['/properties', property.slug, 'menu']">
-          <div class="overlay"></div>
-          <div class="content">
-            <h3>Kitchen</h3>
-            <p>Local and international flavours, in-house dining and takeaway.</p>
-          </div>
-        </a>
-
-        <a *ngIf="property.features?.swimming"
-           class="amenity-card pool"
-           [routerLink]="['/properties', property.slug, 'swimming']">
-          <div class="overlay"></div>
-          <div class="content">
-            <h3>Pool</h3>
-            <p>Swim, lounge, and unwind.</p>
-          </div>
-        </a>
-
-        <a *ngIf="property.features?.snooker"
-           class="amenity-card snooker"
-           [routerLink]="['/properties', property.slug, 'snooker']">
-          <div class="overlay"></div>
-          <div class="content">
-            <h3>Snooker League</h3>
-            <p>Compete in our professionally organised league.</p>
-          </div>
-        </a>
-
-        <div *ngIf="property.features?.conference" class="amenity-card conference">
-          <div class="overlay"></div>
-          <div class="content">
-            <h3>Conference</h3>
-            <p>Fully equipped spaces for meetings and events.</p>
-          </div>
+  <!-- ─── Find us ──────────────────────────────────────────────── -->
+  <section class="find section section-dark">
+    <div class="container find__inner">
+      <div class="find__map">
+        <iframe
+          *ngIf="mapEmbedSrc() as src"
+          [src]="src"
+          width="100%"
+          height="100%"
+          style="border: 0; min-height: 420px;"
+          loading="lazy"
+        ></iframe>
+        <div class="find__map-placeholder" *ngIf="!mapEmbedSrc()">
+          Map coming soon.
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- Nightclub band (only when enabled) -->
-  <section class="nightclub" *ngIf="property.features?.nightclub">
-    <div class="container">
-      <div class="club-content">
-        <div class="club-logo">0421 CLUB</div>
-        <h2>The City's Pulse</h2>
-        <p>Exclusive vibes, premium drinks, and world-class DJs.</p>
-      </div>
-    </div>
-  </section>
+      <div class="find__copy">
+        <span class="eyebrow">Find us</span>
+        <hr class="divider"/>
+        <h2>{{ property.branding?.displayName || property.name }}</h2>
 
-  <!-- Location -->
-  <section class="location">
-    <div class="container">
-      <h2>Find us</h2>
-      <div class="map-and-info">
-        <iframe *ngIf="mapEmbedSrc() as src" [src]="src" width="100%" height="380" style="border:0;" loading="lazy"></iframe>
-        <div class="info-card">
-          <h3>{{ property.branding?.displayName || property.name }}</h3>
-          <p *ngIf="property.address">
-            {{ property.address.line1 }}<br *ngIf="property.address.line2"/>
-            <span *ngIf="property.address.line2">{{ property.address.line2 }}<br/></span>
-            {{ property.address.city }}<span *ngIf="property.address.state">, {{ property.address.state }}</span><br/>
-            {{ property.address.country }}
-          </p>
-          <p *ngIf="property.contact?.phone"><strong>Phone:</strong> {{ property.contact.phone }}</p>
-          <p *ngIf="property.contact?.email"><strong>Email:</strong> {{ property.contact.email }}</p>
-          <a *ngIf="directionsHref() as href" [href]="href" target="_blank" rel="noopener" class="btn btn-primary">Get Directions</a>
+        <address class="find__address" *ngIf="property.address">
+          {{ property.address.line1 }}<br *ngIf="property.address.line2"/>
+          <span *ngIf="property.address.line2">{{ property.address.line2 }}<br/></span>
+          {{ property.address.city }}<span *ngIf="property.address.state">, {{ property.address.state }}</span><br/>
+          {{ property.address.country }}
+        </address>
+
+        <ul class="find__contacts">
+          <li *ngIf="property.contact?.phone">
+            <span class="eyebrow">Phone</span>
+            <a [href]="'tel:' + property.contact.phone">{{ property.contact.phone }}</a>
+          </li>
+          <li *ngIf="property.contact?.email">
+            <span class="eyebrow">Email</span>
+            <a [href]="'mailto:' + property.contact.email">{{ property.contact.email }}</a>
+          </li>
+        </ul>
+
+        <div class="find__actions">
+          <a *ngIf="directionsHref() as href" [href]="href" target="_blank" rel="noopener" class="btn btn-light">Get directions</a>
         </div>
       </div>
     </div>

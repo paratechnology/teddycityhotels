@@ -1,118 +1,176 @@
-@use '../../../theme/variables' as theme;
+@use '../../../theme/variables' as v;
 
-.main-footer {
-  background-color: theme.$theme-background; // Use theme's dark background
-  color: theme.$theme-text-dark; // Use theme's primary light text color
-  padding: 80px 0 30px;
-  font-family: theme.$font-family-sans;
+.site-footer {
+  background: v.$theme-dark-bg;
+  color: rgba(255, 255, 255, 0.78);
+  padding: clamp(72px, 9vw, 120px) 0 32px;
+}
 
-  .footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+.site-footer__inner {
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4vw, 40px);
+}
+
+// ─── Top ────────────────────────────────────────────────────────
+.site-footer__top {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: clamp(40px, 6vw, 96px);
+  padding-bottom: clamp(48px, 6vw, 80px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.brand-block {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 320px;
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  text-decoration: none;
+  color: v.$ivory;
+  font-family: v.$font-family-serif;
+
+  &__mark { font-size: 1.6rem; font-weight: 500; }
+  &__suffix { font-size: 1rem; font-style: italic; opacity: 0.75; letter-spacing: 0.04em; }
+}
+
+.brand-block__tagline {
+  font-family: v.$font-family-serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.62);
+  margin: 0;
+}
+
+// ─── Columns ────────────────────────────────────────────────────
+.footer-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: clamp(28px, 4vw, 56px);
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  h4 {
+    font-family: v.$font-family-sans;
+    font-size: v.$type-eyebrow;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    margin: 0;
   }
 
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.5fr;
-    gap: 40px;
-    margin-bottom: 60px;
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 
-    @media (max-width: 900px) {
-      grid-template-columns: 1fr 1fr;
-    }
-    @media (max-width: 600px) {
-      grid-template-columns: 1fr;
-    }
-  }
+    a {
+      font-family: v.$font-family-sans;
+      font-size: 0.95rem;
+      color: v.$ivory;
+      text-decoration: none;
+      transition: color v.$dur v.$ease;
 
-  .footer-column {
-    h4 {
-      color: theme.$theme-primary; // White headings
-      font-size: 1.5rem;
-      margin-bottom: 25px;
-      letter-spacing: 1px;
-
-      &.logo {
-        font-family: theme.$font-family-serif;
-        font-size: 2rem;
-
-        span { color: theme.$theme-secondary; } // Gold accent
-      }
-    }
-
-    p {
-      color: theme.$theme-text-dark; // Soft ivory text
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-
-    ul.footer-links {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-
-      li {
-        margin-bottom: 12px;
-
-        a {
-          color: theme.$theme-text-dark; // Soft ivory text
-          text-decoration: none;
-          transition: all 0.3s ease;
-
-          &:hover {
-            color: theme.$theme-secondary; // Gold on hover
-            padding-left: 5px;
-          }
-        }
-      }
-
-      &.contact-info li {
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-        color: theme.$theme-text-dark;
-
-        mat-icon {
-          color: theme.$theme-secondary; // Gold icon
-          font-size: 1.2rem;
-          width: 1.2rem;
-          height: 1.2rem;
-          margin-top: 3px;
-        }
-      }
-    }
-
-    .social-links {
-      display: flex;
-      gap: 15px;
-
-      a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        border: 1px solid theme.$theme-border; // Use theme border color
-        border-radius: 50%;
-        color: theme.$theme-primary; // White icon color
-        transition: all 0.3s ease;
-
-        &:hover {
-          background-color: theme.$theme-secondary; // Gold background on hover
-          border-color: theme.$theme-secondary;
-          color: theme.$theme-background; // Dark text for contrast
-          transform: translateY(-3px);
-        }
-      }
+      &:hover { color: v.$gold; }
     }
   }
+}
 
-  .footer-copyright {
-    border-top: 1px solid theme.$theme-border;
-    padding-top: 30px;
-    text-align: center;
-    color: darken(theme.$theme-text-dark, 25%); // Darker ivory for copyright
-    font-size: 0.9rem;
+.contact-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.footer-col__label {
+  font-family: v.$font-family-sans;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+@media (max-width: 760px) {
+  .site-footer__top { grid-template-columns: 1fr; gap: 48px; }
+}
+
+// ─── Base ───────────────────────────────────────────────────────
+.site-footer__base {
+  padding-top: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.copyright {
+  font-family: v.$font-family-sans;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.legal-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: v.$font-family-sans;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.62);
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: color v.$dur v.$ease;
+    &:hover { color: v.$gold; }
   }
+
+  span { color: rgba(255, 255, 255, 0.32); }
+}
+
+.social {
+  display: flex;
+  gap: 14px;
+
+  a {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.78);
+    text-decoration: none;
+    font-family: v.$font-family-sans;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    transition: all v.$dur v.$ease;
+
+    &:hover {
+      background: v.$ivory;
+      color: v.$ink;
+      border-color: v.$ivory;
+    }
+  }
+}
+
+@media (max-width: 540px) {
+  .site-footer__base { flex-direction: column; align-items: flex-start; }
 }
